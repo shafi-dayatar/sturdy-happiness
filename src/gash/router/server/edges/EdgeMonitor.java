@@ -94,6 +94,9 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 		while (forever) {
 			try {
 				for (EdgeInfo ei : this.outboundEdges.map.values()) {
+					if (ei.getChannel() == null){
+						onAdd(ei);
+					}
 					if (ei.isActive() && ei.getChannel() != null) {	
 						WorkMessage wm = createHB(ei);
 						ChannelFuture cf = ei.getChannel().writeAndFlush(wm);
@@ -117,9 +120,14 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 	@Override
 	public synchronized void onAdd(EdgeInfo ei) {
 		// TODO check connection
+		try{
 		CommConnection cc = CommConnection.initConnection(ei.getHost(), ei.getPort());
 		ei.setChannel(cc.connect());
 		ei.setActive(true);
+		}
+		catch(Exception e){
+			logger.error("Cannot connect to host!! Server is down!!");
+		}
 	}
 
 	@Override
