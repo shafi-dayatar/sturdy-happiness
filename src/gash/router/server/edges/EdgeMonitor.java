@@ -100,10 +100,6 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 					if (ei.isActive() && ei.getChannel() != null) {	
 						WorkMessage wm = createHB(ei);
 						ChannelFuture cf = ei.getChannel().writeAndFlush(wm);
-						System.out.println("ChannelFuture after sending: isDone" + cf.isDone() + " isSuccessful => " + cf.isSuccess());
-						if (cf.isDone() && !cf.isSuccess()) {
-							logger.error("failed to send message to server");
-						}
 					} else {
 						// TODO create a client to the node
 						logger.info("trying to connect to node " + ei.getRef());

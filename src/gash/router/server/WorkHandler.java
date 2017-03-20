@@ -61,6 +61,7 @@ public class WorkHandler extends SimpleChannelInboundHandler<WorkMessage> {
 			return;
 		}
 		logger.info("" + msg.hasBeat());
+		PrintUtil.printWork(msg);
 
 		if (debug)
 			PrintUtil.printWork(msg);
@@ -70,7 +71,6 @@ public class WorkHandler extends SimpleChannelInboundHandler<WorkMessage> {
 			if (msg.hasBeat()) {
 				Heartbeat hb = msg.getBeat();
 				logger.debug("heartbeat from " + msg.getHeader().getNodeId());
-				throw new Exception("Finding out what will happen to client");
 			} else if (msg.hasPing()) {
 				logger.info("ping from " + msg.getHeader().getNodeId());
 				boolean p = msg.getPing();
