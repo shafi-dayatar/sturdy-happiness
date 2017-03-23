@@ -15,8 +15,6 @@
  */
 package gash.router.server.edges;
 
-import gash.router.communication.CommConnection;
-
 import java.util.Date;
 
 import org.slf4j.Logger;
@@ -24,6 +22,7 @@ import org.slf4j.LoggerFactory;
 
 import gash.router.container.RoutingConf.RoutingEntry;
 import gash.router.server.ServerState;
+import gash.router.server.communication.CommConnection;
 import io.netty.channel.ChannelFuture;
 import pipe.common.Common.Header;
 import pipe.work.Work.Heartbeat;
@@ -51,7 +50,7 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 		if (state.getConf().getRouting() != null) {
 			for (RoutingEntry e : state.getConf().getRouting()) {
 				EdgeInfo ei = outboundEdges.addNode(e.getId(), e.getHost(), e.getPort());
-				onAdd(ei);
+				onAdd(ei);//try to connect thru creating channle.
 			}
 		}
 
@@ -99,7 +98,7 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 					}
 					if (ei.isActive() && ei.getChannel() != null) {	
 						WorkMessage wm = createHB(ei);
-						ChannelFuture cf = ei.getChannel().writeAndFlush(wm);
+						//ChannelFuture cf = ei.getChannel().writeAndFlush(wm);
 					} else {
 						// TODO create a client to the node
 						logger.info("trying to connect to node " + ei.getRef());
@@ -117,9 +116,9 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 	public synchronized void onAdd(EdgeInfo ei) {
 		// TODO check connection
 		try{
-		CommConnection cc = CommConnection.initConnection(ei.getHost(), ei.getPort());
-		ei.setChannel(cc.connect());
-		ei.setActive(true);
+			CommConnection cc = CommConnection.initConnection(ei.getHost(), ei.getPort());
+			ei.setChannel(cc.connect());
+			ei.setActive(true);
 		}
 		catch(Exception e){
 			logger.error("Cannot connect to host!! Server is down!!");
@@ -129,5 +128,8 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 	@Override
 	public synchronized void onRemove(EdgeInfo ei) {
 		// TODO ?
+	}
+	public EdgeInfo getOutBoundChannel(int nodeId){
+		return outboundEdges.map.get(nodeId);
 	}
 }

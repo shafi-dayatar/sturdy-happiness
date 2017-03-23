@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
-package gash.router.communication;
+package gash.router.server.communication;
 
 
 import java.util.concurrent.atomic.AtomicReference;
@@ -169,8 +169,8 @@ public class CommConnection {
 					+ ", write: " + channel.channel().isWritable() + ", reg: " + channel.channel().isRegistered());
 
 		} catch (Throwable ex) {
-			logger.error("failed to initialize the client connection", ex);
-			ex.printStackTrace();
+			logger.error("failed to initialize the client connection");//, ex);
+			//ex.printStackTrace();
 		}
 
 		// start outbound message processor

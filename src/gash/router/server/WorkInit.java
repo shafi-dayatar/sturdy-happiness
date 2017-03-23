@@ -12,19 +12,15 @@ import io.netty.handler.codec.protobuf.ProtobufEncoder;
 import pipe.work.Work.WorkMessage;
 
 public class WorkInit extends ChannelInitializer<SocketChannel> {
-	boolean compress = false;
 	ServerState state;
+	boolean compress = false;
 
 	public WorkInit(ServerState state, boolean enableCompression) {
-		
-		super();
-		compress = enableCompression;
 		this.state = state;
+		this.compress = enableCompression;
 	}
-
-	@Override
+    
 	public void initChannel(SocketChannel ch) throws Exception {
-		System.out.println("Server Is in Workinit");
 		ChannelPipeline pipeline = ch.pipeline();
 
 		// Enable stream compression (you can remove these two if unnecessary)
@@ -46,8 +42,7 @@ public class WorkInit extends ChannelInitializer<SocketChannel> {
 		pipeline.addLast("protobufDecoder", new ProtobufDecoder(WorkMessage.getDefaultInstance()));
 		pipeline.addLast("frameEncoder", new LengthFieldPrepender(4));
 		pipeline.addLast("protobufEncoder", new ProtobufEncoder());
-
-		// our server processor (new instance for each connection)
 		pipeline.addLast("handler", new WorkHandler(state));
-	}
+	}	
+	
 }

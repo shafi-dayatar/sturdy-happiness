@@ -191,6 +191,7 @@ public class MessageServer {
 
 			state = new ServerState();
 			state.setConf(conf);
+			
 
 			TaskList tasks = new TaskList(new NoOpBalancer());
 			state.setTasks(tasks);
@@ -198,6 +199,10 @@ public class MessageServer {
 			EdgeMonitor emon = new EdgeMonitor(state);
 			Thread t = new Thread(emon);
 			t.start();
+			OutBoundMessageProcessor obmp = new OutBoundMessageProcessor(state);
+			state.setOutBoundMessageProcessor(obmp);
+			Thread t1 = new Thread(obmp);
+			t1.start();
 		}
 
 		public void run() {

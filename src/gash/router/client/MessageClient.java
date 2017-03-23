@@ -16,6 +16,7 @@
 package gash.router.client;
 
 import pipe.common.Common.Header;
+import pipe.work.Work.WorkMessage;
 import routing.Pipe.CommandMessage;
 
 /**
@@ -40,22 +41,22 @@ public class MessageClient {
 		CommConnection.getInstance().addListener(listener);
 	}
 
-	public void ping() {
+	public void ping(int destination) {
 		// construct the message to send
 		Header.Builder hb = Header.newBuilder();
 		hb.setNodeId(999);
 		hb.setTime(System.currentTimeMillis());
-		hb.setDestination(-1);
+		hb.setDestination(destination);
 
-		CommandMessage.Builder rb = CommandMessage.newBuilder();
+		WorkMessage.Builder rb = WorkMessage.newBuilder();
 		rb.setHeader(hb);
 		rb.setPing(true);
+		rb.setSecret(new Integer(123123123));
 
 		try {
 			// direct no queue
 			// CommConnection.getInstance().write(rb.build());
 
-			// using queue
 			CommConnection.getInstance().enqueue(rb.build());
 		} catch (Exception e) {
 			e.printStackTrace();

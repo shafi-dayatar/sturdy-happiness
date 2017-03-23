@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
 
 import gash.router.server.tasks.TaskList;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import pipe.common.Common.Failure;
@@ -53,51 +54,21 @@ public class WorkHandler extends SimpleChannelInboundHandler<WorkMessage> {
 	 * @param msg
 	 */
 	public void handleMessage(WorkMessage msg, Channel channel) {
-		
+		//two queues one for server processing and one for client forwarding.
 		
 		if (msg == null) {
 			// TODO add logging
 			System.out.println("ERROR: Unexpected content - " + msg);
 			return;
 		}
-		logger.info("" + msg.hasBeat());
 		PrintUtil.printWork(msg);
-
-		if (debug)
-			PrintUtil.printWork(msg);
-
-		// TODO How can you implement this without if-else statements?
-		try {
-			if (msg.hasBeat()) {
-				Heartbeat hb = msg.getBeat();
-				logger.debug("heartbeat from " + msg.getHeader().getNodeId());
-			} else if (msg.hasPing()) {
-				logger.info("ping from " + msg.getHeader().getNodeId());
-				boolean p = msg.getPing();
-				WorkMessage.Builder rb = WorkMessage.newBuilder();
-				rb.setPing(true);
-				channel.write(rb.build());
-			} else if (msg.hasErr()) {
-				Failure err = msg.getErr();
-				logger.error("failure from " + msg.getHeader().getNodeId());
-				// PrintUtil.printFailure(err);
-			} else if (msg.hasTask()) {
-				Task t = msg.getTask();
-				TaskList tl = state.getTasks();
-				tl.addTask(t);
-			} else if (msg.hasState()) {
-				WorkState s = msg.getState();
-			}
-		} catch (Exception e) {
-			// TODO add logging
-			logger.error("Failed with execption: " + e);
-			Failure.Builder eb = Failure.newBuilder();
-			eb.setId(state.getConf().getNodeId());
-			eb.setRefId(msg.getHeader().getNodeId());
-			eb.setMessage(e.getMessage());
-			WorkMessage.Builder rb = WorkMessage.newBuilder(msg);
-			rb.setErr(eb);
-			channel.write(rb.build());
+		if (msg.getHeader().hasDestination() && msg.getHeader().getDestination() == state.getConf().getNodeId()){
+			state.addInMessage(msg);
+			System.out.println("How did it come here should go to else statement");
+		}
+		else{
+			System.out.println("Sorry it ran else statement");
+			state.addOutMessage(msg);
 		}
 
 		System.out.flush();
@@ -126,3 +97,40 @@ public class WorkHandler extends SimpleChannelInboundHandler<WorkMessage> {
 	}
 
 }
+
+/*if (debug)
+PrintUtil.printWork(msg);
+
+// TODO How can you implement this without if-else statements?
+try {
+if (msg.hasBeat()) {
+	Heartbeat hb = msg.getBeat();
+	logger.debug("heartbeat from " + msg.getHeader().getNodeId());
+} else if (msg.hasPing()) {
+	logger.info("ping from " + msg.getHeader().getNodeId());
+	boolean p = msg.getPing();
+	WorkMessage.Builder rb = WorkMessage.newBuilder();
+	rb.setPing(true);
+	channel.write(rb.build());
+} else if (msg.hasErr()) {
+	Failure err = msg.getErr();
+	logger.error("failure from " + msg.getHeader().getNodeId());
+	// PrintUtil.printFailure(err);
+} else if (msg.hasTask()) {
+	Task t = msg.getTask();
+	TaskList tl = state.getTasks();
+	tl.addTask(t);
+} else if (msg.hasState()) {
+	WorkState s = msg.getState();
+}
+} catch (Exception e) {
+// TODO add logging
+logger.error("Failed with execption: " + e);
+Failure.Builder eb = Failure.newBuilder();
+eb.setId(state.getConf().getNodeId());
+eb.setRefId(msg.getHeader().getNodeId());
+eb.setMessage(e.getMessage());
+WorkMessage.Builder rb = WorkMessage.newBuilder(msg);
+rb.setErr(eb);
+channel.write(rb.build());
+}*/

@@ -32,13 +32,13 @@ public class DemoApp implements CommListener {
 		this.mc.addListener(this);
 	}
 
-	private void ping(int N) {
+	private void ping(int N, int destination_id) {
 		// test round-trip overhead (note overhead for initial connection)
 		final int maxN = 10;
 		long[] dt = new long[N];
 		long st = System.currentTimeMillis(), ft = 0;
 		for (int n = 0; n < N; n++) {
-			mc.ping();
+			mc.ping(destination_id);
 			ft = System.currentTimeMillis();
 			dt[n] = ft - st;
 			st = ft;
@@ -66,15 +66,15 @@ public class DemoApp implements CommListener {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		String host = "127.0.0.1";
-		int port = 4568;
+		String host = args[0];
+		int port = Integer.parseInt(args[1]) ;
 
 		try {
 			MessageClient mc = new MessageClient(host, port);
 			DemoApp da = new DemoApp(mc);
 
 			// do stuff w/ the connection
-			da.ping(2);
+			da.ping(2000,Integer.parseInt(args[2]));
 
 			System.out.println("\n** exiting in 10 seconds. **");
 			System.out.flush();

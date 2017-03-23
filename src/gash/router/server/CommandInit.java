@@ -10,24 +10,17 @@ import io.netty.handler.codec.compression.ZlibCodecFactory;
 import io.netty.handler.codec.compression.ZlibWrapper;
 import io.netty.handler.codec.protobuf.ProtobufDecoder;
 import io.netty.handler.codec.protobuf.ProtobufEncoder;
+import pipe.work.Work.WorkMessage;
 import routing.Pipe.CommandMessage;
 
-/**
- * Initializes the external interface
- * @author gash
- *
- */
-public class CommandInit extends ChannelInitializer<SocketChannel> {
+public class CommandInit extends ChannelInitializer<SocketChannel>{
 	boolean compress = false;
 	RoutingConf conf;
-
-	public CommandInit(RoutingConf conf, boolean enableCompression) {
-		super();
-		compress = enableCompression;
+	public CommandInit(RoutingConf conf, boolean enableCompression){
+		this.compress = enableCompression;
 		this.conf = conf;
 	}
 
-	@Override
 	public void initChannel(SocketChannel ch) throws Exception {
 		ChannelPipeline pipeline = ch.pipeline();
 
@@ -50,9 +43,8 @@ public class CommandInit extends ChannelInitializer<SocketChannel> {
 		pipeline.addLast("protobufDecoder", new ProtobufDecoder(CommandMessage.getDefaultInstance()));
 		pipeline.addLast("frameEncoder", new LengthFieldPrepender(4));
 		pipeline.addLast("protobufEncoder", new ProtobufEncoder());
-
-
-		// our server processor (new instance for each connection)
 		pipeline.addLast("handler", new CommandHandler(conf));
+		return;
 	}
+	
 }

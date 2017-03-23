@@ -1,4 +1,4 @@
-package gash.router.communication;
+package gash.router.server.communication;
 
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;

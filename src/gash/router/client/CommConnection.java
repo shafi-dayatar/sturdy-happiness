@@ -30,6 +30,7 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import pipe.work.Work.WorkMessage;
 import routing.Pipe.CommandMessage;
 
 /**
@@ -51,7 +52,7 @@ public class CommConnection {
 	private EventLoopGroup group;
 
 	// our surge protection using a in-memory cache for messages
-	LinkedBlockingDeque<CommandMessage> outbound;
+	LinkedBlockingDeque<WorkMessage> outbound;
 
 	// message processing is delegated to a threading model
 	private CommWorker worker;
@@ -94,14 +95,14 @@ public class CommConnection {
 	 * enqueue a message to write - note this is asynchronous. This allows us to
 	 * inject behavior, routing, and optimization
 	 * 
-	 * @param req
+	 * @param workMessage
 	 *            The request
 	 * @exception An
 	 *                exception is raised if the message cannot be enqueued.
 	 */
-	public void enqueue(CommandMessage req) throws Exception {
+	public void enqueue(WorkMessage workMessage) throws Exception {
 		// enqueue message
-		outbound.put(req);
+		outbound.put(workMessage);
 	}
 
 	/**
@@ -114,7 +115,7 @@ public class CommConnection {
 	 * @param msg
 	 * @return
 	 */
-	public boolean write(CommandMessage msg) {
+	public boolean write(WorkMessage msg) {
 		if (msg == null)
 			return false;
 		else if (channel == null)
@@ -146,7 +147,7 @@ public class CommConnection {
 		System.out.println("--> initializing connection to " + host + ":" + port);
 
 		// the queue to support client-side surging
-		outbound = new LinkedBlockingDeque<CommandMessage>();
+		outbound = new LinkedBlockingDeque<WorkMessage>();
 
 		group = new NioEventLoopGroup();
 		try {

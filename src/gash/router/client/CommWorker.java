@@ -1,6 +1,7 @@
 package gash.router.client;
 
 import io.netty.channel.Channel;
+import pipe.work.Work.WorkMessage;
 import routing.Pipe.CommandMessage;
 
 /**
@@ -39,7 +40,7 @@ public class CommWorker extends Thread {
 			try {
 				// block until a message is enqueued AND the outgoing
 				// channel is active
-				CommandMessage msg = conn.outbound.take();
+				WorkMessage msg = conn.outbound.take();
 				if (ch.isWritable()) {
 					if (!conn.write(msg)) {
 						conn.outbound.putFirst(msg);
