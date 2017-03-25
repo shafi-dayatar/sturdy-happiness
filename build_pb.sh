@@ -23,8 +23,8 @@ else
 fi
 
 
-$PROTOC_HOME/bin/protoc --proto_path=${project_base}/resources --java_out=${project_base}/generated ${project_base}/resources/common.proto
-$PROTOC_HOME/bin/protoc --proto_path=${project_base}/resources --java_out=${project_base}/generated ${project_base}/resources/election.proto
-$PROTOC_HOME/bin/protoc --proto_path=${project_base}/resources --java_out=${project_base}/generated ${project_base}/resources/work.proto
+/usr/local/bin/protoc --proto_path=${project_base}/resources --java_out=${project_base}/generated ${project_base}/resources/common.proto
+/usr/local/bin/protoc --proto_path=${project_base}/resources --java_out=${project_base}/generated ${project_base}/resources/election.proto
+/usr/local/bin/protoc --proto_path=${project_base}/resources --java_out=${project_base}/generated ${project_base}/resources/work.proto
 
-$PROTOC_HOME/bin/protoc --proto_path=${project_base}/resources --java_out=${project_base}/generated ${project_base}/resources/pipe.proto
+/usr/local/bin/protoc --proto_path=${project_base}/resources --java_out=${project_base}/generated ${project_base}/resources/pipe.proto

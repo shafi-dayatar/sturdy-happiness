@@ -17,7 +17,6 @@ package gash.router.client;
 
 import pipe.common.Common.Header;
 import pipe.work.Work.WorkMessage;
-import routing.Pipe.CommandMessage;
 
 /**
  * front-end (proxy) to our service - functional-based

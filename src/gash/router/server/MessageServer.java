@@ -25,8 +25,12 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.protobuf.Message;
+
 import gash.router.container.RoutingConf;
 import gash.router.server.edges.EdgeMonitor;
+import gash.router.server.messages.InBoundMessageQueue;
+import gash.router.server.messages.OutBoundMessageQueue;
 import gash.router.server.tasks.NoOpBalancer;
 import gash.router.server.tasks.TaskList;
 import io.netty.bootstrap.ServerBootstrap;
@@ -54,6 +58,8 @@ public class MessageServer {
 	 */
 	public MessageServer(File cfg) {
 		init(cfg);
+		Message m;
+		
 	}
 
 	public MessageServer(RoutingConf conf) {
@@ -134,6 +140,7 @@ public class MessageServer {
 			this.conf = conf;
 		}
 
+		@Override
 		public void run() {
 			// construct boss and worker threads (num threads = number of cores)
 
@@ -199,12 +206,20 @@ public class MessageServer {
 			EdgeMonitor emon = new EdgeMonitor(state);
 			Thread t = new Thread(emon);
 			t.start();
-			OutBoundMessageProcessor obmp = new OutBoundMessageProcessor(state);
-			state.setOutBoundMessageProcessor(obmp);
-			Thread t1 = new Thread(obmp);
+			
+			InBoundMessageQueue inbound = new InBoundMessageQueue(state);
+			OutBoundMessageQueue outbound = new OutBoundMessageQueue();
+			state.setInBoundMessageQueue(outbound);
+			state.setInBoundMessageQueue(inbound);
+			state.setOutBoundMessageQueue(outbound);
+			Thread t1 =  new Thread(inbound);
+			Thread t2 = new Thread(outbound);
 			t1.start();
+			t2.start();
+			
 		}
 
+		@Override
 		public void run() {
 			// construct boss and worker threads (num threads = number of cores)
 

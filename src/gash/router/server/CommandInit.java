@@ -10,7 +10,6 @@ import io.netty.handler.codec.compression.ZlibCodecFactory;
 import io.netty.handler.codec.compression.ZlibWrapper;
 import io.netty.handler.codec.protobuf.ProtobufDecoder;
 import io.netty.handler.codec.protobuf.ProtobufEncoder;
-import pipe.work.Work.WorkMessage;
 import routing.Pipe.CommandMessage;
 
 public class CommandInit extends ChannelInitializer<SocketChannel>{
@@ -21,6 +20,7 @@ public class CommandInit extends ChannelInitializer<SocketChannel>{
 		this.conf = conf;
 	}
 
+	@Override
 	public void initChannel(SocketChannel ch) throws Exception {
 		ChannelPipeline pipeline = ch.pipeline();
 

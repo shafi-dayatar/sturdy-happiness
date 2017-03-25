@@ -1,3 +1,4 @@
+syntax = "proto2";
 option optimize_for = SPEED;
 option java_package = "pipe.common";
 
@@ -11,6 +12,8 @@ message Header {
    
     // if the message is for a specific node, this will be set
     optional int32 destination = 8;
+    //if the message is a reply, and this will be set
+    optional int32 reply_from = 9;
 
     // This factor limits the distance that a msg travels from the originating 
     // node. Default (-1) is the whole network (not restricted).

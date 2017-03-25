@@ -31,7 +31,6 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import pipe.work.Work.WorkMessage;
-import routing.Pipe.CommandMessage;
 
 /**
  * provides an abstraction of the communication to the remote server.

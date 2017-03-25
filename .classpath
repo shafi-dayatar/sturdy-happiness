@@ -9,6 +9,6 @@
 	<classpathentry kind="lib" path="lib/netty-all-4.0.15.Final.jar"/>
 	<classpathentry kind="lib" path="lib/slf4j-api-1.7.2.jar"/>
 	<classpathentry kind="lib" path="lib/slf4j-simple-1.7.2.jar"/>
-	<classpathentry kind="lib" path="lib/protobuf-java-2.5.0.jar"/>
+	<classpathentry kind="lib" path="/Users/shafidayatar/Desktop/Gash-EnterpriseApp-275/lab/netty-pipe2/lib/protobuf-java-3.2.0.jar"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>

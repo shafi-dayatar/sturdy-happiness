@@ -2,7 +2,6 @@ package gash.router.client;
 
 import io.netty.channel.Channel;
 import pipe.work.Work.WorkMessage;
-import routing.Pipe.CommandMessage;
 
 /**
  * queues outgoing messages - this provides surge protection if the client

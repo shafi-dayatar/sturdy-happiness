@@ -20,6 +20,7 @@ public class WorkInit extends ChannelInitializer<SocketChannel> {
 		this.compress = enableCompression;
 	}
     
+	@Override
 	public void initChannel(SocketChannel ch) throws Exception {
 		ChannelPipeline pipeline = ch.pipeline();
 
