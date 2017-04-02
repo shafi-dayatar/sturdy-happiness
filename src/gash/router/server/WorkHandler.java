@@ -34,34 +34,35 @@ import pipe.work.Work.WorkMessage;
  * 
  */
 public class WorkHandler extends SimpleChannelInboundHandler<WorkMessage> {
-	protected static Logger logger = LoggerFactory.getLogger("work");
-	protected ServerState state;
-	protected boolean debug = false;
+			protected static Logger logger = LoggerFactory.getLogger("work");
+			protected ServerState state;
+			protected boolean debug = false;
 
 	public WorkHandler(ServerState state) {
-		if (state != null) {
-			this.state = state;
-		}
+				if (state != null) {
+					this.state = state;
+				}
+			}
+
+			/**
+			 * override this method to provide processing behavior. T
+			 *
+			 * @param msg
+			 */
+		public void handleMessage(WorkMessage msg, Channel channel) {
+			//two queues one for server processing and one for client forwarding.
+
+			if (msg == null) {
+				// TODO add logging
+				System.out.println("ERROR: Unexpected content - " + msg);
+				return;
+			}
+			PrintUtil.printWork(msg);
+			state.getInBoundMessageQueue().addMessage(msg);
+			System.out.flush();
+
 	}
 
-	/**
-	 * override this method to provide processing behavior. T
-	 * 
-	 * @param msg
-	 */
-	public void handleMessage(WorkMessage msg, Channel channel) {
-		//two queues one for server processing and one for client forwarding.
-		
-		if (msg == null) {
-			// TODO add logging
-			System.out.println("ERROR: Unexpected content - " + msg);
-			return;
-		}
-		PrintUtil.printWork(msg);
-		state.getInBoundMessageQueue().addMessage(msg);
-		System.out.flush();
-
-	}
 
 	/**
 	 * a message was received from the server. Here we dispatch the message to

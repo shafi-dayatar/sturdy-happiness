@@ -32,7 +32,19 @@ public class InBoundMessageQueue extends MessageQueue implements Runnable{
 		// TODO Auto-generated method stub
 		while(isForever()){
 			if(hasMessage()){
+				//fix type
 				Message m = takeMessage();
+
+				// Convert to appropraite type
+
+				// Identify type of message
+
+				// process message/ reply to ping/ forward if it is not for current node
+				//if it is a Ping (Common function to identify )
+
+				//
+
+
 				logger.info("Class name is " + m.getClass().getName());
 			
 			}else{

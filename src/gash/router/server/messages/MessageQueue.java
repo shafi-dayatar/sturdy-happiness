@@ -20,6 +20,9 @@ public abstract class MessageQueue {
 			message.add(m);
 		}
 	}
+	public void forward(){
+		//TODO:
+	}
 	
 	public boolean hasMessage(){
 		if (message == null || message.size() == 0)

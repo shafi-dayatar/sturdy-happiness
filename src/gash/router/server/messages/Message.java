@@ -4,7 +4,7 @@ import io.netty.channel.Channel;
 import pipe.common.Common.Header;
 import pipe.work.Work.WorkMessage;
 
-public class Message {
+public class Message implements MessageInterface {
 
 	private int nodeId;
 	private int destinationId;
@@ -31,6 +31,15 @@ public class Message {
 		maxHops = hd.getMaxHops();
 	}
 
+	public boolean processMessage(){
+		return false;
+	}
+
+	@java.lang.Override
+	public void discard() {
+
+	}
+
 	public Header createHeader(){
 		Header.Builder hd = Header.newBuilder();
 		hd.setDestination(destinationId);
@@ -51,9 +60,13 @@ public class Message {
 		return wb.build();
 		
 	}
-	
-	
-	
+
+	@java.lang.Override
+	public void reply() {
+
+	}
+
+
 	/*
 	 * Setters and Getters
 	 */
