@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import gash.router.container.RoutingConf.RoutingEntry;
 import gash.router.server.ServerState;
 import gash.router.server.communication.CommConnection;
+import io.netty.channel.Channel;
 import pipe.common.Common.Header;
 import pipe.work.Work.Heartbeat;
 import pipe.work.Work.WorkMessage;
@@ -126,7 +127,20 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 	public synchronized void onRemove(EdgeInfo ei) {
 		// TODO ?
 	}
-	public EdgeInfo getOutBoundChannel(int nodeId){
-		return outboundEdges.map.get(nodeId);
+	public Channel getOutBoundChannel(int nodeId){
+		//Single Directional 
+		
+		EdgeInfo ei = null;
+		
+		try{
+			ei = outboundEdges.map.get(nodeId);
+			return ei.getChannel();
+		}catch(Exception e){
+			logger.info("no problem till here");
+			for(EdgeInfo edgei : outboundEdges.map.values()){
+				return edgei.getChannel();//first connected node
+			}
+		}
+		return null;
 	}
 }

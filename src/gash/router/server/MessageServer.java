@@ -208,7 +208,7 @@ public class MessageServer {
 			t.start();
 			
 			InBoundMessageQueue inbound = new InBoundMessageQueue(state);
-			OutBoundMessageQueue outbound = new OutBoundMessageQueue();
+			OutBoundMessageQueue outbound = new OutBoundMessageQueue(state);
 			state.setInBoundMessageQueue(outbound);
 			state.setInBoundMessageQueue(inbound);
 			state.setOutBoundMessageQueue(outbound);

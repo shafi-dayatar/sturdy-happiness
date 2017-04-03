@@ -44,6 +44,7 @@ public class MessageClient {
 		// construct the message to send
 		Header.Builder hb = Header.newBuilder();
 		hb.setNodeId(999);
+		hb.setMaxHops(10);
 		hb.setTime(System.currentTimeMillis());
 		hb.setDestination(destination);
 
