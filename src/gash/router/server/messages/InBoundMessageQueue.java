@@ -7,6 +7,7 @@ import com.google.protobuf.Message;
 
 import gash.router.server.ServerState;
 import pipe.work.Work;
+import pipe.work.Work.WorkMessage;
 
 public class InBoundMessageQueue extends MessageQueue implements Runnable{
 
@@ -35,7 +36,7 @@ public class InBoundMessageQueue extends MessageQueue implements Runnable{
 		while(isForever()){
 			if(hasMessage()){
 				//fix type
-				Work.WorkMessage m = takeMessage();
+				WorkMessage m = takeMessage();
 
 				// Convert to appropraite type
 
@@ -44,14 +45,15 @@ public class InBoundMessageQueue extends MessageQueue implements Runnable{
 
                 // process message/ reply to ping/ forward if it is not for current node
 				//if it is a Ping (Common function to identify )
-
-
                 //TODO : Override process message for PingMEssage , HeartBeatMessage etc
-                message.processMessage();
-				//
-
-
-				logger.info("Class name is " + m.getClass().getName());
+                logger.info("Class name is " + message.getClass().getName());
+                WorkMessage outMessage = message.processMessage(getState().getConf().getNodeId());
+                if(outMessage != null){
+                   getState().getOutBoundMessageQueue().addMessage(outMessage);
+                }else{
+                	//logger.info("Class name is " + outMessage.getClass().getName());
+                	logger.error("Why do we get null message some thing went wrong in message processing");
+                }
 			
 			}else{
 				try{

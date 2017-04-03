@@ -1,15 +1,17 @@
 package gash.router.server.messages;
 
 
+
+
 //TODO
 
-import pipe.work.Work;
+import pipe.work.Work.WorkMessage;
 
 // Add Message Class methods here
 //
 public interface MessageInterface {
-    public boolean processMessage();
+    public WorkMessage processMessage(int nodeId);
     void discard();
-    Work.WorkMessage forward();
+    WorkMessage forward();
     void reply();
 }

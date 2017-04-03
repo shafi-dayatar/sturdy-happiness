@@ -31,13 +31,8 @@ public class Message implements MessageInterface {
 		maxHops = hd.getMaxHops();
 	}
 
-	public boolean processMessage(){
-		return false;
-	}
-
 	@java.lang.Override
 	public void discard() {
-
 	}
 
 	public Header createHeader(){
@@ -53,19 +48,12 @@ public class Message implements MessageInterface {
 	}
 	
 	public WorkMessage forward(){
-		maxHops = maxHops - 1;
-		Header hd = createHeader();
-		WorkMessage.Builder wb = WorkMessage.newBuilder();
-		
-		return wb.build();
-		
+		return null;
 	}
 
 	@java.lang.Override
 	public void reply() {
-
 	}
-
 
 	/*
 	 * Setters and Getters
@@ -121,6 +109,12 @@ public class Message implements MessageInterface {
 
 	public void setChannel(Channel channel) {
 		this.channel = channel;
+	}
+
+	@Override
+	public WorkMessage processMessage(int nodeId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
