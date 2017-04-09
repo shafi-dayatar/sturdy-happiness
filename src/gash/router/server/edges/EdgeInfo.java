@@ -78,5 +78,9 @@ public class EdgeInfo {
 	public void setChannel(Channel channel) {
 		this.channel = channel;
 	}
+	
+	public String toString(){
+		return "Node id = " + getRef() + ", Host ip address : " + getHost() + ", Port number : " + getPort() ;
+	}
 
 }

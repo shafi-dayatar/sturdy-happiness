@@ -223,7 +223,7 @@ public class MessageServer {
 			Thread t2 = new Thread(outbound);
 			t1.start();
 			t2.start();
-			//discoverCluster();
+			discoverCluster();
 			
 		}	
 		public void discoverCluster(){

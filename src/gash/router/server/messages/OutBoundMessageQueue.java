@@ -17,10 +17,12 @@ public class OutBoundMessageQueue extends MessageQueue implements Runnable {
 		while(isForever()){
 			try{
 				if(hasMessage()){
-					logger.info("Message in queues are : " + hasMessage() );
+					//logger.info("Message in queues are : " + hasMessage() );
 					processMessage();
+					Thread.sleep(1000);
+					
 				}else{
-					Thread.sleep(100);
+					Thread.sleep(1000);
 				}
 			}catch(Exception e){
 				logger.error("Error in OutBoundMessageQueue thread : " + e);
@@ -36,13 +38,13 @@ public class OutBoundMessageQueue extends MessageQueue implements Runnable {
 		
 		int destinationId = m.getHeader().getDestination();
 		Channel ch = getState().getEmon().getOutBoundChannel(destinationId);
-		logger.info("Channle is  " + (ch != null));
+		//logger.info("Channle is  " + (ch != null));
 		if(ch != null){
 			ch.writeAndFlush(m);
 		    
 		}else{
-			logger.error("no channel found for destination id " +  destinationId);
-			PrintUtil.printWork(m);
+			//logger.error("no channel found for destination id " +  destinationId);
+			//PrintUtil.printWork(m);
 			this.addMessage(m);
 		}
 

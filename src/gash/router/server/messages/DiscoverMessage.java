@@ -53,7 +53,12 @@ public class DiscoverMessage extends Message {
         		state.getEmon().addNewEdgeInfo(newNode.getNodeId(), newNode.getIpAddr(),
         				newNode.getWorkPort());
 
-        		
+        		try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
         		int senderId = getDestinationId();
         		setDestinationId(getNodeId());
         		setNodeId(senderId);
@@ -74,10 +79,13 @@ public class DiscoverMessage extends Message {
         		
         	}else {
         	    // got message from leader or other node with routing table
+        		logger.info("Got a reply from server : " + getNodeId() );
+        		
            		ArrayList<Node> nodes = (ArrayList<Node>) discovery.getRoutingTableList();
         		for (Node n : nodes){
         			EdgeInfo ei = new EdgeInfo(n.getNodeId(), n.getIpAddr(), n.getWorkPort());        			
         			state.getEmon().onAdd(ei);
+        			logger.info("routing details are :  " + ei.toString() );
         		}
         	}
         	
