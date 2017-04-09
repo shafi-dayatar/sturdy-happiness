@@ -18,6 +18,7 @@ public class PingMessage extends Message{
 	}
 	
 	public WorkMessage pingReply(){
+		System.out.println("In Ping Reply");
 		WorkMessage.Builder wm = WorkMessage.newBuilder();
 		setReply(true);
 		setMaxHops(10);
@@ -42,6 +43,7 @@ public class PingMessage extends Message{
 		return null;
 	}
 	public WorkMessage processMessage(int nodeId){
+		System.out.println("nodeId" + nodeId + "getDestinationId" + getDestinationId());
 		if(nodeId == getDestinationId()){
 			return pingReply();
 		}

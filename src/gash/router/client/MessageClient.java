@@ -43,7 +43,7 @@ public class MessageClient {
 	public void ping(int destination) {
 		// construct the message to send
 		Header.Builder hb = Header.newBuilder();
-		hb.setNodeId(999);
+		hb.setNodeId(1);
 		hb.setMaxHops(10);
 		hb.setTime(System.currentTimeMillis());
 		hb.setDestination(destination);
