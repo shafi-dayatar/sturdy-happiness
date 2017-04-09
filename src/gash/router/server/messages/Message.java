@@ -29,8 +29,8 @@ public class Message implements MessageInterface {
 		destinationId = hd.getDestination();
 		timestamp = hd.getTime();
 		maxHops = hd.getMaxHops();
-		reply = hd.getIsReply();
-		replyFrom = hd.getReplyFrom();
+		//reply = hd.getIsReply();
+		//replyFrom = hd.getReplyFrom();
 	}
 
 	@java.lang.Override
@@ -43,10 +43,10 @@ public class Message implements MessageInterface {
 		hd.setMaxHops(maxHops);
 		hd.setTime(timestamp);
 		hd.setNodeId(nodeId);
-		if (reply){
-			hd.setReplyFrom(replyFrom);
-			hd.setIsReply(reply);
-		}	
+//		if (reply){
+//			hd.setReplyFrom(replyFrom);
+//			hd.setIsReply(reply);
+//		}
 		return hd.build();
 	}
 	

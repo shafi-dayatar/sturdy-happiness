@@ -13,8 +13,8 @@ public class DiscoverMessage extends Message {
     }
     public Work.WorkMessage respond(){
         Work.WorkMessage.Builder wm = Work.WorkMessage.newBuilder();
-        setReply(true);
-        setReplyFrom(getDestinationId());
+        //setReply(true);
+        //setReplyFrom(getDestinationId());
         setDestinationId(getNodeId());
         wm.setHeader(createHeader());
         wm.setPing(true);

@@ -39,6 +39,7 @@ message WorkMessage {
    required Header header = 1;
    required int64 secret = 2;
    required MessageType type = 3;
+   optional bool ack = 11;
 
    /**
     * The actions (request or response) is
