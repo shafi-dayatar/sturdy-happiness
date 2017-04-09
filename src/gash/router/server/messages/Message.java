@@ -47,7 +47,7 @@ public class Message implements MessageInterface {
 //		if (reply){
 //			hd.setReplyFrom(replyFrom);
 //			hd.setIsReply(reply);
-//		}	
+//		}
 		return hd.build();
 	}
 	
