@@ -1751,6 +1751,2000 @@ public final class Work {
 
   }
 
+  public interface NodeOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Node)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>required int32 node_id = 1;</code>
+     */
+    boolean hasNodeId();
+    /**
+     * <code>required int32 node_id = 1;</code>
+     */
+    int getNodeId();
+
+    /**
+     * <code>required string ip_addr = 2;</code>
+     */
+    boolean hasIpAddr();
+    /**
+     * <code>required string ip_addr = 2;</code>
+     */
+    java.lang.String getIpAddr();
+    /**
+     * <code>required string ip_addr = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getIpAddrBytes();
+
+    /**
+     * <code>required string work_port = 3;</code>
+     */
+    boolean hasWorkPort();
+    /**
+     * <code>required string work_port = 3;</code>
+     */
+    java.lang.String getWorkPort();
+    /**
+     * <code>required string work_port = 3;</code>
+     */
+    com.google.protobuf.ByteString
+        getWorkPortBytes();
+  }
+  /**
+   * Protobuf type {@code Node}
+   */
+  public  static final class Node extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Node)
+      NodeOrBuilder {
+    // Use Node.newBuilder() to construct.
+    private Node(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private Node() {
+      nodeId_ = 0;
+      ipAddr_ = "";
+      workPort_ = "";
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private Node(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              nodeId_ = input.readInt32();
+              break;
+            }
+            case 18: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000002;
+              ipAddr_ = bs;
+              break;
+            }
+            case 26: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000004;
+              workPort_ = bs;
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return pipe.work.Work.internal_static_Node_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return pipe.work.Work.internal_static_Node_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              pipe.work.Work.Node.class, pipe.work.Work.Node.Builder.class);
+    }
+
+    private int bitField0_;
+    public static final int NODE_ID_FIELD_NUMBER = 1;
+    private int nodeId_;
+    /**
+     * <code>required int32 node_id = 1;</code>
+     */
+    public boolean hasNodeId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 node_id = 1;</code>
+     */
+    public int getNodeId() {
+      return nodeId_;
+    }
+
+    public static final int IP_ADDR_FIELD_NUMBER = 2;
+    private volatile java.lang.Object ipAddr_;
+    /**
+     * <code>required string ip_addr = 2;</code>
+     */
+    public boolean hasIpAddr() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required string ip_addr = 2;</code>
+     */
+    public java.lang.String getIpAddr() {
+      java.lang.Object ref = ipAddr_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          ipAddr_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string ip_addr = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getIpAddrBytes() {
+      java.lang.Object ref = ipAddr_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        ipAddr_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int WORK_PORT_FIELD_NUMBER = 3;
+    private volatile java.lang.Object workPort_;
+    /**
+     * <code>required string work_port = 3;</code>
+     */
+    public boolean hasWorkPort() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required string work_port = 3;</code>
+     */
+    public java.lang.String getWorkPort() {
+      java.lang.Object ref = workPort_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          workPort_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string work_port = 3;</code>
+     */
+    public com.google.protobuf.ByteString
+        getWorkPortBytes() {
+      java.lang.Object ref = workPort_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        workPort_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      if (!hasNodeId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasIpAddr()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasWorkPort()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, nodeId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, ipAddr_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, workPort_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, nodeId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, ipAddr_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, workPort_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof pipe.work.Work.Node)) {
+        return super.equals(obj);
+      }
+      pipe.work.Work.Node other = (pipe.work.Work.Node) obj;
+
+      boolean result = true;
+      result = result && (hasNodeId() == other.hasNodeId());
+      if (hasNodeId()) {
+        result = result && (getNodeId()
+            == other.getNodeId());
+      }
+      result = result && (hasIpAddr() == other.hasIpAddr());
+      if (hasIpAddr()) {
+        result = result && getIpAddr()
+            .equals(other.getIpAddr());
+      }
+      result = result && (hasWorkPort() == other.hasWorkPort());
+      if (hasWorkPort()) {
+        result = result && getWorkPort()
+            .equals(other.getWorkPort());
+      }
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasNodeId()) {
+        hash = (37 * hash) + NODE_ID_FIELD_NUMBER;
+        hash = (53 * hash) + getNodeId();
+      }
+      if (hasIpAddr()) {
+        hash = (37 * hash) + IP_ADDR_FIELD_NUMBER;
+        hash = (53 * hash) + getIpAddr().hashCode();
+      }
+      if (hasWorkPort()) {
+        hash = (37 * hash) + WORK_PORT_FIELD_NUMBER;
+        hash = (53 * hash) + getWorkPort().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static pipe.work.Work.Node parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static pipe.work.Work.Node parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static pipe.work.Work.Node parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static pipe.work.Work.Node parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static pipe.work.Work.Node parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static pipe.work.Work.Node parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static pipe.work.Work.Node parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static pipe.work.Work.Node parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static pipe.work.Work.Node parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static pipe.work.Work.Node parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(pipe.work.Work.Node prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Node}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Node)
+        pipe.work.Work.NodeOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return pipe.work.Work.internal_static_Node_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return pipe.work.Work.internal_static_Node_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                pipe.work.Work.Node.class, pipe.work.Work.Node.Builder.class);
+      }
+
+      // Construct using pipe.work.Work.Node.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        nodeId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        ipAddr_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
+        workPort_ = "";
+        bitField0_ = (bitField0_ & ~0x00000004);
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return pipe.work.Work.internal_static_Node_descriptor;
+      }
+
+      public pipe.work.Work.Node getDefaultInstanceForType() {
+        return pipe.work.Work.Node.getDefaultInstance();
+      }
+
+      public pipe.work.Work.Node build() {
+        pipe.work.Work.Node result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public pipe.work.Work.Node buildPartial() {
+        pipe.work.Work.Node result = new pipe.work.Work.Node(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.nodeId_ = nodeId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.ipAddr_ = ipAddr_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.workPort_ = workPort_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof pipe.work.Work.Node) {
+          return mergeFrom((pipe.work.Work.Node)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(pipe.work.Work.Node other) {
+        if (other == pipe.work.Work.Node.getDefaultInstance()) return this;
+        if (other.hasNodeId()) {
+          setNodeId(other.getNodeId());
+        }
+        if (other.hasIpAddr()) {
+          bitField0_ |= 0x00000002;
+          ipAddr_ = other.ipAddr_;
+          onChanged();
+        }
+        if (other.hasWorkPort()) {
+          bitField0_ |= 0x00000004;
+          workPort_ = other.workPort_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasNodeId()) {
+          return false;
+        }
+        if (!hasIpAddr()) {
+          return false;
+        }
+        if (!hasWorkPort()) {
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        pipe.work.Work.Node parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (pipe.work.Work.Node) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private int nodeId_ ;
+      /**
+       * <code>required int32 node_id = 1;</code>
+       */
+      public boolean hasNodeId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 node_id = 1;</code>
+       */
+      public int getNodeId() {
+        return nodeId_;
+      }
+      /**
+       * <code>required int32 node_id = 1;</code>
+       */
+      public Builder setNodeId(int value) {
+        bitField0_ |= 0x00000001;
+        nodeId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 node_id = 1;</code>
+       */
+      public Builder clearNodeId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        nodeId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object ipAddr_ = "";
+      /**
+       * <code>required string ip_addr = 2;</code>
+       */
+      public boolean hasIpAddr() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required string ip_addr = 2;</code>
+       */
+      public java.lang.String getIpAddr() {
+        java.lang.Object ref = ipAddr_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            ipAddr_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string ip_addr = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getIpAddrBytes() {
+        java.lang.Object ref = ipAddr_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          ipAddr_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string ip_addr = 2;</code>
+       */
+      public Builder setIpAddr(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        ipAddr_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string ip_addr = 2;</code>
+       */
+      public Builder clearIpAddr() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        ipAddr_ = getDefaultInstance().getIpAddr();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string ip_addr = 2;</code>
+       */
+      public Builder setIpAddrBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        ipAddr_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object workPort_ = "";
+      /**
+       * <code>required string work_port = 3;</code>
+       */
+      public boolean hasWorkPort() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required string work_port = 3;</code>
+       */
+      public java.lang.String getWorkPort() {
+        java.lang.Object ref = workPort_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            workPort_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string work_port = 3;</code>
+       */
+      public com.google.protobuf.ByteString
+          getWorkPortBytes() {
+        java.lang.Object ref = workPort_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          workPort_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string work_port = 3;</code>
+       */
+      public Builder setWorkPort(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        workPort_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string work_port = 3;</code>
+       */
+      public Builder clearWorkPort() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        workPort_ = getDefaultInstance().getWorkPort();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string work_port = 3;</code>
+       */
+      public Builder setWorkPortBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        workPort_ = value;
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Node)
+    }
+
+    // @@protoc_insertion_point(class_scope:Node)
+    private static final pipe.work.Work.Node DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new pipe.work.Work.Node();
+    }
+
+    public static pipe.work.Work.Node getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<Node>
+        PARSER = new com.google.protobuf.AbstractParser<Node>() {
+      public Node parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new Node(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<Node> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<Node> getParserForType() {
+      return PARSER;
+    }
+
+    public pipe.work.Work.Node getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface DiscoveryOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Discovery)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>repeated .Node nodes = 1;</code>
+     */
+    java.util.List<pipe.work.Work.Node> 
+        getNodesList();
+    /**
+     * <code>repeated .Node nodes = 1;</code>
+     */
+    pipe.work.Work.Node getNodes(int index);
+    /**
+     * <code>repeated .Node nodes = 1;</code>
+     */
+    int getNodesCount();
+    /**
+     * <code>repeated .Node nodes = 1;</code>
+     */
+    java.util.List<? extends pipe.work.Work.NodeOrBuilder> 
+        getNodesOrBuilderList();
+    /**
+     * <code>repeated .Node nodes = 1;</code>
+     */
+    pipe.work.Work.NodeOrBuilder getNodesOrBuilder(
+        int index);
+
+    /**
+     * <code>optional .Node node = 2;</code>
+     */
+    boolean hasNode();
+    /**
+     * <code>optional .Node node = 2;</code>
+     */
+    pipe.work.Work.Node getNode();
+    /**
+     * <code>optional .Node node = 2;</code>
+     */
+    pipe.work.Work.NodeOrBuilder getNodeOrBuilder();
+
+    /**
+     * <code>optional .Node leader = 3;</code>
+     */
+    boolean hasLeader();
+    /**
+     * <code>optional .Node leader = 3;</code>
+     */
+    pipe.work.Work.Node getLeader();
+    /**
+     * <code>optional .Node leader = 3;</code>
+     */
+    pipe.work.Work.NodeOrBuilder getLeaderOrBuilder();
+  }
+  /**
+   * Protobuf type {@code Discovery}
+   */
+  public  static final class Discovery extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Discovery)
+      DiscoveryOrBuilder {
+    // Use Discovery.newBuilder() to construct.
+    private Discovery(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private Discovery() {
+      nodes_ = java.util.Collections.emptyList();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private Discovery(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                nodes_ = new java.util.ArrayList<pipe.work.Work.Node>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              nodes_.add(
+                  input.readMessage(pipe.work.Work.Node.PARSER, extensionRegistry));
+              break;
+            }
+            case 18: {
+              pipe.work.Work.Node.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000001) == 0x00000001)) {
+                subBuilder = node_.toBuilder();
+              }
+              node_ = input.readMessage(pipe.work.Work.Node.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(node_);
+                node_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000001;
+              break;
+            }
+            case 26: {
+              pipe.work.Work.Node.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000002) == 0x00000002)) {
+                subBuilder = leader_.toBuilder();
+              }
+              leader_ = input.readMessage(pipe.work.Work.Node.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(leader_);
+                leader_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000002;
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          nodes_ = java.util.Collections.unmodifiableList(nodes_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return pipe.work.Work.internal_static_Discovery_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return pipe.work.Work.internal_static_Discovery_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              pipe.work.Work.Discovery.class, pipe.work.Work.Discovery.Builder.class);
+    }
+
+    private int bitField0_;
+    public static final int NODES_FIELD_NUMBER = 1;
+    private java.util.List<pipe.work.Work.Node> nodes_;
+    /**
+     * <code>repeated .Node nodes = 1;</code>
+     */
+    public java.util.List<pipe.work.Work.Node> getNodesList() {
+      return nodes_;
+    }
+    /**
+     * <code>repeated .Node nodes = 1;</code>
+     */
+    public java.util.List<? extends pipe.work.Work.NodeOrBuilder> 
+        getNodesOrBuilderList() {
+      return nodes_;
+    }
+    /**
+     * <code>repeated .Node nodes = 1;</code>
+     */
+    public int getNodesCount() {
+      return nodes_.size();
+    }
+    /**
+     * <code>repeated .Node nodes = 1;</code>
+     */
+    public pipe.work.Work.Node getNodes(int index) {
+      return nodes_.get(index);
+    }
+    /**
+     * <code>repeated .Node nodes = 1;</code>
+     */
+    public pipe.work.Work.NodeOrBuilder getNodesOrBuilder(
+        int index) {
+      return nodes_.get(index);
+    }
+
+    public static final int NODE_FIELD_NUMBER = 2;
+    private pipe.work.Work.Node node_;
+    /**
+     * <code>optional .Node node = 2;</code>
+     */
+    public boolean hasNode() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>optional .Node node = 2;</code>
+     */
+    public pipe.work.Work.Node getNode() {
+      return node_ == null ? pipe.work.Work.Node.getDefaultInstance() : node_;
+    }
+    /**
+     * <code>optional .Node node = 2;</code>
+     */
+    public pipe.work.Work.NodeOrBuilder getNodeOrBuilder() {
+      return node_ == null ? pipe.work.Work.Node.getDefaultInstance() : node_;
+    }
+
+    public static final int LEADER_FIELD_NUMBER = 3;
+    private pipe.work.Work.Node leader_;
+    /**
+     * <code>optional .Node leader = 3;</code>
+     */
+    public boolean hasLeader() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional .Node leader = 3;</code>
+     */
+    public pipe.work.Work.Node getLeader() {
+      return leader_ == null ? pipe.work.Work.Node.getDefaultInstance() : leader_;
+    }
+    /**
+     * <code>optional .Node leader = 3;</code>
+     */
+    public pipe.work.Work.NodeOrBuilder getLeaderOrBuilder() {
+      return leader_ == null ? pipe.work.Work.Node.getDefaultInstance() : leader_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      for (int i = 0; i < getNodesCount(); i++) {
+        if (!getNodes(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      if (hasNode()) {
+        if (!getNode().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      if (hasLeader()) {
+        if (!getLeader().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      for (int i = 0; i < nodes_.size(); i++) {
+        output.writeMessage(1, nodes_.get(i));
+      }
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeMessage(2, getNode());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeMessage(3, getLeader());
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      for (int i = 0; i < nodes_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, nodes_.get(i));
+      }
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, getNode());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, getLeader());
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof pipe.work.Work.Discovery)) {
+        return super.equals(obj);
+      }
+      pipe.work.Work.Discovery other = (pipe.work.Work.Discovery) obj;
+
+      boolean result = true;
+      result = result && getNodesList()
+          .equals(other.getNodesList());
+      result = result && (hasNode() == other.hasNode());
+      if (hasNode()) {
+        result = result && getNode()
+            .equals(other.getNode());
+      }
+      result = result && (hasLeader() == other.hasLeader());
+      if (hasLeader()) {
+        result = result && getLeader()
+            .equals(other.getLeader());
+      }
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (getNodesCount() > 0) {
+        hash = (37 * hash) + NODES_FIELD_NUMBER;
+        hash = (53 * hash) + getNodesList().hashCode();
+      }
+      if (hasNode()) {
+        hash = (37 * hash) + NODE_FIELD_NUMBER;
+        hash = (53 * hash) + getNode().hashCode();
+      }
+      if (hasLeader()) {
+        hash = (37 * hash) + LEADER_FIELD_NUMBER;
+        hash = (53 * hash) + getLeader().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static pipe.work.Work.Discovery parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static pipe.work.Work.Discovery parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static pipe.work.Work.Discovery parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static pipe.work.Work.Discovery parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static pipe.work.Work.Discovery parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static pipe.work.Work.Discovery parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static pipe.work.Work.Discovery parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static pipe.work.Work.Discovery parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static pipe.work.Work.Discovery parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static pipe.work.Work.Discovery parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(pipe.work.Work.Discovery prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Discovery}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Discovery)
+        pipe.work.Work.DiscoveryOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return pipe.work.Work.internal_static_Discovery_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return pipe.work.Work.internal_static_Discovery_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                pipe.work.Work.Discovery.class, pipe.work.Work.Discovery.Builder.class);
+      }
+
+      // Construct using pipe.work.Work.Discovery.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+          getNodesFieldBuilder();
+          getNodeFieldBuilder();
+          getLeaderFieldBuilder();
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        if (nodesBuilder_ == null) {
+          nodes_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          nodesBuilder_.clear();
+        }
+        if (nodeBuilder_ == null) {
+          node_ = null;
+        } else {
+          nodeBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000002);
+        if (leaderBuilder_ == null) {
+          leader_ = null;
+        } else {
+          leaderBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000004);
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return pipe.work.Work.internal_static_Discovery_descriptor;
+      }
+
+      public pipe.work.Work.Discovery getDefaultInstanceForType() {
+        return pipe.work.Work.Discovery.getDefaultInstance();
+      }
+
+      public pipe.work.Work.Discovery build() {
+        pipe.work.Work.Discovery result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public pipe.work.Work.Discovery buildPartial() {
+        pipe.work.Work.Discovery result = new pipe.work.Work.Discovery(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (nodesBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            nodes_ = java.util.Collections.unmodifiableList(nodes_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.nodes_ = nodes_;
+        } else {
+          result.nodes_ = nodesBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        if (nodeBuilder_ == null) {
+          result.node_ = node_;
+        } else {
+          result.node_ = nodeBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        if (leaderBuilder_ == null) {
+          result.leader_ = leader_;
+        } else {
+          result.leader_ = leaderBuilder_.build();
+        }
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof pipe.work.Work.Discovery) {
+          return mergeFrom((pipe.work.Work.Discovery)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(pipe.work.Work.Discovery other) {
+        if (other == pipe.work.Work.Discovery.getDefaultInstance()) return this;
+        if (nodesBuilder_ == null) {
+          if (!other.nodes_.isEmpty()) {
+            if (nodes_.isEmpty()) {
+              nodes_ = other.nodes_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureNodesIsMutable();
+              nodes_.addAll(other.nodes_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.nodes_.isEmpty()) {
+            if (nodesBuilder_.isEmpty()) {
+              nodesBuilder_.dispose();
+              nodesBuilder_ = null;
+              nodes_ = other.nodes_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              nodesBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getNodesFieldBuilder() : null;
+            } else {
+              nodesBuilder_.addAllMessages(other.nodes_);
+            }
+          }
+        }
+        if (other.hasNode()) {
+          mergeNode(other.getNode());
+        }
+        if (other.hasLeader()) {
+          mergeLeader(other.getLeader());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        for (int i = 0; i < getNodesCount(); i++) {
+          if (!getNodes(i).isInitialized()) {
+            return false;
+          }
+        }
+        if (hasNode()) {
+          if (!getNode().isInitialized()) {
+            return false;
+          }
+        }
+        if (hasLeader()) {
+          if (!getLeader().isInitialized()) {
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        pipe.work.Work.Discovery parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (pipe.work.Work.Discovery) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private java.util.List<pipe.work.Work.Node> nodes_ =
+        java.util.Collections.emptyList();
+      private void ensureNodesIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          nodes_ = new java.util.ArrayList<pipe.work.Work.Node>(nodes_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          pipe.work.Work.Node, pipe.work.Work.Node.Builder, pipe.work.Work.NodeOrBuilder> nodesBuilder_;
+
+      /**
+       * <code>repeated .Node nodes = 1;</code>
+       */
+      public java.util.List<pipe.work.Work.Node> getNodesList() {
+        if (nodesBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(nodes_);
+        } else {
+          return nodesBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .Node nodes = 1;</code>
+       */
+      public int getNodesCount() {
+        if (nodesBuilder_ == null) {
+          return nodes_.size();
+        } else {
+          return nodesBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .Node nodes = 1;</code>
+       */
+      public pipe.work.Work.Node getNodes(int index) {
+        if (nodesBuilder_ == null) {
+          return nodes_.get(index);
+        } else {
+          return nodesBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .Node nodes = 1;</code>
+       */
+      public Builder setNodes(
+          int index, pipe.work.Work.Node value) {
+        if (nodesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureNodesIsMutable();
+          nodes_.set(index, value);
+          onChanged();
+        } else {
+          nodesBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Node nodes = 1;</code>
+       */
+      public Builder setNodes(
+          int index, pipe.work.Work.Node.Builder builderForValue) {
+        if (nodesBuilder_ == null) {
+          ensureNodesIsMutable();
+          nodes_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          nodesBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Node nodes = 1;</code>
+       */
+      public Builder addNodes(pipe.work.Work.Node value) {
+        if (nodesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureNodesIsMutable();
+          nodes_.add(value);
+          onChanged();
+        } else {
+          nodesBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Node nodes = 1;</code>
+       */
+      public Builder addNodes(
+          int index, pipe.work.Work.Node value) {
+        if (nodesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureNodesIsMutable();
+          nodes_.add(index, value);
+          onChanged();
+        } else {
+          nodesBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Node nodes = 1;</code>
+       */
+      public Builder addNodes(
+          pipe.work.Work.Node.Builder builderForValue) {
+        if (nodesBuilder_ == null) {
+          ensureNodesIsMutable();
+          nodes_.add(builderForValue.build());
+          onChanged();
+        } else {
+          nodesBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Node nodes = 1;</code>
+       */
+      public Builder addNodes(
+          int index, pipe.work.Work.Node.Builder builderForValue) {
+        if (nodesBuilder_ == null) {
+          ensureNodesIsMutable();
+          nodes_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          nodesBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Node nodes = 1;</code>
+       */
+      public Builder addAllNodes(
+          java.lang.Iterable<? extends pipe.work.Work.Node> values) {
+        if (nodesBuilder_ == null) {
+          ensureNodesIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, nodes_);
+          onChanged();
+        } else {
+          nodesBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Node nodes = 1;</code>
+       */
+      public Builder clearNodes() {
+        if (nodesBuilder_ == null) {
+          nodes_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          nodesBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Node nodes = 1;</code>
+       */
+      public Builder removeNodes(int index) {
+        if (nodesBuilder_ == null) {
+          ensureNodesIsMutable();
+          nodes_.remove(index);
+          onChanged();
+        } else {
+          nodesBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Node nodes = 1;</code>
+       */
+      public pipe.work.Work.Node.Builder getNodesBuilder(
+          int index) {
+        return getNodesFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .Node nodes = 1;</code>
+       */
+      public pipe.work.Work.NodeOrBuilder getNodesOrBuilder(
+          int index) {
+        if (nodesBuilder_ == null) {
+          return nodes_.get(index);  } else {
+          return nodesBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .Node nodes = 1;</code>
+       */
+      public java.util.List<? extends pipe.work.Work.NodeOrBuilder> 
+           getNodesOrBuilderList() {
+        if (nodesBuilder_ != null) {
+          return nodesBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(nodes_);
+        }
+      }
+      /**
+       * <code>repeated .Node nodes = 1;</code>
+       */
+      public pipe.work.Work.Node.Builder addNodesBuilder() {
+        return getNodesFieldBuilder().addBuilder(
+            pipe.work.Work.Node.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Node nodes = 1;</code>
+       */
+      public pipe.work.Work.Node.Builder addNodesBuilder(
+          int index) {
+        return getNodesFieldBuilder().addBuilder(
+            index, pipe.work.Work.Node.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Node nodes = 1;</code>
+       */
+      public java.util.List<pipe.work.Work.Node.Builder> 
+           getNodesBuilderList() {
+        return getNodesFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          pipe.work.Work.Node, pipe.work.Work.Node.Builder, pipe.work.Work.NodeOrBuilder> 
+          getNodesFieldBuilder() {
+        if (nodesBuilder_ == null) {
+          nodesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              pipe.work.Work.Node, pipe.work.Work.Node.Builder, pipe.work.Work.NodeOrBuilder>(
+                  nodes_,
+                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  getParentForChildren(),
+                  isClean());
+          nodes_ = null;
+        }
+        return nodesBuilder_;
+      }
+
+      private pipe.work.Work.Node node_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          pipe.work.Work.Node, pipe.work.Work.Node.Builder, pipe.work.Work.NodeOrBuilder> nodeBuilder_;
+      /**
+       * <code>optional .Node node = 2;</code>
+       */
+      public boolean hasNode() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional .Node node = 2;</code>
+       */
+      public pipe.work.Work.Node getNode() {
+        if (nodeBuilder_ == null) {
+          return node_ == null ? pipe.work.Work.Node.getDefaultInstance() : node_;
+        } else {
+          return nodeBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .Node node = 2;</code>
+       */
+      public Builder setNode(pipe.work.Work.Node value) {
+        if (nodeBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          node_ = value;
+          onChanged();
+        } else {
+          nodeBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000002;
+        return this;
+      }
+      /**
+       * <code>optional .Node node = 2;</code>
+       */
+      public Builder setNode(
+          pipe.work.Work.Node.Builder builderForValue) {
+        if (nodeBuilder_ == null) {
+          node_ = builderForValue.build();
+          onChanged();
+        } else {
+          nodeBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000002;
+        return this;
+      }
+      /**
+       * <code>optional .Node node = 2;</code>
+       */
+      public Builder mergeNode(pipe.work.Work.Node value) {
+        if (nodeBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) == 0x00000002) &&
+              node_ != null &&
+              node_ != pipe.work.Work.Node.getDefaultInstance()) {
+            node_ =
+              pipe.work.Work.Node.newBuilder(node_).mergeFrom(value).buildPartial();
+          } else {
+            node_ = value;
+          }
+          onChanged();
+        } else {
+          nodeBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000002;
+        return this;
+      }
+      /**
+       * <code>optional .Node node = 2;</code>
+       */
+      public Builder clearNode() {
+        if (nodeBuilder_ == null) {
+          node_ = null;
+          onChanged();
+        } else {
+          nodeBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+      /**
+       * <code>optional .Node node = 2;</code>
+       */
+      public pipe.work.Work.Node.Builder getNodeBuilder() {
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return getNodeFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .Node node = 2;</code>
+       */
+      public pipe.work.Work.NodeOrBuilder getNodeOrBuilder() {
+        if (nodeBuilder_ != null) {
+          return nodeBuilder_.getMessageOrBuilder();
+        } else {
+          return node_ == null ?
+              pipe.work.Work.Node.getDefaultInstance() : node_;
+        }
+      }
+      /**
+       * <code>optional .Node node = 2;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          pipe.work.Work.Node, pipe.work.Work.Node.Builder, pipe.work.Work.NodeOrBuilder> 
+          getNodeFieldBuilder() {
+        if (nodeBuilder_ == null) {
+          nodeBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              pipe.work.Work.Node, pipe.work.Work.Node.Builder, pipe.work.Work.NodeOrBuilder>(
+                  getNode(),
+                  getParentForChildren(),
+                  isClean());
+          node_ = null;
+        }
+        return nodeBuilder_;
+      }
+
+      private pipe.work.Work.Node leader_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          pipe.work.Work.Node, pipe.work.Work.Node.Builder, pipe.work.Work.NodeOrBuilder> leaderBuilder_;
+      /**
+       * <code>optional .Node leader = 3;</code>
+       */
+      public boolean hasLeader() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional .Node leader = 3;</code>
+       */
+      public pipe.work.Work.Node getLeader() {
+        if (leaderBuilder_ == null) {
+          return leader_ == null ? pipe.work.Work.Node.getDefaultInstance() : leader_;
+        } else {
+          return leaderBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .Node leader = 3;</code>
+       */
+      public Builder setLeader(pipe.work.Work.Node value) {
+        if (leaderBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          leader_ = value;
+          onChanged();
+        } else {
+          leaderBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>optional .Node leader = 3;</code>
+       */
+      public Builder setLeader(
+          pipe.work.Work.Node.Builder builderForValue) {
+        if (leaderBuilder_ == null) {
+          leader_ = builderForValue.build();
+          onChanged();
+        } else {
+          leaderBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>optional .Node leader = 3;</code>
+       */
+      public Builder mergeLeader(pipe.work.Work.Node value) {
+        if (leaderBuilder_ == null) {
+          if (((bitField0_ & 0x00000004) == 0x00000004) &&
+              leader_ != null &&
+              leader_ != pipe.work.Work.Node.getDefaultInstance()) {
+            leader_ =
+              pipe.work.Work.Node.newBuilder(leader_).mergeFrom(value).buildPartial();
+          } else {
+            leader_ = value;
+          }
+          onChanged();
+        } else {
+          leaderBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>optional .Node leader = 3;</code>
+       */
+      public Builder clearLeader() {
+        if (leaderBuilder_ == null) {
+          leader_ = null;
+          onChanged();
+        } else {
+          leaderBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000004);
+        return this;
+      }
+      /**
+       * <code>optional .Node leader = 3;</code>
+       */
+      public pipe.work.Work.Node.Builder getLeaderBuilder() {
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return getLeaderFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .Node leader = 3;</code>
+       */
+      public pipe.work.Work.NodeOrBuilder getLeaderOrBuilder() {
+        if (leaderBuilder_ != null) {
+          return leaderBuilder_.getMessageOrBuilder();
+        } else {
+          return leader_ == null ?
+              pipe.work.Work.Node.getDefaultInstance() : leader_;
+        }
+      }
+      /**
+       * <code>optional .Node leader = 3;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          pipe.work.Work.Node, pipe.work.Work.Node.Builder, pipe.work.Work.NodeOrBuilder> 
+          getLeaderFieldBuilder() {
+        if (leaderBuilder_ == null) {
+          leaderBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              pipe.work.Work.Node, pipe.work.Work.Node.Builder, pipe.work.Work.NodeOrBuilder>(
+                  getLeader(),
+                  getParentForChildren(),
+                  isClean());
+          leader_ = null;
+        }
+        return leaderBuilder_;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Discovery)
+    }
+
+    // @@protoc_insertion_point(class_scope:Discovery)
+    private static final pipe.work.Work.Discovery DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new pipe.work.Work.Discovery();
+    }
+
+    public static pipe.work.Work.Discovery getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<Discovery>
+        PARSER = new com.google.protobuf.AbstractParser<Discovery>() {
+      public Discovery parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new Discovery(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<Discovery> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<Discovery> getParserForType() {
+      return PARSER;
+    }
+
+    public pipe.work.Work.Discovery getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   public interface WorkMessageOrBuilder extends
       // @@protoc_insertion_point(interface_extends:WorkMessage)
       com.google.protobuf.MessageOrBuilder {
@@ -1776,6 +3770,15 @@ public final class Work {
      * <code>required int64 secret = 2;</code>
      */
     long getSecret();
+
+    /**
+     * <code>required .WorkMessage.MessageType type = 3;</code>
+     */
+    boolean hasType();
+    /**
+     * <code>required .WorkMessage.MessageType type = 3;</code>
+     */
+    pipe.work.Work.WorkMessage.MessageType getType();
 
     /**
      * <code>optional .Failure err = 4;</code>
@@ -1871,6 +3874,31 @@ public final class Work {
      */
     pipe.election.Election.LeaderStatusOrBuilder getLeaderOrBuilder();
 
+    /**
+     * <pre>
+     *this payload is used while discovering the messages
+     * </pre>
+     *
+     * <code>optional .Discovery discovery = 10;</code>
+     */
+    boolean hasDiscovery();
+    /**
+     * <pre>
+     *this payload is used while discovering the messages
+     * </pre>
+     *
+     * <code>optional .Discovery discovery = 10;</code>
+     */
+    pipe.work.Work.Discovery getDiscovery();
+    /**
+     * <pre>
+     *this payload is used while discovering the messages
+     * </pre>
+     *
+     * <code>optional .Discovery discovery = 10;</code>
+     */
+    pipe.work.Work.DiscoveryOrBuilder getDiscoveryOrBuilder();
+
     public pipe.work.Work.WorkMessage.PayloadCase getPayloadCase();
   }
   /**
@@ -1890,6 +3918,7 @@ public final class Work {
     }
     private WorkMessage() {
       secret_ = 0L;
+      type_ = 1;
     }
 
     @java.lang.Override
@@ -1936,6 +3965,17 @@ public final class Work {
             case 16: {
               bitField0_ |= 0x00000002;
               secret_ = input.readInt64();
+              break;
+            }
+            case 24: {
+              int rawValue = input.readEnum();
+              pipe.work.Work.WorkMessage.MessageType value = pipe.work.Work.WorkMessage.MessageType.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(3, rawValue);
+              } else {
+                bitField0_ |= 0x00000004;
+                type_ = rawValue;
+              }
               break;
             }
             case 34: {
@@ -2013,6 +4053,20 @@ public final class Work {
               payloadCase_ = 9;
               break;
             }
+            case 82: {
+              pipe.work.Work.Discovery.Builder subBuilder = null;
+              if (payloadCase_ == 10) {
+                subBuilder = ((pipe.work.Work.Discovery) payload_).toBuilder();
+              }
+              payload_ =
+                  input.readMessage(pipe.work.Work.Discovery.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((pipe.work.Work.Discovery) payload_);
+                payload_ = subBuilder.buildPartial();
+              }
+              payloadCase_ = 10;
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -2037,6 +4091,102 @@ public final class Work {
               pipe.work.Work.WorkMessage.class, pipe.work.Work.WorkMessage.Builder.class);
     }
 
+    /**
+     * <pre>
+     **
+     * The actions (request or response) is
+     * implicit through which data structure is in the payload.
+     * </pre>
+     *
+     * Protobuf enum {@code WorkMessage.MessageType}
+     */
+    public enum MessageType
+        implements com.google.protobuf.ProtocolMessageEnum {
+      /**
+       * <code>DISCOVERNODE = 1;</code>
+       */
+      DISCOVERNODE(1),
+      /**
+       * <code>DISCOVERNODEREPLY = 2;</code>
+       */
+      DISCOVERNODEREPLY(2),
+      ;
+
+      /**
+       * <code>DISCOVERNODE = 1;</code>
+       */
+      public static final int DISCOVERNODE_VALUE = 1;
+      /**
+       * <code>DISCOVERNODEREPLY = 2;</code>
+       */
+      public static final int DISCOVERNODEREPLY_VALUE = 2;
+
+
+      public final int getNumber() {
+        return value;
+      }
+
+      /**
+       * @deprecated Use {@link #forNumber(int)} instead.
+       */
+      @java.lang.Deprecated
+      public static MessageType valueOf(int value) {
+        return forNumber(value);
+      }
+
+      public static MessageType forNumber(int value) {
+        switch (value) {
+          case 1: return DISCOVERNODE;
+          case 2: return DISCOVERNODEREPLY;
+          default: return null;
+        }
+      }
+
+      public static com.google.protobuf.Internal.EnumLiteMap<MessageType>
+          internalGetValueMap() {
+        return internalValueMap;
+      }
+      private static final com.google.protobuf.Internal.EnumLiteMap<
+          MessageType> internalValueMap =
+            new com.google.protobuf.Internal.EnumLiteMap<MessageType>() {
+              public MessageType findValueByNumber(int number) {
+                return MessageType.forNumber(number);
+              }
+            };
+
+      public final com.google.protobuf.Descriptors.EnumValueDescriptor
+          getValueDescriptor() {
+        return getDescriptor().getValues().get(ordinal());
+      }
+      public final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptorForType() {
+        return getDescriptor();
+      }
+      public static final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptor() {
+        return pipe.work.Work.WorkMessage.getDescriptor().getEnumTypes().get(0);
+      }
+
+      private static final MessageType[] VALUES = values();
+
+      public static MessageType valueOf(
+          com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+        if (desc.getType() != getDescriptor()) {
+          throw new java.lang.IllegalArgumentException(
+            "EnumValueDescriptor is not for this type.");
+        }
+        return VALUES[desc.getIndex()];
+      }
+
+      private final int value;
+
+      private MessageType(int value) {
+        this.value = value;
+      }
+
+      // @@protoc_insertion_point(enum_scope:WorkMessage.MessageType)
+    }
+
     private int bitField0_;
     private int payloadCase_ = 0;
     private java.lang.Object payload_;
@@ -2048,6 +4198,7 @@ public final class Work {
       TASK(7),
       STATE(8),
       LEADER(9),
+      DISCOVERY(10),
       PAYLOAD_NOT_SET(0);
       private final int value;
       private PayloadCase(int value) {
@@ -2069,6 +4220,7 @@ public final class Work {
           case 7: return TASK;
           case 8: return STATE;
           case 9: return LEADER;
+          case 10: return DISCOVERY;
           case 0: return PAYLOAD_NOT_SET;
           default: return null;
         }
@@ -2118,6 +4270,22 @@ public final class Work {
      */
     public long getSecret() {
       return secret_;
+    }
+
+    public static final int TYPE_FIELD_NUMBER = 3;
+    private int type_;
+    /**
+     * <code>required .WorkMessage.MessageType type = 3;</code>
+     */
+    public boolean hasType() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required .WorkMessage.MessageType type = 3;</code>
+     */
+    public pipe.work.Work.WorkMessage.MessageType getType() {
+      pipe.work.Work.WorkMessage.MessageType result = pipe.work.Work.WorkMessage.MessageType.valueOf(type_);
+      return result == null ? pipe.work.Work.WorkMessage.MessageType.DISCOVERNODE : result;
     }
 
     public static final int ERR_FIELD_NUMBER = 4;
@@ -2287,6 +4455,44 @@ public final class Work {
       return pipe.election.Election.LeaderStatus.getDefaultInstance();
     }
 
+    public static final int DISCOVERY_FIELD_NUMBER = 10;
+    /**
+     * <pre>
+     *this payload is used while discovering the messages
+     * </pre>
+     *
+     * <code>optional .Discovery discovery = 10;</code>
+     */
+    public boolean hasDiscovery() {
+      return payloadCase_ == 10;
+    }
+    /**
+     * <pre>
+     *this payload is used while discovering the messages
+     * </pre>
+     *
+     * <code>optional .Discovery discovery = 10;</code>
+     */
+    public pipe.work.Work.Discovery getDiscovery() {
+      if (payloadCase_ == 10) {
+         return (pipe.work.Work.Discovery) payload_;
+      }
+      return pipe.work.Work.Discovery.getDefaultInstance();
+    }
+    /**
+     * <pre>
+     *this payload is used while discovering the messages
+     * </pre>
+     *
+     * <code>optional .Discovery discovery = 10;</code>
+     */
+    public pipe.work.Work.DiscoveryOrBuilder getDiscoveryOrBuilder() {
+      if (payloadCase_ == 10) {
+         return (pipe.work.Work.Discovery) payload_;
+      }
+      return pipe.work.Work.Discovery.getDefaultInstance();
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -2298,6 +4504,10 @@ public final class Work {
         return false;
       }
       if (!hasSecret()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasType()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -2335,6 +4545,12 @@ public final class Work {
           return false;
         }
       }
+      if (hasDiscovery()) {
+        if (!getDiscovery().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -2346,6 +4562,9 @@ public final class Work {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeInt64(2, secret_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeEnum(3, type_);
       }
       if (payloadCase_ == 4) {
         output.writeMessage(4, (pipe.common.Common.Failure) payload_);
@@ -2366,6 +4585,9 @@ public final class Work {
       if (payloadCase_ == 9) {
         output.writeMessage(9, (pipe.election.Election.LeaderStatus) payload_);
       }
+      if (payloadCase_ == 10) {
+        output.writeMessage(10, (pipe.work.Work.Discovery) payload_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -2381,6 +4603,10 @@ public final class Work {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(2, secret_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(3, type_);
       }
       if (payloadCase_ == 4) {
         size += com.google.protobuf.CodedOutputStream
@@ -2406,6 +4632,10 @@ public final class Work {
       if (payloadCase_ == 9) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(9, (pipe.election.Election.LeaderStatus) payload_);
+      }
+      if (payloadCase_ == 10) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(10, (pipe.work.Work.Discovery) payload_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -2433,6 +4663,10 @@ public final class Work {
       if (hasSecret()) {
         result = result && (getSecret()
             == other.getSecret());
+      }
+      result = result && (hasType() == other.hasType());
+      if (hasType()) {
+        result = result && type_ == other.type_;
       }
       result = result && getPayloadCase().equals(
           other.getPayloadCase());
@@ -2462,6 +4696,10 @@ public final class Work {
           result = result && getLeader()
               .equals(other.getLeader());
           break;
+        case 10:
+          result = result && getDiscovery()
+              .equals(other.getDiscovery());
+          break;
         case 0:
         default:
       }
@@ -2484,6 +4722,10 @@ public final class Work {
         hash = (37 * hash) + SECRET_FIELD_NUMBER;
         hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
             getSecret());
+      }
+      if (hasType()) {
+        hash = (37 * hash) + TYPE_FIELD_NUMBER;
+        hash = (53 * hash) + type_;
       }
       switch (payloadCase_) {
         case 4:
@@ -2510,6 +4752,10 @@ public final class Work {
         case 9:
           hash = (37 * hash) + LEADER_FIELD_NUMBER;
           hash = (53 * hash) + getLeader().hashCode();
+          break;
+        case 10:
+          hash = (37 * hash) + DISCOVERY_FIELD_NUMBER;
+          hash = (53 * hash) + getDiscovery().hashCode();
           break;
         case 0:
         default:
@@ -2645,6 +4891,8 @@ public final class Work {
         bitField0_ = (bitField0_ & ~0x00000001);
         secret_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000002);
+        type_ = 1;
+        bitField0_ = (bitField0_ & ~0x00000004);
         payloadCase_ = 0;
         payload_ = null;
         return this;
@@ -2683,6 +4931,10 @@ public final class Work {
           to_bitField0_ |= 0x00000002;
         }
         result.secret_ = secret_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.type_ = type_;
         if (payloadCase_ == 4) {
           if (errBuilder_ == null) {
             result.payload_ = payload_;
@@ -2719,6 +4971,13 @@ public final class Work {
             result.payload_ = payload_;
           } else {
             result.payload_ = leaderBuilder_.build();
+          }
+        }
+        if (payloadCase_ == 10) {
+          if (discoveryBuilder_ == null) {
+            result.payload_ = payload_;
+          } else {
+            result.payload_ = discoveryBuilder_.build();
           }
         }
         result.bitField0_ = to_bitField0_;
@@ -2770,6 +5029,9 @@ public final class Work {
         if (other.hasSecret()) {
           setSecret(other.getSecret());
         }
+        if (other.hasType()) {
+          setType(other.getType());
+        }
         switch (other.getPayloadCase()) {
           case ERR: {
             mergeErr(other.getErr());
@@ -2795,6 +5057,10 @@ public final class Work {
             mergeLeader(other.getLeader());
             break;
           }
+          case DISCOVERY: {
+            mergeDiscovery(other.getDiscovery());
+            break;
+          }
           case PAYLOAD_NOT_SET: {
             break;
           }
@@ -2809,6 +5075,9 @@ public final class Work {
           return false;
         }
         if (!hasSecret()) {
+          return false;
+        }
+        if (!hasType()) {
           return false;
         }
         if (!getHeader().isInitialized()) {
@@ -2836,6 +5105,11 @@ public final class Work {
         }
         if (hasLeader()) {
           if (!getLeader().isInitialized()) {
+            return false;
+          }
+        }
+        if (hasDiscovery()) {
+          if (!getDiscovery().isInitialized()) {
             return false;
           }
         }
@@ -3022,6 +5296,42 @@ public final class Work {
       public Builder clearSecret() {
         bitField0_ = (bitField0_ & ~0x00000002);
         secret_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private int type_ = 1;
+      /**
+       * <code>required .WorkMessage.MessageType type = 3;</code>
+       */
+      public boolean hasType() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required .WorkMessage.MessageType type = 3;</code>
+       */
+      public pipe.work.Work.WorkMessage.MessageType getType() {
+        pipe.work.Work.WorkMessage.MessageType result = pipe.work.Work.WorkMessage.MessageType.valueOf(type_);
+        return result == null ? pipe.work.Work.WorkMessage.MessageType.DISCOVERNODE : result;
+      }
+      /**
+       * <code>required .WorkMessage.MessageType type = 3;</code>
+       */
+      public Builder setType(pipe.work.Work.WorkMessage.MessageType value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000004;
+        type_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required .WorkMessage.MessageType type = 3;</code>
+       */
+      public Builder clearType() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        type_ = 1;
         onChanged();
         return this;
       }
@@ -3793,6 +6103,178 @@ public final class Work {
         onChanged();;
         return leaderBuilder_;
       }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          pipe.work.Work.Discovery, pipe.work.Work.Discovery.Builder, pipe.work.Work.DiscoveryOrBuilder> discoveryBuilder_;
+      /**
+       * <pre>
+       *this payload is used while discovering the messages
+       * </pre>
+       *
+       * <code>optional .Discovery discovery = 10;</code>
+       */
+      public boolean hasDiscovery() {
+        return payloadCase_ == 10;
+      }
+      /**
+       * <pre>
+       *this payload is used while discovering the messages
+       * </pre>
+       *
+       * <code>optional .Discovery discovery = 10;</code>
+       */
+      public pipe.work.Work.Discovery getDiscovery() {
+        if (discoveryBuilder_ == null) {
+          if (payloadCase_ == 10) {
+            return (pipe.work.Work.Discovery) payload_;
+          }
+          return pipe.work.Work.Discovery.getDefaultInstance();
+        } else {
+          if (payloadCase_ == 10) {
+            return discoveryBuilder_.getMessage();
+          }
+          return pipe.work.Work.Discovery.getDefaultInstance();
+        }
+      }
+      /**
+       * <pre>
+       *this payload is used while discovering the messages
+       * </pre>
+       *
+       * <code>optional .Discovery discovery = 10;</code>
+       */
+      public Builder setDiscovery(pipe.work.Work.Discovery value) {
+        if (discoveryBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          payload_ = value;
+          onChanged();
+        } else {
+          discoveryBuilder_.setMessage(value);
+        }
+        payloadCase_ = 10;
+        return this;
+      }
+      /**
+       * <pre>
+       *this payload is used while discovering the messages
+       * </pre>
+       *
+       * <code>optional .Discovery discovery = 10;</code>
+       */
+      public Builder setDiscovery(
+          pipe.work.Work.Discovery.Builder builderForValue) {
+        if (discoveryBuilder_ == null) {
+          payload_ = builderForValue.build();
+          onChanged();
+        } else {
+          discoveryBuilder_.setMessage(builderForValue.build());
+        }
+        payloadCase_ = 10;
+        return this;
+      }
+      /**
+       * <pre>
+       *this payload is used while discovering the messages
+       * </pre>
+       *
+       * <code>optional .Discovery discovery = 10;</code>
+       */
+      public Builder mergeDiscovery(pipe.work.Work.Discovery value) {
+        if (discoveryBuilder_ == null) {
+          if (payloadCase_ == 10 &&
+              payload_ != pipe.work.Work.Discovery.getDefaultInstance()) {
+            payload_ = pipe.work.Work.Discovery.newBuilder((pipe.work.Work.Discovery) payload_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            payload_ = value;
+          }
+          onChanged();
+        } else {
+          if (payloadCase_ == 10) {
+            discoveryBuilder_.mergeFrom(value);
+          }
+          discoveryBuilder_.setMessage(value);
+        }
+        payloadCase_ = 10;
+        return this;
+      }
+      /**
+       * <pre>
+       *this payload is used while discovering the messages
+       * </pre>
+       *
+       * <code>optional .Discovery discovery = 10;</code>
+       */
+      public Builder clearDiscovery() {
+        if (discoveryBuilder_ == null) {
+          if (payloadCase_ == 10) {
+            payloadCase_ = 0;
+            payload_ = null;
+            onChanged();
+          }
+        } else {
+          if (payloadCase_ == 10) {
+            payloadCase_ = 0;
+            payload_ = null;
+          }
+          discoveryBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       *this payload is used while discovering the messages
+       * </pre>
+       *
+       * <code>optional .Discovery discovery = 10;</code>
+       */
+      public pipe.work.Work.Discovery.Builder getDiscoveryBuilder() {
+        return getDiscoveryFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       *this payload is used while discovering the messages
+       * </pre>
+       *
+       * <code>optional .Discovery discovery = 10;</code>
+       */
+      public pipe.work.Work.DiscoveryOrBuilder getDiscoveryOrBuilder() {
+        if ((payloadCase_ == 10) && (discoveryBuilder_ != null)) {
+          return discoveryBuilder_.getMessageOrBuilder();
+        } else {
+          if (payloadCase_ == 10) {
+            return (pipe.work.Work.Discovery) payload_;
+          }
+          return pipe.work.Work.Discovery.getDefaultInstance();
+        }
+      }
+      /**
+       * <pre>
+       *this payload is used while discovering the messages
+       * </pre>
+       *
+       * <code>optional .Discovery discovery = 10;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          pipe.work.Work.Discovery, pipe.work.Work.Discovery.Builder, pipe.work.Work.DiscoveryOrBuilder> 
+          getDiscoveryFieldBuilder() {
+        if (discoveryBuilder_ == null) {
+          if (!(payloadCase_ == 10)) {
+            payload_ = pipe.work.Work.Discovery.getDefaultInstance();
+          }
+          discoveryBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              pipe.work.Work.Discovery, pipe.work.Work.Discovery.Builder, pipe.work.Work.DiscoveryOrBuilder>(
+                  (pipe.work.Work.Discovery) payload_,
+                  getParentForChildren(),
+                  isClean());
+          payload_ = null;
+        }
+        payloadCase_ = 10;
+        onChanged();;
+        return discoveryBuilder_;
+      }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
@@ -3858,6 +6340,16 @@ public final class Work {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Task_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Node_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Node_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Discovery_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Discovery_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_WorkMessage_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -3875,13 +6367,20 @@ public final class Work {
       "to\"0\n\tWorkState\022\020\n\010enqueued\030\001 \002(\005\022\021\n\tpro" +
       "cessed\030\002 \002(\005\"&\n\tHeartbeat\022\031\n\005state\030\001 \002(\013" +
       "2\n.WorkState\")\n\004Task\022\021\n\tseries_id\030\001 \002(\003\022" +
-      "\016\n\006seq_id\030\002 \002(\005\"\333\001\n\013WorkMessage\022\027\n\006heade" +
-      "r\030\001 \002(\0132\007.Header\022\016\n\006secret\030\002 \002(\003\022\027\n\003err\030" +
-      "\004 \001(\0132\010.FailureH\000\022\016\n\004ping\030\005 \001(\010H\000\022\032\n\004bea" +
-      "t\030\006 \001(\0132\n.HeartbeatH\000\022\025\n\004task\030\007 \001(\0132\005.Ta" +
-      "skH\000\022\033\n\005state\030\010 \001(\0132\n.WorkStateH\000\022\037\n\006lea" +
-      "der\030\t \001(\0132\r.LeaderStatusH\000B\t\n\007payloadB\r\n",
-      "\tpipe.workH\001"
+      "\016\n\006seq_id\030\002 \002(\005\";\n\004Node\022\017\n\007node_id\030\001 \002(\005" +
+      "\022\017\n\007ip_addr\030\002 \002(\t\022\021\n\twork_port\030\003 \002(\t\"M\n\t" +
+      "Discovery\022\024\n\005nodes\030\001 \003(\0132\005.Node\022\023\n\004node\030" +
+      "\002 \001(\0132\005.Node\022\025\n\006leader\030\003 \001(\0132\005.Node\"\334\002\n\013" +
+      "WorkMessage\022\027\n\006header\030\001 \002(\0132\007.Header\022\016\n\006" +
+      "secret\030\002 \002(\003\022&\n\004type\030\003 \002(\0162\030.WorkMessage",
+      ".MessageType\022\027\n\003err\030\004 \001(\0132\010.FailureH\000\022\016\n" +
+      "\004ping\030\005 \001(\010H\000\022\032\n\004beat\030\006 \001(\0132\n.HeartbeatH" +
+      "\000\022\025\n\004task\030\007 \001(\0132\005.TaskH\000\022\033\n\005state\030\010 \001(\0132" +
+      "\n.WorkStateH\000\022\037\n\006leader\030\t \001(\0132\r.LeaderSt" +
+      "atusH\000\022\037\n\tdiscovery\030\n \001(\0132\n.DiscoveryH\000\"" +
+      "6\n\013MessageType\022\020\n\014DISCOVERNODE\020\001\022\025\n\021DISC" +
+      "OVERNODEREPLY\020\002B\t\n\007payloadB\r\n\tpipe.workH" +
+      "\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -3915,12 +6414,24 @@ public final class Work {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Task_descriptor,
         new java.lang.String[] { "SeriesId", "SeqId", });
-    internal_static_WorkMessage_descriptor =
+    internal_static_Node_descriptor =
       getDescriptor().getMessageTypes().get(3);
+    internal_static_Node_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Node_descriptor,
+        new java.lang.String[] { "NodeId", "IpAddr", "WorkPort", });
+    internal_static_Discovery_descriptor =
+      getDescriptor().getMessageTypes().get(4);
+    internal_static_Discovery_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Discovery_descriptor,
+        new java.lang.String[] { "Nodes", "Node", "Leader", });
+    internal_static_WorkMessage_descriptor =
+      getDescriptor().getMessageTypes().get(5);
     internal_static_WorkMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_WorkMessage_descriptor,
-        new java.lang.String[] { "Header", "Secret", "Err", "Ping", "Beat", "Task", "State", "Leader", "Payload", });
+        new java.lang.String[] { "Header", "Secret", "Type", "Err", "Ping", "Beat", "Task", "State", "Leader", "Discovery", "Payload", });
     pipe.common.Common.getDescriptor();
     pipe.election.Election.getDescriptor();
   }
