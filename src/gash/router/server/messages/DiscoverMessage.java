@@ -24,7 +24,6 @@ public class DiscoverMessage extends Message {
 	MessageType type = null;
 	Discovery discovery = null;
 	
-	
 	public DiscoverMessage(WorkMessage msg) {
 		// TODO Auto-generated constructor stub
 		unPackHeader( msg.getHeader());
@@ -52,13 +51,6 @@ public class DiscoverMessage extends Message {
         		Node newNode = discovery.getNode();
         		state.getEmon().addNewEdgeInfo(newNode.getNodeId(), newNode.getIpAddr(),
         				newNode.getWorkPort());
-
-        		try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
         		int senderId = getDestinationId();
         		setDestinationId(getNodeId());
         		setNodeId(senderId);
@@ -81,15 +73,12 @@ public class DiscoverMessage extends Message {
         	    // got message from leader or other node with routing table
         		logger.info("Got a reply from server : " + getNodeId() );
         		
-           		ArrayList<Node> nodes = (ArrayList<Node>) discovery.getRoutingTableList();
+           		List<Node> nodes =  discovery.getRoutingTableList();
         		for (Node n : nodes){
-        			EdgeInfo ei = new EdgeInfo(n.getNodeId(), n.getIpAddr(), n.getWorkPort());        			
-        			state.getEmon().onAdd(ei);
-        			logger.info("routing details are :  " + ei.toString() );
+        			state.getEmon().addNewEdgeInfo(n.getNodeId(), n.getIpAddr(), 
+        					n.getWorkPort());
         		}
-        	}
-        	
-        	
+        	}	
         }
         
         return null;

@@ -21,7 +21,6 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import gash.router.server.CommandInit;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -41,7 +40,7 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 public class CommConnection {
 	protected static Logger logger = LoggerFactory.getLogger("connect");
 
-	protected static AtomicReference<CommConnection> instance = new AtomicReference<CommConnection>();
+	//protected static AtomicReference<CommConnection> instance = new AtomicReference<CommConnection>();
 
 	private String host;
 	private int port;
@@ -63,22 +62,22 @@ public class CommConnection {
 	 * @param host
 	 * @param port
 	 */
-	protected CommConnection(String host, int port) {
+	public CommConnection(String host, int port) {
 		this.host = host;
 		this.port = port;
 
 		init();
 	}
 
-	public static CommConnection initConnection(String host, int port) {
-		instance.compareAndSet(null, new CommConnection(host, port));
+	/*public static CommConnection initConnection(String host, int port) {
+		//instance.compareAndSet(null, new CommConnection(host, port));
 		return instance.get();
-	}
+	}*/
 
-	public static CommConnection getInstance() {
+	/*public static CommConnection getInstance() {
 		// TODO throw exception if not initialized!
 		return instance.get();
-	}
+	}*/
 
 	/**
 	 * release all resources

@@ -91,6 +91,7 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 	public void run() {
 		while (forever) {
 			try {
+				System.out.println("Routing table is : ");
 				for (EdgeInfo ei : this.outboundEdges.map.values()) {
 					if (ei.getChannel() == null){
 						onAdd(ei);
@@ -102,6 +103,8 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 						// TODO create a client to the node
 						logger.info("trying to connect to node " + ei.getRef());
 					}
+					System.out.println(ei.toString());
+					
 				}
 				Thread.sleep(dt);
 			} catch (InterruptedException e) {
@@ -115,12 +118,12 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 	public synchronized void onAdd(EdgeInfo ei) {
 		// TODO check connection
 		try{
-			logger.info("making connection with : " + ei.getHost() + " on port : " + ei.getPort()  );
-			CommConnection cc = CommConnection.initConnection(ei.getHost(), ei.getPort());
-			logger.info("Will give error after this "  );
-			ei.setChannel(cc.connect());
-			logger.info("will give error above this"  );
-			ei.setActive(true);
+			if (ei.getChannel() == null){
+				logger.info("making connection with : " + ei.getHost() + " on port : " + ei.getPort()  );
+				CommConnection cc = new CommConnection(ei.getHost(), ei.getPort());
+				ei.setChannel(cc.connect());
+				ei.setActive(true);
+			}
 		}
 		catch(Exception e){
 			logger.error("Cannot connect to host!! Server is down!! nodeid = " + e );
