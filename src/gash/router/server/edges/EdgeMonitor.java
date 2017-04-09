@@ -14,7 +14,8 @@
  * under the License.
  */
 package gash.router.server.edges;
-
+import java.util.ArrayList;
+import pipe.work.Work.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -142,5 +143,10 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 			}
 		}
 		return null;
+	}
+	
+	public ArrayList<Node> getOutBoundRouteTable(){
+		return outboundEdges.getRoutingTable();
+		
 	}
 }

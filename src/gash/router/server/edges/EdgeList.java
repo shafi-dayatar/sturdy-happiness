@@ -15,7 +15,10 @@
  */
 package gash.router.server.edges;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+
+import pipe.work.Work.Node;
 
 public class EdgeList {
 	protected HashMap<Integer, EdgeInfo> map = new HashMap<Integer, EdgeInfo>();
@@ -66,5 +69,17 @@ public class EdgeList {
 
 	public void clear() {
 		map.clear();
+	}
+	
+	public ArrayList<Node> getRoutingTable() {
+		ArrayList<Node> nodes = null;
+		for (EdgeInfo ei  : map.values()){
+			Node.Builder node = Node.newBuilder();
+			node.setNodeId(ei.getRef());
+			node.setIpAddr(ei.getHost());
+			node.setWorkPort(ei.getPort());
+			nodes.add(node.build());
+		}
+		return nodes;
 	}
 }

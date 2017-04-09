@@ -1,5 +1,6 @@
 package gash.router.server.messages;
 
+import gash.router.server.ServerState;
 import io.netty.channel.Channel;
 import pipe.common.Common.Header;
 import pipe.work.Work.WorkMessage;
@@ -55,7 +56,7 @@ public class Message implements MessageInterface {
 	}
 
 	@java.lang.Override
-	public void reply() {
+	public void respond() {
 	}
 
 	/*
@@ -115,7 +116,7 @@ public class Message implements MessageInterface {
 	}
 
 	@Override
-	public WorkMessage processMessage(int nodeId) {
+	public WorkMessage processMessage(ServerState state) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -18,7 +18,7 @@ public class PingMessage extends Message{
 		
 	}
 	
-	public WorkMessage respond(){
+	public void respond(){
 		System.out.println("In Ping Reply");
 		WorkMessage.Builder wm = WorkMessage.newBuilder();
 		//setReply(true);
@@ -28,7 +28,7 @@ public class PingMessage extends Message{
 		wm.setHeader(createHeader());
 		wm.setPing(true);
 		wm.setSecret(getSecret());
-		return wm.build();
+		//return wm.build();
 	}
 	
 	public WorkMessage forward(){
@@ -47,7 +47,7 @@ public class PingMessage extends Message{
 	public WorkMessage processMessage(int nodeId){
 		System.out.println("nodeId" + nodeId + "getDestinationId" + getDestinationId());
 		if(nodeId == getDestinationId()){
-			return respond();
+			//return respond();
 		}
 		return forward();
 	}

@@ -3,6 +3,8 @@ package gash.router.server.messages;
 
 
 
+import gash.router.server.ServerState;
+
 //TODO
 
 import pipe.work.Work.WorkMessage;
@@ -10,8 +12,9 @@ import pipe.work.Work.WorkMessage;
 // Add Message Class methods here
 //
 public interface MessageInterface {
-    public WorkMessage processMessage(int nodeId);
+    public WorkMessage processMessage(ServerState state);
     void discard();
-    WorkMessage forward();
-    void reply();
+    //WorkMessage forward();
+    void respond();
+    
 }

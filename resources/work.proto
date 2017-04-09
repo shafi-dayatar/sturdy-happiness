@@ -25,13 +25,13 @@ message Task {
 message Node {
   required int32 node_id = 1;
   required string ip_addr = 2;
-  required string work_port = 3;
+  required int32 work_port = 3;
 }
 
 message Discovery{
-  repeated Node nodes = 1;
-  optional Node node = 2;
-  optional Node leader = 3;
+  repeated Node routing_table = 1; // reply with a list of connected nodes from destination
+  optional Node node = 2; // Sender node information
+  optional Node leader = 3; // reply with leader info from destination
 }
 
 // These are messages to keep the network running (not to perform work)
