@@ -29,6 +29,11 @@ public class Message implements MessageInterface {
 		destinationId = hd.getDestination();
 		timestamp = hd.getTime();
 		maxHops = hd.getMaxHops();
+<<<<<<< HEAD
+		reply = hd.getIsReply();
+		replyFrom = hd.getReplyFrom();
+=======
+>>>>>>> fd27ba2af2f49716366c7aecc35d6579c4119fcc
 	}
 
 	@java.lang.Override
@@ -43,6 +48,7 @@ public class Message implements MessageInterface {
 		hd.setNodeId(nodeId);
 		if (reply){
 			hd.setReplyFrom(replyFrom);
+			hd.setIsReply(reply);
 		}	
 		return hd.build();
 	}

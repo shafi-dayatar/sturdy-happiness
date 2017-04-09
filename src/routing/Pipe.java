@@ -174,8 +174,7 @@ public final class Pipe {
       return routing.Pipe.internal_static_CommandMessage_descriptor;
     }
 
-    @Override
-	protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return routing.Pipe.internal_static_CommandMessage_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
@@ -212,14 +211,12 @@ public final class Pipe {
           default: return null;
         }
       }
-      @Override
-	public int getNumber() {
+      public int getNumber() {
         return this.value;
       }
     };
 
-    @Override
-	public PayloadCase
+    public PayloadCase
     getPayloadCase() {
       return PayloadCase.forNumber(
           payloadCase_);
@@ -230,22 +227,19 @@ public final class Pipe {
     /**
      * <code>required .Header header = 1;</code>
      */
-    @Override
-	public boolean hasHeader() {
+    public boolean hasHeader() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
      * <code>required .Header header = 1;</code>
      */
-    @Override
-	public pipe.common.Common.Header getHeader() {
+    public pipe.common.Common.Header getHeader() {
       return header_ == null ? pipe.common.Common.Header.getDefaultInstance() : header_;
     }
     /**
      * <code>required .Header header = 1;</code>
      */
-    @Override
-	public pipe.common.Common.HeaderOrBuilder getHeaderOrBuilder() {
+    public pipe.common.Common.HeaderOrBuilder getHeaderOrBuilder() {
       return header_ == null ? pipe.common.Common.Header.getDefaultInstance() : header_;
     }
 
@@ -257,8 +251,7 @@ public final class Pipe {
      *
      * <code>optional bool ping = 3;</code>
      */
-    @Override
-	public boolean hasPing() {
+    public boolean hasPing() {
       return payloadCase_ == 3;
     }
     /**
@@ -268,8 +261,7 @@ public final class Pipe {
      *
      * <code>optional bool ping = 3;</code>
      */
-    @Override
-	public boolean getPing() {
+    public boolean getPing() {
       if (payloadCase_ == 3) {
         return (java.lang.Boolean) payload_;
       }
@@ -280,15 +272,13 @@ public final class Pipe {
     /**
      * <code>optional string message = 4;</code>
      */
-    @Override
-	public boolean hasMessage() {
+    public boolean hasMessage() {
       return payloadCase_ == 4;
     }
     /**
      * <code>optional string message = 4;</code>
      */
-    @Override
-	public java.lang.String getMessage() {
+    public java.lang.String getMessage() {
       java.lang.Object ref = "";
       if (payloadCase_ == 4) {
         ref = payload_;
@@ -308,8 +298,7 @@ public final class Pipe {
     /**
      * <code>optional string message = 4;</code>
      */
-    @Override
-	public com.google.protobuf.ByteString
+    public com.google.protobuf.ByteString
         getMessageBytes() {
       java.lang.Object ref = "";
       if (payloadCase_ == 4) {
@@ -332,15 +321,13 @@ public final class Pipe {
     /**
      * <code>optional .Failure err = 5;</code>
      */
-    @Override
-	public boolean hasErr() {
+    public boolean hasErr() {
       return payloadCase_ == 5;
     }
     /**
      * <code>optional .Failure err = 5;</code>
      */
-    @Override
-	public pipe.common.Common.Failure getErr() {
+    public pipe.common.Common.Failure getErr() {
       if (payloadCase_ == 5) {
          return (pipe.common.Common.Failure) payload_;
       }
@@ -349,8 +336,7 @@ public final class Pipe {
     /**
      * <code>optional .Failure err = 5;</code>
      */
-    @Override
-	public pipe.common.Common.FailureOrBuilder getErrOrBuilder() {
+    public pipe.common.Common.FailureOrBuilder getErrOrBuilder() {
       if (payloadCase_ == 5) {
          return (pipe.common.Common.Failure) payload_;
       }
@@ -358,8 +344,7 @@ public final class Pipe {
     }
 
     private byte memoizedIsInitialized = -1;
-    @Override
-	public final boolean isInitialized() {
+    public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
       if (isInitialized == 0) return false;
@@ -382,15 +367,14 @@ public final class Pipe {
       return true;
     }
 
-    @Override
-	public void writeTo(com.google.protobuf.CodedOutputStream output)
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeMessage(1, getHeader());
       }
       if (payloadCase_ == 3) {
         output.writeBool(
-            3, ((java.lang.Boolean) payload_));
+            3, (boolean)((java.lang.Boolean) payload_));
       }
       if (payloadCase_ == 4) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 4, payload_);
@@ -401,8 +385,7 @@ public final class Pipe {
       unknownFields.writeTo(output);
     }
 
-    @Override
-	public int getSerializedSize() {
+    public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
 
@@ -414,7 +397,7 @@ public final class Pipe {
       if (payloadCase_ == 3) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(
-              3, ((java.lang.Boolean) payload_));
+              3, (boolean)((java.lang.Boolean) payload_));
       }
       if (payloadCase_ == 4) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, payload_);
@@ -560,16 +543,14 @@ public final class Pipe {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    @Override
-	public Builder newBuilderForType() { return newBuilder(); }
+    public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
     public static Builder newBuilder(routing.Pipe.CommandMessage prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-    @Override
-	public Builder toBuilder() {
+    public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
     }
@@ -592,8 +573,7 @@ public final class Pipe {
         return routing.Pipe.internal_static_CommandMessage_descriptor;
       }
 
-      @Override
-	protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return routing.Pipe.internal_static_CommandMessage_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -616,8 +596,7 @@ public final class Pipe {
           getHeaderFieldBuilder();
         }
       }
-      @Override
-	public Builder clear() {
+      public Builder clear() {
         super.clear();
         if (headerBuilder_ == null) {
           header_ = null;
@@ -630,19 +609,16 @@ public final class Pipe {
         return this;
       }
 
-      @Override
-	public com.google.protobuf.Descriptors.Descriptor
+      public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return routing.Pipe.internal_static_CommandMessage_descriptor;
       }
 
-      @Override
-	public routing.Pipe.CommandMessage getDefaultInstanceForType() {
+      public routing.Pipe.CommandMessage getDefaultInstanceForType() {
         return routing.Pipe.CommandMessage.getDefaultInstance();
       }
 
-      @Override
-	public routing.Pipe.CommandMessage build() {
+      public routing.Pipe.CommandMessage build() {
         routing.Pipe.CommandMessage result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
@@ -650,8 +626,7 @@ public final class Pipe {
         return result;
       }
 
-      @Override
-	public routing.Pipe.CommandMessage buildPartial() {
+      public routing.Pipe.CommandMessage buildPartial() {
         routing.Pipe.CommandMessage result = new routing.Pipe.CommandMessage(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
@@ -682,40 +657,33 @@ public final class Pipe {
         return result;
       }
 
-      @Override
-	public Builder clone() {
-        return super.clone();
+      public Builder clone() {
+        return (Builder) super.clone();
       }
-      @Override
-	public Builder setField(
+      public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           Object value) {
-        return super.setField(field, value);
+        return (Builder) super.setField(field, value);
       }
-      @Override
-	public Builder clearField(
+      public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
+        return (Builder) super.clearField(field);
       }
-      @Override
-	public Builder clearOneof(
+      public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
+        return (Builder) super.clearOneof(oneof);
       }
-      @Override
-	public Builder setRepeatedField(
+      public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, Object value) {
-        return super.setRepeatedField(field, index, value);
+        return (Builder) super.setRepeatedField(field, index, value);
       }
-      @Override
-	public Builder addRepeatedField(
+      public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           Object value) {
-        return super.addRepeatedField(field, value);
+        return (Builder) super.addRepeatedField(field, value);
       }
-      @Override
-	public Builder mergeFrom(com.google.protobuf.Message other) {
+      public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof routing.Pipe.CommandMessage) {
           return mergeFrom((routing.Pipe.CommandMessage)other);
         } else {
@@ -753,8 +721,7 @@ public final class Pipe {
         return this;
       }
 
-      @Override
-	public final boolean isInitialized() {
+      public final boolean isInitialized() {
         if (!hasHeader()) {
           return false;
         }
@@ -769,8 +736,7 @@ public final class Pipe {
         return true;
       }
 
-      @Override
-	public Builder mergeFrom(
+      public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
@@ -789,8 +755,7 @@ public final class Pipe {
       }
       private int payloadCase_ = 0;
       private java.lang.Object payload_;
-      @Override
-	public PayloadCase
+      public PayloadCase
           getPayloadCase() {
         return PayloadCase.forNumber(
             payloadCase_);
@@ -811,15 +776,13 @@ public final class Pipe {
       /**
        * <code>required .Header header = 1;</code>
        */
-      @Override
-	public boolean hasHeader() {
+      public boolean hasHeader() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
        * <code>required .Header header = 1;</code>
        */
-      @Override
-	public pipe.common.Common.Header getHeader() {
+      public pipe.common.Common.Header getHeader() {
         if (headerBuilder_ == null) {
           return header_ == null ? pipe.common.Common.Header.getDefaultInstance() : header_;
         } else {
@@ -900,8 +863,7 @@ public final class Pipe {
       /**
        * <code>required .Header header = 1;</code>
        */
-      @Override
-	public pipe.common.Common.HeaderOrBuilder getHeaderOrBuilder() {
+      public pipe.common.Common.HeaderOrBuilder getHeaderOrBuilder() {
         if (headerBuilder_ != null) {
           return headerBuilder_.getMessageOrBuilder();
         } else {
@@ -933,8 +895,7 @@ public final class Pipe {
        *
        * <code>optional bool ping = 3;</code>
        */
-      @Override
-	public boolean hasPing() {
+      public boolean hasPing() {
         return payloadCase_ == 3;
       }
       /**
@@ -944,8 +905,7 @@ public final class Pipe {
        *
        * <code>optional bool ping = 3;</code>
        */
-      @Override
-	public boolean getPing() {
+      public boolean getPing() {
         if (payloadCase_ == 3) {
           return (java.lang.Boolean) payload_;
         }
@@ -983,15 +943,13 @@ public final class Pipe {
       /**
        * <code>optional string message = 4;</code>
        */
-      @Override
-	public boolean hasMessage() {
+      public boolean hasMessage() {
         return payloadCase_ == 4;
       }
       /**
        * <code>optional string message = 4;</code>
        */
-      @Override
-	public java.lang.String getMessage() {
+      public java.lang.String getMessage() {
         java.lang.Object ref = "";
         if (payloadCase_ == 4) {
           ref = payload_;
@@ -1013,8 +971,7 @@ public final class Pipe {
       /**
        * <code>optional string message = 4;</code>
        */
-      @Override
-	public com.google.protobuf.ByteString
+      public com.google.protobuf.ByteString
           getMessageBytes() {
         java.lang.Object ref = "";
         if (payloadCase_ == 4) {
@@ -1075,15 +1032,13 @@ public final class Pipe {
       /**
        * <code>optional .Failure err = 5;</code>
        */
-      @Override
-	public boolean hasErr() {
+      public boolean hasErr() {
         return payloadCase_ == 5;
       }
       /**
        * <code>optional .Failure err = 5;</code>
        */
-      @Override
-	public pipe.common.Common.Failure getErr() {
+      public pipe.common.Common.Failure getErr() {
         if (errBuilder_ == null) {
           if (payloadCase_ == 5) {
             return (pipe.common.Common.Failure) payload_;
@@ -1176,8 +1131,7 @@ public final class Pipe {
       /**
        * <code>optional .Failure err = 5;</code>
        */
-      @Override
-	public pipe.common.Common.FailureOrBuilder getErrOrBuilder() {
+      public pipe.common.Common.FailureOrBuilder getErrOrBuilder() {
         if ((payloadCase_ == 5) && (errBuilder_ != null)) {
           return errBuilder_.getMessageOrBuilder();
         } else {
@@ -1208,14 +1162,12 @@ public final class Pipe {
         onChanged();;
         return errBuilder_;
       }
-      @Override
-	public final Builder setUnknownFields(
+      public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
-      @Override
-	public final Builder mergeUnknownFields(
+      public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
       }
@@ -1236,8 +1188,7 @@ public final class Pipe {
 
     @java.lang.Deprecated public static final com.google.protobuf.Parser<CommandMessage>
         PARSER = new com.google.protobuf.AbstractParser<CommandMessage>() {
-      @Override
-	public CommandMessage parsePartialFrom(
+      public CommandMessage parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
@@ -1254,8 +1205,7 @@ public final class Pipe {
       return PARSER;
     }
 
-    @Override
-	public routing.Pipe.CommandMessage getDefaultInstanceForType() {
+    public routing.Pipe.CommandMessage getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -1282,8 +1232,7 @@ public final class Pipe {
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          @Override
-		public com.google.protobuf.ExtensionRegistry assignDescriptors(
+          public com.google.protobuf.ExtensionRegistry assignDescriptors(
               com.google.protobuf.Descriptors.FileDescriptor root) {
             descriptor = root;
             return null;

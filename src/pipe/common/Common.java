@@ -71,6 +71,24 @@ public final class Common {
     int getReplyFrom();
 
     /**
+     * <code>optional bool is_reply = 7 [default = false];</code>
+     */
+    boolean hasIsReply();
+    /**
+     * <code>optional bool is_reply = 7 [default = false];</code>
+     */
+    boolean getIsReply();
+
+    /**
+     * <code>required int32 msgType = 3;</code>
+     */
+    boolean hasMsgType();
+    /**
+     * <code>required int32 msgType = 3;</code>
+     */
+    int getMsgType();
+
+    /**
      * <pre>
      * This factor limits the distance that a msg travels from the originating 
      * node. Default (-1) is the whole network (not restricted).
@@ -111,6 +129,8 @@ public final class Common {
       time_ = 0L;
       destination_ = 0;
       replyFrom_ = 0;
+      isReply_ = false;
+      msgType_ = 0;
       maxHops_ = -1;
     }
 
@@ -152,6 +172,16 @@ public final class Common {
               time_ = input.readInt64();
               break;
             }
+            case 24: {
+              bitField0_ |= 0x00000020;
+              msgType_ = input.readInt32();
+              break;
+            }
+            case 56: {
+              bitField0_ |= 0x00000010;
+              isReply_ = input.readBool();
+              break;
+            }
             case 64: {
               bitField0_ |= 0x00000004;
               destination_ = input.readInt32();
@@ -163,7 +193,7 @@ public final class Common {
               break;
             }
             case 80: {
-              bitField0_ |= 0x00000010;
+              bitField0_ |= 0x00000040;
               maxHops_ = input.readInt32();
               break;
             }
@@ -184,8 +214,7 @@ public final class Common {
       return pipe.common.Common.internal_static_Header_descriptor;
     }
 
-    @Override
-	protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return pipe.common.Common.internal_static_Header_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
@@ -198,15 +227,13 @@ public final class Common {
     /**
      * <code>required int32 node_id = 1;</code>
      */
-    @Override
-	public boolean hasNodeId() {
+    public boolean hasNodeId() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
      * <code>required int32 node_id = 1;</code>
      */
-    @Override
-	public int getNodeId() {
+    public int getNodeId() {
       return nodeId_;
     }
 
@@ -215,15 +242,13 @@ public final class Common {
     /**
      * <code>required int64 time = 2;</code>
      */
-    @Override
-	public boolean hasTime() {
+    public boolean hasTime() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
      * <code>required int64 time = 2;</code>
      */
-    @Override
-	public long getTime() {
+    public long getTime() {
       return time_;
     }
 
@@ -236,8 +261,7 @@ public final class Common {
      *
      * <code>optional int32 destination = 8;</code>
      */
-    @Override
-	public boolean hasDestination() {
+    public boolean hasDestination() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
@@ -247,8 +271,7 @@ public final class Common {
      *
      * <code>optional int32 destination = 8;</code>
      */
-    @Override
-	public int getDestination() {
+    public int getDestination() {
       return destination_;
     }
 
@@ -261,8 +284,7 @@ public final class Common {
      *
      * <code>optional int32 reply_from = 9;</code>
      */
-    @Override
-	public boolean hasReplyFrom() {
+    public boolean hasReplyFrom() {
       return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
@@ -272,9 +294,38 @@ public final class Common {
      *
      * <code>optional int32 reply_from = 9;</code>
      */
-    @Override
-	public int getReplyFrom() {
+    public int getReplyFrom() {
       return replyFrom_;
+    }
+
+    public static final int IS_REPLY_FIELD_NUMBER = 7;
+    private boolean isReply_;
+    /**
+     * <code>optional bool is_reply = 7 [default = false];</code>
+     */
+    public boolean hasIsReply() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional bool is_reply = 7 [default = false];</code>
+     */
+    public boolean getIsReply() {
+      return isReply_;
+    }
+
+    public static final int MSGTYPE_FIELD_NUMBER = 3;
+    private int msgType_;
+    /**
+     * <code>required int32 msgType = 3;</code>
+     */
+    public boolean hasMsgType() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>required int32 msgType = 3;</code>
+     */
+    public int getMsgType() {
+      return msgType_;
     }
 
     public static final int MAX_HOPS_FIELD_NUMBER = 10;
@@ -287,9 +338,8 @@ public final class Common {
      *
      * <code>optional int32 max_hops = 10 [default = -1];</code>
      */
-    @Override
-	public boolean hasMaxHops() {
-      return ((bitField0_ & 0x00000010) == 0x00000010);
+    public boolean hasMaxHops() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
     }
     /**
      * <pre>
@@ -299,14 +349,12 @@ public final class Common {
      *
      * <code>optional int32 max_hops = 10 [default = -1];</code>
      */
-    @Override
-	public int getMaxHops() {
+    public int getMaxHops() {
       return maxHops_;
     }
 
     private byte memoizedIsInitialized = -1;
-    @Override
-	public final boolean isInitialized() {
+    public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
       if (isInitialized == 0) return false;
@@ -319,12 +367,15 @@ public final class Common {
         memoizedIsInitialized = 0;
         return false;
       }
+      if (!hasMsgType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       memoizedIsInitialized = 1;
       return true;
     }
 
-    @Override
-	public void writeTo(com.google.protobuf.CodedOutputStream output)
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeInt32(1, nodeId_);
@@ -332,20 +383,25 @@ public final class Common {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeInt64(2, time_);
       }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeInt32(3, msgType_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeBool(7, isReply_);
+      }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeInt32(8, destination_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeInt32(9, replyFrom_);
       }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
         output.writeInt32(10, maxHops_);
       }
       unknownFields.writeTo(output);
     }
 
-    @Override
-	public int getSerializedSize() {
+    public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
 
@@ -358,6 +414,14 @@ public final class Common {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(2, time_);
       }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, msgType_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(7, isReply_);
+      }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(8, destination_);
@@ -366,7 +430,7 @@ public final class Common {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(9, replyFrom_);
       }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(10, maxHops_);
       }
@@ -407,6 +471,16 @@ public final class Common {
         result = result && (getReplyFrom()
             == other.getReplyFrom());
       }
+      result = result && (hasIsReply() == other.hasIsReply());
+      if (hasIsReply()) {
+        result = result && (getIsReply()
+            == other.getIsReply());
+      }
+      result = result && (hasMsgType() == other.hasMsgType());
+      if (hasMsgType()) {
+        result = result && (getMsgType()
+            == other.getMsgType());
+      }
       result = result && (hasMaxHops() == other.hasMaxHops());
       if (hasMaxHops()) {
         result = result && (getMaxHops()
@@ -439,6 +513,15 @@ public final class Common {
       if (hasReplyFrom()) {
         hash = (37 * hash) + REPLY_FROM_FIELD_NUMBER;
         hash = (53 * hash) + getReplyFrom();
+      }
+      if (hasIsReply()) {
+        hash = (37 * hash) + IS_REPLY_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+            getIsReply());
+      }
+      if (hasMsgType()) {
+        hash = (37 * hash) + MSGTYPE_FIELD_NUMBER;
+        hash = (53 * hash) + getMsgType();
       }
       if (hasMaxHops()) {
         hash = (37 * hash) + MAX_HOPS_FIELD_NUMBER;
@@ -508,16 +591,14 @@ public final class Common {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    @Override
-	public Builder newBuilderForType() { return newBuilder(); }
+    public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
     public static Builder newBuilder(pipe.common.Common.Header prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-    @Override
-	public Builder toBuilder() {
+    public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
     }
@@ -546,8 +627,7 @@ public final class Common {
         return pipe.common.Common.internal_static_Header_descriptor;
       }
 
-      @Override
-	protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return pipe.common.Common.internal_static_Header_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -569,8 +649,7 @@ public final class Common {
                 .alwaysUseFieldBuilders) {
         }
       }
-      @Override
-	public Builder clear() {
+      public Builder clear() {
         super.clear();
         nodeId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -580,24 +659,25 @@ public final class Common {
         bitField0_ = (bitField0_ & ~0x00000004);
         replyFrom_ = 0;
         bitField0_ = (bitField0_ & ~0x00000008);
-        maxHops_ = -1;
+        isReply_ = false;
         bitField0_ = (bitField0_ & ~0x00000010);
+        msgType_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000020);
+        maxHops_ = -1;
+        bitField0_ = (bitField0_ & ~0x00000040);
         return this;
       }
 
-      @Override
-	public com.google.protobuf.Descriptors.Descriptor
+      public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return pipe.common.Common.internal_static_Header_descriptor;
       }
 
-      @Override
-	public pipe.common.Common.Header getDefaultInstanceForType() {
+      public pipe.common.Common.Header getDefaultInstanceForType() {
         return pipe.common.Common.Header.getDefaultInstance();
       }
 
-      @Override
-	public pipe.common.Common.Header build() {
+      public pipe.common.Common.Header build() {
         pipe.common.Common.Header result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
@@ -605,8 +685,7 @@ public final class Common {
         return result;
       }
 
-      @Override
-	public pipe.common.Common.Header buildPartial() {
+      public pipe.common.Common.Header buildPartial() {
         pipe.common.Common.Header result = new pipe.common.Common.Header(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
@@ -629,46 +708,47 @@ public final class Common {
         if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
           to_bitField0_ |= 0x00000010;
         }
+        result.isReply_ = isReply_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        result.msgType_ = msgType_;
+        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+          to_bitField0_ |= 0x00000040;
+        }
         result.maxHops_ = maxHops_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
-      @Override
-	public Builder clone() {
-        return super.clone();
+      public Builder clone() {
+        return (Builder) super.clone();
       }
-      @Override
-	public Builder setField(
+      public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           Object value) {
-        return super.setField(field, value);
+        return (Builder) super.setField(field, value);
       }
-      @Override
-	public Builder clearField(
+      public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
+        return (Builder) super.clearField(field);
       }
-      @Override
-	public Builder clearOneof(
+      public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
+        return (Builder) super.clearOneof(oneof);
       }
-      @Override
-	public Builder setRepeatedField(
+      public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, Object value) {
-        return super.setRepeatedField(field, index, value);
+        return (Builder) super.setRepeatedField(field, index, value);
       }
-      @Override
-	public Builder addRepeatedField(
+      public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           Object value) {
-        return super.addRepeatedField(field, value);
+        return (Builder) super.addRepeatedField(field, value);
       }
-      @Override
-	public Builder mergeFrom(com.google.protobuf.Message other) {
+      public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof pipe.common.Common.Header) {
           return mergeFrom((pipe.common.Common.Header)other);
         } else {
@@ -691,6 +771,12 @@ public final class Common {
         if (other.hasReplyFrom()) {
           setReplyFrom(other.getReplyFrom());
         }
+        if (other.hasIsReply()) {
+          setIsReply(other.getIsReply());
+        }
+        if (other.hasMsgType()) {
+          setMsgType(other.getMsgType());
+        }
         if (other.hasMaxHops()) {
           setMaxHops(other.getMaxHops());
         }
@@ -699,19 +785,20 @@ public final class Common {
         return this;
       }
 
-      @Override
-	public final boolean isInitialized() {
+      public final boolean isInitialized() {
         if (!hasNodeId()) {
           return false;
         }
         if (!hasTime()) {
           return false;
         }
+        if (!hasMsgType()) {
+          return false;
+        }
         return true;
       }
 
-      @Override
-	public Builder mergeFrom(
+      public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
@@ -734,15 +821,13 @@ public final class Common {
       /**
        * <code>required int32 node_id = 1;</code>
        */
-      @Override
-	public boolean hasNodeId() {
+      public boolean hasNodeId() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
        * <code>required int32 node_id = 1;</code>
        */
-      @Override
-	public int getNodeId() {
+      public int getNodeId() {
         return nodeId_;
       }
       /**
@@ -768,15 +853,13 @@ public final class Common {
       /**
        * <code>required int64 time = 2;</code>
        */
-      @Override
-	public boolean hasTime() {
+      public boolean hasTime() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
        * <code>required int64 time = 2;</code>
        */
-      @Override
-	public long getTime() {
+      public long getTime() {
         return time_;
       }
       /**
@@ -806,8 +889,7 @@ public final class Common {
        *
        * <code>optional int32 destination = 8;</code>
        */
-      @Override
-	public boolean hasDestination() {
+      public boolean hasDestination() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
@@ -817,8 +899,7 @@ public final class Common {
        *
        * <code>optional int32 destination = 8;</code>
        */
-      @Override
-	public int getDestination() {
+      public int getDestination() {
         return destination_;
       }
       /**
@@ -856,8 +937,7 @@ public final class Common {
        *
        * <code>optional int32 reply_from = 9;</code>
        */
-      @Override
-	public boolean hasReplyFrom() {
+      public boolean hasReplyFrom() {
         return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
@@ -867,8 +947,7 @@ public final class Common {
        *
        * <code>optional int32 reply_from = 9;</code>
        */
-      @Override
-	public int getReplyFrom() {
+      public int getReplyFrom() {
         return replyFrom_;
       }
       /**
@@ -898,6 +977,70 @@ public final class Common {
         return this;
       }
 
+      private boolean isReply_ ;
+      /**
+       * <code>optional bool is_reply = 7 [default = false];</code>
+       */
+      public boolean hasIsReply() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional bool is_reply = 7 [default = false];</code>
+       */
+      public boolean getIsReply() {
+        return isReply_;
+      }
+      /**
+       * <code>optional bool is_reply = 7 [default = false];</code>
+       */
+      public Builder setIsReply(boolean value) {
+        bitField0_ |= 0x00000010;
+        isReply_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bool is_reply = 7 [default = false];</code>
+       */
+      public Builder clearIsReply() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        isReply_ = false;
+        onChanged();
+        return this;
+      }
+
+      private int msgType_ ;
+      /**
+       * <code>required int32 msgType = 3;</code>
+       */
+      public boolean hasMsgType() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>required int32 msgType = 3;</code>
+       */
+      public int getMsgType() {
+        return msgType_;
+      }
+      /**
+       * <code>required int32 msgType = 3;</code>
+       */
+      public Builder setMsgType(int value) {
+        bitField0_ |= 0x00000020;
+        msgType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 msgType = 3;</code>
+       */
+      public Builder clearMsgType() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        msgType_ = 0;
+        onChanged();
+        return this;
+      }
+
       private int maxHops_ = -1;
       /**
        * <pre>
@@ -907,9 +1050,8 @@ public final class Common {
        *
        * <code>optional int32 max_hops = 10 [default = -1];</code>
        */
-      @Override
-	public boolean hasMaxHops() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
+      public boolean hasMaxHops() {
+        return ((bitField0_ & 0x00000040) == 0x00000040);
       }
       /**
        * <pre>
@@ -919,8 +1061,7 @@ public final class Common {
        *
        * <code>optional int32 max_hops = 10 [default = -1];</code>
        */
-      @Override
-	public int getMaxHops() {
+      public int getMaxHops() {
         return maxHops_;
       }
       /**
@@ -932,7 +1073,7 @@ public final class Common {
        * <code>optional int32 max_hops = 10 [default = -1];</code>
        */
       public Builder setMaxHops(int value) {
-        bitField0_ |= 0x00000010;
+        bitField0_ |= 0x00000040;
         maxHops_ = value;
         onChanged();
         return this;
@@ -946,19 +1087,17 @@ public final class Common {
        * <code>optional int32 max_hops = 10 [default = -1];</code>
        */
       public Builder clearMaxHops() {
-        bitField0_ = (bitField0_ & ~0x00000010);
+        bitField0_ = (bitField0_ & ~0x00000040);
         maxHops_ = -1;
         onChanged();
         return this;
       }
-      @Override
-	public final Builder setUnknownFields(
+      public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
-      @Override
-	public final Builder mergeUnknownFields(
+      public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
       }
@@ -979,8 +1118,7 @@ public final class Common {
 
     @java.lang.Deprecated public static final com.google.protobuf.Parser<Header>
         PARSER = new com.google.protobuf.AbstractParser<Header>() {
-      @Override
-	public Header parsePartialFrom(
+      public Header parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
@@ -997,8 +1135,7 @@ public final class Common {
       return PARSER;
     }
 
-    @Override
-	public pipe.common.Common.Header getDefaultInstanceForType() {
+    public pipe.common.Common.Header getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -1118,8 +1255,7 @@ public final class Common {
       return pipe.common.Common.internal_static_Failure_descriptor;
     }
 
-    @Override
-	protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return pipe.common.Common.internal_static_Failure_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
@@ -1132,15 +1268,13 @@ public final class Common {
     /**
      * <code>required int32 id = 1;</code>
      */
-    @Override
-	public boolean hasId() {
+    public boolean hasId() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
      * <code>required int32 id = 1;</code>
      */
-    @Override
-	public int getId() {
+    public int getId() {
       return id_;
     }
 
@@ -1149,15 +1283,13 @@ public final class Common {
     /**
      * <code>optional int32 ref_id = 2;</code>
      */
-    @Override
-	public boolean hasRefId() {
+    public boolean hasRefId() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
      * <code>optional int32 ref_id = 2;</code>
      */
-    @Override
-	public int getRefId() {
+    public int getRefId() {
       return refId_;
     }
 
@@ -1166,15 +1298,13 @@ public final class Common {
     /**
      * <code>optional string message = 3;</code>
      */
-    @Override
-	public boolean hasMessage() {
+    public boolean hasMessage() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
      * <code>optional string message = 3;</code>
      */
-    @Override
-	public java.lang.String getMessage() {
+    public java.lang.String getMessage() {
       java.lang.Object ref = message_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
@@ -1191,8 +1321,7 @@ public final class Common {
     /**
      * <code>optional string message = 3;</code>
      */
-    @Override
-	public com.google.protobuf.ByteString
+    public com.google.protobuf.ByteString
         getMessageBytes() {
       java.lang.Object ref = message_;
       if (ref instanceof java.lang.String) {
@@ -1207,8 +1336,7 @@ public final class Common {
     }
 
     private byte memoizedIsInitialized = -1;
-    @Override
-	public final boolean isInitialized() {
+    public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
       if (isInitialized == 0) return false;
@@ -1221,8 +1349,7 @@ public final class Common {
       return true;
     }
 
-    @Override
-	public void writeTo(com.google.protobuf.CodedOutputStream output)
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeInt32(1, id_);
@@ -1236,8 +1363,7 @@ public final class Common {
       unknownFields.writeTo(output);
     }
 
-    @Override
-	public int getSerializedSize() {
+    public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
 
@@ -1372,16 +1498,14 @@ public final class Common {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    @Override
-	public Builder newBuilderForType() { return newBuilder(); }
+    public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
     public static Builder newBuilder(pipe.common.Common.Failure prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-    @Override
-	public Builder toBuilder() {
+    public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
     }
@@ -1404,8 +1528,7 @@ public final class Common {
         return pipe.common.Common.internal_static_Failure_descriptor;
       }
 
-      @Override
-	protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return pipe.common.Common.internal_static_Failure_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -1427,8 +1550,7 @@ public final class Common {
                 .alwaysUseFieldBuilders) {
         }
       }
-      @Override
-	public Builder clear() {
+      public Builder clear() {
         super.clear();
         id_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -1439,19 +1561,16 @@ public final class Common {
         return this;
       }
 
-      @Override
-	public com.google.protobuf.Descriptors.Descriptor
+      public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return pipe.common.Common.internal_static_Failure_descriptor;
       }
 
-      @Override
-	public pipe.common.Common.Failure getDefaultInstanceForType() {
+      public pipe.common.Common.Failure getDefaultInstanceForType() {
         return pipe.common.Common.Failure.getDefaultInstance();
       }
 
-      @Override
-	public pipe.common.Common.Failure build() {
+      public pipe.common.Common.Failure build() {
         pipe.common.Common.Failure result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
@@ -1459,8 +1578,7 @@ public final class Common {
         return result;
       }
 
-      @Override
-	public pipe.common.Common.Failure buildPartial() {
+      public pipe.common.Common.Failure buildPartial() {
         pipe.common.Common.Failure result = new pipe.common.Common.Failure(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
@@ -1481,40 +1599,33 @@ public final class Common {
         return result;
       }
 
-      @Override
-	public Builder clone() {
-        return super.clone();
+      public Builder clone() {
+        return (Builder) super.clone();
       }
-      @Override
-	public Builder setField(
+      public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           Object value) {
-        return super.setField(field, value);
+        return (Builder) super.setField(field, value);
       }
-      @Override
-	public Builder clearField(
+      public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
+        return (Builder) super.clearField(field);
       }
-      @Override
-	public Builder clearOneof(
+      public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
+        return (Builder) super.clearOneof(oneof);
       }
-      @Override
-	public Builder setRepeatedField(
+      public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, Object value) {
-        return super.setRepeatedField(field, index, value);
+        return (Builder) super.setRepeatedField(field, index, value);
       }
-      @Override
-	public Builder addRepeatedField(
+      public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           Object value) {
-        return super.addRepeatedField(field, value);
+        return (Builder) super.addRepeatedField(field, value);
       }
-      @Override
-	public Builder mergeFrom(com.google.protobuf.Message other) {
+      public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof pipe.common.Common.Failure) {
           return mergeFrom((pipe.common.Common.Failure)other);
         } else {
@@ -1541,16 +1652,14 @@ public final class Common {
         return this;
       }
 
-      @Override
-	public final boolean isInitialized() {
+      public final boolean isInitialized() {
         if (!hasId()) {
           return false;
         }
         return true;
       }
 
-      @Override
-	public Builder mergeFrom(
+      public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
@@ -1573,15 +1682,13 @@ public final class Common {
       /**
        * <code>required int32 id = 1;</code>
        */
-      @Override
-	public boolean hasId() {
+      public boolean hasId() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
        * <code>required int32 id = 1;</code>
        */
-      @Override
-	public int getId() {
+      public int getId() {
         return id_;
       }
       /**
@@ -1607,15 +1714,13 @@ public final class Common {
       /**
        * <code>optional int32 ref_id = 2;</code>
        */
-      @Override
-	public boolean hasRefId() {
+      public boolean hasRefId() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
        * <code>optional int32 ref_id = 2;</code>
        */
-      @Override
-	public int getRefId() {
+      public int getRefId() {
         return refId_;
       }
       /**
@@ -1641,15 +1746,13 @@ public final class Common {
       /**
        * <code>optional string message = 3;</code>
        */
-      @Override
-	public boolean hasMessage() {
+      public boolean hasMessage() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
        * <code>optional string message = 3;</code>
        */
-      @Override
-	public java.lang.String getMessage() {
+      public java.lang.String getMessage() {
         java.lang.Object ref = message_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
@@ -1666,8 +1769,7 @@ public final class Common {
       /**
        * <code>optional string message = 3;</code>
        */
-      @Override
-	public com.google.protobuf.ByteString
+      public com.google.protobuf.ByteString
           getMessageBytes() {
         java.lang.Object ref = message_;
         if (ref instanceof String) {
@@ -1715,14 +1817,12 @@ public final class Common {
         onChanged();
         return this;
       }
-      @Override
-	public final Builder setUnknownFields(
+      public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
-      @Override
-	public final Builder mergeUnknownFields(
+      public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
       }
@@ -1743,8 +1843,7 @@ public final class Common {
 
     @java.lang.Deprecated public static final com.google.protobuf.Parser<Failure>
         PARSER = new com.google.protobuf.AbstractParser<Failure>() {
-      @Override
-	public Failure parsePartialFrom(
+      public Failure parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
@@ -1761,8 +1860,7 @@ public final class Common {
       return PARSER;
     }
 
-    @Override
-	public pipe.common.Common.Failure getDefaultInstanceForType() {
+    public pipe.common.Common.Failure getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -1787,16 +1885,16 @@ public final class Common {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\014common.proto\"f\n\006Header\022\017\n\007node_id\030\001 \002(" +
-      "\005\022\014\n\004time\030\002 \002(\003\022\023\n\013destination\030\010 \001(\005\022\022\n\n" +
-      "reply_from\030\t \001(\005\022\024\n\010max_hops\030\n \001(\005:\002-1\"6" +
-      "\n\007Failure\022\n\n\002id\030\001 \002(\005\022\016\n\006ref_id\030\002 \001(\005\022\017\n" +
-      "\007message\030\003 \001(\tB\017\n\013pipe.commonH\001"
+      "\n\014common.proto\"\220\001\n\006Header\022\017\n\007node_id\030\001 \002" +
+      "(\005\022\014\n\004time\030\002 \002(\003\022\023\n\013destination\030\010 \001(\005\022\022\n" +
+      "\nreply_from\030\t \001(\005\022\027\n\010is_reply\030\007 \001(\010:\005fal" +
+      "se\022\017\n\007msgType\030\003 \002(\005\022\024\n\010max_hops\030\n \001(\005:\002-" +
+      "1\"6\n\007Failure\022\n\n\002id\030\001 \002(\005\022\016\n\006ref_id\030\002 \001(\005" +
+      "\022\017\n\007message\030\003 \001(\tB\017\n\013pipe.commonH\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          @Override
-		public com.google.protobuf.ExtensionRegistry assignDescriptors(
+          public com.google.protobuf.ExtensionRegistry assignDescriptors(
               com.google.protobuf.Descriptors.FileDescriptor root) {
             descriptor = root;
             return null;
@@ -1811,7 +1909,7 @@ public final class Common {
     internal_static_Header_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Header_descriptor,
-        new java.lang.String[] { "NodeId", "Time", "Destination", "ReplyFrom", "MaxHops", });
+        new java.lang.String[] { "NodeId", "Time", "Destination", "ReplyFrom", "IsReply", "MsgType", "MaxHops", });
     internal_static_Failure_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_Failure_fieldAccessorTable = new
