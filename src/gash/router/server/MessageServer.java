@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
@@ -28,6 +29,7 @@ import org.slf4j.LoggerFactory;
 import com.google.protobuf.Message;
 
 import gash.router.container.RoutingConf;
+import gash.router.container.RoutingConf.RoutingEntry;
 import gash.router.server.edges.EdgeMonitor;
 import gash.router.server.messages.InBoundMessageQueue;
 import gash.router.server.messages.OutBoundMessageQueue;
@@ -39,6 +41,11 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import pipe.common.Common.Header;
+import pipe.work.Work.Discovery;
+import pipe.work.Work.Node;
+import pipe.work.Work.WorkMessage;
+import pipe.work.Work.WorkMessage.MessageType;
 
 public class MessageServer {
 	protected static Logger logger = LoggerFactory.getLogger("server");
@@ -216,6 +223,32 @@ public class MessageServer {
 			Thread t2 = new Thread(outbound);
 			t1.start();
 			t2.start();
+			//discoverCluster();
+			
+		}	
+		public void discoverCluster(){
+			//todo should read all entries
+			
+			System.out.println("Processing till hear");
+			List<RoutingEntry> re = state.getConf().getRouting();
+			WorkMessage.Builder wmb = WorkMessage.newBuilder();
+			Header.Builder hdb = Header.newBuilder();
+			hdb.setNodeId(state.getConf().getNodeId());
+			hdb.setDestination(re.get(0).getId());
+			hdb.setTime(System.currentTimeMillis());
+			wmb.setHeader(hdb.build());
+			wmb.setSecret(1111);
+			
+			Discovery.Builder db = Discovery.newBuilder(); 
+			Node.Builder discover = Node.newBuilder(); 
+			discover.setNodeId(state.getConf().getNodeId());
+			discover.setIpAddr("127.0.0.1");
+			discover.setWorkPort(state.getConf().getWorkPort());
+			db.setNode(discover.build());
+			wmb.setType(MessageType.DISCOVERNODE);
+			wmb.setDiscovery(db.build());
+			state.getOutBoundMessageQueue().addMessage(wmb.build());
+			System.out.println("Still working");
 			
 		}
 

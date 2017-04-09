@@ -48,13 +48,7 @@ public class InBoundMessageQueue extends MessageQueue implements Runnable{
 				//if it is a Ping (Common function to identify )
                 //TODO : Override process message for PingMEssage , HeartBeatMessage etc
                 logger.info("Class name is " + message.getClass().getName());
-                WorkMessage outMessage = message.processMessage(getState().getConf().getNodeId());
-                if(outMessage != null){
-                   getState().getOutBoundMessageQueue().addMessage(outMessage);
-                }else{
-                	//logger.info("Class name is " + outMessage.getClass().getName());
-                	logger.error("Why do we get null message some thing went wrong in message processing");
-                }
+                message.processMessage(getState());
 			
 			}else{
 				try{

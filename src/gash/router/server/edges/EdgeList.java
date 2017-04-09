@@ -28,6 +28,7 @@ public class EdgeList {
 
 	public EdgeInfo createIfNew(int ref, String host, int port) {
 		if (hasNode(ref))
+			
 			return getNode(ref);
 		else
 			return addNode(ref, host, port);
@@ -72,7 +73,7 @@ public class EdgeList {
 	}
 	
 	public ArrayList<Node> getRoutingTable() {
-		ArrayList<Node> nodes = null;
+		ArrayList<Node> nodes = new ArrayList<Node>();
 		for (EdgeInfo ei  : map.values()){
 			Node.Builder node = Node.newBuilder();
 			node.setNodeId(ei.getRef());

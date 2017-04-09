@@ -39,7 +39,7 @@ public class MessageApp {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			System.out.println("server closing");
+			//System.out.println("server closing");
 		}
 	}
 }

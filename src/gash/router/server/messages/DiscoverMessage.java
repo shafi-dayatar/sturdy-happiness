@@ -14,21 +14,26 @@ import pipe.work.Work;
 import pipe.work.Work.Discovery;
 import pipe.work.Work.Node;
 import pipe.work.Work.WorkMessage;
+import pipe.work.Work.WorkMessage.MessageType;
 
 /**
  * Created by rentala on 4/8/17.
  */
 public class DiscoverMessage extends Message {
 	protected static Logger logger = LoggerFactory.getLogger("Discovery Message");
+	MessageType type = null;
 	Discovery discovery = null;
 	
 	
-	public void unPackMessage(WorkMessage msg){
+	public DiscoverMessage(WorkMessage msg) {
+		// TODO Auto-generated constructor stub
 		unPackHeader( msg.getHeader());
+		type = msg.getType();
 		if(msg.hasDiscovery()){
 			discovery = msg.getDiscovery();
 		}
 	}
+	
 	public WorkMessage createMessage(){
 		return null;
 	}
@@ -45,18 +50,17 @@ public class DiscoverMessage extends Message {
         		// if leader is known pass leader details or else routing table from a node
         		//create new header by interchanging destination with sender id and set ack bit
         		Node newNode = discovery.getNode();
-        		EdgeInfo newEdge = new EdgeInfo(newNode.getNodeId(), newNode.getIpAddr(),
+        		state.getEmon().addNewEdgeInfo(newNode.getNodeId(), newNode.getIpAddr(),
         				newNode.getWorkPort());
-        		state.getEmon().onAdd(newEdge);
+
         		
         		int senderId = getDestinationId();
         		setDestinationId(getNodeId());
         		setNodeId(senderId);
         		Discovery.Builder dsb = Discovery.newBuilder(); 
         		List<Node> nodes = state.getEmon().getOutBoundRouteTable();
-        		int i = 1;
         		for (Node n : nodes){
-        			dsb.setRoutingTable(i++, n);
+        			dsb.addRoutingTable(n);
         		}
         		WorkMessage.Builder wmb = WorkMessage.newBuilder();
         		Header hd = createHeader();
@@ -64,6 +68,7 @@ public class DiscoverMessage extends Message {
         		wmb.setAck(true);
         		wmb.setSecret(123456);
         		wmb.setDiscovery(dsb);
+        		wmb.setType(MessageType.DISCOVERNODEREPLY);
         		WorkMessage wm = wmb.build();
         		state.getOutBoundMessageQueue().addMessage(wm);
         		

@@ -96,7 +96,7 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 						onAdd(ei);
 					}
 					if (ei.isActive() && ei.getChannel() != null) {	
-						WorkMessage wm = createHB(ei);
+						//WorkMessage wm = createHB(ei); this will come from leader
 						//ChannelFuture cf = ei.getChannel().writeAndFlush(wm);
 					} else {
 						// TODO create a client to the node
@@ -120,7 +120,7 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 			ei.setActive(true);
 		}
 		catch(Exception e){
-			logger.error("Cannot connect to host!! Server is down!!");
+			logger.error("Cannot connect to host!! Server is down!! nodeid = " + ei.getRef() );
 		}
 	}
 
@@ -130,11 +130,12 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 	}
 	public Channel getOutBoundChannel(int nodeId){
 		//Single Directional 
-		
+		logger.info("Getting Channle for destination : " +  nodeId);
 		EdgeInfo ei = null;
 		
 		try{
 			ei = outboundEdges.map.get(nodeId);
+			logger.info("Found Channle for " +  nodeId);
 			return ei.getChannel();
 		}catch(Exception e){
 			logger.info("no problem till here");
@@ -148,5 +149,14 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 	public ArrayList<Node> getOutBoundRouteTable(){
 		return outboundEdges.getRoutingTable();
 		
+	}
+	
+	public void addNewEdgeInfo(int ref, String host, int port){
+		logger.info("Got a new connection from  nodeid : " + ref + " ip :" + host +  " port : " + port  );
+		EdgeInfo ei = outboundEdges.createIfNew(ref, host, port);
+		if (!ei.isActive()) {
+			logger.info("Trying to make reverse connection");
+		    onAdd(ei);
+		}
 	}
 }

@@ -1,0 +1,38 @@
+[main] ERROR connect - failed to initialize the client connection
+[main] ERROR connect - failed to initialize the client connection
+[main] ERROR edge monitor - Cannot connect to host!! Server is down!! nodeid = 5
+[Thread-0] ERROR connect - failed to initialize the client connection
+[Thread-0] ERROR connect - failed to initialize the client connection
+[Thread-0] ERROR edge monitor - Cannot connect to host!! Server is down!! nodeid = 5
+[Thread-0] INFO edge monitor - trying to connect to node 5
+[main] INFO server - Work starting
+[Thread-3] INFO server - Starting work server (2), listening on port = 4267
+[Thread-3] INFO server - /0:0:0:0:0:0:0:0:4267 -> open: true, write: true, act: true
+[Thread-2] INFO MessageQueue - Message in queues are : true
+[Thread-2] INFO edge monitor - Getting Channle for destination : 5
+[Thread-2] INFO edge monitor - Found Channle for 5
+[Thread-2] INFO MessageQueue - Channle is  false
+[Thread-2] ERROR MessageQueue - no channel found for destination id 5
+[Thread-0] ERROR connect - failed to initialize the client connection
+[Thread-0] ERROR connect - failed to initialize the client connection
+[Thread-0] ERROR edge monitor - Cannot connect to host!! Server is down!! nodeid = 5
+[Thread-0] INFO edge monitor - trying to connect to node 5
+[Thread-1] INFO InBound Queue - I am here !
+[Thread-1] INFO handler monitor -  Msg recived ibn msg handler, type DISCOVERNODE
+[Thread-1] INFO InBound Queue - Class name is gash.router.server.messages.DiscoverMessage
+[Thread-1] INFO Discovery Message - Got a discover message from 1
+[Thread-1] INFO Discovery Message - Message came to : 2 from : 1
+[Thread-1] INFO edge monitor - Got a new connection from  nodeid : 2 ip :127.0.0.1 port : 4267
+[Thread-2] INFO MessageQueue - Message in queues are : true
+[Thread-2] INFO edge monitor - Getting Channle for destination : 1
+[Thread-2] INFO edge monitor - Found Channle for 1
+[Thread-2] INFO edge monitor - no problem till here
+[Thread-2] INFO MessageQueue - Channle is  false
+[Thread-2] ERROR MessageQueue - no channel found for destination id 1
+[Thread-0] ERROR connect - failed to initialize the client connection
+[Thread-0] ERROR edge monitor - Cannot connect to host!! Server is down!! nodeid = 2
+[Thread-0] INFO edge monitor - trying to connect to node 2
+[Thread-0] ERROR connect - failed to initialize the client connection
+[Thread-0] ERROR connect - failed to initialize the client connection
+[Thread-0] ERROR edge monitor - Cannot connect to host!! Server is down!! nodeid = 5
+[Thread-0] INFO edge monitor - trying to connect to node 5

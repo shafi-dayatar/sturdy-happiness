@@ -17,6 +17,7 @@ public class OutBoundMessageQueue extends MessageQueue implements Runnable {
 		while(isForever()){
 			try{
 				if(hasMessage()){
+					logger.info("Message in queues are : " + hasMessage() );
 					processMessage();
 				}else{
 					Thread.sleep(100);
@@ -32,12 +33,17 @@ public class OutBoundMessageQueue extends MessageQueue implements Runnable {
 	public void processMessage() {
 		// TODO Auto-generated method stub
 		WorkMessage m = takeMessage();
+		
 		int destinationId = m.getHeader().getDestination();
 		Channel ch = getState().getEmon().getOutBoundChannel(destinationId);
+		logger.info("Channle is  " + (ch != null));
 		if(ch != null){
 			ch.writeAndFlush(m);
+		    
 		}else{
 			logger.error("no channel found for destination id " +  destinationId);
+			PrintUtil.printWork(m);
+			this.addMessage(m);
 		}
 
 	}
