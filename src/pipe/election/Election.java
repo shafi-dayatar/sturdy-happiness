@@ -159,8 +159,7 @@ public final class Election {
       return pipe.election.Election.internal_static_LeaderStatus_descriptor;
     }
 
-    @Override
-	protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return pipe.election.Election.internal_static_LeaderStatus_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
@@ -200,8 +199,7 @@ public final class Election {
       public static final int LEADERDEAD_VALUE = 3;
 
 
-      @Override
-	public final int getNumber() {
+      public final int getNumber() {
         return value;
       }
 
@@ -229,19 +227,16 @@ public final class Election {
       private static final com.google.protobuf.Internal.EnumLiteMap<
           LeaderState> internalValueMap =
             new com.google.protobuf.Internal.EnumLiteMap<LeaderState>() {
-              @Override
-			public LeaderState findValueByNumber(int number) {
+              public LeaderState findValueByNumber(int number) {
                 return LeaderState.forNumber(number);
               }
             };
 
-      @Override
-	public final com.google.protobuf.Descriptors.EnumValueDescriptor
+      public final com.google.protobuf.Descriptors.EnumValueDescriptor
           getValueDescriptor() {
         return getDescriptor().getValues().get(ordinal());
       }
-      @Override
-	public final com.google.protobuf.Descriptors.EnumDescriptor
+      public final com.google.protobuf.Descriptors.EnumDescriptor
           getDescriptorForType() {
         return getDescriptor();
       }
@@ -295,8 +290,7 @@ public final class Election {
       public static final int THELEADERIS_VALUE = 2;
 
 
-      @Override
-	public final int getNumber() {
+      public final int getNumber() {
         return value;
       }
 
@@ -323,19 +317,16 @@ public final class Election {
       private static final com.google.protobuf.Internal.EnumLiteMap<
           LeaderQuery> internalValueMap =
             new com.google.protobuf.Internal.EnumLiteMap<LeaderQuery>() {
-              @Override
-			public LeaderQuery findValueByNumber(int number) {
+              public LeaderQuery findValueByNumber(int number) {
                 return LeaderQuery.forNumber(number);
               }
             };
 
-      @Override
-	public final com.google.protobuf.Descriptors.EnumValueDescriptor
+      public final com.google.protobuf.Descriptors.EnumValueDescriptor
           getValueDescriptor() {
         return getDescriptor().getValues().get(ordinal());
       }
-      @Override
-	public final com.google.protobuf.Descriptors.EnumDescriptor
+      public final com.google.protobuf.Descriptors.EnumDescriptor
           getDescriptorForType() {
         return getDescriptor();
       }
@@ -370,15 +361,13 @@ public final class Election {
     /**
      * <code>required .LeaderStatus.LeaderQuery action = 1;</code>
      */
-    @Override
-	public boolean hasAction() {
+    public boolean hasAction() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
      * <code>required .LeaderStatus.LeaderQuery action = 1;</code>
      */
-    @Override
-	public pipe.election.Election.LeaderStatus.LeaderQuery getAction() {
+    public pipe.election.Election.LeaderStatus.LeaderQuery getAction() {
       pipe.election.Election.LeaderStatus.LeaderQuery result = pipe.election.Election.LeaderStatus.LeaderQuery.valueOf(action_);
       return result == null ? pipe.election.Election.LeaderStatus.LeaderQuery.WHOISTHELEADER : result;
     }
@@ -388,15 +377,13 @@ public final class Election {
     /**
      * <code>optional .LeaderStatus.LeaderState state = 2;</code>
      */
-    @Override
-	public boolean hasState() {
+    public boolean hasState() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
      * <code>optional .LeaderStatus.LeaderState state = 2;</code>
      */
-    @Override
-	public pipe.election.Election.LeaderStatus.LeaderState getState() {
+    public pipe.election.Election.LeaderStatus.LeaderState getState() {
       pipe.election.Election.LeaderStatus.LeaderState result = pipe.election.Election.LeaderStatus.LeaderState.valueOf(state_);
       return result == null ? pipe.election.Election.LeaderStatus.LeaderState.LEADERUNKNOWN : result;
     }
@@ -406,15 +393,13 @@ public final class Election {
     /**
      * <code>optional string leader_host = 3;</code>
      */
-    @Override
-	public boolean hasLeaderHost() {
+    public boolean hasLeaderHost() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
      * <code>optional string leader_host = 3;</code>
      */
-    @Override
-	public java.lang.String getLeaderHost() {
+    public java.lang.String getLeaderHost() {
       java.lang.Object ref = leaderHost_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
@@ -431,8 +416,7 @@ public final class Election {
     /**
      * <code>optional string leader_host = 3;</code>
      */
-    @Override
-	public com.google.protobuf.ByteString
+    public com.google.protobuf.ByteString
         getLeaderHostBytes() {
       java.lang.Object ref = leaderHost_;
       if (ref instanceof java.lang.String) {
@@ -451,21 +435,18 @@ public final class Election {
     /**
      * <code>optional int32 leader_id = 4;</code>
      */
-    @Override
-	public boolean hasLeaderId() {
+    public boolean hasLeaderId() {
       return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
      * <code>optional int32 leader_id = 4;</code>
      */
-    @Override
-	public int getLeaderId() {
+    public int getLeaderId() {
       return leaderId_;
     }
 
     private byte memoizedIsInitialized = -1;
-    @Override
-	public final boolean isInitialized() {
+    public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
       if (isInitialized == 0) return false;
@@ -478,8 +459,7 @@ public final class Election {
       return true;
     }
 
-    @Override
-	public void writeTo(com.google.protobuf.CodedOutputStream output)
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeEnum(1, action_);
@@ -496,8 +476,7 @@ public final class Election {
       unknownFields.writeTo(output);
     }
 
-    @Override
-	public int getSerializedSize() {
+    public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
 
@@ -643,16 +622,14 @@ public final class Election {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    @Override
-	public Builder newBuilderForType() { return newBuilder(); }
+    public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
     public static Builder newBuilder(pipe.election.Election.LeaderStatus prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-    @Override
-	public Builder toBuilder() {
+    public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
     }
@@ -679,8 +656,7 @@ public final class Election {
         return pipe.election.Election.internal_static_LeaderStatus_descriptor;
       }
 
-      @Override
-	protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return pipe.election.Election.internal_static_LeaderStatus_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -702,8 +678,7 @@ public final class Election {
                 .alwaysUseFieldBuilders) {
         }
       }
-      @Override
-	public Builder clear() {
+      public Builder clear() {
         super.clear();
         action_ = 1;
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -716,19 +691,16 @@ public final class Election {
         return this;
       }
 
-      @Override
-	public com.google.protobuf.Descriptors.Descriptor
+      public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return pipe.election.Election.internal_static_LeaderStatus_descriptor;
       }
 
-      @Override
-	public pipe.election.Election.LeaderStatus getDefaultInstanceForType() {
+      public pipe.election.Election.LeaderStatus getDefaultInstanceForType() {
         return pipe.election.Election.LeaderStatus.getDefaultInstance();
       }
 
-      @Override
-	public pipe.election.Election.LeaderStatus build() {
+      public pipe.election.Election.LeaderStatus build() {
         pipe.election.Election.LeaderStatus result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
@@ -736,8 +708,7 @@ public final class Election {
         return result;
       }
 
-      @Override
-	public pipe.election.Election.LeaderStatus buildPartial() {
+      public pipe.election.Election.LeaderStatus buildPartial() {
         pipe.election.Election.LeaderStatus result = new pipe.election.Election.LeaderStatus(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
@@ -762,40 +733,33 @@ public final class Election {
         return result;
       }
 
-      @Override
-	public Builder clone() {
-        return super.clone();
+      public Builder clone() {
+        return (Builder) super.clone();
       }
-      @Override
-	public Builder setField(
+      public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           Object value) {
-        return super.setField(field, value);
+        return (Builder) super.setField(field, value);
       }
-      @Override
-	public Builder clearField(
+      public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
+        return (Builder) super.clearField(field);
       }
-      @Override
-	public Builder clearOneof(
+      public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
+        return (Builder) super.clearOneof(oneof);
       }
-      @Override
-	public Builder setRepeatedField(
+      public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, Object value) {
-        return super.setRepeatedField(field, index, value);
+        return (Builder) super.setRepeatedField(field, index, value);
       }
-      @Override
-	public Builder addRepeatedField(
+      public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           Object value) {
-        return super.addRepeatedField(field, value);
+        return (Builder) super.addRepeatedField(field, value);
       }
-      @Override
-	public Builder mergeFrom(com.google.protobuf.Message other) {
+      public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof pipe.election.Election.LeaderStatus) {
           return mergeFrom((pipe.election.Election.LeaderStatus)other);
         } else {
@@ -825,16 +789,14 @@ public final class Election {
         return this;
       }
 
-      @Override
-	public final boolean isInitialized() {
+      public final boolean isInitialized() {
         if (!hasAction()) {
           return false;
         }
         return true;
       }
 
-      @Override
-	public Builder mergeFrom(
+      public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
@@ -857,15 +819,13 @@ public final class Election {
       /**
        * <code>required .LeaderStatus.LeaderQuery action = 1;</code>
        */
-      @Override
-	public boolean hasAction() {
+      public boolean hasAction() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
        * <code>required .LeaderStatus.LeaderQuery action = 1;</code>
        */
-      @Override
-	public pipe.election.Election.LeaderStatus.LeaderQuery getAction() {
+      public pipe.election.Election.LeaderStatus.LeaderQuery getAction() {
         pipe.election.Election.LeaderStatus.LeaderQuery result = pipe.election.Election.LeaderStatus.LeaderQuery.valueOf(action_);
         return result == null ? pipe.election.Election.LeaderStatus.LeaderQuery.WHOISTHELEADER : result;
       }
@@ -895,15 +855,13 @@ public final class Election {
       /**
        * <code>optional .LeaderStatus.LeaderState state = 2;</code>
        */
-      @Override
-	public boolean hasState() {
+      public boolean hasState() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
        * <code>optional .LeaderStatus.LeaderState state = 2;</code>
        */
-      @Override
-	public pipe.election.Election.LeaderStatus.LeaderState getState() {
+      public pipe.election.Election.LeaderStatus.LeaderState getState() {
         pipe.election.Election.LeaderStatus.LeaderState result = pipe.election.Election.LeaderStatus.LeaderState.valueOf(state_);
         return result == null ? pipe.election.Election.LeaderStatus.LeaderState.LEADERUNKNOWN : result;
       }
@@ -933,15 +891,13 @@ public final class Election {
       /**
        * <code>optional string leader_host = 3;</code>
        */
-      @Override
-	public boolean hasLeaderHost() {
+      public boolean hasLeaderHost() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
        * <code>optional string leader_host = 3;</code>
        */
-      @Override
-	public java.lang.String getLeaderHost() {
+      public java.lang.String getLeaderHost() {
         java.lang.Object ref = leaderHost_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
@@ -958,8 +914,7 @@ public final class Election {
       /**
        * <code>optional string leader_host = 3;</code>
        */
-      @Override
-	public com.google.protobuf.ByteString
+      public com.google.protobuf.ByteString
           getLeaderHostBytes() {
         java.lang.Object ref = leaderHost_;
         if (ref instanceof String) {
@@ -1012,15 +967,13 @@ public final class Election {
       /**
        * <code>optional int32 leader_id = 4;</code>
        */
-      @Override
-	public boolean hasLeaderId() {
+      public boolean hasLeaderId() {
         return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
        * <code>optional int32 leader_id = 4;</code>
        */
-      @Override
-	public int getLeaderId() {
+      public int getLeaderId() {
         return leaderId_;
       }
       /**
@@ -1041,14 +994,12 @@ public final class Election {
         onChanged();
         return this;
       }
-      @Override
-	public final Builder setUnknownFields(
+      public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
-      @Override
-	public final Builder mergeUnknownFields(
+      public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
       }
@@ -1069,8 +1020,7 @@ public final class Election {
 
     @java.lang.Deprecated public static final com.google.protobuf.Parser<LeaderStatus>
         PARSER = new com.google.protobuf.AbstractParser<LeaderStatus>() {
-      @Override
-	public LeaderStatus parsePartialFrom(
+      public LeaderStatus parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
@@ -1087,8 +1037,7 @@ public final class Election {
       return PARSER;
     }
 
-    @Override
-	public pipe.election.Election.LeaderStatus getDefaultInstanceForType() {
+    public pipe.election.Election.LeaderStatus getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -1119,8 +1068,7 @@ public final class Election {
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          @Override
-		public com.google.protobuf.ExtensionRegistry assignDescriptors(
+          public com.google.protobuf.ExtensionRegistry assignDescriptors(
               com.google.protobuf.Descriptors.FileDescriptor root) {
             descriptor = root;
             return null;

@@ -22,10 +22,17 @@ message Task {
     required int32 seq_id = 2;
 }
 
+message Node {
+  required int32 node_id = 1;
+  required string ip_addr = 2;
+  required string work_port = 3;
+}
+
 // These are messages to keep the network running (not to perform work)
 message WorkMessage {
    required Header header = 1;
    required int64 secret = 2;
+   require string messageType = 3;
 
    /**
     * The actions (request or response) is
@@ -33,16 +40,20 @@ message WorkMessage {
     */ 
 
    oneof payload {
-      Failure err = 3;
+      Failure err = 4;
       
       // a sanity check for testing
-      bool ping = 4;
+      bool ping = 5;
 
       // status updates between adjacent workers
-      Heartbeat beat = 5;
+      Heartbeat beat = 6;
 
-      Task task = 6;
-      WorkState state = 7;
-      LeaderStatus leader = 8;
+      Task task = 7;
+      WorkState state = 8;
+      LeaderStatus leader = 9;
+      Node node = 10;
+      repeated Node nodes = 11;
+      Node leader = 12;
+
    }
 }
