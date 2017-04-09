@@ -35,6 +35,7 @@ public class InBoundMessageQueue extends MessageQueue implements Runnable{
 		// TODO Auto-generated method stub
 		while(isForever()){
 			if(hasMessage()){
+				logger.info("I am here !");
 				//fix type
 				WorkMessage m = takeMessage();
 

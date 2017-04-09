@@ -43,36 +43,13 @@ public class PingMessage extends Message{
 		}
 		return null;
 	}
+
 	public WorkMessage processMessage(int nodeId){
 		System.out.println("nodeId" + nodeId + "getDestinationId" + getDestinationId());
 		if(nodeId == getDestinationId()){
 			return pingReply();
 		}
-		return forward();
-	}
-	
-	public WorkMessage forward(){
-		if(getMaxHops() > 0){
-			setMaxHops(getMaxHops() - 1);
-			Header hd = createHeader();
-			WorkMessage.Builder wb = WorkMessage.newBuilder();
-			wb.setHeader(hd);
-			wb.setSecret(new Integer(123123123));
-			wb.setPing(true);
-			return wb.build();
-		}
-		return null;
-	}
-	public WorkMessage processMessage(int nodeId){
-		if(nodeId == getDestinationId()){
-			if(isReply() == false){
-			    return pingReply();
-			}else{
-				System.out.println("Got a reply from the node with id " + getReplyFrom());
-				return null;
-			}
-		}
-		return forward();
+		return this.forward();
 	}
 	
 	
