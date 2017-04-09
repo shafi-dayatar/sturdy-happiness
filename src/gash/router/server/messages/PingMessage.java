@@ -1,5 +1,6 @@
 package gash.router.server.messages;
 
+import gash.router.server.ServerState;
 import io.netty.channel.Channel;
 import pipe.common.Common.Header;
 import pipe.work.Work.WorkMessage;
@@ -27,6 +28,25 @@ public class PingMessage extends Message{
 		wm.setPing(true);
 		wm.setSecret(getSecret());
 		return wm.build();
+	}
+	public WorkMessage forward(){
+		if(getMaxHops() > 0){
+			System.out.println("Is it forwarding or not???");
+			setMaxHops(getMaxHops() - 1);
+			Header hd = createHeader();
+			WorkMessage.Builder wb = WorkMessage.newBuilder();
+			wb.setHeader(hd);
+			wb.setSecret(new Integer(123123123));
+			wb.setPing(true);
+			return wb.build();
+		}
+		return null;
+	}
+	public WorkMessage processMessage(int nodeId){
+		if(nodeId == getDestinationId()){
+			return pingReply();
+		}
+		return forward();
 	}
 	
 	public WorkMessage forward(){
