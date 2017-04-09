@@ -28,16 +28,26 @@ message Node {
   required string work_port = 3;
 }
 
+message Discovery{
+  repeated Node nodes = 1;
+  optional Node node = 2;
+  optional Node leader = 3;
+}
+
 // These are messages to keep the network running (not to perform work)
 message WorkMessage {
    required Header header = 1;
    required int64 secret = 2;
-   require MessageType type = 3;
+   required MessageType type = 3;
 
    /**
     * The actions (request or response) is
     * implicit through which data structure is in the payload.
     */ 
+    enum MessageType{
+        DISCOVERNODE = 1;
+        DISCOVERNODEREPLY = 2;
+    }
 
    oneof payload {
       Failure err = 4;
@@ -53,13 +63,8 @@ message WorkMessage {
       LeaderStatus leader = 9;
 
       //this payload is used while discovering the messages
-      repeated Node nodes = 11;
-      Node node = 10;
-      Node leader = 12;
+      Discovery discovery = 10;
 
    }
-   enum MessageType {
-      DISCOVERNODE = 1;
-      DISCOVERNODEREPLY = 2;
-   }
+   
 }
