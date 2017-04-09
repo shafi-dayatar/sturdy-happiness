@@ -32,7 +32,7 @@ message Node {
 message WorkMessage {
    required Header header = 1;
    required int64 secret = 2;
-   require string messageType = 3;
+   require MessageType type = 3;
 
    /**
     * The actions (request or response) is
@@ -51,9 +51,15 @@ message WorkMessage {
       Task task = 7;
       WorkState state = 8;
       LeaderStatus leader = 9;
-      Node node = 10;
+
+      //this payload is used while discovering the messages
       repeated Node nodes = 11;
+      Node node = 10;
       Node leader = 12;
 
+   }
+   enum MessageType {
+      DISCOVERNODE = 1;
+      DISCOVERNODEREPLY = 2;
    }
 }
