@@ -55,41 +55,6 @@ public final class Common {
 
     /**
      * <pre>
-     *if the message is a reply, and this will be set
-     * </pre>
-     *
-     * <code>optional int32 reply_from = 9;</code>
-     */
-    boolean hasReplyFrom();
-    /**
-     * <pre>
-     *if the message is a reply, and this will be set
-     * </pre>
-     *
-     * <code>optional int32 reply_from = 9;</code>
-     */
-    int getReplyFrom();
-
-    /**
-     * <code>optional bool is_reply = 7 [default = false];</code>
-     */
-    boolean hasIsReply();
-    /**
-     * <code>optional bool is_reply = 7 [default = false];</code>
-     */
-    boolean getIsReply();
-
-    /**
-     * <code>required int32 msgType = 3;</code>
-     */
-    boolean hasMsgType();
-    /**
-     * <code>required int32 msgType = 3;</code>
-     */
-    int getMsgType();
-
-    /**
-     * <pre>
      * This factor limits the distance that a msg travels from the originating 
      * node. Default (-1) is the whole network (not restricted).
      * </pre>
@@ -128,9 +93,6 @@ public final class Common {
       nodeId_ = 0;
       time_ = 0L;
       destination_ = 0;
-      replyFrom_ = 0;
-      isReply_ = false;
-      msgType_ = 0;
       maxHops_ = -1;
     }
 
@@ -172,28 +134,13 @@ public final class Common {
               time_ = input.readInt64();
               break;
             }
-            case 24: {
-              bitField0_ |= 0x00000020;
-              msgType_ = input.readInt32();
-              break;
-            }
-            case 56: {
-              bitField0_ |= 0x00000010;
-              isReply_ = input.readBool();
-              break;
-            }
             case 64: {
               bitField0_ |= 0x00000004;
               destination_ = input.readInt32();
               break;
             }
-            case 72: {
-              bitField0_ |= 0x00000008;
-              replyFrom_ = input.readInt32();
-              break;
-            }
             case 80: {
-              bitField0_ |= 0x00000040;
+              bitField0_ |= 0x00000008;
               maxHops_ = input.readInt32();
               break;
             }
@@ -275,59 +222,6 @@ public final class Common {
       return destination_;
     }
 
-    public static final int REPLY_FROM_FIELD_NUMBER = 9;
-    private int replyFrom_;
-    /**
-     * <pre>
-     *if the message is a reply, and this will be set
-     * </pre>
-     *
-     * <code>optional int32 reply_from = 9;</code>
-     */
-    public boolean hasReplyFrom() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
-    }
-    /**
-     * <pre>
-     *if the message is a reply, and this will be set
-     * </pre>
-     *
-     * <code>optional int32 reply_from = 9;</code>
-     */
-    public int getReplyFrom() {
-      return replyFrom_;
-    }
-
-    public static final int IS_REPLY_FIELD_NUMBER = 7;
-    private boolean isReply_;
-    /**
-     * <code>optional bool is_reply = 7 [default = false];</code>
-     */
-    public boolean hasIsReply() {
-      return ((bitField0_ & 0x00000010) == 0x00000010);
-    }
-    /**
-     * <code>optional bool is_reply = 7 [default = false];</code>
-     */
-    public boolean getIsReply() {
-      return isReply_;
-    }
-
-    public static final int MSGTYPE_FIELD_NUMBER = 3;
-    private int msgType_;
-    /**
-     * <code>required int32 msgType = 3;</code>
-     */
-    public boolean hasMsgType() {
-      return ((bitField0_ & 0x00000020) == 0x00000020);
-    }
-    /**
-     * <code>required int32 msgType = 3;</code>
-     */
-    public int getMsgType() {
-      return msgType_;
-    }
-
     public static final int MAX_HOPS_FIELD_NUMBER = 10;
     private int maxHops_;
     /**
@@ -339,7 +233,7 @@ public final class Common {
      * <code>optional int32 max_hops = 10 [default = -1];</code>
      */
     public boolean hasMaxHops() {
-      return ((bitField0_ & 0x00000040) == 0x00000040);
+      return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
      * <pre>
@@ -367,10 +261,6 @@ public final class Common {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasMsgType()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -383,19 +273,10 @@ public final class Common {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeInt64(2, time_);
       }
-      if (((bitField0_ & 0x00000020) == 0x00000020)) {
-        output.writeInt32(3, msgType_);
-      }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        output.writeBool(7, isReply_);
-      }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeInt32(8, destination_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeInt32(9, replyFrom_);
-      }
-      if (((bitField0_ & 0x00000040) == 0x00000040)) {
         output.writeInt32(10, maxHops_);
       }
       unknownFields.writeTo(output);
@@ -414,23 +295,11 @@ public final class Common {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(2, time_);
       }
-      if (((bitField0_ & 0x00000020) == 0x00000020)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(3, msgType_);
-      }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(7, isReply_);
-      }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(8, destination_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(9, replyFrom_);
-      }
-      if (((bitField0_ & 0x00000040) == 0x00000040)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(10, maxHops_);
       }
@@ -466,21 +335,6 @@ public final class Common {
         result = result && (getDestination()
             == other.getDestination());
       }
-      result = result && (hasReplyFrom() == other.hasReplyFrom());
-      if (hasReplyFrom()) {
-        result = result && (getReplyFrom()
-            == other.getReplyFrom());
-      }
-      result = result && (hasIsReply() == other.hasIsReply());
-      if (hasIsReply()) {
-        result = result && (getIsReply()
-            == other.getIsReply());
-      }
-      result = result && (hasMsgType() == other.hasMsgType());
-      if (hasMsgType()) {
-        result = result && (getMsgType()
-            == other.getMsgType());
-      }
       result = result && (hasMaxHops() == other.hasMaxHops());
       if (hasMaxHops()) {
         result = result && (getMaxHops()
@@ -509,19 +363,6 @@ public final class Common {
       if (hasDestination()) {
         hash = (37 * hash) + DESTINATION_FIELD_NUMBER;
         hash = (53 * hash) + getDestination();
-      }
-      if (hasReplyFrom()) {
-        hash = (37 * hash) + REPLY_FROM_FIELD_NUMBER;
-        hash = (53 * hash) + getReplyFrom();
-      }
-      if (hasIsReply()) {
-        hash = (37 * hash) + IS_REPLY_FIELD_NUMBER;
-        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
-            getIsReply());
-      }
-      if (hasMsgType()) {
-        hash = (37 * hash) + MSGTYPE_FIELD_NUMBER;
-        hash = (53 * hash) + getMsgType();
       }
       if (hasMaxHops()) {
         hash = (37 * hash) + MAX_HOPS_FIELD_NUMBER;
@@ -657,14 +498,8 @@ public final class Common {
         bitField0_ = (bitField0_ & ~0x00000002);
         destination_ = 0;
         bitField0_ = (bitField0_ & ~0x00000004);
-        replyFrom_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000008);
-        isReply_ = false;
-        bitField0_ = (bitField0_ & ~0x00000010);
-        msgType_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000020);
         maxHops_ = -1;
-        bitField0_ = (bitField0_ & ~0x00000040);
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -703,18 +538,6 @@ public final class Common {
         result.destination_ = destination_;
         if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000008;
-        }
-        result.replyFrom_ = replyFrom_;
-        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
-          to_bitField0_ |= 0x00000010;
-        }
-        result.isReply_ = isReply_;
-        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
-          to_bitField0_ |= 0x00000020;
-        }
-        result.msgType_ = msgType_;
-        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
-          to_bitField0_ |= 0x00000040;
         }
         result.maxHops_ = maxHops_;
         result.bitField0_ = to_bitField0_;
@@ -768,15 +591,6 @@ public final class Common {
         if (other.hasDestination()) {
           setDestination(other.getDestination());
         }
-        if (other.hasReplyFrom()) {
-          setReplyFrom(other.getReplyFrom());
-        }
-        if (other.hasIsReply()) {
-          setIsReply(other.getIsReply());
-        }
-        if (other.hasMsgType()) {
-          setMsgType(other.getMsgType());
-        }
         if (other.hasMaxHops()) {
           setMaxHops(other.getMaxHops());
         }
@@ -790,9 +604,6 @@ public final class Common {
           return false;
         }
         if (!hasTime()) {
-          return false;
-        }
-        if (!hasMsgType()) {
           return false;
         }
         return true;
@@ -929,118 +740,6 @@ public final class Common {
         return this;
       }
 
-      private int replyFrom_ ;
-      /**
-       * <pre>
-       *if the message is a reply, and this will be set
-       * </pre>
-       *
-       * <code>optional int32 reply_from = 9;</code>
-       */
-      public boolean hasReplyFrom() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
-      }
-      /**
-       * <pre>
-       *if the message is a reply, and this will be set
-       * </pre>
-       *
-       * <code>optional int32 reply_from = 9;</code>
-       */
-      public int getReplyFrom() {
-        return replyFrom_;
-      }
-      /**
-       * <pre>
-       *if the message is a reply, and this will be set
-       * </pre>
-       *
-       * <code>optional int32 reply_from = 9;</code>
-       */
-      public Builder setReplyFrom(int value) {
-        bitField0_ |= 0x00000008;
-        replyFrom_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       *if the message is a reply, and this will be set
-       * </pre>
-       *
-       * <code>optional int32 reply_from = 9;</code>
-       */
-      public Builder clearReplyFrom() {
-        bitField0_ = (bitField0_ & ~0x00000008);
-        replyFrom_ = 0;
-        onChanged();
-        return this;
-      }
-
-      private boolean isReply_ ;
-      /**
-       * <code>optional bool is_reply = 7 [default = false];</code>
-       */
-      public boolean hasIsReply() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
-      }
-      /**
-       * <code>optional bool is_reply = 7 [default = false];</code>
-       */
-      public boolean getIsReply() {
-        return isReply_;
-      }
-      /**
-       * <code>optional bool is_reply = 7 [default = false];</code>
-       */
-      public Builder setIsReply(boolean value) {
-        bitField0_ |= 0x00000010;
-        isReply_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional bool is_reply = 7 [default = false];</code>
-       */
-      public Builder clearIsReply() {
-        bitField0_ = (bitField0_ & ~0x00000010);
-        isReply_ = false;
-        onChanged();
-        return this;
-      }
-
-      private int msgType_ ;
-      /**
-       * <code>required int32 msgType = 3;</code>
-       */
-      public boolean hasMsgType() {
-        return ((bitField0_ & 0x00000020) == 0x00000020);
-      }
-      /**
-       * <code>required int32 msgType = 3;</code>
-       */
-      public int getMsgType() {
-        return msgType_;
-      }
-      /**
-       * <code>required int32 msgType = 3;</code>
-       */
-      public Builder setMsgType(int value) {
-        bitField0_ |= 0x00000020;
-        msgType_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 msgType = 3;</code>
-       */
-      public Builder clearMsgType() {
-        bitField0_ = (bitField0_ & ~0x00000020);
-        msgType_ = 0;
-        onChanged();
-        return this;
-      }
-
       private int maxHops_ = -1;
       /**
        * <pre>
@@ -1051,7 +750,7 @@ public final class Common {
        * <code>optional int32 max_hops = 10 [default = -1];</code>
        */
       public boolean hasMaxHops() {
-        return ((bitField0_ & 0x00000040) == 0x00000040);
+        return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
        * <pre>
@@ -1073,7 +772,7 @@ public final class Common {
        * <code>optional int32 max_hops = 10 [default = -1];</code>
        */
       public Builder setMaxHops(int value) {
-        bitField0_ |= 0x00000040;
+        bitField0_ |= 0x00000008;
         maxHops_ = value;
         onChanged();
         return this;
@@ -1087,7 +786,7 @@ public final class Common {
        * <code>optional int32 max_hops = 10 [default = -1];</code>
        */
       public Builder clearMaxHops() {
-        bitField0_ = (bitField0_ & ~0x00000040);
+        bitField0_ = (bitField0_ & ~0x00000008);
         maxHops_ = -1;
         onChanged();
         return this;
@@ -1885,12 +1584,11 @@ public final class Common {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\014common.proto\"\220\001\n\006Header\022\017\n\007node_id\030\001 \002" +
-      "(\005\022\014\n\004time\030\002 \002(\003\022\023\n\013destination\030\010 \001(\005\022\022\n" +
-      "\nreply_from\030\t \001(\005\022\027\n\010is_reply\030\007 \001(\010:\005fal" +
-      "se\022\017\n\007msgType\030\003 \002(\005\022\024\n\010max_hops\030\n \001(\005:\002-" +
-      "1\"6\n\007Failure\022\n\n\002id\030\001 \002(\005\022\016\n\006ref_id\030\002 \001(\005" +
-      "\022\017\n\007message\030\003 \001(\tB\017\n\013pipe.commonH\001"
+      "\n\014common.proto\"R\n\006Header\022\017\n\007node_id\030\001 \002(" +
+      "\005\022\014\n\004time\030\002 \002(\003\022\023\n\013destination\030\010 \001(\005\022\024\n\010" +
+      "max_hops\030\n \001(\005:\002-1\"6\n\007Failure\022\n\n\002id\030\001 \002(" +
+      "\005\022\016\n\006ref_id\030\002 \001(\005\022\017\n\007message\030\003 \001(\tB\017\n\013pi" +
+      "pe.commonH\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -1909,7 +1607,7 @@ public final class Common {
     internal_static_Header_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Header_descriptor,
-        new java.lang.String[] { "NodeId", "Time", "Destination", "ReplyFrom", "IsReply", "MsgType", "MaxHops", });
+        new java.lang.String[] { "NodeId", "Time", "Destination", "MaxHops", });
     internal_static_Failure_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_Failure_fieldAccessorTable = new
