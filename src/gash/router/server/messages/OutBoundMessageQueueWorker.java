@@ -5,9 +5,9 @@ import gash.router.server.ServerState;
 import io.netty.channel.Channel;
 import pipe.work.Work.WorkMessage;
 
-public class OutBoundMessageQueue extends MessageQueue implements Runnable {
+public class OutBoundMessageQueueWorker extends MessageQueue implements Runnable {
 
-	public OutBoundMessageQueue(ServerState state){
+	public OutBoundMessageQueueWorker(ServerState state){
 		this.setState(state);
 	}
 	

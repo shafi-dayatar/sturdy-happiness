@@ -9,10 +9,10 @@ import gash.router.server.ServerState;
 import pipe.work.Work;
 import pipe.work.Work.WorkMessage;
 
-public class InBoundMessageQueue extends MessageQueue implements Runnable{
+public class InBoundMessageQueueWorker extends MessageQueue implements Runnable{
 
 	protected static Logger logger = LoggerFactory.getLogger("InBound Queue");
-	public InBoundMessageQueue(ServerState state){
+	public InBoundMessageQueueWorker(ServerState state){
 		this.setState(state);
 		
 	}

@@ -31,8 +31,8 @@ import com.google.protobuf.Message;
 import gash.router.container.RoutingConf;
 import gash.router.container.RoutingConf.RoutingEntry;
 import gash.router.server.edges.EdgeMonitor;
-import gash.router.server.messages.InBoundMessageQueue;
-import gash.router.server.messages.OutBoundMessageQueue;
+import gash.router.server.messages.InBoundMessageQueueWorker;
+import gash.router.server.messages.OutBoundMessageQueueWorker;
 import gash.router.server.tasks.NoOpBalancer;
 import gash.router.server.tasks.TaskList;
 import io.netty.bootstrap.ServerBootstrap;
@@ -214,8 +214,8 @@ public class MessageServer {
 			Thread t = new Thread(emon);
 			t.start();
 			
-			InBoundMessageQueue inbound = new InBoundMessageQueue(state);
-			OutBoundMessageQueue outbound = new OutBoundMessageQueue(state);
+			InBoundMessageQueueWorker inbound = new InBoundMessageQueueWorker(state);
+			OutBoundMessageQueueWorker outbound = new OutBoundMessageQueueWorker(state);
 			state.setInBoundMessageQueue(outbound);
 			state.setInBoundMessageQueue(inbound);
 			state.setOutBoundMessageQueue(outbound);
