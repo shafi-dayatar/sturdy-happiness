@@ -216,7 +216,7 @@ public class MessageServer {
 			
 			InBoundMessageQueueWorker inbound = new InBoundMessageQueueWorker(state);
 			OutBoundMessageQueueWorker outbound = new OutBoundMessageQueueWorker(state);
-			state.setInBoundMessageQueue(outbound);
+			//state.setInBoundMessageQueue(outbound);
 			state.setInBoundMessageQueue(inbound);
 			state.setOutBoundMessageQueue(outbound);
 			Thread t1 =  new Thread(inbound);
