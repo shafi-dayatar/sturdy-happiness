@@ -1,5 +1,9 @@
 package gash.router.server;
 
+import gash.router.server.states.Candidate;
+import gash.router.server.states.NodeState;
+
+import gash.router.server.states.ElectionTimer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,8 +18,25 @@ public class ServerState {
 	private TaskList tasks;
     private MessageQueue obmQueue;
     private MessageQueue ibmQueue;
-    
-    protected static Logger logger = LoggerFactory.getLogger("Server State");
+    private NodeState nodeState;
+    private ElectionTimer electionTimer;
+
+    public ServerState(){
+    	//initially a candidate
+    	this.nodeState = new Candidate();
+    	this.electionTimer = new ElectionTimer(this.nodeState, 3, 10);
+	}
+	public ElectionTimer getElectionTimer(){
+    	return electionTimer;
+	}
+	public NodeState getNodeState() {
+		return nodeState;
+	}
+	public void setNodeState(NodeState nodeState){
+		this.nodeState = nodeState;
+	}
+
+	protected static Logger logger = LoggerFactory.getLogger("Server State");
     
 	public RoutingConf getConf() {
 		return conf;

@@ -219,11 +219,16 @@ public class MessageServer {
 			//state.setInBoundMessageQueue(outbound);
 			state.setInBoundMessageQueue(inbound);
 			state.setOutBoundMessageQueue(outbound);
+
+
+
+			Thread electionT = new Thread(state.getElectionTimer());
 			Thread inboundT =  new Thread(inbound);
 			Thread outboundT = new Thread(outbound);
 			inboundT.start();
 			outboundT.start();
 			discoverCluster();
+			electionT.start();
 			
 		}	
 		public void discoverCluster(){

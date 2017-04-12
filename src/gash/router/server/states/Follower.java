@@ -15,7 +15,8 @@ public class Follower extends NodeState {
     public void listenHeartBeat(){
 
     }
-    private void toCandidate(){
+    public void toCandidate(){
+        logger.info("Timed out ! To candidate state .... ");
 
     }
 }

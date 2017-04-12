@@ -23,7 +23,9 @@ public class MessageHandler {
 			 m =  new DiscoverMessage(msg);
 		   case DISCOVERNODEREPLY :
 				 m =  new DiscoverMessage(msg);
-		default:
+			default:
+			//case
+			//hearbeat message ?
 
 			break;
 		}

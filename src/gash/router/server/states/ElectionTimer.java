@@ -9,15 +9,20 @@ import java.util.concurrent.ThreadLocalRandom;
  * Created by rentala on 4/11/17.
  */
 public class ElectionTimer implements Runnable {
-    private NodeState state;
-    private int timerValue;
-    public ElectionTimer(NodeState state, int min,int max){
+    private Follower state;
+    private long timerValue;
+    public ElectionTimer(Follower state, int min,int max){
         this.state = state;
-        this.timerValue = ThreadLocalRandom.current().nextInt(min, max + 1);
-
+        this.timerValue = ThreadLocalRandom.current().nextLong(min, max + 1) * 1000;
     }
     @Override
     public void run() {
+        long currentTime = System.currentTimeMillis();
+        while(currentTime < currentTime + this.timerValue){
+            //timer
+        }
+        //timed out
+        state.toCandidate();
 
     }
 }
