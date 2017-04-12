@@ -20,3 +20,10 @@ message LeaderStatus {
       THELEADERIS = 2;
    }
 }
+
+message LeaderElection {
+   required int32 term = 1;
+   required int32 candidateId = 2;
+   required int32 lastLogIndex = 3;
+   required int32 lastLogTerm = 4;
+}

@@ -3935,15 +3935,6 @@ public final class Work {
     pipe.work.Work.WorkMessage.MessageType getType();
 
     /**
-     * <code>optional bool ack = 11;</code>
-     */
-    boolean hasAck();
-    /**
-     * <code>optional bool ack = 11;</code>
-     */
-    boolean getAck();
-
-    /**
      * <code>optional .Failure err = 4;</code>
      */
     boolean hasErr();
@@ -4062,6 +4053,19 @@ public final class Work {
      */
     pipe.work.Work.DiscoveryOrBuilder getDiscoveryOrBuilder();
 
+    /**
+     * <code>optional .LeaderElection leaderElectionRequest = 11;</code>
+     */
+    boolean hasLeaderElectionRequest();
+    /**
+     * <code>optional .LeaderElection leaderElectionRequest = 11;</code>
+     */
+    pipe.election.Election.LeaderElection getLeaderElectionRequest();
+    /**
+     * <code>optional .LeaderElection leaderElectionRequest = 11;</code>
+     */
+    pipe.election.Election.LeaderElectionOrBuilder getLeaderElectionRequestOrBuilder();
+
     public pipe.work.Work.WorkMessage.PayloadCase getPayloadCase();
   }
   /**
@@ -4082,7 +4086,6 @@ public final class Work {
     private WorkMessage() {
       secret_ = 0L;
       type_ = 1;
-      ack_ = false;
     }
 
     @java.lang.Override
@@ -4231,9 +4234,18 @@ public final class Work {
               payloadCase_ = 10;
               break;
             }
-            case 88: {
-              bitField0_ |= 0x00000008;
-              ack_ = input.readBool();
+            case 90: {
+              pipe.election.Election.LeaderElection.Builder subBuilder = null;
+              if (payloadCase_ == 11) {
+                subBuilder = ((pipe.election.Election.LeaderElection) payload_).toBuilder();
+              }
+              payload_ =
+                  input.readMessage(pipe.election.Election.LeaderElection.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((pipe.election.Election.LeaderElection) payload_);
+                payload_ = subBuilder.buildPartial();
+              }
+              payloadCase_ = 11;
               break;
             }
           }
@@ -4279,6 +4291,46 @@ public final class Work {
        * <code>DISCOVERNODEREPLY = 2;</code>
        */
       DISCOVERNODEREPLY(2),
+      /**
+       * <code>LEADERELECTION = 3;</code>
+       */
+      LEADERELECTION(3),
+      /**
+       * <code>LEADERELECTIONREPLY = 4;</code>
+       */
+      LEADERELECTIONREPLY(4),
+      /**
+       * <code>LEADERSTATUS = 5;</code>
+       */
+      LEADERSTATUS(5),
+      /**
+       * <code>LEADERSTATUSREPLY = 6;</code>
+       */
+      LEADERSTATUSREPLY(6),
+      /**
+       * <code>HEARTBEAT = 7;</code>
+       */
+      HEARTBEAT(7),
+      /**
+       * <code>PING = 8;</code>
+       */
+      PING(8),
+      /**
+       * <code>PINGREPLY = 9;</code>
+       */
+      PINGREPLY(9),
+      /**
+       * <code>FAILURE = 10;</code>
+       */
+      FAILURE(10),
+      /**
+       * <code>WORKSTATE = 11;</code>
+       */
+      WORKSTATE(11),
+      /**
+       * <code>WORKSTATEREPLY = 12;</code>
+       */
+      WORKSTATEREPLY(12),
       ;
 
       /**
@@ -4289,6 +4341,46 @@ public final class Work {
        * <code>DISCOVERNODEREPLY = 2;</code>
        */
       public static final int DISCOVERNODEREPLY_VALUE = 2;
+      /**
+       * <code>LEADERELECTION = 3;</code>
+       */
+      public static final int LEADERELECTION_VALUE = 3;
+      /**
+       * <code>LEADERELECTIONREPLY = 4;</code>
+       */
+      public static final int LEADERELECTIONREPLY_VALUE = 4;
+      /**
+       * <code>LEADERSTATUS = 5;</code>
+       */
+      public static final int LEADERSTATUS_VALUE = 5;
+      /**
+       * <code>LEADERSTATUSREPLY = 6;</code>
+       */
+      public static final int LEADERSTATUSREPLY_VALUE = 6;
+      /**
+       * <code>HEARTBEAT = 7;</code>
+       */
+      public static final int HEARTBEAT_VALUE = 7;
+      /**
+       * <code>PING = 8;</code>
+       */
+      public static final int PING_VALUE = 8;
+      /**
+       * <code>PINGREPLY = 9;</code>
+       */
+      public static final int PINGREPLY_VALUE = 9;
+      /**
+       * <code>FAILURE = 10;</code>
+       */
+      public static final int FAILURE_VALUE = 10;
+      /**
+       * <code>WORKSTATE = 11;</code>
+       */
+      public static final int WORKSTATE_VALUE = 11;
+      /**
+       * <code>WORKSTATEREPLY = 12;</code>
+       */
+      public static final int WORKSTATEREPLY_VALUE = 12;
 
 
       public final int getNumber() {
@@ -4307,6 +4399,16 @@ public final class Work {
         switch (value) {
           case 1: return DISCOVERNODE;
           case 2: return DISCOVERNODEREPLY;
+          case 3: return LEADERELECTION;
+          case 4: return LEADERELECTIONREPLY;
+          case 5: return LEADERSTATUS;
+          case 6: return LEADERSTATUSREPLY;
+          case 7: return HEARTBEAT;
+          case 8: return PING;
+          case 9: return PINGREPLY;
+          case 10: return FAILURE;
+          case 11: return WORKSTATE;
+          case 12: return WORKSTATEREPLY;
           default: return null;
         }
       }
@@ -4368,6 +4470,7 @@ public final class Work {
       STATE(8),
       LEADER(9),
       DISCOVERY(10),
+      LEADERELECTIONREQUEST(11),
       PAYLOAD_NOT_SET(0);
       private final int value;
       private PayloadCase(int value) {
@@ -4390,6 +4493,7 @@ public final class Work {
           case 8: return STATE;
           case 9: return LEADER;
           case 10: return DISCOVERY;
+          case 11: return LEADERELECTIONREQUEST;
           case 0: return PAYLOAD_NOT_SET;
           default: return null;
         }
@@ -4455,21 +4559,6 @@ public final class Work {
     public pipe.work.Work.WorkMessage.MessageType getType() {
       pipe.work.Work.WorkMessage.MessageType result = pipe.work.Work.WorkMessage.MessageType.valueOf(type_);
       return result == null ? pipe.work.Work.WorkMessage.MessageType.DISCOVERNODE : result;
-    }
-
-    public static final int ACK_FIELD_NUMBER = 11;
-    private boolean ack_;
-    /**
-     * <code>optional bool ack = 11;</code>
-     */
-    public boolean hasAck() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
-    }
-    /**
-     * <code>optional bool ack = 11;</code>
-     */
-    public boolean getAck() {
-      return ack_;
     }
 
     public static final int ERR_FIELD_NUMBER = 4;
@@ -4677,6 +4766,32 @@ public final class Work {
       return pipe.work.Work.Discovery.getDefaultInstance();
     }
 
+    public static final int LEADERELECTIONREQUEST_FIELD_NUMBER = 11;
+    /**
+     * <code>optional .LeaderElection leaderElectionRequest = 11;</code>
+     */
+    public boolean hasLeaderElectionRequest() {
+      return payloadCase_ == 11;
+    }
+    /**
+     * <code>optional .LeaderElection leaderElectionRequest = 11;</code>
+     */
+    public pipe.election.Election.LeaderElection getLeaderElectionRequest() {
+      if (payloadCase_ == 11) {
+         return (pipe.election.Election.LeaderElection) payload_;
+      }
+      return pipe.election.Election.LeaderElection.getDefaultInstance();
+    }
+    /**
+     * <code>optional .LeaderElection leaderElectionRequest = 11;</code>
+     */
+    public pipe.election.Election.LeaderElectionOrBuilder getLeaderElectionRequestOrBuilder() {
+      if (payloadCase_ == 11) {
+         return (pipe.election.Election.LeaderElection) payload_;
+      }
+      return pipe.election.Election.LeaderElection.getDefaultInstance();
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -4735,6 +4850,12 @@ public final class Work {
           return false;
         }
       }
+      if (hasLeaderElectionRequest()) {
+        if (!getLeaderElectionRequest().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -4772,8 +4893,8 @@ public final class Work {
       if (payloadCase_ == 10) {
         output.writeMessage(10, (pipe.work.Work.Discovery) payload_);
       }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeBool(11, ack_);
+      if (payloadCase_ == 11) {
+        output.writeMessage(11, (pipe.election.Election.LeaderElection) payload_);
       }
       unknownFields.writeTo(output);
     }
@@ -4824,9 +4945,9 @@ public final class Work {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(10, (pipe.work.Work.Discovery) payload_);
       }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      if (payloadCase_ == 11) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(11, ack_);
+          .computeMessageSize(11, (pipe.election.Election.LeaderElection) payload_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -4858,11 +4979,6 @@ public final class Work {
       result = result && (hasType() == other.hasType());
       if (hasType()) {
         result = result && type_ == other.type_;
-      }
-      result = result && (hasAck() == other.hasAck());
-      if (hasAck()) {
-        result = result && (getAck()
-            == other.getAck());
       }
       result = result && getPayloadCase().equals(
           other.getPayloadCase());
@@ -4896,6 +5012,10 @@ public final class Work {
           result = result && getDiscovery()
               .equals(other.getDiscovery());
           break;
+        case 11:
+          result = result && getLeaderElectionRequest()
+              .equals(other.getLeaderElectionRequest());
+          break;
         case 0:
         default:
       }
@@ -4922,11 +5042,6 @@ public final class Work {
       if (hasType()) {
         hash = (37 * hash) + TYPE_FIELD_NUMBER;
         hash = (53 * hash) + type_;
-      }
-      if (hasAck()) {
-        hash = (37 * hash) + ACK_FIELD_NUMBER;
-        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
-            getAck());
       }
       switch (payloadCase_) {
         case 4:
@@ -4957,6 +5072,10 @@ public final class Work {
         case 10:
           hash = (37 * hash) + DISCOVERY_FIELD_NUMBER;
           hash = (53 * hash) + getDiscovery().hashCode();
+          break;
+        case 11:
+          hash = (37 * hash) + LEADERELECTIONREQUEST_FIELD_NUMBER;
+          hash = (53 * hash) + getLeaderElectionRequest().hashCode();
           break;
         case 0:
         default:
@@ -5094,8 +5213,6 @@ public final class Work {
         bitField0_ = (bitField0_ & ~0x00000002);
         type_ = 1;
         bitField0_ = (bitField0_ & ~0x00000004);
-        ack_ = false;
-        bitField0_ = (bitField0_ & ~0x00000008);
         payloadCase_ = 0;
         payload_ = null;
         return this;
@@ -5138,10 +5255,6 @@ public final class Work {
           to_bitField0_ |= 0x00000004;
         }
         result.type_ = type_;
-        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
-          to_bitField0_ |= 0x00000008;
-        }
-        result.ack_ = ack_;
         if (payloadCase_ == 4) {
           if (errBuilder_ == null) {
             result.payload_ = payload_;
@@ -5185,6 +5298,13 @@ public final class Work {
             result.payload_ = payload_;
           } else {
             result.payload_ = discoveryBuilder_.build();
+          }
+        }
+        if (payloadCase_ == 11) {
+          if (leaderElectionRequestBuilder_ == null) {
+            result.payload_ = payload_;
+          } else {
+            result.payload_ = leaderElectionRequestBuilder_.build();
           }
         }
         result.bitField0_ = to_bitField0_;
@@ -5239,9 +5359,6 @@ public final class Work {
         if (other.hasType()) {
           setType(other.getType());
         }
-        if (other.hasAck()) {
-          setAck(other.getAck());
-        }
         switch (other.getPayloadCase()) {
           case ERR: {
             mergeErr(other.getErr());
@@ -5269,6 +5386,10 @@ public final class Work {
           }
           case DISCOVERY: {
             mergeDiscovery(other.getDiscovery());
+            break;
+          }
+          case LEADERELECTIONREQUEST: {
+            mergeLeaderElectionRequest(other.getLeaderElectionRequest());
             break;
           }
           case PAYLOAD_NOT_SET: {
@@ -5320,6 +5441,11 @@ public final class Work {
         }
         if (hasDiscovery()) {
           if (!getDiscovery().isInitialized()) {
+            return false;
+          }
+        }
+        if (hasLeaderElectionRequest()) {
+          if (!getLeaderElectionRequest().isInitialized()) {
             return false;
           }
         }
@@ -5542,38 +5668,6 @@ public final class Work {
       public Builder clearType() {
         bitField0_ = (bitField0_ & ~0x00000004);
         type_ = 1;
-        onChanged();
-        return this;
-      }
-
-      private boolean ack_ ;
-      /**
-       * <code>optional bool ack = 11;</code>
-       */
-      public boolean hasAck() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
-      }
-      /**
-       * <code>optional bool ack = 11;</code>
-       */
-      public boolean getAck() {
-        return ack_;
-      }
-      /**
-       * <code>optional bool ack = 11;</code>
-       */
-      public Builder setAck(boolean value) {
-        bitField0_ |= 0x00000008;
-        ack_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional bool ack = 11;</code>
-       */
-      public Builder clearAck() {
-        bitField0_ = (bitField0_ & ~0x00000008);
-        ack_ = false;
         onChanged();
         return this;
       }
@@ -6517,6 +6611,142 @@ public final class Work {
         onChanged();;
         return discoveryBuilder_;
       }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          pipe.election.Election.LeaderElection, pipe.election.Election.LeaderElection.Builder, pipe.election.Election.LeaderElectionOrBuilder> leaderElectionRequestBuilder_;
+      /**
+       * <code>optional .LeaderElection leaderElectionRequest = 11;</code>
+       */
+      public boolean hasLeaderElectionRequest() {
+        return payloadCase_ == 11;
+      }
+      /**
+       * <code>optional .LeaderElection leaderElectionRequest = 11;</code>
+       */
+      public pipe.election.Election.LeaderElection getLeaderElectionRequest() {
+        if (leaderElectionRequestBuilder_ == null) {
+          if (payloadCase_ == 11) {
+            return (pipe.election.Election.LeaderElection) payload_;
+          }
+          return pipe.election.Election.LeaderElection.getDefaultInstance();
+        } else {
+          if (payloadCase_ == 11) {
+            return leaderElectionRequestBuilder_.getMessage();
+          }
+          return pipe.election.Election.LeaderElection.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>optional .LeaderElection leaderElectionRequest = 11;</code>
+       */
+      public Builder setLeaderElectionRequest(pipe.election.Election.LeaderElection value) {
+        if (leaderElectionRequestBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          payload_ = value;
+          onChanged();
+        } else {
+          leaderElectionRequestBuilder_.setMessage(value);
+        }
+        payloadCase_ = 11;
+        return this;
+      }
+      /**
+       * <code>optional .LeaderElection leaderElectionRequest = 11;</code>
+       */
+      public Builder setLeaderElectionRequest(
+          pipe.election.Election.LeaderElection.Builder builderForValue) {
+        if (leaderElectionRequestBuilder_ == null) {
+          payload_ = builderForValue.build();
+          onChanged();
+        } else {
+          leaderElectionRequestBuilder_.setMessage(builderForValue.build());
+        }
+        payloadCase_ = 11;
+        return this;
+      }
+      /**
+       * <code>optional .LeaderElection leaderElectionRequest = 11;</code>
+       */
+      public Builder mergeLeaderElectionRequest(pipe.election.Election.LeaderElection value) {
+        if (leaderElectionRequestBuilder_ == null) {
+          if (payloadCase_ == 11 &&
+              payload_ != pipe.election.Election.LeaderElection.getDefaultInstance()) {
+            payload_ = pipe.election.Election.LeaderElection.newBuilder((pipe.election.Election.LeaderElection) payload_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            payload_ = value;
+          }
+          onChanged();
+        } else {
+          if (payloadCase_ == 11) {
+            leaderElectionRequestBuilder_.mergeFrom(value);
+          }
+          leaderElectionRequestBuilder_.setMessage(value);
+        }
+        payloadCase_ = 11;
+        return this;
+      }
+      /**
+       * <code>optional .LeaderElection leaderElectionRequest = 11;</code>
+       */
+      public Builder clearLeaderElectionRequest() {
+        if (leaderElectionRequestBuilder_ == null) {
+          if (payloadCase_ == 11) {
+            payloadCase_ = 0;
+            payload_ = null;
+            onChanged();
+          }
+        } else {
+          if (payloadCase_ == 11) {
+            payloadCase_ = 0;
+            payload_ = null;
+          }
+          leaderElectionRequestBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>optional .LeaderElection leaderElectionRequest = 11;</code>
+       */
+      public pipe.election.Election.LeaderElection.Builder getLeaderElectionRequestBuilder() {
+        return getLeaderElectionRequestFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .LeaderElection leaderElectionRequest = 11;</code>
+       */
+      public pipe.election.Election.LeaderElectionOrBuilder getLeaderElectionRequestOrBuilder() {
+        if ((payloadCase_ == 11) && (leaderElectionRequestBuilder_ != null)) {
+          return leaderElectionRequestBuilder_.getMessageOrBuilder();
+        } else {
+          if (payloadCase_ == 11) {
+            return (pipe.election.Election.LeaderElection) payload_;
+          }
+          return pipe.election.Election.LeaderElection.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>optional .LeaderElection leaderElectionRequest = 11;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          pipe.election.Election.LeaderElection, pipe.election.Election.LeaderElection.Builder, pipe.election.Election.LeaderElectionOrBuilder> 
+          getLeaderElectionRequestFieldBuilder() {
+        if (leaderElectionRequestBuilder_ == null) {
+          if (!(payloadCase_ == 11)) {
+            payload_ = pipe.election.Election.LeaderElection.getDefaultInstance();
+          }
+          leaderElectionRequestBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              pipe.election.Election.LeaderElection, pipe.election.Election.LeaderElection.Builder, pipe.election.Election.LeaderElectionOrBuilder>(
+                  (pipe.election.Election.LeaderElection) payload_,
+                  getParentForChildren(),
+                  isClean());
+          payload_ = null;
+        }
+        payloadCase_ = 11;
+        onChanged();;
+        return leaderElectionRequestBuilder_;
+      }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
@@ -6613,16 +6843,21 @@ public final class Work {
       "\022\017\n\007ip_addr\030\002 \002(\t\022\021\n\twork_port\030\003 \002(\005\"U\n\t" +
       "Discovery\022\034\n\rrouting_table\030\001 \003(\0132\005.Node\022" +
       "\023\n\004node\030\002 \001(\0132\005.Node\022\025\n\006leader\030\003 \001(\0132\005.N" +
-      "ode\"\351\002\n\013WorkMessage\022\027\n\006header\030\001 \002(\0132\007.He" +
+      "ode\"\275\004\n\013WorkMessage\022\027\n\006header\030\001 \002(\0132\007.He" +
       "ader\022\016\n\006secret\030\002 \002(\003\022&\n\004type\030\003 \002(\0162\030.Wor",
-      "kMessage.MessageType\022\013\n\003ack\030\013 \001(\010\022\027\n\003err" +
-      "\030\004 \001(\0132\010.FailureH\000\022\016\n\004ping\030\005 \001(\010H\000\022\032\n\004be" +
-      "at\030\006 \001(\0132\n.HeartbeatH\000\022\025\n\004task\030\007 \001(\0132\005.T" +
-      "askH\000\022\033\n\005state\030\010 \001(\0132\n.WorkStateH\000\022\037\n\006le" +
-      "ader\030\t \001(\0132\r.LeaderStatusH\000\022\037\n\tdiscovery" +
-      "\030\n \001(\0132\n.DiscoveryH\000\"6\n\013MessageType\022\020\n\014D" +
-      "ISCOVERNODE\020\001\022\025\n\021DISCOVERNODEREPLY\020\002B\t\n\007" +
-      "payloadB\r\n\tpipe.workH\001"
+      "kMessage.MessageType\022\027\n\003err\030\004 \001(\0132\010.Fail" +
+      "ureH\000\022\016\n\004ping\030\005 \001(\010H\000\022\032\n\004beat\030\006 \001(\0132\n.He" +
+      "artbeatH\000\022\025\n\004task\030\007 \001(\0132\005.TaskH\000\022\033\n\005stat" +
+      "e\030\010 \001(\0132\n.WorkStateH\000\022\037\n\006leader\030\t \001(\0132\r." +
+      "LeaderStatusH\000\022\037\n\tdiscovery\030\n \001(\0132\n.Disc" +
+      "overyH\000\0220\n\025leaderElectionRequest\030\013 \001(\0132\017" +
+      ".LeaderElectionH\000\"\344\001\n\013MessageType\022\020\n\014DIS" +
+      "COVERNODE\020\001\022\025\n\021DISCOVERNODEREPLY\020\002\022\022\n\016LE" +
+      "ADERELECTION\020\003\022\027\n\023LEADERELECTIONREPLY\020\004\022" +
+      "\020\n\014LEADERSTATUS\020\005\022\025\n\021LEADERSTATUSREPLY\020\006",
+      "\022\r\n\tHEARTBEAT\020\007\022\010\n\004PING\020\010\022\r\n\tPINGREPLY\020\t" +
+      "\022\013\n\007FAILURE\020\n\022\r\n\tWORKSTATE\020\013\022\022\n\016WORKSTAT" +
+      "EREPLY\020\014B\t\n\007payloadB\r\n\tpipe.workH\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -6673,7 +6908,7 @@ public final class Work {
     internal_static_WorkMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_WorkMessage_descriptor,
-        new java.lang.String[] { "Header", "Secret", "Type", "Ack", "Err", "Ping", "Beat", "Task", "State", "Leader", "Discovery", "Payload", });
+        new java.lang.String[] { "Header", "Secret", "Type", "Err", "Ping", "Beat", "Task", "State", "Leader", "Discovery", "LeaderElectionRequest", "Payload", });
     pipe.common.Common.getDescriptor();
     pipe.election.Election.getDescriptor();
   }
