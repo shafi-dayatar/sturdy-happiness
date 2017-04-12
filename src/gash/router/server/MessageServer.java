@@ -211,18 +211,18 @@ public class MessageServer {
 			state.setTasks(tasks);
 
 			EdgeMonitor emon = new EdgeMonitor(state);
-			Thread t = new Thread(emon);
-			t.start();
+			Thread edgeMonitorThread = new Thread(emon);
+			edgeMonitorThread.start();
 			
 			InBoundMessageQueueWorker inbound = new InBoundMessageQueueWorker(state);
 			OutBoundMessageQueueWorker outbound = new OutBoundMessageQueueWorker(state);
 			//state.setInBoundMessageQueue(outbound);
 			state.setInBoundMessageQueue(inbound);
 			state.setOutBoundMessageQueue(outbound);
-			Thread t1 =  new Thread(inbound);
-			Thread t2 = new Thread(outbound);
-			t1.start();
-			t2.start();
+			Thread inboundT =  new Thread(inbound);
+			Thread outboundT = new Thread(outbound);
+			inboundT.start();
+			outboundT.start();
 			discoverCluster();
 			
 		}	

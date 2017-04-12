@@ -1,4 +1,4 @@
-package gash.router.server.state;
+package gash.router.server.states;
 
 /**
  * Created by rentala on 4/11/17.
@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 /**
  *  Parent state class that defines every node - Leader Candidate Follower
  */
-public class NodeState {
+public abstract class NodeState {
     protected static Logger logger = LoggerFactory.getLogger("state");
     public NodeState(){
 
