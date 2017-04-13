@@ -12,7 +12,7 @@ import pipe.work.Work.WorkMessage;
 // Add Message Class methods here
 //
 public interface MessageInterface {
-    public WorkMessage processMessage(ServerState state);
+    public void processMessage(ServerState state);
     void discard();
     //WorkMessage forward();
     void respond();

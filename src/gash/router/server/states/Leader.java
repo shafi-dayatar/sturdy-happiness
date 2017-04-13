@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import gash.router.server.ServerState;
 import pipe.election.Election;
+import pipe.election.Election.LeaderElection;
 import pipe.work.Work;
 
 /**
@@ -24,7 +25,7 @@ public class Leader implements RaftServerState {
 	
 
     @java.lang.Override
-    public void requestVote() {
+    public void requestVote(LeaderElection leaderElectionRequest) {
 
     }
 
@@ -44,8 +45,18 @@ public class Leader implements RaftServerState {
     }
 
     @java.lang.Override
-    public void collectVote(Election.LeaderElection leaderElection) {
+    public void collectVote(Election.LeaderElectionResponse leaderElectionResponse) {
+    	/**
+    	 * if leader has been elected than there is no need to process other node response.
+    	 */
+    	return;
         
     }
+
+	@Override
+	public void declareLeader() {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

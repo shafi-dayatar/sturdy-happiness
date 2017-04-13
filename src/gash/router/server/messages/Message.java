@@ -116,9 +116,9 @@ public class Message implements MessageInterface {
 	}
 
 	@Override
-	public WorkMessage processMessage(ServerState state) {
+	public void processMessage(ServerState state) {
 		// TODO Auto-generated method stub
-		return null;
+		//return null;
 	}
 
 }

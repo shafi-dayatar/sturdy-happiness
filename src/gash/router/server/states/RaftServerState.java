@@ -6,6 +6,8 @@ package gash.router.server.states;
 
 
 import pipe.election.Election;
+import pipe.election.Election.LeaderElection;
+import pipe.election.Election.LeaderElectionResponse;
 import pipe.work.Work;
 
 /**
@@ -13,10 +15,11 @@ import pipe.work.Work;
  */
 public interface RaftServerState {
 
-    public void requestVote();
+    public void requestVote(LeaderElection leaderElectionRequest);
     public void startElection();
     public void leaderElect();
     public void logAppend();
-    public void collectVote(Election.LeaderElection leaderElection);
+	public void collectVote(LeaderElectionResponse leaderElectionResponse);
+	public void declareLeader();
 
 }

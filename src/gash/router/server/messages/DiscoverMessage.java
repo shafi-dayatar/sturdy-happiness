@@ -37,7 +37,7 @@ public class DiscoverMessage extends Message {
 		return null;
 	}
 	
-    public Work.WorkMessage processMessage(ServerState state){
+    public void processMessage(ServerState state){
        logger.info("Got a discover message from " + getNodeId());
         if( discovery != null){
         	if (discovery.hasLeader()){
@@ -80,7 +80,7 @@ public class DiscoverMessage extends Message {
         		}
         	}	
         }
-        return null;
+
     }
     public void respond(){
         Work.WorkMessage.Builder wm = Work.WorkMessage.newBuilder();

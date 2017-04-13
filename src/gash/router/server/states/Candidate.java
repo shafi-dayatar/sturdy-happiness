@@ -13,6 +13,7 @@ import pipe.election.Election;
 import pipe.work.Work;
 import pipe.common.Common.Header;
 import pipe.election.Election.LeaderElection;
+import pipe.election.Election.LeaderElectionResponse;
 import pipe.work.Work.WorkMessage;
 import pipe.work.Work.WorkMessage.MessageType;
 import pipe.work.Work.WorkMessageOrBuilder;
@@ -26,18 +27,19 @@ public class Candidate implements RaftServerState {
     private ServerState state;
 	private Long startTime;
 	private Long endTime;
+	private Election election;
 	
     public Candidate(ServerState serverState){
         this.state = state;
     }
     
-    public void requestVote(){
+    public void requestVote(LeaderElection leaderElectionRequest){
         logger.info("requestVote ");
     }
 
 	public void startElection() {
 		// TODO Auto-generated method stub	
-		Election election = new Election(state.getCurrentTerm()+1, 
+		election = new Election(state.getCurrentTerm()+1, 
 				state.getEmon().getTotalNodes(), state.getLastLogIndex(),
 				state.getLastLogTerm());
 		startTime = System.currentTimeMillis();		
@@ -54,7 +56,23 @@ public class Candidate implements RaftServerState {
 	}
 
 	@java.lang.Override
-	public void collectVote(LeaderElection leaderElection) {
+	public void collectVote(LeaderElectionResponse leaderElection) {
+		/**
+		 *  vote is counted only if it from currentTerm, 
+		 *  which will handle stale election response votes,
+		 *  also duplicate vote response is handled
+		 */
+		
+		if (election.term == leaderElection.getForTerm()){
+			if(election.voteFrom.add(leaderElection.getNodeId())){
+				if(leaderElection.getVoteGranted()){
+					election.voteCount++;
+					if(election.checkElectionResult()){
+						state.becomeLeader();
+					}
+				}
+			}
+		}
 		
 	}
 
@@ -69,7 +87,7 @@ public class Candidate implements RaftServerState {
 		public boolean successful = false;
 		public Election(int term, int voteRequired, int lastLogIndex, int lastLogTerm){
 			this.term = term;
-			this.voteRequired = voteRequired;
+			this.voteRequired = voteRequired/2 + 1;
 			this.lastLogIndex = lastLogIndex;
 			this.lastLogTerm = lastLogTerm;
 		}
@@ -94,6 +112,20 @@ public class Candidate implements RaftServerState {
 			wmb.setSecret(10100);
 			return wmb.build();
 		}
+		
+		public boolean checkElectionResult(){
+			if (voteCount >= voteRequired)
+				return true;
+			return false;
+		}
 	}
+
+
+	@Override
+	public void declareLeader() {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }
