@@ -9,18 +9,17 @@ import gash.router.server.ServerState;
  * Created by rentala on 4/11/17.
  */
 public class Leader implements RaftServerState {
+
     protected static Logger logger = LoggerFactory.getLogger("Leader-State");
     private ServerState state;
 
-    public Leader(){
-
-    }
     public Leader(ServerState state){
         this.state = state;
     }
     public void appendEntries(String entry){
         logger.info("appendEntries = " + entry);
     }
+	
 
     @java.lang.Override
     public void requestVote() {

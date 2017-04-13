@@ -1,7 +1,10 @@
 package gash.router.server.messages;
 
+import java.util.ArrayList;
+
 import gash.router.server.PrintUtil;
 import gash.router.server.ServerState;
+import gash.router.server.edges.EdgeInfo;
 import io.netty.channel.Channel;
 import pipe.work.Work.WorkMessage;
 
@@ -36,18 +39,35 @@ public class OutBoundMessageQueueWorker extends MessageQueue implements Runnable
 		// TODO Auto-generated method stub
 		WorkMessage m = takeMessage();
 		
-		int destinationId = m.getHeader().getDestination();
-		Channel ch = getState().getEmon().getOutBoundChannel(destinationId);
+		int destinationId = m.getHeader().getDestination();	
+		ArrayList<EdgeInfo> connectedNode = getState().getEmon().getOutBoundChannel(destinationId);
+		
 		//logger.info("Channle is  " + (ch != null));
+		if (destinationId == -1){
+			for(EdgeInfo ei : connectedNode){
+                Channel ch = ei.getChannel();
+				if(ch != null){
+					ch.writeAndFlush(m);
+				}
+				else{
+					//todo:
+					//If it is not able to send message to particular node,
+					//it should update the message and set's destination to particular node.
+				}
+			}
+			return;
+	    }
+		Channel ch = connectedNode.get(0).getChannel();
 		if(ch != null){
 			ch.writeAndFlush(m);
-		    
-		}else{
+		}
+		else{
 			//logger.error("no channel found for destination id " +  destinationId);
 			//PrintUtil.printWork(m);
 			this.addMessage(m);
 			// To Do, should try for x no of times before discarding
 		}
+	 
 
 	}
 

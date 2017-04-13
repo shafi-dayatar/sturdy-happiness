@@ -4,55 +4,54 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import gash.router.server.ServerState;
+import pipe.common.Common.Header;
+import pipe.work.Work.WorkMessage;
 
 /**
  * Created by rentala on 4/11/17.
  */
 public class Follower implements RaftServerState {
-    protected static Logger logger = LoggerFactory.getLogger("Follower-State");
-    private ServerState state;
 
-    public Follower(){
-
-    }
+	protected static Logger logger = LoggerFactory.getLogger("Follower-State");
+	private ServerState state;
     public Follower(ServerState state){
         this.state = state;
     }
 
     public void vote(){
         logger.info("voting .... ");
-
     }
     public void listenHeartBeat(){
 
     }
+    
     public void toCandidate(){
         logger.info("Timed out ! To candidate state .... ");
-
     }
 
-    @java.lang.Override
-    public void requestVote() {
 
-    }
+	public void requestVote() {
+		// TODO Auto-generated method stub
+		
+	}
 
-    @java.lang.Override
-    public void startElection() {
+	public void startElection() {
+		// TODO Auto-generated method stub	
+		
+	}
 
-    }
+	public void leaderElect() {
+		// TODO Auto-generated method stub
+		
+	}
 
-    @java.lang.Override
-    public void leaderElect() {
+	public void logAppend() {
+		// TODO Auto-generated method stub
+		
+	}
 
-    }
-
-    @java.lang.Override
-    public void logAppend() {
-
-    }
-
-    @java.lang.Override
-    public void collectVote() {
-
-    }
+	public void collectVote() {
+		// TODO Auto-generated method stub
+		
+	}
 }

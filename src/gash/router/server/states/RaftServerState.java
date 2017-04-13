@@ -13,8 +13,9 @@ import org.slf4j.LoggerFactory;
 public interface RaftServerState {
 
     public void requestVote();
-    public void startElection();
-    public void leaderElect();
-    public void logAppend();
-    public void collectVote();
+	public void startElection();
+	public void leaderElect();
+	public void logAppend();
+	public void collectVote();
 }
+
