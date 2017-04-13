@@ -80,3 +80,28 @@ message WorkMessage {
    }
    
 }
+
+message Command {
+	required string key = 1;
+	required string value = 2;
+	required int32 client_id = 3;
+}
+
+message LogEntry {
+	required DataAction action = 1;
+	required Command data = 2;
+	required int32 term = 3;
+	required int32 logId = 4;
+	
+	enum DataAction {
+		INSERT = 1;
+		UPDATE = 2;
+	}
+}
+
+// add log entry array message
+message LogEntryList {
+	repeated LogEntry entry = 1;
+}
+
+
