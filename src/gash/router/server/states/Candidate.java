@@ -30,7 +30,7 @@ public class Candidate implements RaftServerState {
 	private Election election;
 	
     public Candidate(ServerState serverState){
-        this.state = state;
+        this.state = serverState;
     }
     
     public void requestVote(LeaderElection leaderElectionRequest){
@@ -68,6 +68,10 @@ public class Candidate implements RaftServerState {
 				if(leaderElection.getVoteGranted()){
 					election.voteCount++;
 					if(election.checkElectionResult()){
+						endTime = System.currentTimeMillis();
+						logger.info("Leader was elected in " + (endTime - startTime));
+						logger.info("Leader is " + state.getNodeId());
+						logger.info("Election Result is " + election.toString());
 						state.becomeLeader();
 					}
 				}
@@ -115,8 +119,15 @@ public class Candidate implements RaftServerState {
 		
 		public boolean checkElectionResult(){
 			if (voteCount >= voteRequired)
-				return true;
-			return false;
+				successful = true;
+			return successful;
+		}
+		
+		public String toString(){
+			return "ElectionTerm : "+ term + "\n" +
+					"Total Votes : " + voteCount +  "\n" +
+					"Total Votes Required : " + voteRequired + "\n" +
+					"Election Status : " + successful; 
 		}
 	}
 

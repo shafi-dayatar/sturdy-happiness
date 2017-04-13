@@ -222,13 +222,14 @@ public class MessageServer {
 
 
 
-			Thread electionT = new Thread(state.getElectionTimer());
+			
 			Thread inboundT =  new Thread(inbound);
 			Thread outboundT = new Thread(outbound);
 			inboundT.start();
 			outboundT.start();
 			discoverCluster();
-			electionT.start();
+		
+			//electionT.start();
 			
 		}	
 		public void discoverCluster(){

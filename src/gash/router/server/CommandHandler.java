@@ -76,8 +76,8 @@ public class CommandHandler extends SimpleChannelInboundHandler<Client> {
 			eb.setId(conf.getNodeId());
 			//eb.setRefId(msg.getHeader().getNodeId());
 			//eb.setMessage(e.getMessage());
-			CommandMessage.Builder rb = CommandMessage.newBuilder(msg);
-			rb.setErr(eb);
+			//CommandMessage.Builder rb = CommandMessage.newBuilder(msg);
+			//rb.setErr(eb);
 			//channel.write(rb.build());
 		}
 
@@ -94,18 +94,17 @@ public class CommandHandler extends SimpleChannelInboundHandler<Client> {
 	 * @param msg
 	 *            The message
 	 */
-	@Override
 	protected void channelRead0(ChannelHandlerContext ctx, CommandMessage msg) throws Exception {
 		//handleMessage(msg, ctx.channel());
 	}
 
-	@Override
+
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
 		logger.error("Unexpected exception from downstream.", cause);
 		ctx.close();
 	}
 
-	@java.lang.Override
+
 	protected void channelRead0(ChannelHandlerContext channelHandlerContext, Client client) throws Exception {
 
 	}

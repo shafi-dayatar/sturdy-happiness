@@ -120,7 +120,7 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 	public synchronized void onAdd(EdgeInfo ei) {
 		// TODO check connection
 		try{
-			if (ei.getChannel() == null){
+			if (ei != null && ei.getChannel() == null){
 				logger.info("making connection with : " + ei.getHost() + " on port : " + ei.getPort()  );
 				CommConnection cc = new CommConnection(ei.getHost(), ei.getPort());
 				ei.setChannel(cc.connect());
@@ -142,11 +142,15 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 		ArrayList<EdgeInfo> ei = null;
 		
 		try{
-			if (nodeId == -1){
-				return (ArrayList<EdgeInfo>)outboundEdges.map.values();
+			if (outboundEdges != null && outboundEdges.map.size() > 0){
+				if (nodeId == -1){
+
+					return new ArrayList<EdgeInfo>(outboundEdges.map.values());
+				}
+				ei = new ArrayList<EdgeInfo>();
+				ei.add(outboundEdges.map.get(nodeId));
+				return ei;
 			}
-			ei.add(outboundEdges.map.get(nodeId));
-			return ei;
 		}catch(Exception e){
 			logger.error("Getting Error while looking for outbound channel with error : " + e);
 		}
