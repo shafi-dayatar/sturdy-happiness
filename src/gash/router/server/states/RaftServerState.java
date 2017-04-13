@@ -18,4 +18,5 @@ public interface RaftServerState {
     public void leaderElect();
     public void logAppend();
     public Work.WorkMessage collectVote(Election.LeaderElection leaderElection);
+
 }

@@ -80,7 +80,6 @@ public class DiscoverMessage extends Message {
         		}
         	}	
         }
-        
         return null;
     }
     public void respond(){

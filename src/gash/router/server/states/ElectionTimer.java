@@ -1,6 +1,10 @@
 package gash.router.server.states;
 
-import java.util.concurrent.ThreadLocalRandom;
+
+
+import gash.router.server.ServerState;
+import io.netty.util.internal.ThreadLocalRandom;
+
 
 // nextInt is normally exclusive of the top value,
 // so add 1 to make it inclusive
@@ -15,7 +19,9 @@ public class ElectionTimer implements Runnable {
         this.state = state;
         this.timerValue = ThreadLocalRandom.current().nextLong(min, max + 1) * 1000;
     }
-    @Override
+
+    
+	@Override
     public void run() {
         long currentTime = System.currentTimeMillis();
         while(currentTime < currentTime + this.timerValue){

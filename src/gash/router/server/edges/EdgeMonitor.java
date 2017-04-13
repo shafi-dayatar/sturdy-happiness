@@ -15,6 +15,8 @@
  */
 package gash.router.server.edges;
 import java.util.ArrayList;
+import java.util.Collection;
+
 import pipe.work.Work.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -134,27 +136,29 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 	public synchronized void onRemove(EdgeInfo ei) {
 		// TODO ?
 	}
-	public Channel getOutBoundChannel(int nodeId){
+	public ArrayList<EdgeInfo> getOutBoundChannel(int nodeId){
 		//Single Directional 
 		logger.info("Getting Channle for destination : " +  nodeId);
-		EdgeInfo ei = null;
+		ArrayList<EdgeInfo> ei = null;
 		
 		try{
-			ei = outboundEdges.map.get(nodeId);
-			//logger.info("Found Channle for " +  nodeId);
-			return ei.getChannel();
-		}catch(Exception e){
-			logger.info("no problem till here");
-			for(EdgeInfo edgei : outboundEdges.map.values()){
-				return edgei.getChannel();//first connected node
+			if (nodeId == -1){
+				return (ArrayList<EdgeInfo>)outboundEdges.map.values();
 			}
+			ei.add(outboundEdges.map.get(nodeId));
+			return ei;
+		}catch(Exception e){
+			logger.error("Getting Error while looking for outbound channel with error : " + e);
 		}
 		return null;
 	}
 	
 	public ArrayList<Node> getOutBoundRouteTable(){
-		return outboundEdges.getRoutingTable();
-		
+		return outboundEdges.getRoutingTable();	
+	}
+	
+	public int getTotalNodes(){
+		return outboundEdges.map.size();	
 	}
 	
 	public void addNewEdgeInfo(int ref, String host, int port){

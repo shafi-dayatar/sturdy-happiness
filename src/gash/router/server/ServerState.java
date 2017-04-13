@@ -22,15 +22,17 @@ public class ServerState {
 	private RaftServerState leader;
 	private RaftServerState candidate;
 	private RaftServerState follower;
+	private ElectionTimer electionTimer;
+	
 	private int currentTerm = 0;
 	private int votedFor = 0;
 
 	private RoutingConf conf;
+	private int nodeId;
 	private EdgeMonitor emon;
 	private TaskList tasks;
     private MessageQueue obmQueue;
     private MessageQueue ibmQueue;
-    private ElectionTimer electionTimer;
 
 	public ElectionTimer getElectionTimer(){
     	return electionTimer;
@@ -54,6 +56,7 @@ public class ServerState {
 
 	public void setConf(RoutingConf conf) {
 		this.conf = conf;
+		this.setNodeId(conf.getNodeId());
 	}
 
 	public EdgeMonitor getEmon() {
@@ -120,4 +123,22 @@ public class ServerState {
     public int getVotedFor(){
         return this.votedFor;
     }
+
+	public int getNodeId() {
+		return nodeId;
+	}
+
+	public void setNodeId(int nodeId) {
+		this.nodeId = nodeId;
+	}
+
+	public int getLastLogIndex() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public int getLastLogTerm() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }
