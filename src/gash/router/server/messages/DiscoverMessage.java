@@ -62,7 +62,7 @@ public class DiscoverMessage extends Message {
         		WorkMessage.Builder wmb = WorkMessage.newBuilder();
         		Header hd = createHeader();
         		wmb.setHeader(hd);
-        		wmb.setAck(true);
+        		//wmb.setAck(true);
         		wmb.setSecret(123456);
         		wmb.setDiscovery(dsb);
         		wmb.setType(MessageType.DISCOVERNODEREPLY);

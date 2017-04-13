@@ -1,7 +1,7 @@
 package gash.router.server;
 
 import gash.router.server.states.Candidate;
-import gash.router.server.states.NodeState;
+import gash.router.server.states.RaftServerState;
 
 import gash.router.server.states.ElectionTimer;
 import org.slf4j.Logger;
@@ -10,33 +10,43 @@ import org.slf4j.LoggerFactory;
 import gash.router.container.RoutingConf;
 import gash.router.server.edges.EdgeMonitor;
 import gash.router.server.messages.MessageQueue;
+import gash.router.server.states.Candidate;
+import gash.router.server.states.ElectionTimer;
+import gash.router.server.states.Follower;
+import gash.router.server.states.Leader;
+import gash.router.server.states.RaftServerState;
 import gash.router.server.tasks.TaskList;
 
 public class ServerState {
+	private RaftServerState state;
+	private RaftServerState leader;
+	private RaftServerState candidate;
+	private RaftServerState follower;
+	private int currentTerm = 0;
+	private int votedFor = 0;
+
 	private RoutingConf conf;
 	private EdgeMonitor emon;
 	private TaskList tasks;
     private MessageQueue obmQueue;
     private MessageQueue ibmQueue;
-    private NodeState nodeState;
     private ElectionTimer electionTimer;
 
-    public ServerState(){
-    	//initially a candidate
-    	this.nodeState = new Candidate();
-    	this.electionTimer = new ElectionTimer(this.nodeState, 3, 10);
-	}
 	public ElectionTimer getElectionTimer(){
     	return electionTimer;
 	}
-	public NodeState getNodeState() {
-		return nodeState;
-	}
-	public void setNodeState(NodeState nodeState){
-		this.nodeState = nodeState;
-	}
 
 	protected static Logger logger = LoggerFactory.getLogger("Server State");
+    
+    public ServerState(){ 	
+    	leader = new Leader(this);
+    	candidate = new Candidate(this);
+    	follower = new Follower(this);
+    	state = follower;
+		this.electionTimer = new ElectionTimer(follower, 3, 10);
+    	//electionTimer = new ElectionTimer(this);	
+    }
+    
     
 	public RoutingConf getConf() {
 		return conf;
@@ -78,4 +88,32 @@ public class ServerState {
 		this.tasks = tasks;
 	}
 
+	public void becomeFollower(){
+		state = follower;	
+	}
+	
+	public void becomeCandidate(){
+		state = candidate;
+		state.startElection();
+	}
+	
+	public void becomeLeader(){
+		state = leader;
+	}
+	
+	public void setCurrentTerm(int currentTerm){
+        this.currentTerm = currentTerm;
+    }
+	
+    public int getCurrentTerm(){
+        return this.currentTerm;
+    }
+    
+    public void setVotedFor(int votedFor){
+        this.votedFor = votedFor;
+    }
+    
+    public int getVotedFor(){
+        return this.votedFor;
+    }
 }

@@ -9,9 +9,9 @@ import java.util.concurrent.ThreadLocalRandom;
  * Created by rentala on 4/11/17.
  */
 public class ElectionTimer implements Runnable {
-    private Follower state;
+    private RaftServerState state;
     private long timerValue;
-    public ElectionTimer(Follower state, int min,int max){
+    public ElectionTimer(RaftServerState state, int min,int max){
         this.state = state;
         this.timerValue = ThreadLocalRandom.current().nextLong(min, max + 1) * 1000;
     }
@@ -22,7 +22,7 @@ public class ElectionTimer implements Runnable {
             //timer
         }
         //timed out
-        state.toCandidate();
+        //state.toCandidate();
 
     }
 }
