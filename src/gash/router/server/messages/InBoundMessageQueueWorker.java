@@ -43,7 +43,7 @@ public class InBoundMessageQueueWorker extends MessageQueue implements Runnable{
 
 				// Identify type of message
                 MessageInterface message = MessageHandler.IdentifyMessage(m);
-
+                //Client
                 // process message/ reply to ping/ forward if it is not for current node
 				//if it is a Ping (Common function to identify )
                 //TODO : Override process message for PingMEssage , HeartBeatMessage etc
