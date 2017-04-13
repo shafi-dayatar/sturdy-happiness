@@ -19,10 +19,14 @@ public class MessageHandler {
 			m = new PingMessage(msg, null);
 		}*/
 		switch(msg.getType()){
-		   case DISCOVERNODE :
-			 m =  new DiscoverMessage(msg);
-		   case DISCOVERNODEREPLY :
-				 m =  new DiscoverMessage(msg);
+			case DISCOVERNODE :
+				m =  new DiscoverMessage(msg);
+				break;
+		   	case DISCOVERNODEREPLY :
+		   		m =  new DiscoverMessage(msg);
+				break;
+			case LEADERELECTION:
+				m = new ElectionMessage(msg);
 			default:
 			//case
 			//hearbeat message ?

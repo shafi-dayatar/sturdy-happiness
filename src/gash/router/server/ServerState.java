@@ -96,6 +96,10 @@ public class ServerState {
 		state = candidate;
 		state.startElection();
 	}
+
+	public RaftServerState getState(){
+		return this.state;
+	}
 	
 	public void becomeLeader(){
 		state = leader;
