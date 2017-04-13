@@ -29,7 +29,7 @@ message LeaderElection {
 }
 
 message LeaderElectionResponse{
-   required int32 node_id = 1;
+   required int32 from_node_id = 1;
    required int32 for_term = 2;
    required bool vote_granted = 3; 
 }

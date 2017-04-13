@@ -25,7 +25,7 @@ public class Follower implements RaftServerState {
 	protected static Logger logger = LoggerFactory.getLogger("Follower-State");
 	private ServerState state;
 	//private List<integer, boolean> vote = new ArrayList<Integer, Boolean>();
-    private ConcurrentHashMap<Integer, ArrayList<Vote>> electionVotes =  new ConcurrentHashMap<Integer, ArrayList<Vote>>();
+    private ConcurrentHashMap<Integer, Integer> electionVotes =  new ConcurrentHashMap<Integer, Integer>();
     public Follower(ServerState state){
         this.state = state;
     }
@@ -49,50 +49,41 @@ public class Follower implements RaftServerState {
 		WorkMessage wm = null;
 		
 		if( request.getTerm() < state.getCurrentTerm() ||
-				request.getLastLogTerm() < state.getLastLogTerm() ||
-				request.getLastLogIndex() < state.getLastLogIndex()
-				){
+				request.getLastLogTerm() < logTerm ||
+				request.getLastLogIndex() < logIndex){
 			/**
 			 * vote will be false as: this candidate is lagging
 			 */
-			wm = createVoteResponse(request.getCandidateId(), request.getTerm(), false);
+			wm = createVoteResponse(request.getCandidateId(), state.getNodeId(), 
+					request.getTerm(), false);
 		}else{
-			if(!electionVotes.contains(request.getTerm())){
-				ArrayList<Vote> votes= new ArrayList<Vote>();
-				votes.add(new Vote(request.getCandidateId(),
-						true));
-				electionVotes.put(request.getTerm(),votes);
+			if(electionVotes.containsKey(request.getTerm())){
+				wm  =  createVoteResponse(request.getCandidateId(), state.getNodeId(), 
+						request.getTerm(), false);
 			}
 			else{
-				ArrayList<Vote> previousVotes = electionVotes.get(request.getTerm());
-				for(Vote v: previousVotes){
-					if (v.candidateId == request.getCandidateId()){
-						//cannot vote again for this candidate
-						wm = createVoteResponse(request.getCandidateId(), request.getTerm(), false);
-						state.getOutBoundMessageQueue().addMessage(wm);
-						return;
-					}
-				}
-				previousVotes.add(new Vote(request.getCandidateId(),
-						true));
+				electionVotes.put(request.getTerm(), request.getCandidateId());
+				wm  =  createVoteResponse(request.getCandidateId(), state.getNodeId(), 
+						request.getTerm(), true);
 			}
-			wm  =  createVoteResponse(request.getCandidateId(), request.getTerm(), true);
+			   
 		}
 		state.getOutBoundMessageQueue().addMessage(wm);
 	}
 
-	private WorkMessage createVoteResponse(int candidateId, int term, boolean b) {
+	private WorkMessage createVoteResponse(int destId, int sourceId, int term, boolean b) {
+		logger.info("will I vote for " + destId + "?, and answer is : " + b);
 		// TODO Auto-generated method stub
 		WorkMessage.Builder wmb = WorkMessage.newBuilder();
 		Header.Builder hdb = Header.newBuilder();
-		hdb.setNodeId(state.getNodeId());
+		hdb.setNodeId(sourceId);
 		hdb.setTime(System.currentTimeMillis());
-		hdb.setDestination(candidateId);
+		hdb.setDestination(destId);
 	    wmb.setHeader(hdb);
 	    
 	    LeaderElectionResponse.Builder leb = LeaderElectionResponse.newBuilder();
 	    leb.setForTerm(term);
-	    leb.setNodeId(candidateId);
+	    leb.setNodeId(sourceId);
 	    leb.setVoteGranted(b);
 	    
 		wmb.setLeaderElectionResponse(leb);

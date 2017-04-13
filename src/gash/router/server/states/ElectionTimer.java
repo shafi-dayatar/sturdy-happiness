@@ -19,30 +19,48 @@ public class ElectionTimer implements Runnable {
 	protected static Logger logger = LoggerFactory.getLogger("Election Timer");
     private ServerState state;
     private long timerValue;
+    private int maxRandom;
+    private int minRandom;
+    private long electionTimeOut;
     public ElectionTimer(ServerState state, int min,int max){
         this.state = state;
+        maxRandom = max;
+        minRandom = min;
         this.timerValue = ThreadLocalRandom.current().nextLong(min, max + 1) * 1000;
+        electionTimeOut  = System.currentTimeMillis() + this.timerValue;
+ 
     }
 
-    
 	@Override
     public void run() {
-        long electionTimeOut  = System.currentTimeMillis() + this.timerValue;
-        long currentTime = System.currentTimeMillis();
-        while( currentTime < electionTimeOut){
-            //timer
-        	currentTime = System.currentTimeMillis();
-        	logger.info("Election will start in " + (electionTimeOut - currentTime));
-        	try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+        
+        while(true){
+        	long currentTime = System.currentTimeMillis();
+        	while( currentTime < electionTimeOut){
+        		//timer
+        		currentTime = System.currentTimeMillis();
+        		logger.info("Election will start in " + (electionTimeOut - currentTime));
+        		try {
+        			Thread.sleep(100);
+        		} catch (InterruptedException e) {
+        			// TODO Auto-generated catch block
+        			e.printStackTrace();
+        		}
+        	}
+        	logger.info("Election TimedOut, changing state to candidate");
+        	if(state.getEmon().getTotalNodes() >= 3){
+        		setElectionTimeOut();
+        		state.becomeCandidate();
+        	}else{
+        		setElectionTimeOut();
+        	}
         }
-        logger.info("Election TimedOut, changing state to candidate");
-
-        state.becomeCandidate();
     }
+	public void setElectionTimeOut(){
+		this.timerValue = ThreadLocalRandom.current().nextLong(minRandom, maxRandom + 1) * 1000;
+        electionTimeOut  = System.currentTimeMillis() + this.timerValue;
+	}	
+	
+	
 	
 }

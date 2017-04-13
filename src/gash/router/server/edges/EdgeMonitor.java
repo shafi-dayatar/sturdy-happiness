@@ -51,7 +51,7 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 		if (state.getConf().getRouting() != null) {
 			for (RoutingEntry e : state.getConf().getRouting()) {
 				EdgeInfo ei = outboundEdges.addNode(e.getId(), e.getHost(), e.getPort());
-				onAdd(ei);//try to connect thru creating channle.
+				onAdd(ei); //try to connect thru creating channel.
 			}
 		}
 
@@ -165,12 +165,16 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 		return outboundEdges.map.size();	
 	}
 	
-	public void addNewEdgeInfo(int ref, String host, int port){
+	public boolean addNewEdgeInfo(int ref, String host, int port){
 		logger.info("Got a new connection from  nodeid : " + ref + " ip :" + host +  " port : " + port  );
+		if (outboundEdges.hasNode(ref))
+			return false;
 		EdgeInfo ei = outboundEdges.createIfNew(ref, host, port);
 		if (!ei.isActive()) {
 			logger.info("Trying to make reverse connection");
 		    onAdd(ei);
+		    
 		}
+		return true;
 	}
 }

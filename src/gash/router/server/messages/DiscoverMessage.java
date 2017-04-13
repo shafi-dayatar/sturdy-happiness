@@ -7,6 +7,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gash.router.container.RoutingConf.RoutingEntry;
 import gash.router.server.ServerState;
 import gash.router.server.edges.EdgeInfo;
 import pipe.common.Common.Header;
@@ -57,7 +58,9 @@ public class DiscoverMessage extends Message {
         		Discovery.Builder dsb = Discovery.newBuilder(); 
         		List<Node> nodes = state.getEmon().getOutBoundRouteTable();
         		for (Node n : nodes){
-        			dsb.addRoutingTable(n);
+        			if (n.getNodeId() != getDestinationId()){
+        			    dsb.addRoutingTable(n);
+        			}
         		}
         		WorkMessage.Builder wmb = WorkMessage.newBuilder();
         		Header hd = createHeader();
@@ -75,14 +78,16 @@ public class DiscoverMessage extends Message {
         		
            		List<Node> nodes =  discovery.getRoutingTableList();
         		for (Node n : nodes){
-        			state.getEmon().addNewEdgeInfo(n.getNodeId(), n.getIpAddr(), 
+        			boolean newEdge = state.getEmon().addNewEdgeInfo(n.getNodeId(), n.getIpAddr(), 
         					n.getWorkPort());
+        			if(newEdge){
+        				WorkMessage wm = createDiscoverMessage(state.getNodeId(), 
+        						n.getNodeId(), "localhost", state.getConf().getRouting().get(0).getPort());
+        				
+        				state.getOutBoundMessageQueue().addMessage(wm);
+        			}
         		}
-        		//this is hack to start a election timer.
-        		if (nodes.size() >= 3){
-        			Thread electionT = new Thread(state.getElectionTimer());
-        			electionT.start();
-        		}
+        		
         	}	
         }
 
@@ -97,5 +102,27 @@ public class DiscoverMessage extends Message {
         wm.setSecret(getSecret());
         System.out.println("[x] Responding to discover message ....");
         //return wm.build();
+    }
+    
+    public WorkMessage createDiscoverMessage(int sourceId, int destId, String sourceIp, 
+    		int sourcePort ){
+    	
+		WorkMessage.Builder wmb = WorkMessage.newBuilder();
+		Header.Builder hdb = Header.newBuilder();
+		hdb.setNodeId(sourceId);
+		hdb.setDestination(destId);
+		hdb.setTime(System.currentTimeMillis());
+		wmb.setHeader(hdb.build());
+		wmb.setSecret(1111);
+		
+		Discovery.Builder db = Discovery.newBuilder(); 
+		Node.Builder discover = Node.newBuilder(); 
+		discover.setNodeId(sourceId);
+		discover.setIpAddr(sourceIp);
+		discover.setWorkPort(sourcePort);
+		db.setNode(discover.build());
+		wmb.setType(MessageType.DISCOVERNODEREPLY);
+		wmb.setDiscovery(db.build());
+		return wmb.build();
     }
 }

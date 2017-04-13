@@ -63,6 +63,9 @@ public class Candidate implements RaftServerState {
 		 *  also duplicate vote response is handled
 		 */
 		
+		logger.info("Got vote from : " + leaderElection.getNodeId());
+		logger.info("Vote was : " + leaderElection.getVoteGranted());
+		
 		if (election.term == leaderElection.getForTerm()){
 			if(election.voteFrom.add(leaderElection.getNodeId())){
 				if(leaderElection.getVoteGranted()){
@@ -74,12 +77,12 @@ public class Candidate implements RaftServerState {
 						logger.info("Election Result is " + election.toString());
 						state.becomeLeader();
 					}
+					logger.info("Election Result is " + election.toString());
 				}
 			}
 		}
 		
 	}
-
 
 	public class Election {
 		public int term;

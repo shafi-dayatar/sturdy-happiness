@@ -216,20 +216,19 @@ public class MessageServer {
 			
 			InBoundMessageQueueWorker inbound = new InBoundMessageQueueWorker(state);
 			OutBoundMessageQueueWorker outbound = new OutBoundMessageQueueWorker(state);
-			//state.setInBoundMessageQueue(outbound);
+			
 			state.setInBoundMessageQueue(inbound);
 			state.setOutBoundMessageQueue(outbound);
 
 
-
-			
+			Thread electionT = new Thread(state.getElectionTimer());
 			Thread inboundT =  new Thread(inbound);
 			Thread outboundT = new Thread(outbound);
 			inboundT.start();
 			outboundT.start();
 			discoverCluster();
 		
-			//electionT.start();
+			electionT.start();
 			
 		}	
 		public void discoverCluster(){
