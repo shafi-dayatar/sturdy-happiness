@@ -18,11 +18,12 @@ import gash.router.server.states.RaftServerState;
 import gash.router.server.tasks.TaskList;
 
 public class ServerState {
-	private RaftServerState state;
+	private RaftServerState raftState;
 	private RaftServerState leader;
 	private RaftServerState candidate;
 	private RaftServerState follower;
 	private ElectionTimer electionTimer;
+	private Thread electionTimerThread;
 	
 	private int currentTerm = 0;
 	private int votedFor = 0;
@@ -44,7 +45,7 @@ public class ServerState {
     	leader = new Leader(this);
     	candidate = new Candidate(this);
     	follower = new Follower(this);
-    	state = follower;
+    	raftState = follower;
 		this.electionTimer = new ElectionTimer(this, 3, 10);
     	//electionTimer = new ElectionTimer(this);	
     }
@@ -92,20 +93,21 @@ public class ServerState {
 	}
 
 	public void becomeFollower(){
-		state = follower;	
+		raftState = follower;	
 	}
 	
 	public void becomeCandidate(){
-		state = candidate;
-		state.startElection();
+		raftState = candidate;
+		raftState.startElection();
 	}
 
-	public RaftServerState getState(){
-		return this.state;
+	public RaftServerState getRaftState(){
+		return this.raftState;
 	}
 	
 	public void becomeLeader(){
-		state = leader;
+		
+		raftState = leader;
 	}
 	
 	public void setCurrentTerm(int currentTerm){
@@ -141,4 +143,22 @@ public class ServerState {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	
+	public void restartElectionTimerThread(){
+		electionTimerThread.run();
+	}
+	
+	public void stopElectionTimerThread(){
+		electionTimer.stopThread();
+	}
+	
+	public void startElectionTimerThread(){
+		electionTimerThread = new Thread(electionTimer);
+		electionTimerThread.start();
+	}
+	
+
+
+
+	
 }

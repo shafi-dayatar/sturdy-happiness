@@ -22,6 +22,7 @@ public class ElectionTimer implements Runnable {
     private int maxRandom;
     private int minRandom;
     private long electionTimeOut;
+    private boolean forever = true;
     public ElectionTimer(ServerState state, int min,int max){
         this.state = state;
         maxRandom = max;
@@ -34,10 +35,9 @@ public class ElectionTimer implements Runnable {
 	@Override
     public void run() {
         
-        while(true){
+        while(forever){
         	long currentTime = System.currentTimeMillis();
-        	while( currentTime < electionTimeOut){
-        		//timer
+        	while(forever && currentTime < electionTimeOut){
         		currentTime = System.currentTimeMillis();
         		logger.info("Election will start in " + (electionTimeOut - currentTime));
         		try {
@@ -48,19 +48,22 @@ public class ElectionTimer implements Runnable {
         		}
         	}
         	logger.info("Election TimedOut, changing state to candidate");
-        	if(state.getEmon().getTotalNodes() >= 3){
-        		setElectionTimeOut();
+        	if(forever && state.getEmon().getTotalNodes() >= 3){
+        		if (state.getRaftState() instanceof Follower)   
         		state.becomeCandidate();
-        	}else{
-        		setElectionTimeOut();
         	}
+        	setElectionTimeOut();
         }
     }
+	
 	public void setElectionTimeOut(){
 		this.timerValue = ThreadLocalRandom.current().nextLong(minRandom, maxRandom + 1) * 1000;
         electionTimeOut  = System.currentTimeMillis() + this.timerValue;
 	}	
 	
+	public void stopThread(){
+		forever = false;
+	}
 	
 	
 }

@@ -31,7 +31,7 @@ public class ElectionMessage extends Message {
     
     @java.lang.Override
     public void processMessage(ServerState state) {
-    	RaftServerState serverState = state.getState();
+    	RaftServerState serverState = state.getRaftState();
     	if (type == MessageType.LEADERELECTIONREPLY){ 
     		serverState.collectVote(leaderElectionResponse);
     	}else if (type == MessageType.LEADERELECTION){
