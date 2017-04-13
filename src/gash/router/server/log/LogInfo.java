@@ -16,6 +16,7 @@ public class LogInfo implements LogOperations {
 	public ArrayList<LogEntry> log;
 	private Integer commitIndex;
 	private Integer lastApplied;
+
 //	private int thresholdSize = 65536;
 //	private String logStoreDir = "./resources/files";
 	
