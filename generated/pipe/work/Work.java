@@ -4066,6 +4066,19 @@ public final class Work {
      */
     pipe.election.Election.LeaderElectionOrBuilder getLeaderElectionRequestOrBuilder();
 
+    /**
+     * <code>optional .LeaderElectionResponse leaderElectionResponse = 12;</code>
+     */
+    boolean hasLeaderElectionResponse();
+    /**
+     * <code>optional .LeaderElectionResponse leaderElectionResponse = 12;</code>
+     */
+    pipe.election.Election.LeaderElectionResponse getLeaderElectionResponse();
+    /**
+     * <code>optional .LeaderElectionResponse leaderElectionResponse = 12;</code>
+     */
+    pipe.election.Election.LeaderElectionResponseOrBuilder getLeaderElectionResponseOrBuilder();
+
     public pipe.work.Work.WorkMessage.PayloadCase getPayloadCase();
   }
   /**
@@ -4246,6 +4259,20 @@ public final class Work {
                 payload_ = subBuilder.buildPartial();
               }
               payloadCase_ = 11;
+              break;
+            }
+            case 98: {
+              pipe.election.Election.LeaderElectionResponse.Builder subBuilder = null;
+              if (payloadCase_ == 12) {
+                subBuilder = ((pipe.election.Election.LeaderElectionResponse) payload_).toBuilder();
+              }
+              payload_ =
+                  input.readMessage(pipe.election.Election.LeaderElectionResponse.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((pipe.election.Election.LeaderElectionResponse) payload_);
+                payload_ = subBuilder.buildPartial();
+              }
+              payloadCase_ = 12;
               break;
             }
           }
@@ -4471,6 +4498,7 @@ public final class Work {
       LEADER(9),
       DISCOVERY(10),
       LEADERELECTIONREQUEST(11),
+      LEADERELECTIONRESPONSE(12),
       PAYLOAD_NOT_SET(0);
       private final int value;
       private PayloadCase(int value) {
@@ -4494,6 +4522,7 @@ public final class Work {
           case 9: return LEADER;
           case 10: return DISCOVERY;
           case 11: return LEADERELECTIONREQUEST;
+          case 12: return LEADERELECTIONRESPONSE;
           case 0: return PAYLOAD_NOT_SET;
           default: return null;
         }
@@ -4792,6 +4821,32 @@ public final class Work {
       return pipe.election.Election.LeaderElection.getDefaultInstance();
     }
 
+    public static final int LEADERELECTIONRESPONSE_FIELD_NUMBER = 12;
+    /**
+     * <code>optional .LeaderElectionResponse leaderElectionResponse = 12;</code>
+     */
+    public boolean hasLeaderElectionResponse() {
+      return payloadCase_ == 12;
+    }
+    /**
+     * <code>optional .LeaderElectionResponse leaderElectionResponse = 12;</code>
+     */
+    public pipe.election.Election.LeaderElectionResponse getLeaderElectionResponse() {
+      if (payloadCase_ == 12) {
+         return (pipe.election.Election.LeaderElectionResponse) payload_;
+      }
+      return pipe.election.Election.LeaderElectionResponse.getDefaultInstance();
+    }
+    /**
+     * <code>optional .LeaderElectionResponse leaderElectionResponse = 12;</code>
+     */
+    public pipe.election.Election.LeaderElectionResponseOrBuilder getLeaderElectionResponseOrBuilder() {
+      if (payloadCase_ == 12) {
+         return (pipe.election.Election.LeaderElectionResponse) payload_;
+      }
+      return pipe.election.Election.LeaderElectionResponse.getDefaultInstance();
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -4856,6 +4911,12 @@ public final class Work {
           return false;
         }
       }
+      if (hasLeaderElectionResponse()) {
+        if (!getLeaderElectionResponse().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -4895,6 +4956,9 @@ public final class Work {
       }
       if (payloadCase_ == 11) {
         output.writeMessage(11, (pipe.election.Election.LeaderElection) payload_);
+      }
+      if (payloadCase_ == 12) {
+        output.writeMessage(12, (pipe.election.Election.LeaderElectionResponse) payload_);
       }
       unknownFields.writeTo(output);
     }
@@ -4948,6 +5012,10 @@ public final class Work {
       if (payloadCase_ == 11) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(11, (pipe.election.Election.LeaderElection) payload_);
+      }
+      if (payloadCase_ == 12) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(12, (pipe.election.Election.LeaderElectionResponse) payload_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -5016,6 +5084,10 @@ public final class Work {
           result = result && getLeaderElectionRequest()
               .equals(other.getLeaderElectionRequest());
           break;
+        case 12:
+          result = result && getLeaderElectionResponse()
+              .equals(other.getLeaderElectionResponse());
+          break;
         case 0:
         default:
       }
@@ -5076,6 +5148,10 @@ public final class Work {
         case 11:
           hash = (37 * hash) + LEADERELECTIONREQUEST_FIELD_NUMBER;
           hash = (53 * hash) + getLeaderElectionRequest().hashCode();
+          break;
+        case 12:
+          hash = (37 * hash) + LEADERELECTIONRESPONSE_FIELD_NUMBER;
+          hash = (53 * hash) + getLeaderElectionResponse().hashCode();
           break;
         case 0:
         default:
@@ -5307,6 +5383,13 @@ public final class Work {
             result.payload_ = leaderElectionRequestBuilder_.build();
           }
         }
+        if (payloadCase_ == 12) {
+          if (leaderElectionResponseBuilder_ == null) {
+            result.payload_ = payload_;
+          } else {
+            result.payload_ = leaderElectionResponseBuilder_.build();
+          }
+        }
         result.bitField0_ = to_bitField0_;
         result.payloadCase_ = payloadCase_;
         onBuilt();
@@ -5392,6 +5475,10 @@ public final class Work {
             mergeLeaderElectionRequest(other.getLeaderElectionRequest());
             break;
           }
+          case LEADERELECTIONRESPONSE: {
+            mergeLeaderElectionResponse(other.getLeaderElectionResponse());
+            break;
+          }
           case PAYLOAD_NOT_SET: {
             break;
           }
@@ -5446,6 +5533,11 @@ public final class Work {
         }
         if (hasLeaderElectionRequest()) {
           if (!getLeaderElectionRequest().isInitialized()) {
+            return false;
+          }
+        }
+        if (hasLeaderElectionResponse()) {
+          if (!getLeaderElectionResponse().isInitialized()) {
             return false;
           }
         }
@@ -6746,6 +6838,142 @@ public final class Work {
         payloadCase_ = 11;
         onChanged();;
         return leaderElectionRequestBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          pipe.election.Election.LeaderElectionResponse, pipe.election.Election.LeaderElectionResponse.Builder, pipe.election.Election.LeaderElectionResponseOrBuilder> leaderElectionResponseBuilder_;
+      /**
+       * <code>optional .LeaderElectionResponse leaderElectionResponse = 12;</code>
+       */
+      public boolean hasLeaderElectionResponse() {
+        return payloadCase_ == 12;
+      }
+      /**
+       * <code>optional .LeaderElectionResponse leaderElectionResponse = 12;</code>
+       */
+      public pipe.election.Election.LeaderElectionResponse getLeaderElectionResponse() {
+        if (leaderElectionResponseBuilder_ == null) {
+          if (payloadCase_ == 12) {
+            return (pipe.election.Election.LeaderElectionResponse) payload_;
+          }
+          return pipe.election.Election.LeaderElectionResponse.getDefaultInstance();
+        } else {
+          if (payloadCase_ == 12) {
+            return leaderElectionResponseBuilder_.getMessage();
+          }
+          return pipe.election.Election.LeaderElectionResponse.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>optional .LeaderElectionResponse leaderElectionResponse = 12;</code>
+       */
+      public Builder setLeaderElectionResponse(pipe.election.Election.LeaderElectionResponse value) {
+        if (leaderElectionResponseBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          payload_ = value;
+          onChanged();
+        } else {
+          leaderElectionResponseBuilder_.setMessage(value);
+        }
+        payloadCase_ = 12;
+        return this;
+      }
+      /**
+       * <code>optional .LeaderElectionResponse leaderElectionResponse = 12;</code>
+       */
+      public Builder setLeaderElectionResponse(
+          pipe.election.Election.LeaderElectionResponse.Builder builderForValue) {
+        if (leaderElectionResponseBuilder_ == null) {
+          payload_ = builderForValue.build();
+          onChanged();
+        } else {
+          leaderElectionResponseBuilder_.setMessage(builderForValue.build());
+        }
+        payloadCase_ = 12;
+        return this;
+      }
+      /**
+       * <code>optional .LeaderElectionResponse leaderElectionResponse = 12;</code>
+       */
+      public Builder mergeLeaderElectionResponse(pipe.election.Election.LeaderElectionResponse value) {
+        if (leaderElectionResponseBuilder_ == null) {
+          if (payloadCase_ == 12 &&
+              payload_ != pipe.election.Election.LeaderElectionResponse.getDefaultInstance()) {
+            payload_ = pipe.election.Election.LeaderElectionResponse.newBuilder((pipe.election.Election.LeaderElectionResponse) payload_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            payload_ = value;
+          }
+          onChanged();
+        } else {
+          if (payloadCase_ == 12) {
+            leaderElectionResponseBuilder_.mergeFrom(value);
+          }
+          leaderElectionResponseBuilder_.setMessage(value);
+        }
+        payloadCase_ = 12;
+        return this;
+      }
+      /**
+       * <code>optional .LeaderElectionResponse leaderElectionResponse = 12;</code>
+       */
+      public Builder clearLeaderElectionResponse() {
+        if (leaderElectionResponseBuilder_ == null) {
+          if (payloadCase_ == 12) {
+            payloadCase_ = 0;
+            payload_ = null;
+            onChanged();
+          }
+        } else {
+          if (payloadCase_ == 12) {
+            payloadCase_ = 0;
+            payload_ = null;
+          }
+          leaderElectionResponseBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>optional .LeaderElectionResponse leaderElectionResponse = 12;</code>
+       */
+      public pipe.election.Election.LeaderElectionResponse.Builder getLeaderElectionResponseBuilder() {
+        return getLeaderElectionResponseFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .LeaderElectionResponse leaderElectionResponse = 12;</code>
+       */
+      public pipe.election.Election.LeaderElectionResponseOrBuilder getLeaderElectionResponseOrBuilder() {
+        if ((payloadCase_ == 12) && (leaderElectionResponseBuilder_ != null)) {
+          return leaderElectionResponseBuilder_.getMessageOrBuilder();
+        } else {
+          if (payloadCase_ == 12) {
+            return (pipe.election.Election.LeaderElectionResponse) payload_;
+          }
+          return pipe.election.Election.LeaderElectionResponse.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>optional .LeaderElectionResponse leaderElectionResponse = 12;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          pipe.election.Election.LeaderElectionResponse, pipe.election.Election.LeaderElectionResponse.Builder, pipe.election.Election.LeaderElectionResponseOrBuilder> 
+          getLeaderElectionResponseFieldBuilder() {
+        if (leaderElectionResponseBuilder_ == null) {
+          if (!(payloadCase_ == 12)) {
+            payload_ = pipe.election.Election.LeaderElectionResponse.getDefaultInstance();
+          }
+          leaderElectionResponseBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              pipe.election.Election.LeaderElectionResponse, pipe.election.Election.LeaderElectionResponse.Builder, pipe.election.Election.LeaderElectionResponseOrBuilder>(
+                  (pipe.election.Election.LeaderElectionResponse) payload_,
+                  getParentForChildren(),
+                  isClean());
+          payload_ = null;
+        }
+        payloadCase_ = 12;
+        onChanged();;
+        return leaderElectionResponseBuilder_;
       }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -9411,7 +9639,7 @@ public final class Work {
       "\022\017\n\007ip_addr\030\002 \002(\t\022\021\n\twork_port\030\003 \002(\005\"U\n\t" +
       "Discovery\022\034\n\rrouting_table\030\001 \003(\0132\005.Node\022" +
       "\023\n\004node\030\002 \001(\0132\005.Node\022\025\n\006leader\030\003 \001(\0132\005.N" +
-      "ode\"\275\004\n\013WorkMessage\022\027\n\006header\030\001 \002(\0132\007.He" +
+      "ode\"\370\004\n\013WorkMessage\022\027\n\006header\030\001 \002(\0132\007.He" +
       "ader\022\016\n\006secret\030\002 \002(\003\022&\n\004type\030\003 \002(\0162\030.Wor",
       "kMessage.MessageType\022\027\n\003err\030\004 \001(\0132\010.Fail" +
       "ureH\000\022\016\n\004ping\030\005 \001(\010H\000\022\032\n\004beat\030\006 \001(\0132\n.He" +
@@ -9419,19 +9647,21 @@ public final class Work {
       "e\030\010 \001(\0132\n.WorkStateH\000\022\037\n\006leader\030\t \001(\0132\r." +
       "LeaderStatusH\000\022\037\n\tdiscovery\030\n \001(\0132\n.Disc" +
       "overyH\000\0220\n\025leaderElectionRequest\030\013 \001(\0132\017" +
-      ".LeaderElectionH\000\"\344\001\n\013MessageType\022\020\n\014DIS" +
-      "COVERNODE\020\001\022\025\n\021DISCOVERNODEREPLY\020\002\022\022\n\016LE" +
-      "ADERELECTION\020\003\022\027\n\023LEADERELECTIONREPLY\020\004\022" +
-      "\020\n\014LEADERSTATUS\020\005\022\025\n\021LEADERSTATUSREPLY\020\006",
-      "\022\r\n\tHEARTBEAT\020\007\022\010\n\004PING\020\010\022\r\n\tPINGREPLY\020\t" +
-      "\022\013\n\007FAILURE\020\n\022\r\n\tWORKSTATE\020\013\022\022\n\016WORKSTAT" +
-      "EREPLY\020\014B\t\n\007payload\"8\n\007Command\022\013\n\003key\030\001 " +
-      "\002(\t\022\r\n\005value\030\002 \002(\t\022\021\n\tclient_id\030\003 \002(\005\"\213\001" +
-      "\n\010LogEntry\022$\n\006action\030\001 \002(\0162\024.LogEntry.Da" +
-      "taAction\022\026\n\004data\030\002 \002(\0132\010.Command\022\014\n\004term" +
-      "\030\003 \002(\005\022\r\n\005logId\030\004 \002(\005\"$\n\nDataAction\022\n\n\006I" +
-      "NSERT\020\001\022\n\n\006UPDATE\020\002\"(\n\014LogEntryList\022\030\n\005e" +
-      "ntry\030\001 \003(\0132\t.LogEntryB\r\n\tpipe.workH\001"
+      ".LeaderElectionH\000\0229\n\026leaderElectionRespo" +
+      "nse\030\014 \001(\0132\027.LeaderElectionResponseH\000\"\344\001\n" +
+      "\013MessageType\022\020\n\014DISCOVERNODE\020\001\022\025\n\021DISCOV" +
+      "ERNODEREPLY\020\002\022\022\n\016LEADERELECTION\020\003\022\027\n\023LEA",
+      "DERELECTIONREPLY\020\004\022\020\n\014LEADERSTATUS\020\005\022\025\n\021" +
+      "LEADERSTATUSREPLY\020\006\022\r\n\tHEARTBEAT\020\007\022\010\n\004PI" +
+      "NG\020\010\022\r\n\tPINGREPLY\020\t\022\013\n\007FAILURE\020\n\022\r\n\tWORK" +
+      "STATE\020\013\022\022\n\016WORKSTATEREPLY\020\014B\t\n\007payload\"8" +
+      "\n\007Command\022\013\n\003key\030\001 \002(\t\022\r\n\005value\030\002 \002(\t\022\021\n" +
+      "\tclient_id\030\003 \002(\005\"\213\001\n\010LogEntry\022$\n\006action\030" +
+      "\001 \002(\0162\024.LogEntry.DataAction\022\026\n\004data\030\002 \002(" +
+      "\0132\010.Command\022\014\n\004term\030\003 \002(\005\022\r\n\005logId\030\004 \002(\005" +
+      "\"$\n\nDataAction\022\n\n\006INSERT\020\001\022\n\n\006UPDATE\020\002\"(" +
+      "\n\014LogEntryList\022\030\n\005entry\030\001 \003(\0132\t.LogEntry",
+      "B\r\n\tpipe.workH\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -9482,7 +9712,7 @@ public final class Work {
     internal_static_WorkMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_WorkMessage_descriptor,
-        new java.lang.String[] { "Header", "Secret", "Type", "Err", "Ping", "Beat", "Task", "State", "Leader", "Discovery", "LeaderElectionRequest", "Payload", });
+        new java.lang.String[] { "Header", "Secret", "Type", "Err", "Ping", "Beat", "Task", "State", "Leader", "Discovery", "LeaderElectionRequest", "LeaderElectionResponse", "Payload", });
     internal_static_Command_descriptor =
       getDescriptor().getMessageTypes().get(6);
     internal_static_Command_fieldAccessorTable = new

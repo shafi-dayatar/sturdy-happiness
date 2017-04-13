@@ -76,6 +76,7 @@ message WorkMessage {
       Discovery discovery = 10;
       
       LeaderElection leaderElectionRequest = 11;
+      LeaderElectionResponse leaderElectionResponse = 12;
 
    }
    
