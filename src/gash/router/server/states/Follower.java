@@ -54,7 +54,7 @@ public class Follower implements RaftServerState {
 		
 	}
     @java.lang.Override
-    public Work.WorkMessage collectVote(Election.LeaderElection leaderElection) {
-        return null;
+    public void collectVote(Election.LeaderElection leaderElection) {
+
     }
 }

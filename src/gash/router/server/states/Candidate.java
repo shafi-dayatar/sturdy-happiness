@@ -54,8 +54,8 @@ public class Candidate implements RaftServerState {
 	}
 
 	@java.lang.Override
-	public Work.WorkMessage collectVote(LeaderElection leaderElection) {
-		return null;
+	public void collectVote(LeaderElection leaderElection) {
+		
 	}
 
 
