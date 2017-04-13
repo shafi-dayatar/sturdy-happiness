@@ -27,6 +27,8 @@ public class MessageHandler {
 				break;
 			case LEADERELECTION:
 				m = new ElectionMessage(msg);
+			case LEADERELECTIONREPLY:
+				m = new ElectionMessage(msg);
 			default:
 			//case
 			//hearbeat message ?

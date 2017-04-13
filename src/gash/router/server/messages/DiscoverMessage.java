@@ -78,6 +78,11 @@ public class DiscoverMessage extends Message {
         			state.getEmon().addNewEdgeInfo(n.getNodeId(), n.getIpAddr(), 
         					n.getWorkPort());
         		}
+        		//this is hack to start a election timer.
+        		if (nodes.size() >= 3){
+        			Thread electionT = new Thread(state.getElectionTimer());
+        			electionT.start();
+        		}
         	}	
         }
 

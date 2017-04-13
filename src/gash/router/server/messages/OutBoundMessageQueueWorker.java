@@ -57,15 +57,17 @@ public class OutBoundMessageQueueWorker extends MessageQueue implements Runnable
 			}
 			return;
 	    }
-		Channel ch = connectedNode.get(0).getChannel();
-		if(ch != null){
-			ch.writeAndFlush(m);
-		}
-		else{
-			//logger.error("no channel found for destination id " +  destinationId);
-			//PrintUtil.printWork(m);
-			this.addMessage(m);
-			// To Do, should try for x no of times before discarding
+		if ( connectedNode != null){
+			Channel ch = connectedNode.get(0).getChannel();
+			if(ch != null){
+				ch.writeAndFlush(m);
+			}
+			else{
+				//logger.error("no channel found for destination id " +  destinationId);
+				//PrintUtil.printWork(m);
+				this.addMessage(m);
+				// To Do, should try for x no of times before discarding
+			}
 		}
 	 
 

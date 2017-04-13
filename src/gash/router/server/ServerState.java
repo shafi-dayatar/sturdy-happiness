@@ -45,7 +45,7 @@ public class ServerState {
     	candidate = new Candidate(this);
     	follower = new Follower(this);
     	state = follower;
-		this.electionTimer = new ElectionTimer(follower, 3, 10);
+		this.electionTimer = new ElectionTimer(this, 3, 10);
     	//electionTimer = new ElectionTimer(this);	
     }
     
