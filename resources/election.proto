@@ -27,3 +27,9 @@ message LeaderElection {
    required int32 lastLogIndex = 3;
    required int32 lastLogTerm = 4;
 }
+
+message LeaderElectionResponse{
+   required int32 node_id = 1;
+   required int32 for_term = 2;
+   required bool vote_granted = 3; 
+}
