@@ -23,9 +23,8 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import pipe.common.Common.Failure;
-import pipe.common.Client;
 import routing.Pipe.CommandMessage;
-
+import routing.Pipe.TaskType;
 /**
  * The message handler processes json messages that are delimited by a 'newline'
  * 
@@ -34,7 +33,7 @@ import routing.Pipe.CommandMessage;
  * @author gash
  * 
  */
-public class CommandHandler extends SimpleChannelInboundHandler<Client> {
+public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> {
 	protected static Logger logger = LoggerFactory.getLogger("cmd");
 	protected RoutingConf conf;
 
@@ -51,7 +50,7 @@ public class CommandHandler extends SimpleChannelInboundHandler<Client> {
 	 * 
 	 * @param msg
 	 */
-	public void handleMessage(Client msg, Channel channel) {
+	public void handleMessage(CommandMessage msg, Channel channel) {
 		if (msg == null) {
 			// TODO add logging
 
@@ -59,26 +58,32 @@ public class CommandHandler extends SimpleChannelInboundHandler<Client> {
 			return;
 		}
 
-		//PrintUtil.printCommand(msg);
+		PrintUtil.printCommand(msg);
 
 		try {
 			// TODO How can you implement this without if-else statements?
-			/*if (msg.hasPing()) {
+			if (msg.hasReq()){
+				switch (msg.getReq().hasRequestType()){
+					case READFILE:
+						break;
+				}
+			}
+			if (msg.hasPing()) {
 				logger.info("ping from " + msg.getHeader().getNodeId());
 			} else if (msg.hasMessage()) {
 				logger.info(msg.getMessage());
 			} else {
-			}*/
+			}
 
 		} catch (Exception e) {
 			// TODO add logging
 			Failure.Builder eb = Failure.newBuilder();
 			eb.setId(conf.getNodeId());
-			//eb.setRefId(msg.getHeader().getNodeId());
-			//eb.setMessage(e.getMessage());
-			//CommandMessage.Builder rb = CommandMessage.newBuilder(msg);
-			//rb.setErr(eb);
-			//channel.write(rb.build());
+			eb.setRefId(msg.getHeader().getNodeId());
+			eb.setMessage(e.getMessage());
+			CommandMessage.Builder rb = CommandMessage.newBuilder(msg);
+			rb.setErr(eb);
+			channel.write(rb.build());
 		}
 
 		System.out.flush();
@@ -95,7 +100,7 @@ public class CommandHandler extends SimpleChannelInboundHandler<Client> {
 	 *            The message
 	 */
 	protected void channelRead0(ChannelHandlerContext ctx, CommandMessage msg) throws Exception {
-		//handleMessage(msg, ctx.channel());
+		handleMessage(msg, ctx.channel());
 	}
 
 
@@ -104,8 +109,4 @@ public class CommandHandler extends SimpleChannelInboundHandler<Client> {
 		ctx.close();
 	}
 
-
-	protected void channelRead0(ChannelHandlerContext channelHandlerContext, Client client) throws Exception {
-
-	}
 }
