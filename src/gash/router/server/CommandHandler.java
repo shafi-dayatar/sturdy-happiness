@@ -36,11 +36,17 @@ import routing.Pipe.TaskType;
 public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> {
 	protected static Logger logger = LoggerFactory.getLogger("cmd");
 	protected RoutingConf conf;
-
+	ServerState serverState;
 	public CommandHandler(RoutingConf conf) {
 		if (conf != null) {
 			this.conf = conf;
 		}
+	}
+	public CommandHandler(RoutingConf conf, ServerState serverState) {
+		if (conf != null) {
+			this.conf = conf;
+		}
+		this.serverState = serverState;
 	}
 
 	/**
@@ -65,7 +71,7 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 			if (msg.hasReq()){
 				switch (msg.getReq().getRequestType()){
 					case READFILE:
-
+						//serverState.getRaftState()
 						break;
 					case WRITEFILE:
 						break;

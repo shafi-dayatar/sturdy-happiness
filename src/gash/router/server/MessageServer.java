@@ -76,6 +76,8 @@ public class MessageServer {
 	public void release() {
 	}
 
+	private ServerState serverState;
+
 	public void startServer() {
 		StartWorkCommunication comm = new StartWorkCommunication(conf);
 		logger.info("Work starting");
@@ -85,7 +87,7 @@ public class MessageServer {
 		cthread.start();
 
 		if (!conf.isInternalNode()) {
-			StartCommandCommunication comm2 = new StartCommandCommunication(conf);
+			StartCommandCommunication comm2 = new StartCommandCommunication(conf, comm.getServerState());
 			logger.info("Command starting");
 
 			if (background) {
@@ -142,9 +144,14 @@ public class MessageServer {
 	 */
 	private static class StartCommandCommunication implements Runnable {
 		RoutingConf conf;
+		ServerState serverState;
 
 		public StartCommandCommunication(RoutingConf conf) {
 			this.conf = conf;
+		}
+		public StartCommandCommunication(RoutingConf conf, ServerState serverState) {
+			this.conf = conf;
+			this.serverState = serverState;
 		}
 
 		@Override
@@ -166,7 +173,7 @@ public class MessageServer {
 				// b.option(ChannelOption.MESSAGE_SIZE_ESTIMATOR);
 
 				boolean compressComm = false;
-				b.childHandler(new CommandInit(conf, compressComm));
+				b.childHandler(new CommandInit(conf, compressComm, serverState));
 
 				// Start the server.
 				logger.info("Starting command server (" + conf.getNodeId() + "), listening on port = "
@@ -198,7 +205,12 @@ public class MessageServer {
 	 */
 	private static class StartWorkCommunication implements Runnable {
 		ServerState state;
-
+		public ServerState getServerState(){
+			return state;
+		}
+		private void setServerState(ServerState serverState){
+			this.state = serverState;
+		}
 		public StartWorkCommunication(RoutingConf conf) {
 			if (conf == null)
 				throw new RuntimeException("missing conf");
@@ -226,6 +238,7 @@ public class MessageServer {
 			inboundT.start();
 			outboundT.start();
 			discoverCluster();
+			setServerState(state);
 			
 		}	
 		public void discoverCluster(){

@@ -19,7 +19,12 @@ public class CommandInit extends ChannelInitializer<SocketChannel>{
 		this.compress = enableCompression;
 		this.conf = conf;
 	}
-
+	public CommandInit(RoutingConf conf, boolean enableCompression, ServerState state){
+		this.compress = enableCompression;
+		this.conf = conf;
+		this.state = state;
+	}
+	private ServerState state;
 	@Override
 	public void initChannel(SocketChannel ch) throws Exception {
 		ChannelPipeline pipeline = ch.pipeline();
@@ -43,7 +48,7 @@ public class CommandInit extends ChannelInitializer<SocketChannel>{
 		pipeline.addLast("protobufDecoder", new ProtobufDecoder(CommandMessage.getDefaultInstance()));
 		pipeline.addLast("frameEncoder", new LengthFieldPrepender(4));
 		pipeline.addLast("protobufEncoder", new ProtobufEncoder());
-		pipeline.addLast("handler", new CommandHandler(conf));
+		pipeline.addLast("handler", new CommandHandler(conf, state));
 		return;
 	}
 	
