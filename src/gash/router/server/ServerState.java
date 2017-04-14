@@ -19,14 +19,18 @@ import gash.router.server.tasks.TaskList;
 
 public class ServerState {
 	private RaftServerState raftState;
-	private RaftServerState leader;
-	private RaftServerState candidate;
-	private RaftServerState follower;
+	private Leader leader;
+	private Candidate candidate;
+	private Follower follower;
 	private ElectionTimer electionTimer;
 	private Thread electionTimerThread;
+	private Thread leaderThread;
+	
 	
 	private int currentTerm = 0;
 	private int votedFor = 0;
+	private int leaderNodeId;
+	private boolean isLeaderKnown = false;
 
 	private RoutingConf conf;
 	private int nodeId;
@@ -46,7 +50,7 @@ public class ServerState {
     	candidate = new Candidate(this);
     	follower = new Follower(this);
     	raftState = follower;
-		this.electionTimer = new ElectionTimer(this, 3, 10);
+		this.electionTimer = new ElectionTimer(this, 8, 10);
     	//electionTimer = new ElectionTimer(this);	
     }
     
@@ -93,21 +97,32 @@ public class ServerState {
 	}
 
 	public void becomeFollower(){
-		raftState = follower;	
+		logger.info("There is only two way I could become a follower, either I stepped down from candidate or,"
+				+ " I found the Leader ");
+		raftState = follower;
 	}
 	
 	public void becomeCandidate(){
+		logger.info("I would like to become a Candidate as I didn't received any heartbeat from leader, ");
+		currentTerm++;
+		electionTimer.setElectionStartTime(System.currentTimeMillis());
+		candidate.startElection();
 		raftState = candidate;
-		raftState.startElection();
 	}
 
 	public RaftServerState getRaftState(){
+		logger.debug("My Current State is :  " + this.raftState.getClass().getName() );
 		return this.raftState;
 	}
 	
 	public void becomeLeader(){
-		
+		logger.info("Becoming leader for election term : " + currentTerm );
 		raftState = leader;
+		leader.setLeader(true);
+		if (leaderThread == null)
+			leaderThread = new Thread(leader);
+		leaderThread.start();
+		electionTimer.stopThread();
 	}
 	
 	public void setCurrentTerm(int currentTerm){
@@ -155,6 +170,22 @@ public class ServerState {
 	public void startElectionTimerThread(){
 		electionTimerThread = new Thread(electionTimer);
 		electionTimerThread.start();
+	}
+
+
+	public void setLeaderId(int leaderNodeId) {
+		// TODO Auto-generated method stub
+		this.leaderNodeId = leaderNodeId;
+	}
+
+
+	public boolean isLeaderKnown() {
+		return isLeaderKnown;
+	}
+
+
+	public void setLeaderKnown(boolean isLeaderKnown) {
+		this.isLeaderKnown = isLeaderKnown;
 	}
 	
 

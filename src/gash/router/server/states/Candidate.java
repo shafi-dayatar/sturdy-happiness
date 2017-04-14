@@ -14,6 +14,7 @@ import pipe.work.Work;
 import pipe.common.Common.Header;
 import pipe.election.Election.LeaderElection;
 import pipe.election.Election.LeaderElectionResponse;
+import pipe.work.Work.LogAppendEntry;
 import pipe.work.Work.WorkMessage;
 import pipe.work.Work.WorkMessage.MessageType;
 import pipe.work.Work.WorkMessageOrBuilder;
@@ -33,13 +34,20 @@ public class Candidate implements RaftServerState {
         this.state = serverState;
     }
     
-    public void requestVote(LeaderElection leaderElectionRequest){
+    public void requestVote(LeaderElection request){
         logger.info("requestVote ");
+        WorkMessage wm = createVoteResponse(request.getCandidateId(), state.getNodeId(), 
+				request.getTerm(), false);
+        state.getOutBoundMessageQueue().addMessage(wm);
+        
     }
 
 	public void startElection() {
 		// TODO Auto-generated method stub	
-		election = new Election(state.getCurrentTerm()+1, 
+		logger.info(" I am starting a election with term : " + state.getCurrentTerm() + 
+		", Hopefully I will become leader ");
+		
+		election = new Election(state.getCurrentTerm(), 
 				state.getEmon().getTotalNodes(), state.getLastLogIndex(),
 				state.getLastLogTerm());
 		startTime = System.currentTimeMillis();		
@@ -51,9 +59,6 @@ public class Candidate implements RaftServerState {
 		// TODO Auto-generated method stub
 	}
 	
-	public void logAppend() {
-		// TODO Auto-generated method stub
-	}
 
 	@java.lang.Override
 	public void collectVote(LeaderElectionResponse voteResponse) {
@@ -83,6 +88,28 @@ public class Candidate implements RaftServerState {
 		}
 		
 	}
+	
+	
+	private WorkMessage createVoteResponse(int destId, int sourceId, int term, boolean b) {
+		logger.info("will I vote for " + destId + "?, and answer is : " + b);
+		// TODO Auto-generated method stub
+		WorkMessage.Builder wmb = WorkMessage.newBuilder();
+		Header.Builder hdb = Header.newBuilder();
+		hdb.setNodeId(sourceId);
+		hdb.setTime(System.currentTimeMillis());
+		hdb.setDestination(destId);
+	    wmb.setHeader(hdb);
+	    
+	    LeaderElectionResponse.Builder leb = LeaderElectionResponse.newBuilder();
+	    leb.setForTerm(term);
+	    leb.setFromNodeId(sourceId);
+	    leb.setVoteGranted(b);
+	    
+		wmb.setLeaderElectionResponse(leb);
+		wmb.setType(MessageType.LEADERELECTIONREPLY);
+		wmb.setSecret(10100);
+		return wmb.build();
+	}
 
 	public class Election {
 		public int term;
@@ -94,7 +121,7 @@ public class Candidate implements RaftServerState {
 		public boolean successful = false;
 		public Election(int term, int voteRequired, int lastLogIndex, int lastLogTerm){
 			this.term = term;
-			this.voteRequired = voteRequired/2 + 1;
+			this.voteRequired = (voteRequired/2) + 1;
 			this.lastLogIndex = lastLogIndex;
 			this.lastLogTerm = lastLogTerm;
 		}
@@ -111,7 +138,7 @@ public class Candidate implements RaftServerState {
 		    LeaderElection.Builder leb = LeaderElection.newBuilder();
 		    leb.setLastLogIndex(state.getLastLogIndex());
 		    leb.setLastLogTerm(state.getLastLogTerm());
-		    leb.setTerm(state.getCurrentTerm() + 1);
+		    leb.setTerm(state.getCurrentTerm());
 		    leb.setCandidateId(state.getNodeId());
 		    
 			wmb.setLeaderElectionRequest(leb);
@@ -134,9 +161,27 @@ public class Candidate implements RaftServerState {
 		}
 	}
 
-
 	@Override
 	public void declareLeader() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void heartbeat(LogAppendEntry heartbeat) {
+		// TODO Auto-generated method stub
+		logger.info("Got a heartbeat message in While server was in Candidate state");
+		logger.info("Current Elected Leader is :" + heartbeat.getLeaderNodeId() + 
+				", for term : " + heartbeat.getElectionTerm() );
+		state.getElectionTimer().resetElectionTimeOut();
+		state.becomeFollower();
+		state.setCurrentTerm(heartbeat.getElectionTerm());
+		state.setLeaderId(heartbeat.getLeaderNodeId());
+		state.setLeaderKnown(true);
+	}
+
+	@Override
+	public void logAppend(LogAppendEntry logEntry) {
 		// TODO Auto-generated method stub
 		
 	}

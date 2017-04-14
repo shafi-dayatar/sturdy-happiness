@@ -13,6 +13,7 @@ import pipe.election.Election.LeaderElectionResponse;
 import pipe.work.Work;
 
 import pipe.common.Common.Header;
+import pipe.work.Work.LogAppendEntry;
 import pipe.work.Work.WorkMessage;
 import pipe.work.Work.WorkMessage.MessageType;
 
@@ -62,6 +63,7 @@ public class Follower implements RaftServerState {
 						request.getTerm(), false);
 			}
 			else{
+				state.setCurrentTerm(request.getTerm());
 				electionVotes.put(request.getTerm(), request.getCandidateId());
 				wm  =  createVoteResponse(request.getCandidateId(), state.getNodeId(), 
 						request.getTerm(), true);
@@ -90,7 +92,6 @@ public class Follower implements RaftServerState {
 		wmb.setType(MessageType.LEADERELECTIONREPLY);
 		wmb.setSecret(10100);
 		return wmb.build();
-
 	}
 
 
@@ -104,10 +105,7 @@ public class Follower implements RaftServerState {
 		
 	}
 
-	public void logAppend() {
-		// TODO Auto-generated method stub
-		
-	}
+	
     @java.lang.Override
     public void collectVote(Election.LeaderElectionResponse leaderElectionResponse) {
 
@@ -126,5 +124,23 @@ public class Follower implements RaftServerState {
 			candidateId = can;
 			this.vote = vote;
 		}
+	}
+
+	@Override
+	public void heartbeat(LogAppendEntry heartbeat) {
+		logger.info("Got a heartbeat message in While server was in Follower state");
+		logger.info("Current Elected Leader is :" + heartbeat.getLeaderNodeId() + 
+				", for term : " + heartbeat.getElectionTerm() );
+		state.getElectionTimer().resetElectionTimeOut();
+		state.setLeaderId(heartbeat.getLeaderNodeId());
+		state.becomeFollower();
+		state.setCurrentTerm(heartbeat.getElectionTerm());
+		state.setLeaderKnown(true);
+	}
+
+	@Override
+	public void logAppend(LogAppendEntry logEntry) {
+		// TODO Auto-generated method stub
+		
 	}
 }

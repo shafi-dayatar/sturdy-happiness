@@ -22,14 +22,16 @@ public class ElectionTimer implements Runnable {
     private int maxRandom;
     private int minRandom;
     private long electionTimeOut;
+    private long electionStartTime;
+    private long electionResolutionTime;
     private boolean forever = true;
     public ElectionTimer(ServerState state, int min,int max){
         this.state = state;
         maxRandom = max;
         minRandom = min;
-        this.timerValue = ThreadLocalRandom.current().nextLong(min, max + 1) * 1000;
+        this.timerValue = ThreadLocalRandom.current().nextLong(min*1000, max*1000 + 1);
         electionTimeOut  = System.currentTimeMillis() + this.timerValue;
- 
+        electionResolutionTime = 5000;
     }
 
 	@Override
@@ -39,7 +41,14 @@ public class ElectionTimer implements Runnable {
         	long currentTime = System.currentTimeMillis();
         	while(forever && currentTime < electionTimeOut){
         		currentTime = System.currentTimeMillis();
-        		logger.info("Election will start in " + (electionTimeOut - currentTime));
+        		logger.debug("Election should end in : "  + ((electionStartTime + electionResolutionTime) - currentTime));
+        		if(currentTime > electionStartTime + electionResolutionTime &&
+        				state.getRaftState() instanceof Candidate){
+        			logger.info("Election took too long, probably no leader was elected, "
+        					+ "hence stepping down from candidate");
+        			state.becomeFollower();
+        		}
+        		logger.debug("Election will start in " + (electionTimeOut - currentTime));
         		try {
         			Thread.sleep(100);
         		} catch (InterruptedException e) {
@@ -47,22 +56,46 @@ public class ElectionTimer implements Runnable {
         			e.printStackTrace();
         		}
         	}
-        	logger.info("Election TimedOut, changing state to candidate");
-        	if(forever && state.getEmon().getTotalNodes() >= 3){
+        	logger.info("Election Timeout"); 
+        	if(forever && state.getEmon().getTotalNodes() + 1 >= 4){
+        		logger.info("I am connected to :" + state.getEmon().getTotalNodes());
         		if (state.getRaftState() instanceof Follower)   
-        		state.becomeCandidate();
+        		    state.becomeCandidate();
+        		
         	}
-        	setElectionTimeOut();
+        	resetElectionTimeOut();
+        	try {
+    			Thread.sleep(100);
+    		} catch (InterruptedException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}
         }
     }
 	
-	public void setElectionTimeOut(){
+	public void resetElectionTimeOut(){
 		this.timerValue = ThreadLocalRandom.current().nextLong(minRandom, maxRandom + 1) * 1000;
         electionTimeOut  = System.currentTimeMillis() + this.timerValue;
 	}	
 	
 	public void stopThread(){
 		forever = false;
+	}
+
+	public long getElectionStartTime() {
+		return electionStartTime;
+	}
+
+	public void setElectionStartTime(long electionStartTime) {
+		this.electionStartTime = electionStartTime;
+	}
+
+	public long getElectionResolutionTime() {
+		return electionResolutionTime;
+	}
+
+	public void setElectionResolutionTime(long electionResolutionTime) {
+		this.electionResolutionTime = electionResolutionTime;
 	}
 	
 	
