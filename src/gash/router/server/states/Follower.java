@@ -92,7 +92,7 @@ public class Follower implements RaftServerState {
 		return wmb.build();
 
 	}
-
+	
 
 	public void startElection() {
 		// TODO Auto-generated method stub	
