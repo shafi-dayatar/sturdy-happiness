@@ -4079,6 +4079,19 @@ public final class Work {
      */
     pipe.election.Election.LeaderElectionResponseOrBuilder getLeaderElectionResponseOrBuilder();
 
+    /**
+     * <code>optional .LogAppendEntry log_append_entries = 13;</code>
+     */
+    boolean hasLogAppendEntries();
+    /**
+     * <code>optional .LogAppendEntry log_append_entries = 13;</code>
+     */
+    pipe.work.Work.LogAppendEntry getLogAppendEntries();
+    /**
+     * <code>optional .LogAppendEntry log_append_entries = 13;</code>
+     */
+    pipe.work.Work.LogAppendEntryOrBuilder getLogAppendEntriesOrBuilder();
+
     public pipe.work.Work.WorkMessage.PayloadCase getPayloadCase();
   }
   /**
@@ -4275,6 +4288,20 @@ public final class Work {
               payloadCase_ = 12;
               break;
             }
+            case 106: {
+              pipe.work.Work.LogAppendEntry.Builder subBuilder = null;
+              if (payloadCase_ == 13) {
+                subBuilder = ((pipe.work.Work.LogAppendEntry) payload_).toBuilder();
+              }
+              payload_ =
+                  input.readMessage(pipe.work.Work.LogAppendEntry.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((pipe.work.Work.LogAppendEntry) payload_);
+                payload_ = subBuilder.buildPartial();
+              }
+              payloadCase_ = 13;
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -4358,6 +4385,10 @@ public final class Work {
        * <code>WORKSTATEREPLY = 12;</code>
        */
       WORKSTATEREPLY(12),
+      /**
+       * <code>LOGAPPENDENTRY = 13;</code>
+       */
+      LOGAPPENDENTRY(13),
       ;
 
       /**
@@ -4408,6 +4439,10 @@ public final class Work {
        * <code>WORKSTATEREPLY = 12;</code>
        */
       public static final int WORKSTATEREPLY_VALUE = 12;
+      /**
+       * <code>LOGAPPENDENTRY = 13;</code>
+       */
+      public static final int LOGAPPENDENTRY_VALUE = 13;
 
 
       public final int getNumber() {
@@ -4436,6 +4471,7 @@ public final class Work {
           case 10: return FAILURE;
           case 11: return WORKSTATE;
           case 12: return WORKSTATEREPLY;
+          case 13: return LOGAPPENDENTRY;
           default: return null;
         }
       }
@@ -4499,6 +4535,7 @@ public final class Work {
       DISCOVERY(10),
       LEADERELECTIONREQUEST(11),
       LEADERELECTIONRESPONSE(12),
+      LOG_APPEND_ENTRIES(13),
       PAYLOAD_NOT_SET(0);
       private final int value;
       private PayloadCase(int value) {
@@ -4523,6 +4560,7 @@ public final class Work {
           case 10: return DISCOVERY;
           case 11: return LEADERELECTIONREQUEST;
           case 12: return LEADERELECTIONRESPONSE;
+          case 13: return LOG_APPEND_ENTRIES;
           case 0: return PAYLOAD_NOT_SET;
           default: return null;
         }
@@ -4847,6 +4885,32 @@ public final class Work {
       return pipe.election.Election.LeaderElectionResponse.getDefaultInstance();
     }
 
+    public static final int LOG_APPEND_ENTRIES_FIELD_NUMBER = 13;
+    /**
+     * <code>optional .LogAppendEntry log_append_entries = 13;</code>
+     */
+    public boolean hasLogAppendEntries() {
+      return payloadCase_ == 13;
+    }
+    /**
+     * <code>optional .LogAppendEntry log_append_entries = 13;</code>
+     */
+    public pipe.work.Work.LogAppendEntry getLogAppendEntries() {
+      if (payloadCase_ == 13) {
+         return (pipe.work.Work.LogAppendEntry) payload_;
+      }
+      return pipe.work.Work.LogAppendEntry.getDefaultInstance();
+    }
+    /**
+     * <code>optional .LogAppendEntry log_append_entries = 13;</code>
+     */
+    public pipe.work.Work.LogAppendEntryOrBuilder getLogAppendEntriesOrBuilder() {
+      if (payloadCase_ == 13) {
+         return (pipe.work.Work.LogAppendEntry) payload_;
+      }
+      return pipe.work.Work.LogAppendEntry.getDefaultInstance();
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -4917,6 +4981,12 @@ public final class Work {
           return false;
         }
       }
+      if (hasLogAppendEntries()) {
+        if (!getLogAppendEntries().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -4959,6 +5029,9 @@ public final class Work {
       }
       if (payloadCase_ == 12) {
         output.writeMessage(12, (pipe.election.Election.LeaderElectionResponse) payload_);
+      }
+      if (payloadCase_ == 13) {
+        output.writeMessage(13, (pipe.work.Work.LogAppendEntry) payload_);
       }
       unknownFields.writeTo(output);
     }
@@ -5016,6 +5089,10 @@ public final class Work {
       if (payloadCase_ == 12) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(12, (pipe.election.Election.LeaderElectionResponse) payload_);
+      }
+      if (payloadCase_ == 13) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(13, (pipe.work.Work.LogAppendEntry) payload_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -5088,6 +5165,10 @@ public final class Work {
           result = result && getLeaderElectionResponse()
               .equals(other.getLeaderElectionResponse());
           break;
+        case 13:
+          result = result && getLogAppendEntries()
+              .equals(other.getLogAppendEntries());
+          break;
         case 0:
         default:
       }
@@ -5152,6 +5233,10 @@ public final class Work {
         case 12:
           hash = (37 * hash) + LEADERELECTIONRESPONSE_FIELD_NUMBER;
           hash = (53 * hash) + getLeaderElectionResponse().hashCode();
+          break;
+        case 13:
+          hash = (37 * hash) + LOG_APPEND_ENTRIES_FIELD_NUMBER;
+          hash = (53 * hash) + getLogAppendEntries().hashCode();
           break;
         case 0:
         default:
@@ -5390,6 +5475,13 @@ public final class Work {
             result.payload_ = leaderElectionResponseBuilder_.build();
           }
         }
+        if (payloadCase_ == 13) {
+          if (logAppendEntriesBuilder_ == null) {
+            result.payload_ = payload_;
+          } else {
+            result.payload_ = logAppendEntriesBuilder_.build();
+          }
+        }
         result.bitField0_ = to_bitField0_;
         result.payloadCase_ = payloadCase_;
         onBuilt();
@@ -5479,6 +5571,10 @@ public final class Work {
             mergeLeaderElectionResponse(other.getLeaderElectionResponse());
             break;
           }
+          case LOG_APPEND_ENTRIES: {
+            mergeLogAppendEntries(other.getLogAppendEntries());
+            break;
+          }
           case PAYLOAD_NOT_SET: {
             break;
           }
@@ -5538,6 +5634,11 @@ public final class Work {
         }
         if (hasLeaderElectionResponse()) {
           if (!getLeaderElectionResponse().isInitialized()) {
+            return false;
+          }
+        }
+        if (hasLogAppendEntries()) {
+          if (!getLogAppendEntries().isInitialized()) {
             return false;
           }
         }
@@ -6974,6 +7075,142 @@ public final class Work {
         payloadCase_ = 12;
         onChanged();;
         return leaderElectionResponseBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          pipe.work.Work.LogAppendEntry, pipe.work.Work.LogAppendEntry.Builder, pipe.work.Work.LogAppendEntryOrBuilder> logAppendEntriesBuilder_;
+      /**
+       * <code>optional .LogAppendEntry log_append_entries = 13;</code>
+       */
+      public boolean hasLogAppendEntries() {
+        return payloadCase_ == 13;
+      }
+      /**
+       * <code>optional .LogAppendEntry log_append_entries = 13;</code>
+       */
+      public pipe.work.Work.LogAppendEntry getLogAppendEntries() {
+        if (logAppendEntriesBuilder_ == null) {
+          if (payloadCase_ == 13) {
+            return (pipe.work.Work.LogAppendEntry) payload_;
+          }
+          return pipe.work.Work.LogAppendEntry.getDefaultInstance();
+        } else {
+          if (payloadCase_ == 13) {
+            return logAppendEntriesBuilder_.getMessage();
+          }
+          return pipe.work.Work.LogAppendEntry.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>optional .LogAppendEntry log_append_entries = 13;</code>
+       */
+      public Builder setLogAppendEntries(pipe.work.Work.LogAppendEntry value) {
+        if (logAppendEntriesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          payload_ = value;
+          onChanged();
+        } else {
+          logAppendEntriesBuilder_.setMessage(value);
+        }
+        payloadCase_ = 13;
+        return this;
+      }
+      /**
+       * <code>optional .LogAppendEntry log_append_entries = 13;</code>
+       */
+      public Builder setLogAppendEntries(
+          pipe.work.Work.LogAppendEntry.Builder builderForValue) {
+        if (logAppendEntriesBuilder_ == null) {
+          payload_ = builderForValue.build();
+          onChanged();
+        } else {
+          logAppendEntriesBuilder_.setMessage(builderForValue.build());
+        }
+        payloadCase_ = 13;
+        return this;
+      }
+      /**
+       * <code>optional .LogAppendEntry log_append_entries = 13;</code>
+       */
+      public Builder mergeLogAppendEntries(pipe.work.Work.LogAppendEntry value) {
+        if (logAppendEntriesBuilder_ == null) {
+          if (payloadCase_ == 13 &&
+              payload_ != pipe.work.Work.LogAppendEntry.getDefaultInstance()) {
+            payload_ = pipe.work.Work.LogAppendEntry.newBuilder((pipe.work.Work.LogAppendEntry) payload_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            payload_ = value;
+          }
+          onChanged();
+        } else {
+          if (payloadCase_ == 13) {
+            logAppendEntriesBuilder_.mergeFrom(value);
+          }
+          logAppendEntriesBuilder_.setMessage(value);
+        }
+        payloadCase_ = 13;
+        return this;
+      }
+      /**
+       * <code>optional .LogAppendEntry log_append_entries = 13;</code>
+       */
+      public Builder clearLogAppendEntries() {
+        if (logAppendEntriesBuilder_ == null) {
+          if (payloadCase_ == 13) {
+            payloadCase_ = 0;
+            payload_ = null;
+            onChanged();
+          }
+        } else {
+          if (payloadCase_ == 13) {
+            payloadCase_ = 0;
+            payload_ = null;
+          }
+          logAppendEntriesBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>optional .LogAppendEntry log_append_entries = 13;</code>
+       */
+      public pipe.work.Work.LogAppendEntry.Builder getLogAppendEntriesBuilder() {
+        return getLogAppendEntriesFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .LogAppendEntry log_append_entries = 13;</code>
+       */
+      public pipe.work.Work.LogAppendEntryOrBuilder getLogAppendEntriesOrBuilder() {
+        if ((payloadCase_ == 13) && (logAppendEntriesBuilder_ != null)) {
+          return logAppendEntriesBuilder_.getMessageOrBuilder();
+        } else {
+          if (payloadCase_ == 13) {
+            return (pipe.work.Work.LogAppendEntry) payload_;
+          }
+          return pipe.work.Work.LogAppendEntry.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>optional .LogAppendEntry log_append_entries = 13;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          pipe.work.Work.LogAppendEntry, pipe.work.Work.LogAppendEntry.Builder, pipe.work.Work.LogAppendEntryOrBuilder> 
+          getLogAppendEntriesFieldBuilder() {
+        if (logAppendEntriesBuilder_ == null) {
+          if (!(payloadCase_ == 13)) {
+            payload_ = pipe.work.Work.LogAppendEntry.getDefaultInstance();
+          }
+          logAppendEntriesBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              pipe.work.Work.LogAppendEntry, pipe.work.Work.LogAppendEntry.Builder, pipe.work.Work.LogAppendEntryOrBuilder>(
+                  (pipe.work.Work.LogAppendEntry) payload_,
+                  getParentForChildren(),
+                  isClean());
+          payload_ = null;
+        }
+        payloadCase_ = 13;
+        onChanged();;
+        return logAppendEntriesBuilder_;
       }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -10931,7 +11168,7 @@ public final class Work {
       "\022\017\n\007ip_addr\030\002 \002(\t\022\021\n\twork_port\030\003 \002(\005\"U\n\t" +
       "Discovery\022\034\n\rrouting_table\030\001 \003(\0132\005.Node\022" +
       "\023\n\004node\030\002 \001(\0132\005.Node\022\025\n\006leader\030\003 \001(\0132\005.N" +
-      "ode\"\370\004\n\013WorkMessage\022\027\n\006header\030\001 \002(\0132\007.He" +
+      "ode\"\273\005\n\013WorkMessage\022\027\n\006header\030\001 \002(\0132\007.He" +
       "ader\022\016\n\006secret\030\002 \002(\003\022&\n\004type\030\003 \002(\0162\030.Wor",
       "kMessage.MessageType\022\027\n\003err\030\004 \001(\0132\010.Fail" +
       "ureH\000\022\016\n\004ping\030\005 \001(\010H\000\022\032\n\004beat\030\006 \001(\0132\n.He" +
@@ -10940,24 +11177,26 @@ public final class Work {
       "LeaderStatusH\000\022\037\n\tdiscovery\030\n \001(\0132\n.Disc" +
       "overyH\000\0220\n\025leaderElectionRequest\030\013 \001(\0132\017" +
       ".LeaderElectionH\000\0229\n\026leaderElectionRespo" +
-      "nse\030\014 \001(\0132\027.LeaderElectionResponseH\000\"\344\001\n" +
-      "\013MessageType\022\020\n\014DISCOVERNODE\020\001\022\025\n\021DISCOV" +
-      "ERNODEREPLY\020\002\022\022\n\016LEADERELECTION\020\003\022\027\n\023LEA",
-      "DERELECTIONREPLY\020\004\022\020\n\014LEADERSTATUS\020\005\022\025\n\021" +
-      "LEADERSTATUSREPLY\020\006\022\r\n\tHEARTBEAT\020\007\022\010\n\004PI" +
-      "NG\020\010\022\r\n\tPINGREPLY\020\t\022\013\n\007FAILURE\020\n\022\r\n\tWORK" +
-      "STATE\020\013\022\022\n\016WORKSTATEREPLY\020\014B\t\n\007payload\"8" +
-      "\n\007Command\022\013\n\003key\030\001 \002(\t\022\r\n\005value\030\002 \002(\t\022\021\n" +
-      "\tclient_id\030\003 \002(\005\"\213\001\n\010LogEntry\022$\n\006action\030" +
-      "\001 \002(\0162\024.LogEntry.DataAction\022\026\n\004data\030\002 \002(" +
-      "\0132\010.Command\022\014\n\004term\030\003 \002(\005\022\r\n\005logId\030\004 \002(\005" +
-      "\"$\n\nDataAction\022\n\n\006INSERT\020\001\022\n\n\006UPDATE\020\002\"(" +
-      "\n\014LogEntryList\022\030\n\005entry\030\001 \003(\0132\t.LogEntry",
-      "\"\266\001\n\016LogAppendEntry\022\025\n\relection_term\030\001 \002" +
-      "(\005\022\026\n\016leader_node_id\030\002 \001(\005\022\026\n\016prev_log_i" +
-      "ndex\030\003 \001(\005\022\025\n\rprev_log_term\030\004 \001(\005\022\033\n\023lea" +
-      "der_commit_index\030\005 \001(\005\022\030\n\005entry\030\006 \003(\0132\t." +
-      "LogEntry\022\017\n\007success\030\007 \001(\010B\r\n\tpipe.workH\001"
+      "nse\030\014 \001(\0132\027.LeaderElectionResponseH\000\022-\n\022" +
+      "log_append_entries\030\r \001(\0132\017.LogAppendEntr" +
+      "yH\000\"\370\001\n\013MessageType\022\020\n\014DISCOVERNODE\020\001\022\025\n",
+      "\021DISCOVERNODEREPLY\020\002\022\022\n\016LEADERELECTION\020\003" +
+      "\022\027\n\023LEADERELECTIONREPLY\020\004\022\020\n\014LEADERSTATU" +
+      "S\020\005\022\025\n\021LEADERSTATUSREPLY\020\006\022\r\n\tHEARTBEAT\020" +
+      "\007\022\010\n\004PING\020\010\022\r\n\tPINGREPLY\020\t\022\013\n\007FAILURE\020\n\022" +
+      "\r\n\tWORKSTATE\020\013\022\022\n\016WORKSTATEREPLY\020\014\022\022\n\016LO" +
+      "GAPPENDENTRY\020\rB\t\n\007payload\"8\n\007Command\022\013\n\003" +
+      "key\030\001 \002(\t\022\r\n\005value\030\002 \002(\t\022\021\n\tclient_id\030\003 " +
+      "\002(\005\"\213\001\n\010LogEntry\022$\n\006action\030\001 \002(\0162\024.LogEn" +
+      "try.DataAction\022\026\n\004data\030\002 \002(\0132\010.Command\022\014" +
+      "\n\004term\030\003 \002(\005\022\r\n\005logId\030\004 \002(\005\"$\n\nDataActio",
+      "n\022\n\n\006INSERT\020\001\022\n\n\006UPDATE\020\002\"(\n\014LogEntryLis" +
+      "t\022\030\n\005entry\030\001 \003(\0132\t.LogEntry\"\266\001\n\016LogAppen" +
+      "dEntry\022\025\n\relection_term\030\001 \002(\005\022\026\n\016leader_" +
+      "node_id\030\002 \001(\005\022\026\n\016prev_log_index\030\003 \001(\005\022\025\n" +
+      "\rprev_log_term\030\004 \001(\005\022\033\n\023leader_commit_in" +
+      "dex\030\005 \001(\005\022\030\n\005entry\030\006 \003(\0132\t.LogEntry\022\017\n\007s" +
+      "uccess\030\007 \001(\010B\r\n\tpipe.workH\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -11008,7 +11247,7 @@ public final class Work {
     internal_static_WorkMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_WorkMessage_descriptor,
-        new java.lang.String[] { "Header", "Secret", "Type", "Err", "Ping", "Beat", "Task", "State", "Leader", "Discovery", "LeaderElectionRequest", "LeaderElectionResponse", "Payload", });
+        new java.lang.String[] { "Header", "Secret", "Type", "Err", "Ping", "Beat", "Task", "State", "Leader", "Discovery", "LeaderElectionRequest", "LeaderElectionResponse", "LogAppendEntries", "Payload", });
     internal_static_Command_descriptor =
       getDescriptor().getMessageTypes().get(6);
     internal_static_Command_fieldAccessorTable = new

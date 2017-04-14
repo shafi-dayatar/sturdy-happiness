@@ -57,6 +57,7 @@ message WorkMessage {
         FAILURE = 10;
         WORKSTATE = 11;
         WORKSTATEREPLY = 12;
+        LOGAPPENDENTRY = 13;
     }
 
    oneof payload {
@@ -77,6 +78,7 @@ message WorkMessage {
       
       LeaderElection leaderElectionRequest = 11;
       LeaderElectionResponse leaderElectionResponse = 12;
+      LogAppendEntry log_append_entries = 13;
 
    }
    
