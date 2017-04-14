@@ -53,11 +53,11 @@ public class ElectionTimer implements Runnable {
         		if (state.getRaftState() instanceof Follower)   
         		state.becomeCandidate();
         	}
-        	setElectionTimeOut();
+        	resetElectionTimeOut();
         }
     }
 	
-	public void setElectionTimeOut(){
+	public void resetElectionTimeOut(){
 		this.timerValue = ThreadLocalRandom.current().nextLong(minRandom, maxRandom + 1) * 1000;
         electionTimeOut  = System.currentTimeMillis() + this.timerValue;
 	}	

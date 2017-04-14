@@ -25,8 +25,11 @@ public class ServerState {
 	private ElectionTimer electionTimer;
 	private Thread electionTimerThread;
 	
+	
 	private int currentTerm = 0;
 	private int votedFor = 0;
+	private int leaderNodeId;
+	private boolean isLeaderKnown = false;
 
 	private RoutingConf conf;
 	private int nodeId;
@@ -106,8 +109,9 @@ public class ServerState {
 	}
 	
 	public void becomeLeader(){
-		
+		currentTerm++;
 		raftState = leader;
+		leader.declareLeader();
 	}
 	
 	public void setCurrentTerm(int currentTerm){
@@ -155,6 +159,22 @@ public class ServerState {
 	public void startElectionTimerThread(){
 		electionTimerThread = new Thread(electionTimer);
 		electionTimerThread.start();
+	}
+
+
+	public void setLeaderId(int leaderNodeId) {
+		// TODO Auto-generated method stub
+		this.leaderNodeId = leaderNodeId;
+	}
+
+
+	public boolean isLeaderKnown() {
+		return isLeaderKnown;
+	}
+
+
+	public void setLeaderKnown(boolean isLeaderKnown) {
+		this.isLeaderKnown = isLeaderKnown;
 	}
 	
 

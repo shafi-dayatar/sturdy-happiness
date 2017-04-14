@@ -14,6 +14,7 @@ import pipe.work.Work;
 import pipe.common.Common.Header;
 import pipe.election.Election.LeaderElection;
 import pipe.election.Election.LeaderElectionResponse;
+import pipe.work.Work.LogAppendEntry;
 import pipe.work.Work.WorkMessage;
 import pipe.work.Work.WorkMessage.MessageType;
 import pipe.work.Work.WorkMessageOrBuilder;
@@ -51,9 +52,6 @@ public class Candidate implements RaftServerState {
 		// TODO Auto-generated method stub
 	}
 	
-	public void logAppend() {
-		// TODO Auto-generated method stub
-	}
 
 	@java.lang.Override
 	public void collectVote(LeaderElectionResponse voteResponse) {
@@ -137,6 +135,18 @@ public class Candidate implements RaftServerState {
 
 	@Override
 	public void declareLeader() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void heartbeat(LogAppendEntry hearbeat) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void logAppend(LogAppendEntry logEntry) {
 		// TODO Auto-generated method stub
 		
 	}
