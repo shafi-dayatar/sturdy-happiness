@@ -174,13 +174,10 @@ public class Candidate implements RaftServerState {
 		logger.info("Current Elected Leader is :" + heartbeat.getLeaderNodeId() + 
 				", for term : " + heartbeat.getElectionTerm() );
 		state.getElectionTimer().resetElectionTimeOut();
-		if (state.getCurrentTerm() < heartbeat.getElectionTerm()){
-			state.setLeaderId(heartbeat.getLeaderNodeId());
-			state.becomeFollower();
-			state.setCurrentTerm(heartbeat.getElectionTerm());
-			state.setLeaderKnown(true);
-		}
-		
+		state.becomeFollower();
+		state.setCurrentTerm(heartbeat.getElectionTerm());
+		state.setLeaderId(heartbeat.getLeaderNodeId());
+		state.setLeaderKnown(true);
 	}
 
 	@Override

@@ -132,12 +132,10 @@ public class Follower implements RaftServerState {
 		logger.info("Current Elected Leader is :" + heartbeat.getLeaderNodeId() + 
 				", for term : " + heartbeat.getElectionTerm() );
 		state.getElectionTimer().resetElectionTimeOut();
-		if (state.getCurrentTerm() < heartbeat.getElectionTerm()){
-			state.setLeaderId(heartbeat.getLeaderNodeId());
-			state.becomeFollower();
-			state.setCurrentTerm(heartbeat.getElectionTerm());
-			state.setLeaderKnown(true);
-		}
+		state.setLeaderId(heartbeat.getLeaderNodeId());
+		state.becomeFollower();
+		state.setCurrentTerm(heartbeat.getElectionTerm());
+		state.setLeaderKnown(true);
 	}
 
 	@Override
