@@ -9895,6 +9895,15 @@ public final class Work {
      * <code>optional bool success = 7;</code>
      */
     boolean getSuccess();
+
+    /**
+     * <code>optional bool isHeartBest = 8;</code>
+     */
+    boolean hasIsHeartBest();
+    /**
+     * <code>optional bool isHeartBest = 8;</code>
+     */
+    boolean getIsHeartBest();
   }
   /**
    * Protobuf type {@code LogAppendEntry}
@@ -9915,6 +9924,7 @@ public final class Work {
       leaderCommitIndex_ = 0;
       entry_ = java.util.Collections.emptyList();
       success_ = false;
+      isHeartBest_ = false;
     }
 
     @java.lang.Override
@@ -9982,6 +9992,11 @@ public final class Work {
             case 56: {
               bitField0_ |= 0x00000020;
               success_ = input.readBool();
+              break;
+            }
+            case 64: {
+              bitField0_ |= 0x00000040;
+              isHeartBest_ = input.readBool();
               break;
             }
           }
@@ -10137,6 +10152,21 @@ public final class Work {
       return success_;
     }
 
+    public static final int ISHEARTBEST_FIELD_NUMBER = 8;
+    private boolean isHeartBest_;
+    /**
+     * <code>optional bool isHeartBest = 8;</code>
+     */
+    public boolean hasIsHeartBest() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>optional bool isHeartBest = 8;</code>
+     */
+    public boolean getIsHeartBest() {
+      return isHeartBest_;
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -10180,6 +10210,9 @@ public final class Work {
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         output.writeBool(7, success_);
       }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeBool(8, isHeartBest_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -10215,6 +10248,10 @@ public final class Work {
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(7, success_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(8, isHeartBest_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -10265,6 +10302,11 @@ public final class Work {
         result = result && (getSuccess()
             == other.getSuccess());
       }
+      result = result && (hasIsHeartBest() == other.hasIsHeartBest());
+      if (hasIsHeartBest()) {
+        result = result && (getIsHeartBest()
+            == other.getIsHeartBest());
+      }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -10304,6 +10346,11 @@ public final class Work {
         hash = (37 * hash) + SUCCESS_FIELD_NUMBER;
         hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
             getSuccess());
+      }
+      if (hasIsHeartBest()) {
+        hash = (37 * hash) + ISHEARTBEST_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+            getIsHeartBest());
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -10442,6 +10489,8 @@ public final class Work {
         }
         success_ = false;
         bitField0_ = (bitField0_ & ~0x00000040);
+        isHeartBest_ = false;
+        bitField0_ = (bitField0_ & ~0x00000080);
         return this;
       }
 
@@ -10499,6 +10548,10 @@ public final class Work {
           to_bitField0_ |= 0x00000020;
         }
         result.success_ = success_;
+        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+          to_bitField0_ |= 0x00000040;
+        }
+        result.isHeartBest_ = isHeartBest_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -10584,6 +10637,9 @@ public final class Work {
         }
         if (other.hasSuccess()) {
           setSuccess(other.getSuccess());
+        }
+        if (other.hasIsHeartBest()) {
+          setIsHeartBest(other.getIsHeartBest());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -11052,6 +11108,38 @@ public final class Work {
         onChanged();
         return this;
       }
+
+      private boolean isHeartBest_ ;
+      /**
+       * <code>optional bool isHeartBest = 8;</code>
+       */
+      public boolean hasIsHeartBest() {
+        return ((bitField0_ & 0x00000080) == 0x00000080);
+      }
+      /**
+       * <code>optional bool isHeartBest = 8;</code>
+       */
+      public boolean getIsHeartBest() {
+        return isHeartBest_;
+      }
+      /**
+       * <code>optional bool isHeartBest = 8;</code>
+       */
+      public Builder setIsHeartBest(boolean value) {
+        bitField0_ |= 0x00000080;
+        isHeartBest_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bool isHeartBest = 8;</code>
+       */
+      public Builder clearIsHeartBest() {
+        bitField0_ = (bitField0_ & ~0x00000080);
+        isHeartBest_ = false;
+        onChanged();
+        return this;
+      }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
@@ -11191,12 +11279,13 @@ public final class Work {
       "try.DataAction\022\026\n\004data\030\002 \002(\0132\010.Command\022\014" +
       "\n\004term\030\003 \002(\005\022\r\n\005logId\030\004 \002(\005\"$\n\nDataActio",
       "n\022\n\n\006INSERT\020\001\022\n\n\006UPDATE\020\002\"(\n\014LogEntryLis" +
-      "t\022\030\n\005entry\030\001 \003(\0132\t.LogEntry\"\266\001\n\016LogAppen" +
+      "t\022\030\n\005entry\030\001 \003(\0132\t.LogEntry\"\313\001\n\016LogAppen" +
       "dEntry\022\025\n\relection_term\030\001 \002(\005\022\026\n\016leader_" +
       "node_id\030\002 \001(\005\022\026\n\016prev_log_index\030\003 \001(\005\022\025\n" +
       "\rprev_log_term\030\004 \001(\005\022\033\n\023leader_commit_in" +
       "dex\030\005 \001(\005\022\030\n\005entry\030\006 \003(\0132\t.LogEntry\022\017\n\007s" +
-      "uccess\030\007 \001(\010B\r\n\tpipe.workH\001"
+      "uccess\030\007 \001(\010\022\023\n\013isHeartBest\030\010 \001(\010B\r\n\tpip" +
+      "e.workH\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -11271,7 +11360,7 @@ public final class Work {
     internal_static_LogAppendEntry_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_LogAppendEntry_descriptor,
-        new java.lang.String[] { "ElectionTerm", "LeaderNodeId", "PrevLogIndex", "PrevLogTerm", "LeaderCommitIndex", "Entry", "Success", });
+        new java.lang.String[] { "ElectionTerm", "LeaderNodeId", "PrevLogIndex", "PrevLogTerm", "LeaderCommitIndex", "Entry", "Success", "IsHeartBest", });
     pipe.common.Common.getDescriptor();
     pipe.election.Election.getDescriptor();
   }

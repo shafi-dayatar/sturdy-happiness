@@ -116,5 +116,6 @@ message LogAppendEntry{
     optional int32 leader_commit_index = 5;
     repeated LogEntry entry = 6;
     optional bool success = 7;
+    optional bool isHeartBest = 8;
 }
 
