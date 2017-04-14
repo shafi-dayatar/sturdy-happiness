@@ -10,6 +10,7 @@ import pipe.election.Election.LeaderElection;
 import pipe.election.Election.LeaderElectionResponse;
 import pipe.work.Work;
 import pipe.work.Work.LogAppendEntry;
+import routing.Pipe;
 
 /**
  *  Parent state class that defines every node - Leader Candidate Follower
@@ -23,5 +24,8 @@ public interface RaftServerState {
 	public void collectVote(LeaderElectionResponse leaderElectionResponse);
 	public void declareLeader();
 	public void heartbeat(LogAppendEntry hearbeat);
+	void readFile(Pipe.ReadBody readBody);
+    void writeFile(Pipe.WriteBody writeBody);
+    void deleteFile(Pipe.ReadBody readBody);
 
 }

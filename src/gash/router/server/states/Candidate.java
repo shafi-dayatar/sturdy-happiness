@@ -18,6 +18,7 @@ import pipe.work.Work.LogAppendEntry;
 import pipe.work.Work.WorkMessage;
 import pipe.work.Work.WorkMessage.MessageType;
 import pipe.work.Work.WorkMessageOrBuilder;
+import routing.Pipe;
 
 /**
  * Created by rentala on 4/11/17.
@@ -178,6 +179,21 @@ public class Candidate implements RaftServerState {
 		state.setCurrentTerm(heartbeat.getElectionTerm());
 		state.setLeaderId(heartbeat.getLeaderNodeId());
 		state.setLeaderKnown(true);
+	}
+
+	@Override
+	public void readFile(Pipe.ReadBody readBody) {
+
+	}
+
+	@Override
+	public void writeFile(Pipe.WriteBody readBody) {
+
+	}
+
+	@Override
+	public void deleteFile(Pipe.ReadBody readBody) {
+
 	}
 
 	@Override

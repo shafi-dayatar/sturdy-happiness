@@ -71,9 +71,25 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 			if (msg.hasReq()){
 				switch (msg.getReq().getRequestType()){
 					case READFILE:
-						//serverState.getRaftState()
+						if(msg.getReq().hasRrb()){
+							serverState.getRaftState().readFile(msg.getReq().getRrb());
+						}
+
 						break;
 					case WRITEFILE:
+						if(msg.getReq().hasRwb()){
+							serverState.getRaftState().writeFile(msg.getReq().getRwb());
+						}
+						break;
+					case UPDATEFILE:
+						if(msg.getReq().hasRwb()){
+							serverState.getRaftState().writeFile(msg.getReq().getRwb());
+						}
+						break;
+					case DELETEFILE:
+						if(msg.getReq().hasRwb()){
+							serverState.getRaftState().deleteFile(msg.getReq().getRrb());
+						}
 						break;
 				}
 			}

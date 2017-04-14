@@ -16,6 +16,7 @@ import pipe.common.Common.Header;
 import pipe.work.Work.LogAppendEntry;
 import pipe.work.Work.WorkMessage;
 import pipe.work.Work.WorkMessage.MessageType;
+import routing.Pipe;
 
 
 /**
@@ -136,6 +137,21 @@ public class Follower implements RaftServerState {
 		state.becomeFollower();
 		state.setCurrentTerm(heartbeat.getElectionTerm());
 		state.setLeaderKnown(true);
+	}
+
+	@Override
+	public void readFile(Pipe.ReadBody readBody) {
+
+	}
+
+	@Override
+	public void writeFile(Pipe.WriteBody readBody) {
+
+	}
+
+	@Override
+	public void deleteFile(Pipe.ReadBody readBody) {
+
 	}
 
 	@Override
