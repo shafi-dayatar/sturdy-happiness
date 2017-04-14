@@ -63,8 +63,11 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 		try {
 			// TODO How can you implement this without if-else statements?
 			if (msg.hasReq()){
-				switch (msg.getReq().hasRequestType()){
+				switch (msg.getReq().getRequestType()){
 					case READFILE:
+
+						break;
+					case WRITEFILE:
 						break;
 				}
 			}
