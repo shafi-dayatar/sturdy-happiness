@@ -63,6 +63,7 @@ public class Follower implements RaftServerState {
 						request.getTerm(), false);
 			}
 			else{
+				state.setCurrentTerm(request.getTerm());
 				electionVotes.put(request.getTerm(), request.getCandidateId());
 				wm  =  createVoteResponse(request.getCandidateId(), state.getNodeId(), 
 						request.getTerm(), true);
@@ -127,10 +128,15 @@ public class Follower implements RaftServerState {
 
 	@Override
 	public void heartbeat(LogAppendEntry heartbeat) {
+		logger.info("Got a heartbeat message in While server was in Follower state");
+		logger.info("Current Elected Leader is :" + heartbeat.getLeaderNodeId() + 
+				", for term : " + heartbeat.getElectionTerm() );
+		state.getElectionTimer().resetElectionTimeOut();
 		if (state.getCurrentTerm() < heartbeat.getElectionTerm()){
 			state.setLeaderId(heartbeat.getLeaderNodeId());
+			state.becomeFollower();
 			state.setCurrentTerm(heartbeat.getElectionTerm());
-			state.getElectionTimer().resetElectionTimeOut();
+			state.setLeaderKnown(true);
 		}
 	}
 

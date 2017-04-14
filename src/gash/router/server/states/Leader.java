@@ -16,10 +16,11 @@ import pipe.work.Work.WorkMessage;
 /**
  * Created by rentala on 4/11/17.
  */
-public class Leader implements RaftServerState {
+public class Leader implements RaftServerState, Runnable {
 
     protected static Logger logger = LoggerFactory.getLogger("Leader-State");
     private ServerState state;
+    private boolean isLeader;
 
     public Leader(ServerState state){
         this.state = state;
@@ -91,6 +92,25 @@ public class Leader implements RaftServerState {
 	public void logAppend(LogAppendEntry logEntry) {
 		// TODO Auto-generated method stub
 		
+	}
+	@Override
+	public void run() {
+		while(isLeader){
+			declareLeader();
+			try {
+				Thread.sleep(state.getConf().getHeartbeatDt());
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	public boolean isLeader() {
+		return isLeader;
+	}
+	public void setLeader(boolean isLeader) {
+		this.isLeader = isLeader;
 	}
 
 }
