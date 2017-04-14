@@ -83,7 +83,7 @@ public class Follower implements RaftServerState {
 	    
 	    LeaderElectionResponse.Builder leb = LeaderElectionResponse.newBuilder();
 	    leb.setForTerm(term);
-	    leb.setNodeId(sourceId);
+	    leb.setFromNodeId(sourceId);
 	    leb.setVoteGranted(b);
 	    
 		wmb.setLeaderElectionResponse(leb);

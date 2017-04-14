@@ -29,3 +29,7 @@ fi
 /usr/local/bin/protoc --proto_path=${project_base}/resources --java_out=${project_base}/generated ${project_base}/resources/client.proto
 
 /usr/local/bin/protoc --proto_path=${project_base}/resources --java_out=${project_base}/generated ${project_base}/resources/pipe.proto
+
+rm -rf ${project_base}/src/pipe ${project_base}/src/routing
+cp -r ${project_base}/generated/* ${project_base}/src/
+

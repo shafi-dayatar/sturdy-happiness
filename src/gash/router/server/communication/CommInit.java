@@ -11,6 +11,8 @@ import io.netty.handler.codec.protobuf.ProtobufDecoder;
 import io.netty.handler.codec.protobuf.ProtobufEncoder;
 import routing.Pipe.CommandMessage;
 
+
+
 public class CommInit extends ChannelInitializer<SocketChannel> {
 	boolean compress = false;
 

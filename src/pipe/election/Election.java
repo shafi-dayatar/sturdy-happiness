@@ -1803,13 +1803,13 @@ public final class Election {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>required int32 node_id = 1;</code>
+     * <code>required int32 from_node_id = 1;</code>
      */
-    boolean hasNodeId();
+    boolean hasFromNodeId();
     /**
-     * <code>required int32 node_id = 1;</code>
+     * <code>required int32 from_node_id = 1;</code>
      */
-    int getNodeId();
+    int getFromNodeId();
 
     /**
      * <code>required int32 for_term = 2;</code>
@@ -1841,7 +1841,7 @@ public final class Election {
       super(builder);
     }
     private LeaderElectionResponse() {
-      nodeId_ = 0;
+      fromNodeId_ = 0;
       forTerm_ = 0;
       voteGranted_ = false;
     }
@@ -1876,7 +1876,7 @@ public final class Election {
             }
             case 8: {
               bitField0_ |= 0x00000001;
-              nodeId_ = input.readInt32();
+              fromNodeId_ = input.readInt32();
               break;
             }
             case 16: {
@@ -1914,19 +1914,19 @@ public final class Election {
     }
 
     private int bitField0_;
-    public static final int NODE_ID_FIELD_NUMBER = 1;
-    private int nodeId_;
+    public static final int FROM_NODE_ID_FIELD_NUMBER = 1;
+    private int fromNodeId_;
     /**
-     * <code>required int32 node_id = 1;</code>
+     * <code>required int32 from_node_id = 1;</code>
      */
-    public boolean hasNodeId() {
+    public boolean hasFromNodeId() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required int32 node_id = 1;</code>
+     * <code>required int32 from_node_id = 1;</code>
      */
-    public int getNodeId() {
-      return nodeId_;
+    public int getFromNodeId() {
+      return fromNodeId_;
     }
 
     public static final int FOR_TERM_FIELD_NUMBER = 2;
@@ -1965,7 +1965,7 @@ public final class Election {
       if (isInitialized == 1) return true;
       if (isInitialized == 0) return false;
 
-      if (!hasNodeId()) {
+      if (!hasFromNodeId()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -1984,7 +1984,7 @@ public final class Election {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeInt32(1, nodeId_);
+        output.writeInt32(1, fromNodeId_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeInt32(2, forTerm_);
@@ -2002,7 +2002,7 @@ public final class Election {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, nodeId_);
+          .computeInt32Size(1, fromNodeId_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
@@ -2029,10 +2029,10 @@ public final class Election {
       pipe.election.Election.LeaderElectionResponse other = (pipe.election.Election.LeaderElectionResponse) obj;
 
       boolean result = true;
-      result = result && (hasNodeId() == other.hasNodeId());
-      if (hasNodeId()) {
-        result = result && (getNodeId()
-            == other.getNodeId());
+      result = result && (hasFromNodeId() == other.hasFromNodeId());
+      if (hasFromNodeId()) {
+        result = result && (getFromNodeId()
+            == other.getFromNodeId());
       }
       result = result && (hasForTerm() == other.hasForTerm());
       if (hasForTerm()) {
@@ -2055,9 +2055,9 @@ public final class Election {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      if (hasNodeId()) {
-        hash = (37 * hash) + NODE_ID_FIELD_NUMBER;
-        hash = (53 * hash) + getNodeId();
+      if (hasFromNodeId()) {
+        hash = (37 * hash) + FROM_NODE_ID_FIELD_NUMBER;
+        hash = (53 * hash) + getFromNodeId();
       }
       if (hasForTerm()) {
         hash = (37 * hash) + FOR_TERM_FIELD_NUMBER;
@@ -2186,7 +2186,7 @@ public final class Election {
       }
       public Builder clear() {
         super.clear();
-        nodeId_ = 0;
+        fromNodeId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
         forTerm_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -2219,7 +2219,7 @@ public final class Election {
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.nodeId_ = nodeId_;
+        result.fromNodeId_ = fromNodeId_;
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
@@ -2270,8 +2270,8 @@ public final class Election {
 
       public Builder mergeFrom(pipe.election.Election.LeaderElectionResponse other) {
         if (other == pipe.election.Election.LeaderElectionResponse.getDefaultInstance()) return this;
-        if (other.hasNodeId()) {
-          setNodeId(other.getNodeId());
+        if (other.hasFromNodeId()) {
+          setFromNodeId(other.getFromNodeId());
         }
         if (other.hasForTerm()) {
           setForTerm(other.getForTerm());
@@ -2285,7 +2285,7 @@ public final class Election {
       }
 
       public final boolean isInitialized() {
-        if (!hasNodeId()) {
+        if (!hasFromNodeId()) {
           return false;
         }
         if (!hasForTerm()) {
@@ -2316,34 +2316,34 @@ public final class Election {
       }
       private int bitField0_;
 
-      private int nodeId_ ;
+      private int fromNodeId_ ;
       /**
-       * <code>required int32 node_id = 1;</code>
+       * <code>required int32 from_node_id = 1;</code>
        */
-      public boolean hasNodeId() {
+      public boolean hasFromNodeId() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required int32 node_id = 1;</code>
+       * <code>required int32 from_node_id = 1;</code>
        */
-      public int getNodeId() {
-        return nodeId_;
+      public int getFromNodeId() {
+        return fromNodeId_;
       }
       /**
-       * <code>required int32 node_id = 1;</code>
+       * <code>required int32 from_node_id = 1;</code>
        */
-      public Builder setNodeId(int value) {
+      public Builder setFromNodeId(int value) {
         bitField0_ |= 0x00000001;
-        nodeId_ = value;
+        fromNodeId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 node_id = 1;</code>
+       * <code>required int32 from_node_id = 1;</code>
        */
-      public Builder clearNodeId() {
+      public Builder clearFromNodeId() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        nodeId_ = 0;
+        fromNodeId_ = 0;
         onChanged();
         return this;
       }
@@ -2493,9 +2493,9 @@ public final class Election {
       "\022\022\n\016WHOISTHELEADER\020\001\022\017\n\013THELEADERIS\020\002\"^\n" +
       "\016LeaderElection\022\014\n\004term\030\001 \002(\005\022\023\n\013candida" +
       "teId\030\002 \002(\005\022\024\n\014lastLogIndex\030\003 \002(\005\022\023\n\013last" +
-      "LogTerm\030\004 \002(\005\"Q\n\026LeaderElectionResponse\022",
-      "\017\n\007node_id\030\001 \002(\005\022\020\n\010for_term\030\002 \002(\005\022\024\n\014vo" +
-      "te_granted\030\003 \002(\010B\021\n\rpipe.electionH\001"
+      "LogTerm\030\004 \002(\005\"V\n\026LeaderElectionResponse\022",
+      "\024\n\014from_node_id\030\001 \002(\005\022\020\n\010for_term\030\002 \002(\005\022" +
+      "\024\n\014vote_granted\030\003 \002(\010B\021\n\rpipe.electionH\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -2526,7 +2526,7 @@ public final class Election {
     internal_static_LeaderElectionResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_LeaderElectionResponse_descriptor,
-        new java.lang.String[] { "NodeId", "ForTerm", "VoteGranted", });
+        new java.lang.String[] { "FromNodeId", "ForTerm", "VoteGranted", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

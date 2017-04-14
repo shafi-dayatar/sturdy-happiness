@@ -56,19 +56,19 @@ public class Candidate implements RaftServerState {
 	}
 
 	@java.lang.Override
-	public void collectVote(LeaderElectionResponse leaderElection) {
+	public void collectVote(LeaderElectionResponse voteResponse) {
 		/**
 		 *  vote is counted only if it from currentTerm, 
 		 *  which will handle stale election response votes,
 		 *  also duplicate vote response is handled
 		 */
 		
-		logger.info("Got vote from : " + leaderElection.getNodeId());
-		logger.info("Vote was : " + leaderElection.getVoteGranted());
+		logger.info("Got vote from : " + voteResponse.getFromNodeId());
+		logger.info("Vote was : " + voteResponse.getVoteGranted());
 		
-		if (election.term == leaderElection.getForTerm()){
-			if(election.voteFrom.add(leaderElection.getNodeId())){
-				if(leaderElection.getVoteGranted()){
+		if (election.term == voteResponse.getForTerm()){
+			if(election.voteFrom.add(voteResponse.getFromNodeId())){
+				if(voteResponse.getVoteGranted()){
 					election.voteCount++;
 					if(election.checkElectionResult()){
 						endTime = System.currentTimeMillis();

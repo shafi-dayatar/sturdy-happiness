@@ -1,6 +1,8 @@
 syntax = "proto2";
 option optimize_for = SPEED;
 option java_package = "pipe.common";
+//option java_package = "routing";
+//import "common.proto";
 
 /**
  * the accompanying information for all messages. Provides origination,
