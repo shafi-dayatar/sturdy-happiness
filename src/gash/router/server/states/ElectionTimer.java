@@ -47,8 +47,9 @@ public class ElectionTimer implements Runnable {
         			e.printStackTrace();
         		}
         	}
-        	logger.info("Election TimedOut, changing state to candidate");
+        	logger.info("Election Timeout");
         	if(forever && state.getEmon().getTotalNodes() >= 3){
+        		logger.info("Changing from Follower state to Candidate");
         		if (state.getRaftState() instanceof Follower)   
         		state.becomeCandidate();
         	}
