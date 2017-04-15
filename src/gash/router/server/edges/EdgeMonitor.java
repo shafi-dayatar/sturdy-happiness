@@ -162,7 +162,7 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 	}
 	
 	public int getTotalNodes(){
-		return outboundEdges.map.size();	
+		return outboundEdges.map.size() + 1;//including self	
 	}
 	
 	public boolean addNewEdgeInfo(int ref, String host, int port){

@@ -58,6 +58,7 @@ message WorkMessage {
         WORKSTATE = 11;
         WORKSTATEREPLY = 12;
         LOGAPPENDENTRY = 13;
+        LOGAPPENDRESPONSE = 14;
     }
 
    oneof payload {
@@ -79,6 +80,7 @@ message WorkMessage {
       LeaderElection leaderElectionRequest = 11;
       LeaderElectionResponse leaderElectionResponse = 12;
       LogAppendEntry log_append_entries = 13;
+      LogAppendResponse logAppendResponse = 14;
 
    }
    
@@ -114,8 +116,21 @@ message LogAppendEntry{
     optional int32 prev_log_index = 3;
     optional int32 prev_log_term = 4;
     optional int32 leader_commit_index = 5;
-    repeated LogEntry entry = 6;
+    optional LogEntryList entrylist = 6;
     optional bool success = 7;
     optional bool isHeartBeat = 8;
+<<<<<<< HEAD
+}
+
+message LogAppendResponse{
+    required int32 election_term = 1;
+    optional int32 leader_node_id = 2;
+    optional int32 prev_log_index = 3;
+    optional int32 prev_log_term = 4;
+    optional int32 leader_commit_index = 5;
+    required bool responseFlag = 7;
+    optional bool isHeartBeat = 8;
+=======
+>>>>>>> branch 'master' of https://github.com/shafi-dayatar/sturdy-happiness
 }
 

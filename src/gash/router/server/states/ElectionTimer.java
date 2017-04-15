@@ -25,6 +25,7 @@ public class ElectionTimer implements Runnable {
     private long electionStartTime;
     private long electionResolutionTime;
     private boolean forever = true;
+    
     public ElectionTimer(ServerState state, int min,int max){
         this.state = state;
         maxRandom = max;
@@ -57,7 +58,7 @@ public class ElectionTimer implements Runnable {
         		}
         	}
         	logger.info("Election Timeout"); 
-        	if(forever && state.getEmon().getTotalNodes() + 1 >= 4){
+        	if(forever && state.getEmon().getTotalNodes()>= 4){
         		logger.info("I am connected to :" + state.getEmon().getTotalNodes());
         		if (state.getRaftState() instanceof Follower)   
         		    state.becomeCandidate();

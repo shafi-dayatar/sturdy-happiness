@@ -17,7 +17,8 @@ import routing.Pipe;
  */
 public interface RaftServerState {
 
-    public void requestVote(LeaderElection leaderElectionRequest);
+	//change this method name to electionVoteResponse
+	public void requestVote(LeaderElection leaderElectionRequest);
     public void startElection();
     public void leaderElect();
     public void logAppend(LogAppendEntry logEntry);

@@ -36,7 +36,9 @@ import routing.Pipe.TaskType;
 public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> {
 	protected static Logger logger = LoggerFactory.getLogger("cmd");
 	protected RoutingConf conf;
+	
 	ServerState serverState;
+
 	public CommandHandler(RoutingConf conf) {
 		if (conf != null) {
 			this.conf = conf;
@@ -48,6 +50,8 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 		}
 		this.serverState = serverState;
 	}
+	
+	
 
 	/**
 	 * override this method to provide processing behavior. This implementation
@@ -56,6 +60,7 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 	 * 
 	 * @param msg
 	 */
+
 	public void handleMessage(CommandMessage msg, Channel channel) {
 		if (msg == null) {
 			// TODO add logging

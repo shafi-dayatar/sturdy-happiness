@@ -49,7 +49,7 @@ public class Candidate implements RaftServerState {
 		", Hopefully I will become leader ");
 		
 		election = new Election(state.getCurrentTerm(), 
-				state.getEmon().getTotalNodes(), state.getLastLogIndex(),
+				state.getEmon().getTotalNodes() + 1, state.getLastLogIndex(),
 				state.getLastLogTerm());
 		startTime = System.currentTimeMillis();		
 		state.getOutBoundMessageQueue().addMessage(
