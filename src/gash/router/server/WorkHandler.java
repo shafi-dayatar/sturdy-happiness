@@ -43,22 +43,21 @@ public class WorkHandler extends SimpleChannelInboundHandler<WorkMessage> {
 				}
 			}
 
-			/**
-			 * override this method to provide processing behavior. T
-			 *
-			 * @param msg
-			 */
-		public void handleMessage(WorkMessage msg, Channel channel) {
-			//two queues one for server processing and one for client forwarding.
+		/**
+		 * override this method to provide processing behavior. T
+		 *
+		 * @param msg
+		 */
+	public void handleMessage(WorkMessage msg, Channel channel) {
+		//two queues one for server processing and one for client forwarding.
 
-			if (msg == null) {
-				// TODO add logging
-				System.out.println("ERROR: Unexpected content - " + msg);
-				return;
-			}
-			PrintUtil.printWork(msg);
-			state.getInBoundMessageQueue().addMessage(msg);
-			System.out.flush();
+		if (msg == null) {
+			// TODO add logging
+			System.out.println("ERROR: Unexpected content - " + msg);
+			return;
+		}
+		state.getInBoundMessageQueue().addMessage(msg);
+		System.out.flush();
 
 	}
 

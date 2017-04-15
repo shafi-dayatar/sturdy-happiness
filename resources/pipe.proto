@@ -11,6 +11,32 @@ import "common.proto";
  * security, authentication, and tracking information
  */
 
+
+/**
+ * IMPORTANT !!::
+ * Command Message is delivered from the client and will be used to communicate with the client
+*/
+
+message CommandMessage {
+   required Header header = 1;
+
+
+   oneof payload {
+        // a client (external) sanity check for testing
+        bool ping = 3;
+
+        string message = 4;
+
+        Failure err = 5;
+        Request req = 6;
+        Response resp = 7;
+   }
+
+}
+
+
+
+
 enum TaskType {
  READFILE = 1;
  WRITEFILE = 2;
@@ -74,6 +100,7 @@ message Node{
 
 message Response{
  required TaskType responseType = 1;
+ required Status status = 2;
  optional string filename=3;
  enum Status{
  Success = 1;
@@ -83,18 +110,5 @@ message Response{
  WriteResponse writeResponse = 4;
  ReadResponse readResponse = 5;
  }
-}
-
-message CommandMessage {
-   required Header header = 1;
-
-    oneof payload {
-      // a client (external) sanity check for testing
-      bool ping = 3;
-
-      string message = 4;
-      
-      Failure err = 5;
-   }
 }
 

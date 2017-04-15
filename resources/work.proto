@@ -119,6 +119,7 @@ message LogAppendEntry{
     optional LogEntryList entrylist = 6;
     optional bool success = 7;
     optional bool isHeartBeat = 8;
+<<<<<<< HEAD
 }
 
 message LogAppendResponse{
@@ -129,5 +130,7 @@ message LogAppendResponse{
     optional int32 leader_commit_index = 5;
     required bool responseFlag = 7;
     optional bool isHeartBeat = 8;
+=======
+>>>>>>> branch 'master' of https://github.com/shafi-dayatar/sturdy-happiness
 }
 

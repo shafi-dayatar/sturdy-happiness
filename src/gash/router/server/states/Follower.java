@@ -18,6 +18,7 @@ import pipe.work.Work.LogAppendEntry;
 import pipe.work.Work.LogAppendResponse;
 import pipe.work.Work.WorkMessage;
 import pipe.work.Work.WorkMessage.MessageType;
+import routing.Pipe;
 
 
 public class Follower implements RaftServerState {
@@ -63,6 +64,7 @@ public class Follower implements RaftServerState {
 						request.getTerm(), false);
 			}
 			else{
+				state.setCurrentTerm(request.getTerm());
 				electionVotes.put(request.getTerm(), request.getCandidateId());
 				wm  =  createVoteResponse(request.getCandidateId(), state.getNodeId(), 
 						request.getTerm(), true);
@@ -91,7 +93,6 @@ public class Follower implements RaftServerState {
 		wmb.setType(MessageType.LEADERELECTIONREPLY);
 		wmb.setSecret(10100);
 		return wmb.build();
-
 	}
 	
 
@@ -105,10 +106,7 @@ public class Follower implements RaftServerState {
 		
 	}
 
-	public void logAppend() {
-		// TODO Auto-generated method stub
-		
-	}
+	
     @java.lang.Override
     public void collectVote(Election.LeaderElectionResponse leaderElectionResponse) {
 
@@ -128,6 +126,7 @@ public class Follower implements RaftServerState {
 			this.vote = vote;
 		}
 	}
+
 	
 	/**
 	 * Build appendResponse to send to the leader node
@@ -161,5 +160,39 @@ public class Follower implements RaftServerState {
 		if(log.getCommitIndex() >log.getLastApplied()) {
 			log.setLastApplied(log.getCommitIndex());
 		}
+	}
+
+
+	@Override
+	public void heartbeat(LogAppendEntry heartbeat) {
+		logger.info("Got a heartbeat message in While server was in Follower state");
+		logger.info("Current Elected Leader is :" + heartbeat.getLeaderNodeId() + 
+				", for term : " + heartbeat.getElectionTerm() );
+		state.getElectionTimer().resetElectionTimeOut();
+		state.setLeaderId(heartbeat.getLeaderNodeId());
+		state.becomeFollower();
+		state.setCurrentTerm(heartbeat.getElectionTerm());
+		state.setLeaderKnown(true);
+	}
+
+	@Override
+	public void readFile(Pipe.ReadBody readBody) {
+
+	}
+
+	@Override
+	public void writeFile(Pipe.WriteBody readBody) {
+
+	}
+
+	@Override
+	public void deleteFile(Pipe.ReadBody readBody) {
+
+	}
+
+	@Override
+	public void logAppend(LogAppendEntry logEntry) {
+		// TODO Auto-generated method stub
+		
 	}
 }
