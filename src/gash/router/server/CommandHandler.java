@@ -70,6 +70,7 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 		}
 
 		PrintUtil.printCommand(msg);
+		//serverState.getRaftState().
 
 		try {
 			// TODO How can you implement this without if-else statements?
