@@ -37,12 +37,16 @@ import routing.Pipe.CommandMessage;
 public class CommandHandler extends SimpleChannelInboundHandler<Client> {
 	protected static Logger logger = LoggerFactory.getLogger("cmd");
 	protected RoutingConf conf;
-
+	public Client client;
+	
+	
 	public CommandHandler(RoutingConf conf) {
 		if (conf != null) {
 			this.conf = conf;
 		}
 	}
+	
+	
 
 	/**
 	 * override this method to provide processing behavior. This implementation
@@ -52,6 +56,7 @@ public class CommandHandler extends SimpleChannelInboundHandler<Client> {
 	 * @param msg
 	 */
 	public void handleMessage(Client msg, Channel channel) {
+	
 		if (msg == null) {
 			// TODO add logging
 
@@ -59,8 +64,11 @@ public class CommandHandler extends SimpleChannelInboundHandler<Client> {
 			return;
 		}
 
+	
+		
+		
 		//PrintUtil.printCommand(msg);
-
+		
 		try {
 			// TODO How can you implement this without if-else statements?
 			/*if (msg.hasPing()) {
@@ -105,7 +113,7 @@ public class CommandHandler extends SimpleChannelInboundHandler<Client> {
 	}
 
 
-	protected void channelRead0(ChannelHandlerContext channelHandlerContext, Client client) throws Exception {
-
+	protected void channelRead0(ChannelHandlerContext ctx, Client msg) throws Exception {
+		handleMessage(msg,ctx.channel());
 	}
 }

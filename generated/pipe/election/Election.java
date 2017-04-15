@@ -541,7 +541,7 @@ public final class Election {
         return memoizedHashCode;
       }
       int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (19 * hash) + getDescriptorForType().hashCode();
       if (hasAction()) {
         hash = (37 * hash) + ACTION_FIELD_NUMBER;
         hash = (53 * hash) + action_;
@@ -1345,7 +1345,7 @@ public final class Election {
         return memoizedHashCode;
       }
       int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (19 * hash) + getDescriptorForType().hashCode();
       if (hasTerm()) {
         hash = (37 * hash) + TERM_FIELD_NUMBER;
         hash = (53 * hash) + getTerm();
@@ -2054,7 +2054,7 @@ public final class Election {
         return memoizedHashCode;
       }
       int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (19 * hash) + getDescriptorForType().hashCode();
       if (hasFromNodeId()) {
         hash = (37 * hash) + FROM_NODE_ID_FIELD_NUMBER;
         hash = (53 * hash) + getFromNodeId();

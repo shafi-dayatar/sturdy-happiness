@@ -18,20 +18,15 @@ import pipe.election.Election;
 import pipe.election.Election.LeaderElection;
 import pipe.work.Work;
 import pipe.work.Work.Command;
+import pipe.work.Work.LogAppendEntry;
 import pipe.work.Work.LogEntry;
 import pipe.work.Work.LogEntry.*;
-import poke.core.Mgmt.LogEntryList;
-import poke.core.Mgmt.Management;
-import poke.core.Mgmt.MgmtHeader;
-import poke.core.Mgmt.RaftMessage;
-import poke.server.managers.ConnectionManager;
+import pipe.work.Work.LogEntryList;
+import pipe.work.Work.WorkMessage.MessageType;
 import pipe.work.Work.Node;
 import pipe.work.Work.WorkMessage;
 
 
-/**
- * Created by rentala on 4/11/17.
- */
 public class Leader implements RaftServerState {
 
     protected static Logger logger = LoggerFactory.getLogger("Leader-State");
@@ -50,40 +45,58 @@ public class Leader implements RaftServerState {
     }
     
     /**
-	 * Build AppendRequest to send to a follower with log entries
-	 * starting from logStartIndex to lastIndx
-	 * @param toNode
-	 * @param logStartIndex
-	 * @return Management response
+	 * Build AppendRequest for heart beat with 0 log entries
 	 */
-	public WorkMessage getAppendRequest(int fNode, int logStartIndex) {
+	public WorkMessage getAppendRequest(int fNode) {
+		WorkMessage.Builder wmb = WorkMessage.newBuilder();
 		Header.Builder hdb = Header.newBuilder();
-		hdb.setNodeId(this.nodeId));
+		hdb.setNodeId(state.getNodeId());
 		hdb.setTime(System.currentTimeMillis());
 		hdb.setDestination(fNode);
 		
+	    wmb.setHeader(hdb.build());
+
+	    LogAppendEntry.Builder le = LogAppendEntry.newBuilder();
+		le.setElectionTerm(state.getCurrentTerm());
+		le.setPrevLogIndex(log.lastIndex());
+		le.setPrevLogTerm(log.lastIndex() != 0 ? log.getEntry(log.lastIndex()).getTerm() : 0);
+		le.setLeaderCommitIndex(log.getCommitIndex());
+		le.setLeaderNodeId(state.getNodeId());
+
+		wmb.setType(WorkMessage.MessageType.LOGAPPENDENTRY);
+		wmb.setSecret(11111);
+		wmb.setLogAppendEntries(le.build());
+		return wmb.build();
+	}
+    
+    /**
+	 * Build AppendRequest to send to a follower with log entries
+	 * starting from logStartIndex to latestIndex
+	 */
+	public WorkMessage getAppendRequest(int fNode, int logStartIndex) {
 		WorkMessage.Builder wmb = WorkMessage.newBuilder();
-	    wmb.setHeader(hdb);
+		Header.Builder hdb = Header.newBuilder();
+		hdb.setNodeId(state.getNodeId());
+		hdb.setTime(System.currentTimeMillis());
+		hdb.setDestination(fNode);
+		
+	    wmb.setHeader(hdb.build());
 	    
-		RaftMessage.Builder rmb = RaftMessage.newBuilder();
-		rmb.setAction(RaftMessage.Action.APPEND);
-		rmb.setTerm(this.term);
-		rmb.setPrevLogIndex(logStartIndex - 1);
-		//logger.info("Log Start Index: " + logStartIndex);
-		rmb.setPrevTerm((logStartIndex - 1) != 0 ? log.getEntry(logStartIndex - 1)
-				.getTerm() : 0);
-		rmb.setLogCommitIndex(log.getCommitIndex());
+	    LogEntryList.Builder l = LogEntryList.newBuilder();
+		l.addAllEntry(Arrays.asList(log.getEntries(logStartIndex)));
+		
+	    LogAppendEntry.Builder le = LogAppendEntry.newBuilder();
+		le.setElectionTerm(state.getCurrentTerm());
+		le.setPrevLogIndex(logStartIndex -1);
+		le.setPrevLogTerm((logStartIndex - 1) != 0 ? log.getEntry(logStartIndex - 1).getTerm() : 0);
+		le.setLeaderCommitIndex(log.getCommitIndex());
+		le.setLeaderNodeId(state.getNodeId());
+		le.setEntrylist(l.build());	    
 
-		LogEntryList.Builder le = LogEntryList.newBuilder();
-		//logger.info("Current entries in log:"+ log.getEntries(logStartIndex).length);
-		le.addAllEntry(Arrays.asList(log.getEntries(logStartIndex)));
-		rmb.setEntries(le.build());
-
-		Management.Builder mb = Management.newBuilder();
-		mb.setHeader(mhb.build());
-		mb.setRaftMessage(rmb.build());
-
-		return mb.build();
+	    wmb.setLogAppendEntries(le.build());
+		wmb.setType(WorkMessage.MessageType.LOGAPPENDENTRY);
+		wmb.setSecret(11111);
+		return wmb.build();
 	}
 
     /**
@@ -94,10 +107,10 @@ public class Leader implements RaftServerState {
 			if(isInsert) {
 				leb.setAction(DataAction.INSERT);
 				leb.setData(cmd);
-				leb.setTerm(state.termId);
+				leb.setTerm(state.getCurrentTerm());
 				log.appendEntry(leb.build());
 			}
-			ArrayList<Node> followers = new ArrayList<Node>(state.getEmon().getOutBoundRouteTable());
+			
 			sendAppendRequest(getAppendRequestForFollowers());
 			
 	}
@@ -145,7 +158,40 @@ public class Leader implements RaftServerState {
 		}
 	}
 	
+	/**
+	 * If follower rejects an AppendRequest due to log mismatch,
+	 * decrement the follower's next index and return the
+	 * decremented index
+	 */
+	public long getDecrementedNextIndex(int nodeId) {
+		nextIndex.put(nodeId, nextIndex.get(nodeId) - 1);
+		return nextIndex.get(nodeId);
+	}
 	
+	/**
+	 * When AppendRequest is successful for a node, update it's 
+	 * nextIndex to lastIndex+1 and matchIndex to lastIndex
+	 */
+	public void updateNextAndMatchIndex(int nodeId) {
+		if(!matchIndex.containsKey(nodeId)) {
+			// Next Index
+			nextIndex.put(nodeId, log.lastIndex() + 1);
+			// Match Index
+			matchIndex.put(nodeId, (int) 0);
+		}
+		
+		if(matchIndex.get(nodeId) != log.lastIndex()) {
+			nextIndex.put(nodeId, log.lastIndex() + 1);
+			matchIndex.put(nodeId, log.lastIndex());
+			// check if commit index is also increased
+			updateCommitIndex();
+		}
+	}
+	
+	
+	public void updateCommitIndex() {
+		log.setCommitIndex(log.lastIndex());		
+}
     @java.lang.Override
     public void requestVote(LeaderElection leaderElectionRequest) {
 

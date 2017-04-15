@@ -458,7 +458,7 @@ public final class Client {
         return memoizedHashCode;
       }
       int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (19 * hash) + getDescriptorForType().hashCode();
       if (hasNodeId()) {
         hash = (37 * hash) + NODE_ID_FIELD_NUMBER;
         hash = (53 * hash) + getNodeId();
@@ -1228,7 +1228,7 @@ public final class Client {
         return memoizedHashCode;
       }
       int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (19 * hash) + getDescriptorForType().hashCode();
       if (hasId()) {
         hash = (37 * hash) + ID_FIELD_NUMBER;
         hash = (53 * hash) + getId();
@@ -2024,7 +2024,7 @@ public final class Client {
         return memoizedHashCode;
       }
       int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (19 * hash) + getDescriptorForType().hashCode();
       if (hasRequestType()) {
         hash = (37 * hash) + REQUESTTYPE_FIELD_NUMBER;
         hash = (53 * hash) + requestType_;
@@ -3122,7 +3122,7 @@ public final class Client {
         return memoizedHashCode;
       }
       int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (19 * hash) + getDescriptorForType().hashCode();
       if (hasFileId()) {
         hash = (37 * hash) + FILE_ID_FIELD_NUMBER;
         hash = (53 * hash) + getFileId().hashCode();
@@ -4045,7 +4045,7 @@ public final class Client {
         return memoizedHashCode;
       }
       int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (19 * hash) + getDescriptorForType().hashCode();
       if (getChunkIdCount() > 0) {
         hash = (37 * hash) + CHUNKID_FIELD_NUMBER;
         hash = (53 * hash) + getChunkIdList().hashCode();
@@ -4648,7 +4648,7 @@ public final class Client {
         return memoizedHashCode;
       }
       int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (19 * hash) + getDescriptorForType().hashCode();
       if (hasChunkId()) {
         hash = (37 * hash) + CHUNK_ID_FIELD_NUMBER;
         hash = (53 * hash) + getChunkId();
@@ -5395,7 +5395,7 @@ public final class Client {
         return memoizedHashCode;
       }
       int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (19 * hash) + getDescriptorForType().hashCode();
       if (hasFilename()) {
         hash = (37 * hash) + FILENAME_FIELD_NUMBER;
         hash = (53 * hash) + getFilename().hashCode();
@@ -6382,7 +6382,7 @@ public final class Client {
         return memoizedHashCode;
       }
       int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (19 * hash) + getDescriptorForType().hashCode();
       if (hasFileId()) {
         hash = (37 * hash) + FILE_ID_FIELD_NUMBER;
         hash = (53 * hash) + getFileId().hashCode();
@@ -7502,7 +7502,7 @@ public final class Client {
         return memoizedHashCode;
       }
       int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (19 * hash) + getDescriptorForType().hashCode();
       if (hasChunkid()) {
         hash = (37 * hash) + CHUNKID_FIELD_NUMBER;
         hash = (53 * hash) + getChunkid();
@@ -8387,7 +8387,7 @@ public final class Client {
         return memoizedHashCode;
       }
       int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (19 * hash) + getDescriptorForType().hashCode();
       if (hasNodeId()) {
         hash = (37 * hash) + NODE_ID_FIELD_NUMBER;
         hash = (53 * hash) + getNodeId();
@@ -9353,7 +9353,7 @@ public final class Client {
         return memoizedHashCode;
       }
       int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (19 * hash) + getDescriptorForType().hashCode();
       if (hasResponseType()) {
         hash = (37 * hash) + RESPONSETYPE_FIELD_NUMBER;
         hash = (53 * hash) + responseType_;

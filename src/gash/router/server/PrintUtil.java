@@ -62,7 +62,7 @@ public class PrintUtil {
 			System.out.println("Ping");
 		else
 			System.out.println("Unknown");
-
+		
 		System.out.println(PrintUtil.gap + "Sec:  " + msg.getSecret());
 	}
 
