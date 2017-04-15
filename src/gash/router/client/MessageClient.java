@@ -15,8 +15,21 @@
  */
 package gash.router.client;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.google.protobuf.ByteString;
+
+import pipe.common.Common;
+import pipe.common.Common.Chunk;
 import pipe.common.Common.Header;
-import pipe.work.Work.WorkMessage;
+import pipe.common.Common.Request;
+import pipe.common.Common.WriteBody;
+import routing.Pipe.CommandMessage;
+import routing.Pipe.WhoIsLeader;
 
 /**
  * front-end (proxy) to our service - functional-based
@@ -27,7 +40,7 @@ import pipe.work.Work.WorkMessage;
 public class MessageClient {
 	// track requests
 	private long curID = 0;
-
+	protected static Logger logger = LoggerFactory.getLogger("Client");
 	public MessageClient(String host, int port) {
 		init(host, port);
 	}
@@ -39,33 +52,95 @@ public class MessageClient {
 	public void addListener(CommListener listener) {
 		CommConnection.getInstance().addListener(listener);
 	}
-
-	public void ping(int destination) {
+	public void askForLeader() {
 		// construct the message to send
 		Header.Builder hb = Header.newBuilder();
-		hb.setNodeId(1);
-		hb.setMaxHops(10);
+		hb.setNodeId(999);
 		hb.setTime(System.currentTimeMillis());
-		hb.setDestination(destination);
-
-		WorkMessage.Builder rb = WorkMessage.newBuilder();
+		hb.setDestination(-1);
+		
+		WhoIsLeader.Builder wl=WhoIsLeader.newBuilder();
+		wl.setAskleader(true);
+		
+		CommandMessage.Builder rb = CommandMessage.newBuilder();
 		rb.setHeader(hb);
-		rb.setPing(true);
-		rb.setSecret(new Integer(123123123));
-
+		rb.setWhoisleader(wl);
+		
+		System.out.println("im sending message");
 		try {
 			// direct no queue
 			// CommConnection.getInstance().write(rb.build());
 
+			// using queue
 			CommConnection.getInstance().enqueue(rb.build());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+	public void ping() {
+		// construct the message to send
+		Header.Builder hb = Header.newBuilder();
+		hb.setNodeId(999);
+		hb.setTime(System.currentTimeMillis());
+		hb.setDestination(-1);
 
-	public void release() {
-		CommConnection.getInstance().release();
+		CommandMessage.Builder rb = CommandMessage.newBuilder();
+		rb.setHeader(hb);
+		rb.setPing(true);
+
+		try {
+			// direct no queue
+			// CommConnection.getInstance().write(rb.build());
+
+			// using queue
+			CommConnection.getInstance().enqueue(rb.build());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
+	// Save File to server
+			public void writeFile(String filename, ByteString chunkData, int noOfChunks, int chunkId) {
+				
+				logger.info("Printing byte size"+chunkData.size());
+				Header.Builder hb = Header.newBuilder();
+				hb.setNodeId(999);
+				hb.setTime(System.currentTimeMillis());
+				hb.setDestination(-1);
+				
+				Chunk.Builder chb=Chunk.newBuilder();
+				chb.setChunkId(chunkId);
+				chb.setChunkData(chunkData);
+				chb.setChunkSize(chunkData.size());
+				
+				WriteBody.Builder wb=WriteBody.newBuilder();
+				wb.setFileId(1);
+				wb.setFilename(filename);
+				wb.setChunk(chb);
+				wb.setNumOfChunks(noOfChunks);
+				
+				Request.Builder rb = Request.newBuilder();
+				//request type, read,write,etc				
+				rb.setRequestType(Common.Request.RequestType.WRITEFILE); // operation to be
+																// performed
+				rb.setRwb(wb);	
+				CommandMessage.Builder cb = CommandMessage.newBuilder();
+				// Prepare the CommandMessage structure
+				cb.setHeader(hb);
+				cb.setRequest(rb);				
+
+				// Initiate connection to the server and prepare to save file
+				try {
+					CommConnection.getInstance().enqueue(cb.build());
+				} catch (Exception e) {
+					e.printStackTrace();
+					logger.error("Problem connecting to the system");
+				}			
+
+			}
+
+	/*public void release() {
+		CommConnection.getInstance().release();
+	}*/
 
 	/**
 	 * Since the service/server is asychronous we need a unique ID to associate

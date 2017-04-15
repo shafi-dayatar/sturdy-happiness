@@ -1,7 +1,7 @@
 package gash.router.client;
 
 import io.netty.channel.Channel;
-import pipe.work.Work.WorkMessage;
+import routing.Pipe.CommandMessage;
 
 /**
  * queues outgoing messages - this provides surge protection if the client
@@ -39,10 +39,11 @@ public class CommWorker extends Thread {
 			try {
 				// block until a message is enqueued AND the outgoing
 				// channel is active
-				WorkMessage msg = conn.outbound.take();
+				CommandMessage msg = conn.outbound.take();
 				if (ch.isWritable()) {
 					if (!conn.write(msg)) {
 						conn.outbound.putFirst(msg);
+						System.out.println("msg sending failed!");
 					}
 
 					System.out.flush();

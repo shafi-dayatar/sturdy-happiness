@@ -94,7 +94,7 @@ message Command {
 
 message LogEntry {
 	required DataAction action = 1;
-	required Command data = 2;
+	repeated Command data = 2;
 	required int32 term = 3;
 	required int32 logId = 4;
 	

@@ -21,9 +21,11 @@ import java.util.concurrent.ConcurrentMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import routing.Pipe.CommandMessage;
+
 
 /**
  * A client-side netty pipeline send/receive.
@@ -69,16 +71,24 @@ public class CommHandler extends SimpleChannelInboundHandler<CommandMessage> {
 	 * @param msg
 	 *            The message
 	 */
+	public void handleMessage(CommandMessage msg, Channel channel) {
+		if (msg == null) {
+			// TODO add logging
+			System.out.println("ERROR: Unexpected content - " + msg);
+			return;
+		}
+		System.out.println("im in");
+	}
 	@Override
 	protected void channelRead0(ChannelHandlerContext ctx, CommandMessage msg) throws Exception {
-		System.out.println("--> got incoming message");
+		handleMessage(msg,ctx.channel());
+		/*System.out.println("--> got incoming message");
 		for (String id : listeners.keySet()) {
 			CommListener cl = listeners.get(id);
-
 			// TODO this may need to be delegated to a thread pool to allow
 			// async processing of replies
 			cl.onMessage(msg);
-		}
+		}*/
 	}
 
 	@Override

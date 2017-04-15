@@ -79,7 +79,7 @@ public class LogInfo implements LogOperations {
 	 * @return long index
 	 */
 	@Override
-	public void appendEntry(LogEntry entry) {
+	public synchronized void  appendEntry(LogEntry entry) {
 		
 		log.add(entry);
 //		if(isSegmentLimitReached()) {
@@ -171,6 +171,11 @@ public class LogInfo implements LogOperations {
 		}
 		for(long i = startIndex; i <= lastIndex(); i++)
 			log.remove(i);		
+	}
+
+	public int getLogIndex() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
 }
