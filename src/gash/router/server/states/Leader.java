@@ -85,8 +85,13 @@ public class Leader implements RaftServerState, Runnable {
 
 	}
 	@Override
-	public void heartbeat(LogAppendEntry hearbeat) {
+	public void heartbeat(LogAppendEntry heartbeat) {
 		// TODO Auto-generated method stub
+		if (state.getCurrentTerm()<heartbeat.getElectionTerm()){
+			//leader should step down, as it was previously elected and something went wrong
+			state.setCurrentTerm(heartbeat.getElectionTerm());
+			state.becomeFollower();
+		}
 		
 	}
 

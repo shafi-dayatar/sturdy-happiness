@@ -22,6 +22,13 @@ import routing.Pipe;
 /**
  * Created by rentala on 4/11/17.
  */
+
+/**
+ * TO DO:
+ * 1) As leader gets elected it should reset electionVotes from previous term, for memory performance;
+ * 2) 
+ *
+ */
 public class Follower implements RaftServerState {
     
 	protected static Logger logger = LoggerFactory.getLogger("Follower-State");
@@ -43,7 +50,7 @@ public class Follower implements RaftServerState {
         logger.info("Timed out ! To candidate state .... ");
     }
 
-
+    //change this method name to electionVoteResponse
 	public void requestVote(LeaderElection request) {
 		// TODO Auto-generated method stub
 		int logIndex = state.getLastLogIndex();
@@ -75,7 +82,7 @@ public class Follower implements RaftServerState {
 	}
 
 	private WorkMessage createVoteResponse(int destId, int sourceId, int term, boolean b) {
-		logger.info("will I vote for " + destId + "?, and answer is : " + b);
+		logger.info("will I vote for " + destId + " for term : " + term +"?, and answer is : " + b);
 		// TODO Auto-generated method stub
 		WorkMessage.Builder wmb = WorkMessage.newBuilder();
 		Header.Builder hdb = Header.newBuilder();
