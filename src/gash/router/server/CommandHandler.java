@@ -25,6 +25,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import pipe.common.Common.Failure;
 import routing.Pipe.CommandMessage;
 import routing.Pipe.TaskType;
+import routing.Pipe.Chunk;
 /**
  * The message handler processes json messages that are delimited by a 'newline'
  * 

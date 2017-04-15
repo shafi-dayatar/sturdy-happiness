@@ -80,6 +80,20 @@ public class SqlClient {
         }
 
     }
+    public void storefile(int chunck_id, InputStream inputStream, String filename){
+        try{
+            System.out.println("storing the file .....");
+
+            insertStatement.setInt(1, chunck_id);
+            insertStatement.setString(2, filename);
+            insertStatement.setBinaryStream(3, inputStream);
+            insertStatement.execute();
+        }catch (Exception e){
+            System.out.println("File store failed");
+            e.printStackTrace();
+        }
+
+    }
 
     public byte[] getFile(String file_name){
         FileOutputStream fileOuputStream = null;

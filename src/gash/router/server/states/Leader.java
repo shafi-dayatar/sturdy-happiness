@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.Map.Entry;
 
+import gash.router.server.db.SqlClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,7 +27,8 @@ import pipe.work.Work.WorkMessage.MessageType;
 import pipe.work.Work.Node;
 import pipe.work.Work.WorkMessage;
 import routing.Pipe;
-
+import routing.Pipe.Chunk;
+import com.google.protobuf.ByteString;
 /**
  * Created by rentala on 4/11/17.
  */
@@ -40,7 +42,7 @@ public class Leader implements RaftServerState, Runnable {
  	// stores the last logIndex sent to each follower
  	TreeMap<Integer, Integer> matchIndex = new TreeMap<Integer, Integer>();
     private boolean isLeader;
-
+    private SqlClient sqlClient;
     public Leader(ServerState state){
         this.state = state;
     }
@@ -269,7 +271,9 @@ public class Leader implements RaftServerState, Runnable {
 
 	@Override
 	public void writeFile(Pipe.WriteBody readBody) {
-
+		Chunk chunk = readBody.getChunk();
+		ByteString bs = chunk.getChunkData();
+		sqlClient.storefile(chunk.getChunkId(), bs.newInput(), readBody.getFilename());
 	}
 
 	@Override
