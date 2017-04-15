@@ -15,6 +15,16 @@
  */
 package gash.router.app;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+import com.google.protobuf.ByteString;
+
 import gash.router.client.CommConnection;
 import gash.router.client.CommListener;
 import gash.router.client.MessageClient;
@@ -22,7 +32,8 @@ import routing.Pipe.CommandMessage;
 
 public class DemoApp implements CommListener {
 	private MessageClient mc;
-
+	private String leaderHost="";
+	private int leaderPort=0;
 	public DemoApp(MessageClient mc) {
 		init(mc);
 	}
@@ -32,13 +43,13 @@ public class DemoApp implements CommListener {
 		this.mc.addListener(this);
 	}
 
-	private void ping(int N, int destination_id) {
+	private void ping(int N) {
 		// test round-trip overhead (note overhead for initial connection)
 		final int maxN = 10;
 		long[] dt = new long[N];
 		long st = System.currentTimeMillis(), ft = 0;
 		for (int n = 0; n < N; n++) {
-			mc.ping(destination_id);
+			mc.ping();
 			ft = System.currentTimeMillis();
 			dt[n] = ft - st;
 			st = ft;
@@ -49,6 +60,25 @@ public class DemoApp implements CommListener {
 			System.out.print(dt[n] + " ");
 		System.out.println("");
 	}
+	
+	 private ArrayList<ByteString> divideFileChunks(File file) throws IOException {
+	        ArrayList<ByteString> chunkedFile = new ArrayList<ByteString>();
+	        int sizeOfFiles = 1024 * 1024; // equivalent to 1 Megabyte
+	        byte[] buffer = new byte[sizeOfFiles];
+
+	        try {
+	            BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
+	            int tmp = 0;
+	            while ((tmp = bis.read(buffer)) > 0) {
+	                ByteString byteString = ByteString.copyFrom(buffer, 0, tmp);
+	                chunkedFile.add(byteString);
+	            }
+	            return chunkedFile;
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            return null;
+	        }
+	    }
 
 	@Override
 	public String getListenerID() {
@@ -57,7 +87,10 @@ public class DemoApp implements CommListener {
 
 	@Override
 	public void onMessage(CommandMessage msg) {
-		System.out.println("---> " + msg);
+		System.out.println("---> Host : " + msg.getLeaderroute().getHost());
+		System.out.println("---> Port : " + msg.getLeaderroute().getPort());
+		leaderHost=msg.getLeaderroute().getHost();
+		leaderPort=msg.getLeaderroute().getPort();
 	}
 
 	/**
@@ -66,23 +99,43 @@ public class DemoApp implements CommListener {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		String host = args[0];
-		int port = Integer.parseInt(args[1]) ;
+		String host = "localhost";
+		int port = 4168;
 
 		try {
-			MessageClient mc = new MessageClient(host, port);
+			MessageClient mc = new MessageClient(host, port);			
 			DemoApp da = new DemoApp(mc);
-
-			// do stuff w/ the connection
-			da.ping(1, Integer.parseInt(args[2]));
-
-			System.out.println("\n** exiting in 10 seconds. **");
-			System.out.flush();
-			Thread.sleep(10 * 1000);
+			mc.askForLeader();
+			
+			/*int choice = 0;
+			Scanner s=new Scanner(System.in);
+            while (true) {
+                System.out.println("Enter your option \n1. WRITE a file. \n2. READ a file. \n3. Update a File. \n4. Delete a File\n 5 Ping(Global)\n 6 Exit");
+                choice = s.nextInt();
+                switch (choice) {
+                    case 1: 
+                        System.out.println("Enter the full pathname of the file to be written ");
+                        String currFileName = s.next();
+                        File file = new File(currFileName);
+                        if (file.exists()) {
+                            ArrayList<ByteString> chunkedFileList = da.divideFileChunks(file);
+                            String name = file.getName();
+                            int i = 0;                            
+                            for (ByteString string : chunkedFileList) {
+                                mc.writeFile(name, string, chunkedFileList.size(), i++);
+                            }
+                        } else {
+                            throw new FileNotFoundException("File does not exist in this path ");
+                        } 
+                    break;
+                    default:
+                    	System.out.println("Invalid option");                   
+                }
+            }    */        
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
+		} /*finally {
 			CommConnection.getInstance().release();
-		}
+		}*/
 	}
 }
