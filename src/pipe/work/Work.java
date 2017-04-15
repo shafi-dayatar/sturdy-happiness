@@ -224,7 +224,7 @@ public final class Work {
         return memoizedHashCode;
       }
       int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (19 * hash) + getDescriptorForType().hashCode();
       if (hasEnqueued()) {
         hash = (37 * hash) + ENQUEUED_FIELD_NUMBER;
         hash = (53 * hash) + getEnqueued();
@@ -766,7 +766,7 @@ public final class Work {
         return memoizedHashCode;
       }
       int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (19 * hash) + getDescriptorForType().hashCode();
       if (hasState()) {
         hash = (37 * hash) + STATE_FIELD_NUMBER;
         hash = (53 * hash) + getState().hashCode();
@@ -1388,7 +1388,7 @@ public final class Work {
         return memoizedHashCode;
       }
       int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (19 * hash) + getDescriptorForType().hashCode();
       if (hasSeriesId()) {
         hash = (37 * hash) + SERIES_ID_FIELD_NUMBER;
         hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
@@ -2039,7 +2039,7 @@ public final class Work {
         return memoizedHashCode;
       }
       int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (19 * hash) + getDescriptorForType().hashCode();
       if (hasNodeId()) {
         hash = (37 * hash) + NODE_ID_FIELD_NUMBER;
         hash = (53 * hash) + getNodeId();
@@ -2913,7 +2913,7 @@ public final class Work {
         return memoizedHashCode;
       }
       int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (19 * hash) + getDescriptorForType().hashCode();
       if (getRoutingTableCount() > 0) {
         hash = (37 * hash) + ROUTING_TABLE_FIELD_NUMBER;
         hash = (53 * hash) + getRoutingTableList().hashCode();
@@ -4092,6 +4092,19 @@ public final class Work {
      */
     pipe.work.Work.LogAppendEntryOrBuilder getLogAppendEntriesOrBuilder();
 
+    /**
+     * <code>optional .LogAppendResponse logAppendResponse = 14;</code>
+     */
+    boolean hasLogAppendResponse();
+    /**
+     * <code>optional .LogAppendResponse logAppendResponse = 14;</code>
+     */
+    pipe.work.Work.LogAppendResponse getLogAppendResponse();
+    /**
+     * <code>optional .LogAppendResponse logAppendResponse = 14;</code>
+     */
+    pipe.work.Work.LogAppendResponseOrBuilder getLogAppendResponseOrBuilder();
+
     public pipe.work.Work.WorkMessage.PayloadCase getPayloadCase();
   }
   /**
@@ -4302,6 +4315,20 @@ public final class Work {
               payloadCase_ = 13;
               break;
             }
+            case 114: {
+              pipe.work.Work.LogAppendResponse.Builder subBuilder = null;
+              if (payloadCase_ == 14) {
+                subBuilder = ((pipe.work.Work.LogAppendResponse) payload_).toBuilder();
+              }
+              payload_ =
+                  input.readMessage(pipe.work.Work.LogAppendResponse.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((pipe.work.Work.LogAppendResponse) payload_);
+                payload_ = subBuilder.buildPartial();
+              }
+              payloadCase_ = 14;
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -4389,6 +4416,10 @@ public final class Work {
        * <code>LOGAPPENDENTRY = 13;</code>
        */
       LOGAPPENDENTRY(13),
+      /**
+       * <code>LOGAPPENDRESPONSE = 14;</code>
+       */
+      LOGAPPENDRESPONSE(14),
       ;
 
       /**
@@ -4443,6 +4474,10 @@ public final class Work {
        * <code>LOGAPPENDENTRY = 13;</code>
        */
       public static final int LOGAPPENDENTRY_VALUE = 13;
+      /**
+       * <code>LOGAPPENDRESPONSE = 14;</code>
+       */
+      public static final int LOGAPPENDRESPONSE_VALUE = 14;
 
 
       public final int getNumber() {
@@ -4472,6 +4507,7 @@ public final class Work {
           case 11: return WORKSTATE;
           case 12: return WORKSTATEREPLY;
           case 13: return LOGAPPENDENTRY;
+          case 14: return LOGAPPENDRESPONSE;
           default: return null;
         }
       }
@@ -4536,6 +4572,7 @@ public final class Work {
       LEADERELECTIONREQUEST(11),
       LEADERELECTIONRESPONSE(12),
       LOG_APPEND_ENTRIES(13),
+      LOGAPPENDRESPONSE(14),
       PAYLOAD_NOT_SET(0);
       private final int value;
       private PayloadCase(int value) {
@@ -4561,6 +4598,7 @@ public final class Work {
           case 11: return LEADERELECTIONREQUEST;
           case 12: return LEADERELECTIONRESPONSE;
           case 13: return LOG_APPEND_ENTRIES;
+          case 14: return LOGAPPENDRESPONSE;
           case 0: return PAYLOAD_NOT_SET;
           default: return null;
         }
@@ -4911,6 +4949,32 @@ public final class Work {
       return pipe.work.Work.LogAppendEntry.getDefaultInstance();
     }
 
+    public static final int LOGAPPENDRESPONSE_FIELD_NUMBER = 14;
+    /**
+     * <code>optional .LogAppendResponse logAppendResponse = 14;</code>
+     */
+    public boolean hasLogAppendResponse() {
+      return payloadCase_ == 14;
+    }
+    /**
+     * <code>optional .LogAppendResponse logAppendResponse = 14;</code>
+     */
+    public pipe.work.Work.LogAppendResponse getLogAppendResponse() {
+      if (payloadCase_ == 14) {
+         return (pipe.work.Work.LogAppendResponse) payload_;
+      }
+      return pipe.work.Work.LogAppendResponse.getDefaultInstance();
+    }
+    /**
+     * <code>optional .LogAppendResponse logAppendResponse = 14;</code>
+     */
+    public pipe.work.Work.LogAppendResponseOrBuilder getLogAppendResponseOrBuilder() {
+      if (payloadCase_ == 14) {
+         return (pipe.work.Work.LogAppendResponse) payload_;
+      }
+      return pipe.work.Work.LogAppendResponse.getDefaultInstance();
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -4987,6 +5051,12 @@ public final class Work {
           return false;
         }
       }
+      if (hasLogAppendResponse()) {
+        if (!getLogAppendResponse().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -5032,6 +5102,9 @@ public final class Work {
       }
       if (payloadCase_ == 13) {
         output.writeMessage(13, (pipe.work.Work.LogAppendEntry) payload_);
+      }
+      if (payloadCase_ == 14) {
+        output.writeMessage(14, (pipe.work.Work.LogAppendResponse) payload_);
       }
       unknownFields.writeTo(output);
     }
@@ -5093,6 +5166,10 @@ public final class Work {
       if (payloadCase_ == 13) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(13, (pipe.work.Work.LogAppendEntry) payload_);
+      }
+      if (payloadCase_ == 14) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(14, (pipe.work.Work.LogAppendResponse) payload_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -5169,6 +5246,10 @@ public final class Work {
           result = result && getLogAppendEntries()
               .equals(other.getLogAppendEntries());
           break;
+        case 14:
+          result = result && getLogAppendResponse()
+              .equals(other.getLogAppendResponse());
+          break;
         case 0:
         default:
       }
@@ -5182,7 +5263,7 @@ public final class Work {
         return memoizedHashCode;
       }
       int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (19 * hash) + getDescriptorForType().hashCode();
       if (hasHeader()) {
         hash = (37 * hash) + HEADER_FIELD_NUMBER;
         hash = (53 * hash) + getHeader().hashCode();
@@ -5237,6 +5318,10 @@ public final class Work {
         case 13:
           hash = (37 * hash) + LOG_APPEND_ENTRIES_FIELD_NUMBER;
           hash = (53 * hash) + getLogAppendEntries().hashCode();
+          break;
+        case 14:
+          hash = (37 * hash) + LOGAPPENDRESPONSE_FIELD_NUMBER;
+          hash = (53 * hash) + getLogAppendResponse().hashCode();
           break;
         case 0:
         default:
@@ -5482,6 +5567,13 @@ public final class Work {
             result.payload_ = logAppendEntriesBuilder_.build();
           }
         }
+        if (payloadCase_ == 14) {
+          if (logAppendResponseBuilder_ == null) {
+            result.payload_ = payload_;
+          } else {
+            result.payload_ = logAppendResponseBuilder_.build();
+          }
+        }
         result.bitField0_ = to_bitField0_;
         result.payloadCase_ = payloadCase_;
         onBuilt();
@@ -5575,6 +5667,10 @@ public final class Work {
             mergeLogAppendEntries(other.getLogAppendEntries());
             break;
           }
+          case LOGAPPENDRESPONSE: {
+            mergeLogAppendResponse(other.getLogAppendResponse());
+            break;
+          }
           case PAYLOAD_NOT_SET: {
             break;
           }
@@ -5639,6 +5735,11 @@ public final class Work {
         }
         if (hasLogAppendEntries()) {
           if (!getLogAppendEntries().isInitialized()) {
+            return false;
+          }
+        }
+        if (hasLogAppendResponse()) {
+          if (!getLogAppendResponse().isInitialized()) {
             return false;
           }
         }
@@ -7212,6 +7313,142 @@ public final class Work {
         onChanged();;
         return logAppendEntriesBuilder_;
       }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          pipe.work.Work.LogAppendResponse, pipe.work.Work.LogAppendResponse.Builder, pipe.work.Work.LogAppendResponseOrBuilder> logAppendResponseBuilder_;
+      /**
+       * <code>optional .LogAppendResponse logAppendResponse = 14;</code>
+       */
+      public boolean hasLogAppendResponse() {
+        return payloadCase_ == 14;
+      }
+      /**
+       * <code>optional .LogAppendResponse logAppendResponse = 14;</code>
+       */
+      public pipe.work.Work.LogAppendResponse getLogAppendResponse() {
+        if (logAppendResponseBuilder_ == null) {
+          if (payloadCase_ == 14) {
+            return (pipe.work.Work.LogAppendResponse) payload_;
+          }
+          return pipe.work.Work.LogAppendResponse.getDefaultInstance();
+        } else {
+          if (payloadCase_ == 14) {
+            return logAppendResponseBuilder_.getMessage();
+          }
+          return pipe.work.Work.LogAppendResponse.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>optional .LogAppendResponse logAppendResponse = 14;</code>
+       */
+      public Builder setLogAppendResponse(pipe.work.Work.LogAppendResponse value) {
+        if (logAppendResponseBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          payload_ = value;
+          onChanged();
+        } else {
+          logAppendResponseBuilder_.setMessage(value);
+        }
+        payloadCase_ = 14;
+        return this;
+      }
+      /**
+       * <code>optional .LogAppendResponse logAppendResponse = 14;</code>
+       */
+      public Builder setLogAppendResponse(
+          pipe.work.Work.LogAppendResponse.Builder builderForValue) {
+        if (logAppendResponseBuilder_ == null) {
+          payload_ = builderForValue.build();
+          onChanged();
+        } else {
+          logAppendResponseBuilder_.setMessage(builderForValue.build());
+        }
+        payloadCase_ = 14;
+        return this;
+      }
+      /**
+       * <code>optional .LogAppendResponse logAppendResponse = 14;</code>
+       */
+      public Builder mergeLogAppendResponse(pipe.work.Work.LogAppendResponse value) {
+        if (logAppendResponseBuilder_ == null) {
+          if (payloadCase_ == 14 &&
+              payload_ != pipe.work.Work.LogAppendResponse.getDefaultInstance()) {
+            payload_ = pipe.work.Work.LogAppendResponse.newBuilder((pipe.work.Work.LogAppendResponse) payload_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            payload_ = value;
+          }
+          onChanged();
+        } else {
+          if (payloadCase_ == 14) {
+            logAppendResponseBuilder_.mergeFrom(value);
+          }
+          logAppendResponseBuilder_.setMessage(value);
+        }
+        payloadCase_ = 14;
+        return this;
+      }
+      /**
+       * <code>optional .LogAppendResponse logAppendResponse = 14;</code>
+       */
+      public Builder clearLogAppendResponse() {
+        if (logAppendResponseBuilder_ == null) {
+          if (payloadCase_ == 14) {
+            payloadCase_ = 0;
+            payload_ = null;
+            onChanged();
+          }
+        } else {
+          if (payloadCase_ == 14) {
+            payloadCase_ = 0;
+            payload_ = null;
+          }
+          logAppendResponseBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>optional .LogAppendResponse logAppendResponse = 14;</code>
+       */
+      public pipe.work.Work.LogAppendResponse.Builder getLogAppendResponseBuilder() {
+        return getLogAppendResponseFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .LogAppendResponse logAppendResponse = 14;</code>
+       */
+      public pipe.work.Work.LogAppendResponseOrBuilder getLogAppendResponseOrBuilder() {
+        if ((payloadCase_ == 14) && (logAppendResponseBuilder_ != null)) {
+          return logAppendResponseBuilder_.getMessageOrBuilder();
+        } else {
+          if (payloadCase_ == 14) {
+            return (pipe.work.Work.LogAppendResponse) payload_;
+          }
+          return pipe.work.Work.LogAppendResponse.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>optional .LogAppendResponse logAppendResponse = 14;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          pipe.work.Work.LogAppendResponse, pipe.work.Work.LogAppendResponse.Builder, pipe.work.Work.LogAppendResponseOrBuilder> 
+          getLogAppendResponseFieldBuilder() {
+        if (logAppendResponseBuilder_ == null) {
+          if (!(payloadCase_ == 14)) {
+            payload_ = pipe.work.Work.LogAppendResponse.getDefaultInstance();
+          }
+          logAppendResponseBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              pipe.work.Work.LogAppendResponse, pipe.work.Work.LogAppendResponse.Builder, pipe.work.Work.LogAppendResponseOrBuilder>(
+                  (pipe.work.Work.LogAppendResponse) payload_,
+                  getParentForChildren(),
+                  isClean());
+          payload_ = null;
+        }
+        payloadCase_ = 14;
+        onChanged();;
+        return logAppendResponseBuilder_;
+      }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
@@ -7581,7 +7818,7 @@ public final class Work {
         return memoizedHashCode;
       }
       int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (19 * hash) + getDescriptorForType().hashCode();
       if (hasKey()) {
         hash = (37 * hash) + KEY_FIELD_NUMBER;
         hash = (53 * hash) + getKey().hashCode();
@@ -8497,7 +8734,7 @@ public final class Work {
         return memoizedHashCode;
       }
       int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (19 * hash) + getDescriptorForType().hashCode();
       if (hasAction()) {
         hash = (37 * hash) + ACTION_FIELD_NUMBER;
         hash = (53 * hash) + action_;
@@ -9260,7 +9497,7 @@ public final class Work {
         return memoizedHashCode;
       }
       int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (19 * hash) + getDescriptorForType().hashCode();
       if (getEntryCount() > 0) {
         hash = (37 * hash) + ENTRY_FIELD_NUMBER;
         hash = (53 * hash) + getEntryList().hashCode();
@@ -9864,28 +10101,17 @@ public final class Work {
     int getLeaderCommitIndex();
 
     /**
-     * <code>repeated .LogEntry entry = 6;</code>
+     * <code>optional .LogEntryList entrylist = 6;</code>
      */
-    java.util.List<pipe.work.Work.LogEntry> 
-        getEntryList();
+    boolean hasEntrylist();
     /**
-     * <code>repeated .LogEntry entry = 6;</code>
+     * <code>optional .LogEntryList entrylist = 6;</code>
      */
-    pipe.work.Work.LogEntry getEntry(int index);
+    pipe.work.Work.LogEntryList getEntrylist();
     /**
-     * <code>repeated .LogEntry entry = 6;</code>
+     * <code>optional .LogEntryList entrylist = 6;</code>
      */
-    int getEntryCount();
-    /**
-     * <code>repeated .LogEntry entry = 6;</code>
-     */
-    java.util.List<? extends pipe.work.Work.LogEntryOrBuilder> 
-        getEntryOrBuilderList();
-    /**
-     * <code>repeated .LogEntry entry = 6;</code>
-     */
-    pipe.work.Work.LogEntryOrBuilder getEntryOrBuilder(
-        int index);
+    pipe.work.Work.LogEntryListOrBuilder getEntrylistOrBuilder();
 
     /**
      * <code>optional bool success = 7;</code>
@@ -9922,7 +10148,6 @@ public final class Work {
       prevLogIndex_ = 0;
       prevLogTerm_ = 0;
       leaderCommitIndex_ = 0;
-      entry_ = java.util.Collections.emptyList();
       success_ = false;
       isHeartBeat_ = false;
     }
@@ -9981,21 +10206,25 @@ public final class Work {
               break;
             }
             case 50: {
-              if (!((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
-                entry_ = new java.util.ArrayList<pipe.work.Work.LogEntry>();
-                mutable_bitField0_ |= 0x00000020;
+              pipe.work.Work.LogEntryList.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000020) == 0x00000020)) {
+                subBuilder = entrylist_.toBuilder();
               }
-              entry_.add(
-                  input.readMessage(pipe.work.Work.LogEntry.PARSER, extensionRegistry));
+              entrylist_ = input.readMessage(pipe.work.Work.LogEntryList.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(entrylist_);
+                entrylist_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000020;
               break;
             }
             case 56: {
-              bitField0_ |= 0x00000020;
+              bitField0_ |= 0x00000040;
               success_ = input.readBool();
               break;
             }
             case 64: {
-              bitField0_ |= 0x00000040;
+              bitField0_ |= 0x00000080;
               isHeartBeat_ = input.readBool();
               break;
             }
@@ -10007,9 +10236,6 @@ public final class Work {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
-          entry_ = java.util.Collections.unmodifiableList(entry_);
-        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -10102,39 +10328,25 @@ public final class Work {
       return leaderCommitIndex_;
     }
 
-    public static final int ENTRY_FIELD_NUMBER = 6;
-    private java.util.List<pipe.work.Work.LogEntry> entry_;
+    public static final int ENTRYLIST_FIELD_NUMBER = 6;
+    private pipe.work.Work.LogEntryList entrylist_;
     /**
-     * <code>repeated .LogEntry entry = 6;</code>
+     * <code>optional .LogEntryList entrylist = 6;</code>
      */
-    public java.util.List<pipe.work.Work.LogEntry> getEntryList() {
-      return entry_;
+    public boolean hasEntrylist() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
     }
     /**
-     * <code>repeated .LogEntry entry = 6;</code>
+     * <code>optional .LogEntryList entrylist = 6;</code>
      */
-    public java.util.List<? extends pipe.work.Work.LogEntryOrBuilder> 
-        getEntryOrBuilderList() {
-      return entry_;
+    public pipe.work.Work.LogEntryList getEntrylist() {
+      return entrylist_ == null ? pipe.work.Work.LogEntryList.getDefaultInstance() : entrylist_;
     }
     /**
-     * <code>repeated .LogEntry entry = 6;</code>
+     * <code>optional .LogEntryList entrylist = 6;</code>
      */
-    public int getEntryCount() {
-      return entry_.size();
-    }
-    /**
-     * <code>repeated .LogEntry entry = 6;</code>
-     */
-    public pipe.work.Work.LogEntry getEntry(int index) {
-      return entry_.get(index);
-    }
-    /**
-     * <code>repeated .LogEntry entry = 6;</code>
-     */
-    public pipe.work.Work.LogEntryOrBuilder getEntryOrBuilder(
-        int index) {
-      return entry_.get(index);
+    public pipe.work.Work.LogEntryListOrBuilder getEntrylistOrBuilder() {
+      return entrylist_ == null ? pipe.work.Work.LogEntryList.getDefaultInstance() : entrylist_;
     }
 
     public static final int SUCCESS_FIELD_NUMBER = 7;
@@ -10143,7 +10355,7 @@ public final class Work {
      * <code>optional bool success = 7;</code>
      */
     public boolean hasSuccess() {
-      return ((bitField0_ & 0x00000020) == 0x00000020);
+      return ((bitField0_ & 0x00000040) == 0x00000040);
     }
     /**
      * <code>optional bool success = 7;</code>
@@ -10158,7 +10370,7 @@ public final class Work {
      * <code>optional bool isHeartBeat = 8;</code>
      */
     public boolean hasIsHeartBeat() {
-      return ((bitField0_ & 0x00000040) == 0x00000040);
+      return ((bitField0_ & 0x00000080) == 0x00000080);
     }
     /**
      * <code>optional bool isHeartBeat = 8;</code>
@@ -10177,8 +10389,8 @@ public final class Work {
         memoizedIsInitialized = 0;
         return false;
       }
-      for (int i = 0; i < getEntryCount(); i++) {
-        if (!getEntry(i).isInitialized()) {
+      if (hasEntrylist()) {
+        if (!getEntrylist().isInitialized()) {
           memoizedIsInitialized = 0;
           return false;
         }
@@ -10204,13 +10416,13 @@ public final class Work {
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         output.writeInt32(5, leaderCommitIndex_);
       }
-      for (int i = 0; i < entry_.size(); i++) {
-        output.writeMessage(6, entry_.get(i));
-      }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
-        output.writeBool(7, success_);
+        output.writeMessage(6, getEntrylist());
       }
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeBool(7, success_);
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
         output.writeBool(8, isHeartBeat_);
       }
       unknownFields.writeTo(output);
@@ -10241,15 +10453,15 @@ public final class Work {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(5, leaderCommitIndex_);
       }
-      for (int i = 0; i < entry_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(6, entry_.get(i));
-      }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(6, getEntrylist());
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(7, success_);
       }
-      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(8, isHeartBeat_);
       }
@@ -10295,8 +10507,11 @@ public final class Work {
         result = result && (getLeaderCommitIndex()
             == other.getLeaderCommitIndex());
       }
-      result = result && getEntryList()
-          .equals(other.getEntryList());
+      result = result && (hasEntrylist() == other.hasEntrylist());
+      if (hasEntrylist()) {
+        result = result && getEntrylist()
+            .equals(other.getEntrylist());
+      }
       result = result && (hasSuccess() == other.hasSuccess());
       if (hasSuccess()) {
         result = result && (getSuccess()
@@ -10317,7 +10532,7 @@ public final class Work {
         return memoizedHashCode;
       }
       int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (19 * hash) + getDescriptorForType().hashCode();
       if (hasElectionTerm()) {
         hash = (37 * hash) + ELECTION_TERM_FIELD_NUMBER;
         hash = (53 * hash) + getElectionTerm();
@@ -10338,9 +10553,9 @@ public final class Work {
         hash = (37 * hash) + LEADER_COMMIT_INDEX_FIELD_NUMBER;
         hash = (53 * hash) + getLeaderCommitIndex();
       }
-      if (getEntryCount() > 0) {
-        hash = (37 * hash) + ENTRY_FIELD_NUMBER;
-        hash = (53 * hash) + getEntryList().hashCode();
+      if (hasEntrylist()) {
+        hash = (37 * hash) + ENTRYLIST_FIELD_NUMBER;
+        hash = (53 * hash) + getEntrylist().hashCode();
       }
       if (hasSuccess()) {
         hash = (37 * hash) + SUCCESS_FIELD_NUMBER;
@@ -10466,7 +10681,7 @@ public final class Work {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
-          getEntryFieldBuilder();
+          getEntrylistFieldBuilder();
         }
       }
       public Builder clear() {
@@ -10481,12 +10696,12 @@ public final class Work {
         bitField0_ = (bitField0_ & ~0x00000008);
         leaderCommitIndex_ = 0;
         bitField0_ = (bitField0_ & ~0x00000010);
-        if (entryBuilder_ == null) {
-          entry_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000020);
+        if (entrylistBuilder_ == null) {
+          entrylist_ = null;
         } else {
-          entryBuilder_.clear();
+          entrylistBuilder_.clear();
         }
+        bitField0_ = (bitField0_ & ~0x00000020);
         success_ = false;
         bitField0_ = (bitField0_ & ~0x00000040);
         isHeartBeat_ = false;
@@ -10535,21 +10750,20 @@ public final class Work {
           to_bitField0_ |= 0x00000010;
         }
         result.leaderCommitIndex_ = leaderCommitIndex_;
-        if (entryBuilder_ == null) {
-          if (((bitField0_ & 0x00000020) == 0x00000020)) {
-            entry_ = java.util.Collections.unmodifiableList(entry_);
-            bitField0_ = (bitField0_ & ~0x00000020);
-          }
-          result.entry_ = entry_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        if (entrylistBuilder_ == null) {
+          result.entrylist_ = entrylist_;
         } else {
-          result.entry_ = entryBuilder_.build();
+          result.entrylist_ = entrylistBuilder_.build();
         }
         if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
-          to_bitField0_ |= 0x00000020;
+          to_bitField0_ |= 0x00000040;
         }
         result.success_ = success_;
         if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
-          to_bitField0_ |= 0x00000040;
+          to_bitField0_ |= 0x00000080;
         }
         result.isHeartBeat_ = isHeartBeat_;
         result.bitField0_ = to_bitField0_;
@@ -10609,31 +10823,8 @@ public final class Work {
         if (other.hasLeaderCommitIndex()) {
           setLeaderCommitIndex(other.getLeaderCommitIndex());
         }
-        if (entryBuilder_ == null) {
-          if (!other.entry_.isEmpty()) {
-            if (entry_.isEmpty()) {
-              entry_ = other.entry_;
-              bitField0_ = (bitField0_ & ~0x00000020);
-            } else {
-              ensureEntryIsMutable();
-              entry_.addAll(other.entry_);
-            }
-            onChanged();
-          }
-        } else {
-          if (!other.entry_.isEmpty()) {
-            if (entryBuilder_.isEmpty()) {
-              entryBuilder_.dispose();
-              entryBuilder_ = null;
-              entry_ = other.entry_;
-              bitField0_ = (bitField0_ & ~0x00000020);
-              entryBuilder_ = 
-                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
-                   getEntryFieldBuilder() : null;
-            } else {
-              entryBuilder_.addAllMessages(other.entry_);
-            }
-          }
+        if (other.hasEntrylist()) {
+          mergeEntrylist(other.getEntrylist());
         }
         if (other.hasSuccess()) {
           setSuccess(other.getSuccess());
@@ -10650,8 +10841,8 @@ public final class Work {
         if (!hasElectionTerm()) {
           return false;
         }
-        for (int i = 0; i < getEntryCount(); i++) {
-          if (!getEntry(i).isInitialized()) {
+        if (hasEntrylist()) {
+          if (!getEntrylist().isInitialized()) {
             return false;
           }
         }
@@ -10837,244 +11028,122 @@ public final class Work {
         return this;
       }
 
-      private java.util.List<pipe.work.Work.LogEntry> entry_ =
-        java.util.Collections.emptyList();
-      private void ensureEntryIsMutable() {
-        if (!((bitField0_ & 0x00000020) == 0x00000020)) {
-          entry_ = new java.util.ArrayList<pipe.work.Work.LogEntry>(entry_);
-          bitField0_ |= 0x00000020;
-         }
-      }
-
-      private com.google.protobuf.RepeatedFieldBuilderV3<
-          pipe.work.Work.LogEntry, pipe.work.Work.LogEntry.Builder, pipe.work.Work.LogEntryOrBuilder> entryBuilder_;
-
+      private pipe.work.Work.LogEntryList entrylist_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          pipe.work.Work.LogEntryList, pipe.work.Work.LogEntryList.Builder, pipe.work.Work.LogEntryListOrBuilder> entrylistBuilder_;
       /**
-       * <code>repeated .LogEntry entry = 6;</code>
+       * <code>optional .LogEntryList entrylist = 6;</code>
        */
-      public java.util.List<pipe.work.Work.LogEntry> getEntryList() {
-        if (entryBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(entry_);
+      public boolean hasEntrylist() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>optional .LogEntryList entrylist = 6;</code>
+       */
+      public pipe.work.Work.LogEntryList getEntrylist() {
+        if (entrylistBuilder_ == null) {
+          return entrylist_ == null ? pipe.work.Work.LogEntryList.getDefaultInstance() : entrylist_;
         } else {
-          return entryBuilder_.getMessageList();
+          return entrylistBuilder_.getMessage();
         }
       }
       /**
-       * <code>repeated .LogEntry entry = 6;</code>
+       * <code>optional .LogEntryList entrylist = 6;</code>
        */
-      public int getEntryCount() {
-        if (entryBuilder_ == null) {
-          return entry_.size();
-        } else {
-          return entryBuilder_.getCount();
-        }
-      }
-      /**
-       * <code>repeated .LogEntry entry = 6;</code>
-       */
-      public pipe.work.Work.LogEntry getEntry(int index) {
-        if (entryBuilder_ == null) {
-          return entry_.get(index);
-        } else {
-          return entryBuilder_.getMessage(index);
-        }
-      }
-      /**
-       * <code>repeated .LogEntry entry = 6;</code>
-       */
-      public Builder setEntry(
-          int index, pipe.work.Work.LogEntry value) {
-        if (entryBuilder_ == null) {
+      public Builder setEntrylist(pipe.work.Work.LogEntryList value) {
+        if (entrylistBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          ensureEntryIsMutable();
-          entry_.set(index, value);
+          entrylist_ = value;
           onChanged();
         } else {
-          entryBuilder_.setMessage(index, value);
+          entrylistBuilder_.setMessage(value);
         }
+        bitField0_ |= 0x00000020;
         return this;
       }
       /**
-       * <code>repeated .LogEntry entry = 6;</code>
+       * <code>optional .LogEntryList entrylist = 6;</code>
        */
-      public Builder setEntry(
-          int index, pipe.work.Work.LogEntry.Builder builderForValue) {
-        if (entryBuilder_ == null) {
-          ensureEntryIsMutable();
-          entry_.set(index, builderForValue.build());
+      public Builder setEntrylist(
+          pipe.work.Work.LogEntryList.Builder builderForValue) {
+        if (entrylistBuilder_ == null) {
+          entrylist_ = builderForValue.build();
           onChanged();
         } else {
-          entryBuilder_.setMessage(index, builderForValue.build());
+          entrylistBuilder_.setMessage(builderForValue.build());
         }
+        bitField0_ |= 0x00000020;
         return this;
       }
       /**
-       * <code>repeated .LogEntry entry = 6;</code>
+       * <code>optional .LogEntryList entrylist = 6;</code>
        */
-      public Builder addEntry(pipe.work.Work.LogEntry value) {
-        if (entryBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
+      public Builder mergeEntrylist(pipe.work.Work.LogEntryList value) {
+        if (entrylistBuilder_ == null) {
+          if (((bitField0_ & 0x00000020) == 0x00000020) &&
+              entrylist_ != null &&
+              entrylist_ != pipe.work.Work.LogEntryList.getDefaultInstance()) {
+            entrylist_ =
+              pipe.work.Work.LogEntryList.newBuilder(entrylist_).mergeFrom(value).buildPartial();
+          } else {
+            entrylist_ = value;
           }
-          ensureEntryIsMutable();
-          entry_.add(value);
           onChanged();
         } else {
-          entryBuilder_.addMessage(value);
+          entrylistBuilder_.mergeFrom(value);
         }
+        bitField0_ |= 0x00000020;
         return this;
       }
       /**
-       * <code>repeated .LogEntry entry = 6;</code>
+       * <code>optional .LogEntryList entrylist = 6;</code>
        */
-      public Builder addEntry(
-          int index, pipe.work.Work.LogEntry value) {
-        if (entryBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureEntryIsMutable();
-          entry_.add(index, value);
+      public Builder clearEntrylist() {
+        if (entrylistBuilder_ == null) {
+          entrylist_ = null;
           onChanged();
         } else {
-          entryBuilder_.addMessage(index, value);
+          entrylistBuilder_.clear();
         }
+        bitField0_ = (bitField0_ & ~0x00000020);
         return this;
       }
       /**
-       * <code>repeated .LogEntry entry = 6;</code>
+       * <code>optional .LogEntryList entrylist = 6;</code>
        */
-      public Builder addEntry(
-          pipe.work.Work.LogEntry.Builder builderForValue) {
-        if (entryBuilder_ == null) {
-          ensureEntryIsMutable();
-          entry_.add(builderForValue.build());
-          onChanged();
+      public pipe.work.Work.LogEntryList.Builder getEntrylistBuilder() {
+        bitField0_ |= 0x00000020;
+        onChanged();
+        return getEntrylistFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .LogEntryList entrylist = 6;</code>
+       */
+      public pipe.work.Work.LogEntryListOrBuilder getEntrylistOrBuilder() {
+        if (entrylistBuilder_ != null) {
+          return entrylistBuilder_.getMessageOrBuilder();
         } else {
-          entryBuilder_.addMessage(builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .LogEntry entry = 6;</code>
-       */
-      public Builder addEntry(
-          int index, pipe.work.Work.LogEntry.Builder builderForValue) {
-        if (entryBuilder_ == null) {
-          ensureEntryIsMutable();
-          entry_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          entryBuilder_.addMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .LogEntry entry = 6;</code>
-       */
-      public Builder addAllEntry(
-          java.lang.Iterable<? extends pipe.work.Work.LogEntry> values) {
-        if (entryBuilder_ == null) {
-          ensureEntryIsMutable();
-          com.google.protobuf.AbstractMessageLite.Builder.addAll(
-              values, entry_);
-          onChanged();
-        } else {
-          entryBuilder_.addAllMessages(values);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .LogEntry entry = 6;</code>
-       */
-      public Builder clearEntry() {
-        if (entryBuilder_ == null) {
-          entry_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000020);
-          onChanged();
-        } else {
-          entryBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .LogEntry entry = 6;</code>
-       */
-      public Builder removeEntry(int index) {
-        if (entryBuilder_ == null) {
-          ensureEntryIsMutable();
-          entry_.remove(index);
-          onChanged();
-        } else {
-          entryBuilder_.remove(index);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .LogEntry entry = 6;</code>
-       */
-      public pipe.work.Work.LogEntry.Builder getEntryBuilder(
-          int index) {
-        return getEntryFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .LogEntry entry = 6;</code>
-       */
-      public pipe.work.Work.LogEntryOrBuilder getEntryOrBuilder(
-          int index) {
-        if (entryBuilder_ == null) {
-          return entry_.get(index);  } else {
-          return entryBuilder_.getMessageOrBuilder(index);
+          return entrylist_ == null ?
+              pipe.work.Work.LogEntryList.getDefaultInstance() : entrylist_;
         }
       }
       /**
-       * <code>repeated .LogEntry entry = 6;</code>
+       * <code>optional .LogEntryList entrylist = 6;</code>
        */
-      public java.util.List<? extends pipe.work.Work.LogEntryOrBuilder> 
-           getEntryOrBuilderList() {
-        if (entryBuilder_ != null) {
-          return entryBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(entry_);
-        }
-      }
-      /**
-       * <code>repeated .LogEntry entry = 6;</code>
-       */
-      public pipe.work.Work.LogEntry.Builder addEntryBuilder() {
-        return getEntryFieldBuilder().addBuilder(
-            pipe.work.Work.LogEntry.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .LogEntry entry = 6;</code>
-       */
-      public pipe.work.Work.LogEntry.Builder addEntryBuilder(
-          int index) {
-        return getEntryFieldBuilder().addBuilder(
-            index, pipe.work.Work.LogEntry.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .LogEntry entry = 6;</code>
-       */
-      public java.util.List<pipe.work.Work.LogEntry.Builder> 
-           getEntryBuilderList() {
-        return getEntryFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilderV3<
-          pipe.work.Work.LogEntry, pipe.work.Work.LogEntry.Builder, pipe.work.Work.LogEntryOrBuilder> 
-          getEntryFieldBuilder() {
-        if (entryBuilder_ == null) {
-          entryBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
-              pipe.work.Work.LogEntry, pipe.work.Work.LogEntry.Builder, pipe.work.Work.LogEntryOrBuilder>(
-                  entry_,
-                  ((bitField0_ & 0x00000020) == 0x00000020),
+      private com.google.protobuf.SingleFieldBuilderV3<
+          pipe.work.Work.LogEntryList, pipe.work.Work.LogEntryList.Builder, pipe.work.Work.LogEntryListOrBuilder> 
+          getEntrylistFieldBuilder() {
+        if (entrylistBuilder_ == null) {
+          entrylistBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              pipe.work.Work.LogEntryList, pipe.work.Work.LogEntryList.Builder, pipe.work.Work.LogEntryListOrBuilder>(
+                  getEntrylist(),
                   getParentForChildren(),
                   isClean());
-          entry_ = null;
+          entrylist_ = null;
         }
-        return entryBuilder_;
+        return entrylistBuilder_;
       }
 
       private boolean success_ ;
@@ -11189,6 +11258,1010 @@ public final class Work {
 
   }
 
+  public interface LogAppendResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:LogAppendResponse)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>required int32 election_term = 1;</code>
+     */
+    boolean hasElectionTerm();
+    /**
+     * <code>required int32 election_term = 1;</code>
+     */
+    int getElectionTerm();
+
+    /**
+     * <code>optional int32 leader_node_id = 2;</code>
+     */
+    boolean hasLeaderNodeId();
+    /**
+     * <code>optional int32 leader_node_id = 2;</code>
+     */
+    int getLeaderNodeId();
+
+    /**
+     * <code>optional int32 prev_log_index = 3;</code>
+     */
+    boolean hasPrevLogIndex();
+    /**
+     * <code>optional int32 prev_log_index = 3;</code>
+     */
+    int getPrevLogIndex();
+
+    /**
+     * <code>optional int32 prev_log_term = 4;</code>
+     */
+    boolean hasPrevLogTerm();
+    /**
+     * <code>optional int32 prev_log_term = 4;</code>
+     */
+    int getPrevLogTerm();
+
+    /**
+     * <code>optional int32 leader_commit_index = 5;</code>
+     */
+    boolean hasLeaderCommitIndex();
+    /**
+     * <code>optional int32 leader_commit_index = 5;</code>
+     */
+    int getLeaderCommitIndex();
+
+    /**
+     * <code>required bool responseFlag = 7;</code>
+     */
+    boolean hasResponseFlag();
+    /**
+     * <code>required bool responseFlag = 7;</code>
+     */
+    boolean getResponseFlag();
+
+    /**
+     * <code>optional bool isHeartBeat = 8;</code>
+     */
+    boolean hasIsHeartBeat();
+    /**
+     * <code>optional bool isHeartBeat = 8;</code>
+     */
+    boolean getIsHeartBeat();
+  }
+  /**
+   * Protobuf type {@code LogAppendResponse}
+   */
+  public  static final class LogAppendResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:LogAppendResponse)
+      LogAppendResponseOrBuilder {
+    // Use LogAppendResponse.newBuilder() to construct.
+    private LogAppendResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private LogAppendResponse() {
+      electionTerm_ = 0;
+      leaderNodeId_ = 0;
+      prevLogIndex_ = 0;
+      prevLogTerm_ = 0;
+      leaderCommitIndex_ = 0;
+      responseFlag_ = false;
+      isHeartBeat_ = false;
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private LogAppendResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              electionTerm_ = input.readInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              leaderNodeId_ = input.readInt32();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              prevLogIndex_ = input.readInt32();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000008;
+              prevLogTerm_ = input.readInt32();
+              break;
+            }
+            case 40: {
+              bitField0_ |= 0x00000010;
+              leaderCommitIndex_ = input.readInt32();
+              break;
+            }
+            case 56: {
+              bitField0_ |= 0x00000020;
+              responseFlag_ = input.readBool();
+              break;
+            }
+            case 64: {
+              bitField0_ |= 0x00000040;
+              isHeartBeat_ = input.readBool();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return pipe.work.Work.internal_static_LogAppendResponse_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return pipe.work.Work.internal_static_LogAppendResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              pipe.work.Work.LogAppendResponse.class, pipe.work.Work.LogAppendResponse.Builder.class);
+    }
+
+    private int bitField0_;
+    public static final int ELECTION_TERM_FIELD_NUMBER = 1;
+    private int electionTerm_;
+    /**
+     * <code>required int32 election_term = 1;</code>
+     */
+    public boolean hasElectionTerm() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 election_term = 1;</code>
+     */
+    public int getElectionTerm() {
+      return electionTerm_;
+    }
+
+    public static final int LEADER_NODE_ID_FIELD_NUMBER = 2;
+    private int leaderNodeId_;
+    /**
+     * <code>optional int32 leader_node_id = 2;</code>
+     */
+    public boolean hasLeaderNodeId() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional int32 leader_node_id = 2;</code>
+     */
+    public int getLeaderNodeId() {
+      return leaderNodeId_;
+    }
+
+    public static final int PREV_LOG_INDEX_FIELD_NUMBER = 3;
+    private int prevLogIndex_;
+    /**
+     * <code>optional int32 prev_log_index = 3;</code>
+     */
+    public boolean hasPrevLogIndex() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional int32 prev_log_index = 3;</code>
+     */
+    public int getPrevLogIndex() {
+      return prevLogIndex_;
+    }
+
+    public static final int PREV_LOG_TERM_FIELD_NUMBER = 4;
+    private int prevLogTerm_;
+    /**
+     * <code>optional int32 prev_log_term = 4;</code>
+     */
+    public boolean hasPrevLogTerm() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional int32 prev_log_term = 4;</code>
+     */
+    public int getPrevLogTerm() {
+      return prevLogTerm_;
+    }
+
+    public static final int LEADER_COMMIT_INDEX_FIELD_NUMBER = 5;
+    private int leaderCommitIndex_;
+    /**
+     * <code>optional int32 leader_commit_index = 5;</code>
+     */
+    public boolean hasLeaderCommitIndex() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional int32 leader_commit_index = 5;</code>
+     */
+    public int getLeaderCommitIndex() {
+      return leaderCommitIndex_;
+    }
+
+    public static final int RESPONSEFLAG_FIELD_NUMBER = 7;
+    private boolean responseFlag_;
+    /**
+     * <code>required bool responseFlag = 7;</code>
+     */
+    public boolean hasResponseFlag() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>required bool responseFlag = 7;</code>
+     */
+    public boolean getResponseFlag() {
+      return responseFlag_;
+    }
+
+    public static final int ISHEARTBEAT_FIELD_NUMBER = 8;
+    private boolean isHeartBeat_;
+    /**
+     * <code>optional bool isHeartBeat = 8;</code>
+     */
+    public boolean hasIsHeartBeat() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>optional bool isHeartBeat = 8;</code>
+     */
+    public boolean getIsHeartBeat() {
+      return isHeartBeat_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      if (!hasElectionTerm()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasResponseFlag()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, electionTerm_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, leaderNodeId_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeInt32(3, prevLogIndex_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeInt32(4, prevLogTerm_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeInt32(5, leaderCommitIndex_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeBool(7, responseFlag_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeBool(8, isHeartBeat_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, electionTerm_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, leaderNodeId_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, prevLogIndex_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, prevLogTerm_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, leaderCommitIndex_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(7, responseFlag_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(8, isHeartBeat_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof pipe.work.Work.LogAppendResponse)) {
+        return super.equals(obj);
+      }
+      pipe.work.Work.LogAppendResponse other = (pipe.work.Work.LogAppendResponse) obj;
+
+      boolean result = true;
+      result = result && (hasElectionTerm() == other.hasElectionTerm());
+      if (hasElectionTerm()) {
+        result = result && (getElectionTerm()
+            == other.getElectionTerm());
+      }
+      result = result && (hasLeaderNodeId() == other.hasLeaderNodeId());
+      if (hasLeaderNodeId()) {
+        result = result && (getLeaderNodeId()
+            == other.getLeaderNodeId());
+      }
+      result = result && (hasPrevLogIndex() == other.hasPrevLogIndex());
+      if (hasPrevLogIndex()) {
+        result = result && (getPrevLogIndex()
+            == other.getPrevLogIndex());
+      }
+      result = result && (hasPrevLogTerm() == other.hasPrevLogTerm());
+      if (hasPrevLogTerm()) {
+        result = result && (getPrevLogTerm()
+            == other.getPrevLogTerm());
+      }
+      result = result && (hasLeaderCommitIndex() == other.hasLeaderCommitIndex());
+      if (hasLeaderCommitIndex()) {
+        result = result && (getLeaderCommitIndex()
+            == other.getLeaderCommitIndex());
+      }
+      result = result && (hasResponseFlag() == other.hasResponseFlag());
+      if (hasResponseFlag()) {
+        result = result && (getResponseFlag()
+            == other.getResponseFlag());
+      }
+      result = result && (hasIsHeartBeat() == other.hasIsHeartBeat());
+      if (hasIsHeartBeat()) {
+        result = result && (getIsHeartBeat()
+            == other.getIsHeartBeat());
+      }
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptorForType().hashCode();
+      if (hasElectionTerm()) {
+        hash = (37 * hash) + ELECTION_TERM_FIELD_NUMBER;
+        hash = (53 * hash) + getElectionTerm();
+      }
+      if (hasLeaderNodeId()) {
+        hash = (37 * hash) + LEADER_NODE_ID_FIELD_NUMBER;
+        hash = (53 * hash) + getLeaderNodeId();
+      }
+      if (hasPrevLogIndex()) {
+        hash = (37 * hash) + PREV_LOG_INDEX_FIELD_NUMBER;
+        hash = (53 * hash) + getPrevLogIndex();
+      }
+      if (hasPrevLogTerm()) {
+        hash = (37 * hash) + PREV_LOG_TERM_FIELD_NUMBER;
+        hash = (53 * hash) + getPrevLogTerm();
+      }
+      if (hasLeaderCommitIndex()) {
+        hash = (37 * hash) + LEADER_COMMIT_INDEX_FIELD_NUMBER;
+        hash = (53 * hash) + getLeaderCommitIndex();
+      }
+      if (hasResponseFlag()) {
+        hash = (37 * hash) + RESPONSEFLAG_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+            getResponseFlag());
+      }
+      if (hasIsHeartBeat()) {
+        hash = (37 * hash) + ISHEARTBEAT_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+            getIsHeartBeat());
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static pipe.work.Work.LogAppendResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static pipe.work.Work.LogAppendResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static pipe.work.Work.LogAppendResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static pipe.work.Work.LogAppendResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static pipe.work.Work.LogAppendResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static pipe.work.Work.LogAppendResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static pipe.work.Work.LogAppendResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static pipe.work.Work.LogAppendResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static pipe.work.Work.LogAppendResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static pipe.work.Work.LogAppendResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(pipe.work.Work.LogAppendResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code LogAppendResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:LogAppendResponse)
+        pipe.work.Work.LogAppendResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return pipe.work.Work.internal_static_LogAppendResponse_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return pipe.work.Work.internal_static_LogAppendResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                pipe.work.Work.LogAppendResponse.class, pipe.work.Work.LogAppendResponse.Builder.class);
+      }
+
+      // Construct using pipe.work.Work.LogAppendResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        electionTerm_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        leaderNodeId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        prevLogIndex_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        prevLogTerm_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        leaderCommitIndex_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000010);
+        responseFlag_ = false;
+        bitField0_ = (bitField0_ & ~0x00000020);
+        isHeartBeat_ = false;
+        bitField0_ = (bitField0_ & ~0x00000040);
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return pipe.work.Work.internal_static_LogAppendResponse_descriptor;
+      }
+
+      public pipe.work.Work.LogAppendResponse getDefaultInstanceForType() {
+        return pipe.work.Work.LogAppendResponse.getDefaultInstance();
+      }
+
+      public pipe.work.Work.LogAppendResponse build() {
+        pipe.work.Work.LogAppendResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public pipe.work.Work.LogAppendResponse buildPartial() {
+        pipe.work.Work.LogAppendResponse result = new pipe.work.Work.LogAppendResponse(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.electionTerm_ = electionTerm_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.leaderNodeId_ = leaderNodeId_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.prevLogIndex_ = prevLogIndex_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.prevLogTerm_ = prevLogTerm_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.leaderCommitIndex_ = leaderCommitIndex_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        result.responseFlag_ = responseFlag_;
+        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+          to_bitField0_ |= 0x00000040;
+        }
+        result.isHeartBeat_ = isHeartBeat_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof pipe.work.Work.LogAppendResponse) {
+          return mergeFrom((pipe.work.Work.LogAppendResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(pipe.work.Work.LogAppendResponse other) {
+        if (other == pipe.work.Work.LogAppendResponse.getDefaultInstance()) return this;
+        if (other.hasElectionTerm()) {
+          setElectionTerm(other.getElectionTerm());
+        }
+        if (other.hasLeaderNodeId()) {
+          setLeaderNodeId(other.getLeaderNodeId());
+        }
+        if (other.hasPrevLogIndex()) {
+          setPrevLogIndex(other.getPrevLogIndex());
+        }
+        if (other.hasPrevLogTerm()) {
+          setPrevLogTerm(other.getPrevLogTerm());
+        }
+        if (other.hasLeaderCommitIndex()) {
+          setLeaderCommitIndex(other.getLeaderCommitIndex());
+        }
+        if (other.hasResponseFlag()) {
+          setResponseFlag(other.getResponseFlag());
+        }
+        if (other.hasIsHeartBeat()) {
+          setIsHeartBeat(other.getIsHeartBeat());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasElectionTerm()) {
+          return false;
+        }
+        if (!hasResponseFlag()) {
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        pipe.work.Work.LogAppendResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (pipe.work.Work.LogAppendResponse) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private int electionTerm_ ;
+      /**
+       * <code>required int32 election_term = 1;</code>
+       */
+      public boolean hasElectionTerm() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 election_term = 1;</code>
+       */
+      public int getElectionTerm() {
+        return electionTerm_;
+      }
+      /**
+       * <code>required int32 election_term = 1;</code>
+       */
+      public Builder setElectionTerm(int value) {
+        bitField0_ |= 0x00000001;
+        electionTerm_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 election_term = 1;</code>
+       */
+      public Builder clearElectionTerm() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        electionTerm_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int leaderNodeId_ ;
+      /**
+       * <code>optional int32 leader_node_id = 2;</code>
+       */
+      public boolean hasLeaderNodeId() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional int32 leader_node_id = 2;</code>
+       */
+      public int getLeaderNodeId() {
+        return leaderNodeId_;
+      }
+      /**
+       * <code>optional int32 leader_node_id = 2;</code>
+       */
+      public Builder setLeaderNodeId(int value) {
+        bitField0_ |= 0x00000002;
+        leaderNodeId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 leader_node_id = 2;</code>
+       */
+      public Builder clearLeaderNodeId() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        leaderNodeId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int prevLogIndex_ ;
+      /**
+       * <code>optional int32 prev_log_index = 3;</code>
+       */
+      public boolean hasPrevLogIndex() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional int32 prev_log_index = 3;</code>
+       */
+      public int getPrevLogIndex() {
+        return prevLogIndex_;
+      }
+      /**
+       * <code>optional int32 prev_log_index = 3;</code>
+       */
+      public Builder setPrevLogIndex(int value) {
+        bitField0_ |= 0x00000004;
+        prevLogIndex_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 prev_log_index = 3;</code>
+       */
+      public Builder clearPrevLogIndex() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        prevLogIndex_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int prevLogTerm_ ;
+      /**
+       * <code>optional int32 prev_log_term = 4;</code>
+       */
+      public boolean hasPrevLogTerm() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional int32 prev_log_term = 4;</code>
+       */
+      public int getPrevLogTerm() {
+        return prevLogTerm_;
+      }
+      /**
+       * <code>optional int32 prev_log_term = 4;</code>
+       */
+      public Builder setPrevLogTerm(int value) {
+        bitField0_ |= 0x00000008;
+        prevLogTerm_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 prev_log_term = 4;</code>
+       */
+      public Builder clearPrevLogTerm() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        prevLogTerm_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int leaderCommitIndex_ ;
+      /**
+       * <code>optional int32 leader_commit_index = 5;</code>
+       */
+      public boolean hasLeaderCommitIndex() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional int32 leader_commit_index = 5;</code>
+       */
+      public int getLeaderCommitIndex() {
+        return leaderCommitIndex_;
+      }
+      /**
+       * <code>optional int32 leader_commit_index = 5;</code>
+       */
+      public Builder setLeaderCommitIndex(int value) {
+        bitField0_ |= 0x00000010;
+        leaderCommitIndex_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 leader_commit_index = 5;</code>
+       */
+      public Builder clearLeaderCommitIndex() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        leaderCommitIndex_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private boolean responseFlag_ ;
+      /**
+       * <code>required bool responseFlag = 7;</code>
+       */
+      public boolean hasResponseFlag() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>required bool responseFlag = 7;</code>
+       */
+      public boolean getResponseFlag() {
+        return responseFlag_;
+      }
+      /**
+       * <code>required bool responseFlag = 7;</code>
+       */
+      public Builder setResponseFlag(boolean value) {
+        bitField0_ |= 0x00000020;
+        responseFlag_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required bool responseFlag = 7;</code>
+       */
+      public Builder clearResponseFlag() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        responseFlag_ = false;
+        onChanged();
+        return this;
+      }
+
+      private boolean isHeartBeat_ ;
+      /**
+       * <code>optional bool isHeartBeat = 8;</code>
+       */
+      public boolean hasIsHeartBeat() {
+        return ((bitField0_ & 0x00000040) == 0x00000040);
+      }
+      /**
+       * <code>optional bool isHeartBeat = 8;</code>
+       */
+      public boolean getIsHeartBeat() {
+        return isHeartBeat_;
+      }
+      /**
+       * <code>optional bool isHeartBeat = 8;</code>
+       */
+      public Builder setIsHeartBeat(boolean value) {
+        bitField0_ |= 0x00000040;
+        isHeartBeat_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bool isHeartBeat = 8;</code>
+       */
+      public Builder clearIsHeartBeat() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        isHeartBeat_ = false;
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:LogAppendResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:LogAppendResponse)
+    private static final pipe.work.Work.LogAppendResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new pipe.work.Work.LogAppendResponse();
+    }
+
+    public static pipe.work.Work.LogAppendResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<LogAppendResponse>
+        PARSER = new com.google.protobuf.AbstractParser<LogAppendResponse>() {
+      public LogAppendResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new LogAppendResponse(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<LogAppendResponse> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<LogAppendResponse> getParserForType() {
+      return PARSER;
+    }
+
+    public pipe.work.Work.LogAppendResponse getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_WorkState_descriptor;
   private static final 
@@ -11239,6 +12312,11 @@ public final class Work {
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_LogAppendEntry_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_LogAppendResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_LogAppendResponse_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -11256,7 +12334,7 @@ public final class Work {
       "\022\017\n\007ip_addr\030\002 \002(\t\022\021\n\twork_port\030\003 \002(\005\"U\n\t" +
       "Discovery\022\034\n\rrouting_table\030\001 \003(\0132\005.Node\022" +
       "\023\n\004node\030\002 \001(\0132\005.Node\022\025\n\006leader\030\003 \001(\0132\005.N" +
-      "ode\"\273\005\n\013WorkMessage\022\027\n\006header\030\001 \002(\0132\007.He" +
+      "ode\"\203\006\n\013WorkMessage\022\027\n\006header\030\001 \002(\0132\007.He" +
       "ader\022\016\n\006secret\030\002 \002(\003\022&\n\004type\030\003 \002(\0162\030.Wor",
       "kMessage.MessageType\022\027\n\003err\030\004 \001(\0132\010.Fail" +
       "ureH\000\022\016\n\004ping\030\005 \001(\010H\000\022\032\n\004beat\030\006 \001(\0132\n.He" +
@@ -11267,25 +12345,31 @@ public final class Work {
       ".LeaderElectionH\000\0229\n\026leaderElectionRespo" +
       "nse\030\014 \001(\0132\027.LeaderElectionResponseH\000\022-\n\022" +
       "log_append_entries\030\r \001(\0132\017.LogAppendEntr" +
-      "yH\000\"\370\001\n\013MessageType\022\020\n\014DISCOVERNODE\020\001\022\025\n",
-      "\021DISCOVERNODEREPLY\020\002\022\022\n\016LEADERELECTION\020\003" +
-      "\022\027\n\023LEADERELECTIONREPLY\020\004\022\020\n\014LEADERSTATU" +
-      "S\020\005\022\025\n\021LEADERSTATUSREPLY\020\006\022\r\n\tHEARTBEAT\020" +
-      "\007\022\010\n\004PING\020\010\022\r\n\tPINGREPLY\020\t\022\013\n\007FAILURE\020\n\022" +
-      "\r\n\tWORKSTATE\020\013\022\022\n\016WORKSTATEREPLY\020\014\022\022\n\016LO" +
-      "GAPPENDENTRY\020\rB\t\n\007payload\"8\n\007Command\022\013\n\003" +
-      "key\030\001 \002(\t\022\r\n\005value\030\002 \002(\t\022\021\n\tclient_id\030\003 " +
-      "\002(\005\"\213\001\n\010LogEntry\022$\n\006action\030\001 \002(\0162\024.LogEn" +
-      "try.DataAction\022\026\n\004data\030\002 \002(\0132\010.Command\022\014" +
-      "\n\004term\030\003 \002(\005\022\r\n\005logId\030\004 \002(\005\"$\n\nDataActio",
-      "n\022\n\n\006INSERT\020\001\022\n\n\006UPDATE\020\002\"(\n\014LogEntryLis" +
-      "t\022\030\n\005entry\030\001 \003(\0132\t.LogEntry\"\313\001\n\016LogAppen" +
-      "dEntry\022\025\n\relection_term\030\001 \002(\005\022\026\n\016leader_" +
-      "node_id\030\002 \001(\005\022\026\n\016prev_log_index\030\003 \001(\005\022\025\n" +
-      "\rprev_log_term\030\004 \001(\005\022\033\n\023leader_commit_in" +
-      "dex\030\005 \001(\005\022\030\n\005entry\030\006 \003(\0132\t.LogEntry\022\017\n\007s" +
-      "uccess\030\007 \001(\010\022\023\n\013isHeartBeat\030\010 \001(\010B\r\n\tpip" +
-      "e.workH\001"
+      "yH\000\022/\n\021logAppendResponse\030\016 \001(\0132\022.LogAppe",
+      "ndResponseH\000\"\217\002\n\013MessageType\022\020\n\014DISCOVER" +
+      "NODE\020\001\022\025\n\021DISCOVERNODEREPLY\020\002\022\022\n\016LEADERE" +
+      "LECTION\020\003\022\027\n\023LEADERELECTIONREPLY\020\004\022\020\n\014LE" +
+      "ADERSTATUS\020\005\022\025\n\021LEADERSTATUSREPLY\020\006\022\r\n\tH" +
+      "EARTBEAT\020\007\022\010\n\004PING\020\010\022\r\n\tPINGREPLY\020\t\022\013\n\007F" +
+      "AILURE\020\n\022\r\n\tWORKSTATE\020\013\022\022\n\016WORKSTATEREPL" +
+      "Y\020\014\022\022\n\016LOGAPPENDENTRY\020\r\022\025\n\021LOGAPPENDRESP" +
+      "ONSE\020\016B\t\n\007payload\"8\n\007Command\022\013\n\003key\030\001 \002(" +
+      "\t\022\r\n\005value\030\002 \002(\t\022\021\n\tclient_id\030\003 \002(\005\"\213\001\n\010" +
+      "LogEntry\022$\n\006action\030\001 \002(\0162\024.LogEntry.Data",
+      "Action\022\026\n\004data\030\002 \002(\0132\010.Command\022\014\n\004term\030\003" +
+      " \002(\005\022\r\n\005logId\030\004 \002(\005\"$\n\nDataAction\022\n\n\006INS" +
+      "ERT\020\001\022\n\n\006UPDATE\020\002\"(\n\014LogEntryList\022\030\n\005ent" +
+      "ry\030\001 \003(\0132\t.LogEntry\"\323\001\n\016LogAppendEntry\022\025" +
+      "\n\relection_term\030\001 \002(\005\022\026\n\016leader_node_id\030" +
+      "\002 \001(\005\022\026\n\016prev_log_index\030\003 \001(\005\022\025\n\rprev_lo" +
+      "g_term\030\004 \001(\005\022\033\n\023leader_commit_index\030\005 \001(" +
+      "\005\022 \n\tentrylist\030\006 \001(\0132\r.LogEntryList\022\017\n\007s" +
+      "uccess\030\007 \001(\010\022\023\n\013isHeartBeat\030\010 \001(\010\"\271\001\n\021Lo" +
+      "gAppendResponse\022\025\n\relection_term\030\001 \002(\005\022\026",
+      "\n\016leader_node_id\030\002 \001(\005\022\026\n\016prev_log_index" +
+      "\030\003 \001(\005\022\025\n\rprev_log_term\030\004 \001(\005\022\033\n\023leader_" +
+      "commit_index\030\005 \001(\005\022\024\n\014responseFlag\030\007 \002(\010" +
+      "\022\023\n\013isHeartBeat\030\010 \001(\010B\r\n\tpipe.workH\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -11336,7 +12420,7 @@ public final class Work {
     internal_static_WorkMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_WorkMessage_descriptor,
-        new java.lang.String[] { "Header", "Secret", "Type", "Err", "Ping", "Beat", "Task", "State", "Leader", "Discovery", "LeaderElectionRequest", "LeaderElectionResponse", "LogAppendEntries", "Payload", });
+        new java.lang.String[] { "Header", "Secret", "Type", "Err", "Ping", "Beat", "Task", "State", "Leader", "Discovery", "LeaderElectionRequest", "LeaderElectionResponse", "LogAppendEntries", "LogAppendResponse", "Payload", });
     internal_static_Command_descriptor =
       getDescriptor().getMessageTypes().get(6);
     internal_static_Command_fieldAccessorTable = new
@@ -11360,7 +12444,13 @@ public final class Work {
     internal_static_LogAppendEntry_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_LogAppendEntry_descriptor,
-        new java.lang.String[] { "ElectionTerm", "LeaderNodeId", "PrevLogIndex", "PrevLogTerm", "LeaderCommitIndex", "Entry", "Success", "IsHeartBeat", });
+        new java.lang.String[] { "ElectionTerm", "LeaderNodeId", "PrevLogIndex", "PrevLogTerm", "LeaderCommitIndex", "Entrylist", "Success", "IsHeartBeat", });
+    internal_static_LogAppendResponse_descriptor =
+      getDescriptor().getMessageTypes().get(10);
+    internal_static_LogAppendResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_LogAppendResponse_descriptor,
+        new java.lang.String[] { "ElectionTerm", "LeaderNodeId", "PrevLogIndex", "PrevLogTerm", "LeaderCommitIndex", "ResponseFlag", "IsHeartBeat", });
     pipe.common.Common.getDescriptor();
     pipe.election.Election.getDescriptor();
   }
