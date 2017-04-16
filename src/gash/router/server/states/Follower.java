@@ -1,6 +1,7 @@
 package gash.router.server.states;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 import gash.router.server.db.SqlClient;
@@ -18,7 +19,9 @@ import pipe.work.Work;
 import pipe.common.Common.Header;
 import pipe.work.Work.LogAppendEntry;
 import pipe.work.Work.LogAppendResponse;
+import pipe.work.Work.LogEntry;
 import pipe.work.Work.LogEntry.Builder;
+import pipe.work.Work.LogEntryList;
 import pipe.work.Work.WorkMessage;
 import pipe.work.Work.WorkMessage.MessageType;
 import routing.*;
@@ -63,12 +66,12 @@ public class Follower implements RaftServerState {
     //change this method name to electionVoteResponse
 	public void requestVote(LeaderElection request) {
 		// TODO Auto-generated method stub
-		int logIndex = state.getLastLogIndex();
-		int logTerm = state.getLastLogTerm();
+		int logIndex = state.getLog().getLastApplied();
+		int logTerm = state.getLog().lastLogTerm();
 		WorkMessage wm = null;
 		
-		if( request.getTerm() < state.getCurrentTerm() ||
-				request.getLastLogTerm() < logTerm ||
+		if( request.getTerm() < state.getCurrentTerm() &&
+				request.getLastLogTerm() < logTerm &&
 				request.getLastLogIndex() < logIndex){
 			/**
 			 * vote will be false as: this candidate is lagging
@@ -213,13 +216,66 @@ public class Follower implements RaftServerState {
 	@Override
 	public void logAppend(LogAppendEntry logEntry) {
 		// TODO Auto-generated method stub
+		WorkMessage wm = null;
+		int lastIndex = state.getLog().lastIndex();
+		int lastTerm= state.getLog().lastLogTerm();
+
 		logger.info("Follower Recieved Log Entry" + logEntry.toString());
-		/*if(logEntry.getElectionTerm() < state.getCurrentTerm() &&
-			(logEntry.getPrevLogIndex() 
-			)){
-			
-		}*/
+		//follower has not received any update from current Leader,
+		//could be a stale message
+		if(logEntry.getElectionTerm() < state.getCurrentTerm() && 
+				lastIndex != logEntry.getPrevLogIndex()){
+			if (lastTerm != logEntry.getPrevLogTerm()){
+				//need to delete logs entry
+			}
+
+			wm = createLogAppendResponse(logEntry.getLeaderNodeId(),
+					lastIndex, state.getCurrentTerm(), false);
+		}
+		else{
+			//reply false, with currentTerm.
+			if (logEntry.hasEntrylist()){
+				LogEntryList lgl = logEntry.getEntrylist();
+				List<LogEntry> entries = lgl.getEntryList();
+				for (LogEntry entry: entries ){
+					state.getLog().appendEntry(entry);	
+					lastIndex = entry.getLogId();
+				}
+				if (state.getLog().lastIndex() != state.getLastLogIndex()){
+					
+				}
+			}
+			if(logEntry.getLeaderCommitIndex() > state.getLog().getCommitIndex()){
+				//state.getLog().setCommitIndex(Math.min(logEntry.getLeaderCommitIndex(),
+				//		logId));
+			}
+			wm = createLogAppendResponse(logEntry.getLeaderNodeId(),
+					lastIndex, state.getCurrentTerm(), true);
+		}
+		state.getOutBoundMessageQueue().addMessage(wm);
+	}
+	
+	public WorkMessage createLogAppendResponse(int destId, int currentIndex, 
+			int currentTerm, boolean success){
+		WorkMessage.Builder msgBuilder = WorkMessage.newBuilder();
+		msgBuilder.setType(MessageType.LOGAPPENDENTRY);
+		msgBuilder.setSecret(9999);
 		
+		Header.Builder header = Header.newBuilder();
+		header.setDestination(destId);
+		header.setNodeId(state.getNodeId());
+		header.setTime(System.currentTimeMillis());
+		
+		msgBuilder.setHeader(header);
+		
+		LogAppendEntry.Builder logAppend = LogAppendEntry.newBuilder();
+		logAppend.setElectionTerm(currentTerm);
+		logAppend.setSuccess(success);
+		logAppend.setPrevLogIndex(currentIndex);
+		logAppend.setLeaderNodeId(state.getNodeId());
+		
+		msgBuilder.setLogAppendEntries(logAppend);
+		return msgBuilder.build();
 	}
 
 	@Override

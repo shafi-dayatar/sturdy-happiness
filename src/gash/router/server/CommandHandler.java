@@ -25,6 +25,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import pipe.common.Common.Failure;
 import pipe.work.Work.Command;
 import pipe.work.Work.LogEntry;
+import pipe.work.Work.LogEntry.DataAction;
 import routing.Pipe;
 import routing.Pipe.CommandMessage;
 import routing.Pipe.TaskType;
@@ -80,8 +81,12 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 		command.setClientId(999);
 		command.setKey("Filename");
 		command.setValue("no1.txt");
-		logEntryBuilder.setData(0, command);
+		logEntryBuilder.setAction(DataAction.INSERT);
+		//logEntryBuilder.setData(command);
+		logger.info("Got Request from client, pushing it to leader");
 		serverState.getRaftState().appendEntries(logEntryBuilder);
+
+
 		try {
 			// TODO How can you implement this without if-else statements?
 			if (msg.hasReq()){
@@ -107,9 +112,6 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 							serverState.getRaftState().deleteFile(msg.getReq().getRrb());
 						}
 						break;
-
-					//handle response
-					//build response
 				}
 			}
 			if (msg.hasPing()) {
@@ -141,7 +143,7 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 		}
 
 	}
-	
+
 	/**
 	 * a message was received from the server. Here we dispatch the message to
 	 * the client's thread pool to minimize the time it takes to process other

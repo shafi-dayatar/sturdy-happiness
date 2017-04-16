@@ -16,4 +16,6 @@ public interface LogOperations {
 	int lastIndex();
 	
 	LogEntry getEntry(int index);
+	
+	public int lastLogTerm();
 }
