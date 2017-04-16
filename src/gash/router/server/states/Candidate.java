@@ -4,6 +4,7 @@ package gash.router.server.states;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import gash.router.server.IOUtility;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -184,14 +185,12 @@ public class Candidate implements RaftServerState {
 
 	@Override
 	public byte[] readFile(Pipe.ReadBody readBody) {
-    	//TODO not sure how to handle read write when it is a candidate
-		byte[] by = new byte[0];
-		return by;
+		return IOUtility.readFile(readBody);
 	}
 
 	@Override
 	public int writeFile(Pipe.WriteBody readBody) {
-    	return -1;
+		return IOUtility.writeFile(readBody);
 	}
 
 	@Override
