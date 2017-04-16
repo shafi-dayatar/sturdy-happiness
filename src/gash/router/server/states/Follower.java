@@ -6,6 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gash.router.server.PrintUtil;
 import gash.router.server.ServerState;
 import gash.router.server.log.LogInfo;
 import pipe.election.Election;
@@ -16,6 +17,7 @@ import pipe.work.Work;
 import pipe.common.Common.Header;
 import pipe.work.Work.LogAppendEntry;
 import pipe.work.Work.LogAppendResponse;
+import pipe.work.Work.LogEntry.Builder;
 import pipe.work.Work.WorkMessage;
 import pipe.work.Work.WorkMessage.MessageType;
 import routing.Pipe;
@@ -202,6 +204,24 @@ public class Follower implements RaftServerState {
 
 	@Override
 	public void logAppend(LogAppendEntry logEntry) {
+		// TODO Auto-generated method stub
+		logger.info("Follower Recieved Log Entry" + logEntry.toString());
+		/*if(logEntry.getElectionTerm() < state.getCurrentTerm() &&
+			(logEntry.getPrevLogIndex() 
+			)){
+			
+		}*/
+		
+	}
+
+	@Override
+	public void appendEntries(ArrayList<Builder> logEntryBuilder) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void appendEntries(Builder logEntryBuilder) {
 		// TODO Auto-generated method stub
 		
 	}

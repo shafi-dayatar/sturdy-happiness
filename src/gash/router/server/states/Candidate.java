@@ -15,6 +15,7 @@ import pipe.common.Common.Header;
 import pipe.election.Election.LeaderElection;
 import pipe.election.Election.LeaderElectionResponse;
 import pipe.work.Work.LogAppendEntry;
+import pipe.work.Work.LogEntry.Builder;
 import pipe.work.Work.WorkMessage;
 import pipe.work.Work.WorkMessage.MessageType;
 import pipe.work.Work.WorkMessageOrBuilder;
@@ -198,6 +199,18 @@ public class Candidate implements RaftServerState {
 
 	@Override
 	public void logAppend(LogAppendEntry logEntry) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void appendEntries(ArrayList<Builder> logEntryBuilder) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void appendEntries(Builder logEntryBuilder) {
 		// TODO Auto-generated method stub
 		
 	}
