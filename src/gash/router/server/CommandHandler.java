@@ -127,6 +127,8 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 
 		} catch (Exception e) {
 			// TODO add logging
+			logger.info("error stack trace in handleMessage - CommandHanler: ");
+			e.printStackTrace();
 			Failure.Builder eb = Failure.newBuilder();
 			eb.setId(conf.getNodeId());
 			eb.setRefId(msg.getHeader().getNodeId());
