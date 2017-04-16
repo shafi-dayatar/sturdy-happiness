@@ -97,32 +97,32 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 				switch (msg.getReq().getRequestType()){
 					case READFILE:
 						if(msg.getReq().hasRrb()){
-							serverState.getRaftState().readFile(msg.getReq().getRrb());
+							byte[] chunkContent = serverState.getRaftState().readFile(msg.getReq().getRrb());
+							sendReadResponse(channel, msg, chunkContent);
 						}
-
 						break;
 					case WRITEFILE:
 						if(msg.getReq().hasRwb()){
-							serverState.getRaftState().writeFile(msg.getReq().getRwb());
+							int missingChunk = serverState.getRaftState().writeFile(msg.getReq().getRwb());
+							sendWriteResponse(channel, msg, missingChunk);
 						}
 						break;
 					case UPDATEFILE:
+
+						//same as write no difference
 						if(msg.getReq().hasRwb()){
-							serverState.getRaftState().writeFile(msg.getReq().getRwb());
+							int missingChunk = serverState.getRaftState().writeFile(msg.getReq().getRwb());
+							sendWriteResponse(channel, msg, missingChunk);
 						}
+
 						break;
 					case DELETEFILE:
 						if(msg.getReq().hasRwb()){
 							serverState.getRaftState().deleteFile(msg.getReq().getRrb());
 						}
 						break;
+
 				}
-			}
-			if (msg.hasPing()) {
-				logger.info("ping from " + msg.getHeader().getNodeId());
-			} else if (msg.hasMessage()) {
-				logger.info(msg.getMessage());
-			} else {
 			}
 
 		} catch (Exception e) {
@@ -138,23 +138,59 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 
 		System.out.flush();
 	}
-	private Pipe.Response.Builder buildSuccessRespone(Pipe.Request request){
+
+	private void sendReadResponse(Channel channel, CommandMessage cmdMessage, byte[] chunkContent){
+		logger.info("Preparing to send read response for nodeid: "+ cmdMessage.getHeader().getNodeId() );
+		CommandMessage.Builder cmdMsg = CommandMessage.newBuilder(cmdMessage);
+		cmdMsg.setResp(buildReadResponse(cmdMessage.getReq(), chunkContent).build());
+		channel.write(cmdMsg.build());
+	}
+
+	private void sendWriteResponse(Channel channel, CommandMessage cmdMessage, int chunkId){
+		logger.info("Preparing to send write response for nodeid: "+ cmdMessage.getHeader().getNodeId() );
+		CommandMessage.Builder cmdMsg = CommandMessage.newBuilder(cmdMessage);
+		cmdMsg.setResp(buildWriteResponse(cmdMessage.getReq(), chunkId).build());
+		channel.write(cmdMsg.build());
+	}
+
+	private Pipe.Response.Builder buildReadResponse(Pipe.Request request, byte[] chunkContent){
+		logger.info("Building read response for request chunk content length: " + chunkContent.length);
 		Pipe.Response.Builder response = Pipe.Response.newBuilder();
-		response.setStatus(Pipe.Response.Status.Success);
 		response.setResponseType(request.getRequestType());
-		if(request.getRequestType() == TaskType.READFILE){
-			response.setReadResponse(buildReadResponse().build());
+		if(chunkContent.length>0){
+			response.setStatus(Pipe.Response.Status.Success);
+			response.setReadResponse(buildReadResponse(request).build());
+			return response;
 		}
-		if(request.getRequestType() == TaskType.WRITEFILE){
-			//response.setReadResponse(buildReadResponse().build());
+		//failure case
+		response.setStatus(Pipe.Response.Status.Failure);
+		//response.setReadResponse(buildReadResponse().build());
+		return response;
+
+	}
+
+	private Pipe.Response.Builder buildWriteResponse(Pipe.Request request, int chunkId){
+		logger.info("Building write response for request, missing chunk id is : " + chunkId);
+		Pipe.Response.Builder response = Pipe.Response.newBuilder();
+		response.setResponseType(request.getRequestType());
+		Pipe.WriteResponse.Builder writeRespBuilder = Pipe.WriteResponse.newBuilder();
+		if(chunkId != -1){
+			//case for failed to write this chunk id
+			response.setStatus(Pipe.Response.Status.Failure);
+			writeRespBuilder.setChunkId(chunkId,chunkId);
+			response.setWriteResponse(writeRespBuilder.build());
+			return response;
 		}
+		//write is successful
+		response.setStatus(Pipe.Response.Status.Success);
 		return response;
 	}
-	private Pipe.ReadResponse.Builder buildReadResponse(){
+
+	private Pipe.ReadResponse.Builder buildReadResponse(Pipe.Request request){
 		Pipe.ReadResponse.Builder readRespBuilder = Pipe.ReadResponse.newBuilder();
-		readRespBuilder.setFilename("");
+		readRespBuilder.setFilename(request.getRrb().getFilename());
 		readRespBuilder.setFileExt("");
-		readRespBuilder.setFileId("");
+		readRespBuilder.setFileId(Long.toString(request.getRrb().getFileId()));
 		readRespBuilder.setNumOfChunks(1);
 		//multiple
 		readRespBuilder.addChunkLocation(buildChunkLocation().build());

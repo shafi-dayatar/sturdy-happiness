@@ -93,18 +93,21 @@ public class SqlClient {
         }
 
     }
-    public void storefile(int chunck_id, InputStream inputStream, String filename){
+    public int storefile(int chunk_id, InputStream inputStream, String filename){
+        int result = -1;
         try{
             System.out.println("storing the file .....");
 
-            insertStatement.setInt(1, chunck_id);
+            insertStatement.setInt(1, chunk_id);
             insertStatement.setString(2, filename);
             insertStatement.setBinaryStream(3, inputStream);
             insertStatement.execute();
+            result = chunk_id;
         }catch (Exception e){
             System.out.println("File store failed");
             e.printStackTrace();
         }
+        return chunk_id;
 
     }
 

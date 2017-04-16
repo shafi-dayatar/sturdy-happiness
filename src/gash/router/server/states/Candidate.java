@@ -190,8 +190,8 @@ public class Candidate implements RaftServerState {
 	}
 
 	@Override
-	public void writeFile(Pipe.WriteBody readBody) {
-
+	public int writeFile(Pipe.WriteBody readBody) {
+    	return -1;
 	}
 
 	@Override
