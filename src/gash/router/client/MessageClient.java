@@ -24,12 +24,13 @@ import org.slf4j.LoggerFactory;
 import com.google.protobuf.ByteString;
 
 import pipe.common.Common;
-import pipe.common.Common.Chunk;
 import pipe.common.Common.Header;
-import pipe.common.Common.Request;
-import pipe.common.Common.WriteBody;
+import routing.Pipe.Request;
+import routing.Pipe.WriteBody;
+import routing.Pipe.Chunk;
+import routing.Pipe.TaskType;
 import routing.Pipe.CommandMessage;
-import routing.Pipe.WhoIsLeader;
+//import routing.Pipe.WhoIsLeader;
 
 /**
  * front-end (proxy) to our service - functional-based
@@ -59,12 +60,12 @@ public class MessageClient {
 		hb.setTime(System.currentTimeMillis());
 		hb.setDestination(-1);
 		
-		WhoIsLeader.Builder wl=WhoIsLeader.newBuilder();
-		wl.setAskleader(true);
+		//WhoIsLeader.Builder wl=WhoIsLeader.newBuilder();
+		//wl.setAskleader(true);
 		
 		CommandMessage.Builder rb = CommandMessage.newBuilder();
 		rb.setHeader(hb);
-		rb.setWhoisleader(wl);
+		//rb.setWhoisleader(wl);
 		
 		System.out.println("im sending message");
 		try {
@@ -107,26 +108,27 @@ public class MessageClient {
 				hb.setTime(System.currentTimeMillis());
 				hb.setDestination(-1);
 				
+
 				Chunk.Builder chb=Chunk.newBuilder();
 				chb.setChunkId(chunkId);
 				chb.setChunkData(chunkData);
 				chb.setChunkSize(chunkData.size());
 				
-				WriteBody.Builder wb=WriteBody.newBuilder();
-				wb.setFileId(1);
+				WriteBody.Builder wb= WriteBody.newBuilder();
+				wb.setFileId("1");
 				wb.setFilename(filename);
 				wb.setChunk(chb);
 				wb.setNumOfChunks(noOfChunks);
 				
 				Request.Builder rb = Request.newBuilder();
 				//request type, read,write,etc				
-				rb.setRequestType(Common.Request.RequestType.WRITEFILE); // operation to be
+				rb.setRequestType(TaskType.WRITEFILE ); // operation to be
 																// performed
 				rb.setRwb(wb);	
 				CommandMessage.Builder cb = CommandMessage.newBuilder();
 				// Prepare the CommandMessage structure
 				cb.setHeader(hb);
-				cb.setRequest(rb);				
+				cb.setReq(rb.build());				
 
 				// Initiate connection to the server and prepare to save file
 				try {

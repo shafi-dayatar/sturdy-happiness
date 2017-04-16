@@ -87,10 +87,10 @@ public class DemoApp implements CommListener {
 
 	@Override
 	public void onMessage(CommandMessage msg) {
-		System.out.println("---> Host : " + msg.getLeaderroute().getHost());
-		System.out.println("---> Port : " + msg.getLeaderroute().getPort());
-		leaderHost=msg.getLeaderroute().getHost();
-		leaderPort=msg.getLeaderroute().getPort();
+		//System.out.println("---> Host : " + msg.getLeaderroute().getHost());
+		//System.out.println("---> Port : " + msg.getLeaderroute().getPort());
+		//leaderHost=msg.getLeaderroute().getHost();
+		//leaderPort=msg.getLeaderroute().getPort();
 	}
 
 	/**

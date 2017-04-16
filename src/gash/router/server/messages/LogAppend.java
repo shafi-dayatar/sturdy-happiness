@@ -3,6 +3,7 @@ package gash.router.server.messages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gash.router.server.PrintUtil;
 import gash.router.server.ServerState;
 import gash.router.server.states.RaftServerState;
 import pipe.election.Election;
@@ -27,9 +28,10 @@ public class LogAppend extends Message {
     public void processMessage(ServerState state) {
     	RaftServerState serverState = state.getRaftState();
     	if (type == MessageType.HEARTBEAT){ 
-    		serverState.heartbeat(logEntry);;
+    		serverState.heartbeat(logEntry);
     	}else if (type == MessageType.LOGAPPENDENTRY){
-    		serverState.logAppend(logEntry);;
+    		
+    		serverState.logAppend(logEntry);
     	}
         return;
     }
