@@ -28,7 +28,7 @@ public class Leader implements RaftServerState, Runnable {
 
     protected static Logger logger = LoggerFactory.getLogger("Leader-State");
     private ServerState state;
-    private LogInfo log;
+    
     
     
     // stores the next logIndex to be sent to each follower
@@ -52,33 +52,51 @@ public class Leader implements RaftServerState, Runnable {
     public synchronized void appendEntries(ArrayList<LogEntry.Builder> logEntryBuilder){
         //logger.info("appendEntries = " + entry);
         for (LogEntry.Builder builder : logEntryBuilder){
-        	builder.setLogId(log.getLogIndex());
+        	builder.setLogId(state.getLog().lastIndex());
             builder.setTerm(state.getCurrentTerm());
             LogEntry entry  = builder.build();
-            log.appendEntry(entry);
             Set<Integer> keys = nextIndex.keySet();
             for(Integer nodeId : keys){
-            	int nextlogindex = nextIndex.get(keys);
-            	if (state.getLastLogIndex() >= nextlogindex){
-            		WorkMessage wm = createLogAppendEntry(nodeId, entry);
-            		state.getOutBoundMessageQueue().addMessage(wm);
+            	
+            	int nextlogindex = nextIndex.get(nodeId);
+            	state.getLog().appendEntry(entry);
+            	if (state.getLog().lastIndex() >= nextlogindex){
+            		
+            		//WorkMessage wm = createLogAppendEntry(nodeId, entry);
+            		//state.getOutBoundMessageQueue().addMessage(wm);
             	}
             }
         }
     }
     
 	public synchronized void appendEntries(LogEntry.Builder logEntryBuilder){
-		//logger.info("appendEntries = " + entry);
-		logEntryBuilder.setLogId(log.getLogIndex());
-		logEntryBuilder.setTerm(state.getCurrentTerm());
-        LogEntry entry  = logEntryBuilder.build();
-        log.appendEntry(entry);
+		int lastLogIndex = state.getLog().lastIndex();
+		int lastLogTerm = state.getLog().lastLogTerm();
+        int commitIndex = state.getLog().getCommitIndex();
+        
+		lastLogIndex = lastLogIndex == -1 ? 0 : lastLogIndex;
+		lastLogTerm = lastLogTerm == -1 ? state.getCurrentTerm() : lastLogTerm;
+				
+		logEntryBuilder.setTerm(lastLogTerm);
+		logEntryBuilder.setLogId(lastLogIndex+1);
+		LogEntry entry  = logEntryBuilder.build();
+		
+		logger.info("last log index :  " + lastLogIndex + ",\n ");
+		logger.info("Current Log Id is : " +  lastLogIndex+1);
+        state.getLog().appendEntry(entry);
+        state.getLog().setLastApplied(lastLogIndex+1);
+        
+
         Set<Integer> keys = nextIndex.keySet();
+        logger.info("Last Log index of leader is : " + lastLogIndex);
         for(Integer nodeId : keys){
-            int nextlogindex = nextIndex.get(keys);
-            if (state.getLastLogIndex() >= nextlogindex){
-            		WorkMessage wm = createLogAppendEntry(nodeId, entry);
-            		state.getOutBoundMessageQueue().addMessage(wm);
+            int nextlogindex = nextIndex.get(nodeId);
+            logger.info("NextIndex Table is : " + nextIndex.toString());
+            if (lastLogIndex + 1  >= nextlogindex){
+            	logger.info("Sending LogAppend to all connected server");
+            	WorkMessage wm = createLogAppendEntry(nodeId, lastLogIndex, lastLogTerm, commitIndex, entry);
+            	logger.info("Message is : " +  wm.toString());
+            	state.getOutBoundMessageQueue().addMessage(wm);
             }
         }
     }
@@ -86,15 +104,16 @@ public class Leader implements RaftServerState, Runnable {
 	@Override
 	public void logAppend(LogAppendEntry logEntry) {
 		// TODO Auto-generated method stub
+		logger.info("Got logAppend response from follower: " + logEntry.toString());
 		int nodeId = logEntry.getLeaderNodeId();
 		if (logEntry.getSuccess()){
 			updateNextAndMatchIndex(logEntry.getLeaderNodeId(), logEntry.getPrevLogIndex());
 			if (logEntry.getPrevLogIndex() < state.getLastLogIndex()){
-				resendAppendRequest(nodeId, nextIndex.get(nodeId)+1);
+				//resendAppendRequest(nodeId, nextIndex.get(nodeId)+1);
 			}
 		}else{
 			int logId = getDecrementedNextIndex(nodeId);
-		    resendAppendRequest(nodeId,logId);
+		    //resendAppendRequest(nodeId,logId);
 		}
 	}
     
@@ -113,13 +132,13 @@ public class Leader implements RaftServerState, Runnable {
 	    wmb.setHeader(hdb.build());
 	    
 	    LogEntryList.Builder l = LogEntryList.newBuilder();
-		l.addAllEntry(Arrays.asList(log.getEntries(logIndex)));
+		l.addAllEntry(Arrays.asList(state.getLog().getEntries(logIndex)));
 		
 	    LogAppendEntry.Builder le = LogAppendEntry.newBuilder();
 		le.setElectionTerm(state.getCurrentTerm());
 		le.setPrevLogIndex(state.getLastLogIndex());
-		le.setPrevLogTerm((logIndex - 1) != 0 ? log.getEntry(logIndex - 1).getTerm() : 0);
-		le.setLeaderCommitIndex(log.getCommitIndex());
+		le.setPrevLogTerm((logIndex - 1) != 0 ? state.getLog().getEntry(logIndex - 1).getTerm() : 0);
+		le.setLeaderCommitIndex(state.getLog().getCommitIndex());
 		le.setLeaderNodeId(state.getNodeId());
 		le.setEntrylist(l.build());	    
 
@@ -132,14 +151,16 @@ public class Leader implements RaftServerState, Runnable {
     
 
 	
-    private WorkMessage createLogAppendEntry(int nodeId, LogEntry logEntry) {
+    private WorkMessage createLogAppendEntry(int nodeId, int lastLogIndex, 
+    		int lastLogTerm, int commitIndex,
+    		LogEntry logEntry) {
 
 		// TODO Auto-generated method stub
 		WorkMessage.Builder wmb = WorkMessage.newBuilder();
 		Header.Builder hdb = Header.newBuilder();
-		hdb.setNodeId(nodeId);
+		hdb.setNodeId(state.getNodeId());
 		hdb.setTime(System.currentTimeMillis());
-		hdb.setDestination(-1);
+		hdb.setDestination(nodeId);
 		
 		wmb.setHeader(hdb.build());
 		
@@ -149,9 +170,9 @@ public class Leader implements RaftServerState, Runnable {
 	    LogAppendEntry.Builder logAppend = LogAppendEntry.newBuilder();
 	    
 	    logAppend.setElectionTerm(state.getCurrentTerm());
-	    logAppend.setPrevLogIndex(state.getLastLogIndex());
-	    logAppend.setPrevLogTerm(state.getLastLogTerm());
-	    logAppend.setLeaderCommitIndex(log.getCommitIndex());
+	    logAppend.setPrevLogIndex(lastLogIndex);
+	    logAppend.setPrevLogTerm(lastLogTerm);
+	    logAppend.setLeaderCommitIndex(commitIndex);
 	    logAppend.setLeaderNodeId(state.getNodeId());
 	    logAppend.setEntrylist(entryList.build());	    
 
@@ -171,7 +192,7 @@ public class Leader implements RaftServerState, Runnable {
 	private void reinitializeIndexes() {
 		for (Node node : state.getEmon().getOutBoundRouteTable()) {
 			// Next Index
-			nextIndex.put(node.getNodeId(), log.lastIndex() + 1);
+			nextIndex.put(node.getNodeId(), state.getLog().lastIndex() + 1);
 			// Match Index
 			matchIndex.put(node.getNodeId(), (int) 0);
 		}
@@ -195,12 +216,12 @@ public class Leader implements RaftServerState, Runnable {
 	public void updateNextAndMatchIndex(int nodeId, int lastIndex ) {
 		if(!matchIndex.containsKey(nodeId)) {
 			// Next Index
-			nextIndex.put(nodeId, log.lastIndex() + 1);
+			nextIndex.put(nodeId, state.getLog().lastIndex() + 1);
 			// Match Index
 			matchIndex.put(nodeId, (int) 0);
 		}
 		
-		if(matchIndex.get(nodeId) != lastIndex) {
+		if(matchIndex.get(nodeId) == lastIndex - 1) {
 			nextIndex.put(nodeId, lastIndex + 1);
 			matchIndex.put(nodeId, lastIndex);
 			// check if commit index is also increased
@@ -210,7 +231,7 @@ public class Leader implements RaftServerState, Runnable {
 	}
 	
 	public void updateCommitIndex() {
-		log.setCommitIndex(log.lastIndex());		
+		state.getLog().setCommitIndex(state.getLog().lastIndex());		
     }
 	
 	public WorkMessage createHeartBeatMessage(){
@@ -305,5 +326,15 @@ public class Leader implements RaftServerState, Runnable {
 	@Override
 	public void deleteFile(Pipe.ReadBody readBody) {
 
+	}
+
+	public void setNextAndMatchIndex() {
+		// TODO Auto-generated method stub
+		ArrayList<Node> nodes = state.getEmon().getOutBoundRouteTable();
+		for (Node node : nodes){
+			nextIndex.put(node.getNodeId(), state.getLog().lastIndex()+1);
+			matchIndex.put(node.getNodeId(), 0);
+		}
+		
 	}	
 }

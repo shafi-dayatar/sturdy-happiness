@@ -17,24 +17,24 @@ package gash.router.server.edges;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 import pipe.work.Work.Node;
 
 public class EdgeList {
-	protected HashMap<Integer, EdgeInfo> map = new HashMap<Integer, EdgeInfo>();
+	protected ConcurrentHashMap<Integer, EdgeInfo> map = new ConcurrentHashMap<Integer, EdgeInfo>();
 
 	public EdgeList() {
 	}
 
 	public EdgeInfo createIfNew(int ref, String host, int port) {
 		if (hasNode(ref))
-			
 			return getNode(ref);
 		else
 			return addNode(ref, host, port);
 	}
 
-	public EdgeInfo addNode(int ref, String host, int port) {
+	public synchronized EdgeInfo addNode(int ref, String host, int port) {
 		if (!verify(ref, host, port)) {
 			// TODO log error
 			throw new RuntimeException("Invalid node info");

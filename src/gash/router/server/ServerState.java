@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import gash.router.container.RoutingConf;
 import gash.router.server.edges.EdgeMonitor;
+import gash.router.server.log.LogInfo;
 import gash.router.server.messages.MessageQueue;
 import gash.router.server.states.Candidate;
 import gash.router.server.states.ElectionTimer;
@@ -38,6 +39,8 @@ public class ServerState {
 	private TaskList tasks;
     private MessageQueue obmQueue;
     private MessageQueue ibmQueue;
+    
+    private LogInfo log = new LogInfo();
 
 	public ElectionTimer getElectionTimer(){
     	return electionTimer;
@@ -119,8 +122,10 @@ public class ServerState {
 		logger.info("Becoming leader for election term : " + currentTerm );
 		raftState = leader;
 		leader.setLeader(true);
+		leader.setNextAndMatchIndex();
 		if (leaderThread == null)
 			leaderThread = new Thread(leader);
+		
 		leaderThread.start();
 		electionTimer.stopThread();
 	}
@@ -186,6 +191,16 @@ public class ServerState {
 
 	public void setLeaderKnown(boolean isLeaderKnown) {
 		this.isLeaderKnown = isLeaderKnown;
+	}
+
+
+	public LogInfo getLog() {
+		return log;
+	}
+
+
+	public void setLog(LogInfo log) {
+		this.log = log;
 	}
 	
 

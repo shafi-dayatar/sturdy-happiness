@@ -100,10 +100,11 @@ public class DemoApp implements CommListener {
 	 */
 	public static void main(String[] args) {
 		String host = "localhost";
-		int port = 4168;
+		//int port = 4168;
 
 		try {
-			MessageClient mc = new MessageClient(host, port);			
+			MessageClient mc = new MessageClient(args[0], Integer.parseInt(args[1]));			
+			
 			DemoApp da = new DemoApp(mc);
 			mc.askForLeader();
 			

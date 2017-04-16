@@ -23,7 +23,7 @@ public class LogInfo implements LogOperations {
 	public LogInfo() {
 		log = new ArrayList<LogEntry>();
 		commitIndex = (int) 0;
-		lastApplied = (int) 0;
+		lastApplied = (int) -1;
 	}
 	
 	/**
@@ -82,6 +82,7 @@ public class LogInfo implements LogOperations {
 	public synchronized void  appendEntry(LogEntry entry) {
 		
 		log.add(entry);
+		
 //		if(isSegmentLimitReached()) {
 //			storeLogSegment();
 //		}
@@ -115,7 +116,16 @@ public class LogInfo implements LogOperations {
 
 	@Override
 	public int lastIndex() {
-		return log.get(log.size()-1).getLogId();
+		if (log.size() > 0)
+		   return log.get(log.size()-1).getLogId();
+		return -1;
+	}
+	
+	@Override
+	public int lastLogTerm() {
+		if (log.size() > 0)
+		   return log.get(log.size()-1).getTerm();
+		return 0;
 	}
 
 	/**

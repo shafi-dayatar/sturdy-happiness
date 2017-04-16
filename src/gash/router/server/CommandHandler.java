@@ -25,6 +25,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import pipe.common.Common.Failure;
 import pipe.work.Work.Command;
 import pipe.work.Work.LogEntry;
+import pipe.work.Work.LogEntry.DataAction;
 import routing.Pipe.CommandMessage;
 import routing.Pipe.TaskType;
 /**
@@ -78,8 +79,11 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 		command.setClientId(999);
 		command.setKey("Filename");
 		command.setValue("no1.txt");
+		logEntryBuilder.setAction(DataAction.INSERT);
 		logEntryBuilder.setData(command);
+		logger.info("Got Request from client, pushing it to leader");
 		serverState.getRaftState().appendEntries(logEntryBuilder);
+		
 
 		try {
 			// TODO How can you implement this without if-else statements?
