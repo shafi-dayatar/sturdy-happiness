@@ -90,7 +90,7 @@ public class DiscoverMessage extends Message {
         			if(newEdge){
         				String ip_address = null;
 						try {
-							ip_address = InetAddress.getLocalHost().toString();
+							ip_address = InetAddress.getLocalHost().getHostAddress();
 						} catch (UnknownHostException e) {
 							// TODO Auto-generated catch block
 							logger.error("Error in decting ip_address of this node server : ");
