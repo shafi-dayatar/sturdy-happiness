@@ -30,6 +30,10 @@ import routing.Pipe;
 import routing.Pipe.CommandMessage;
 import routing.Pipe.TaskType;
 import routing.Pipe.Chunk;
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 /**
  * The message handler processes json messages that are delimited by a 'newline'
  * 
@@ -134,14 +138,50 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 
 		System.out.flush();
 	}
-	private void buildRespone(Pipe.Request request){
+	private Pipe.Response.Builder buildSuccessRespone(Pipe.Request request){
 		Pipe.Response.Builder response = Pipe.Response.newBuilder();
+		response.setStatus(Pipe.Response.Status.Success);
 		response.setResponseType(request.getRequestType());
 		if(request.getRequestType() == TaskType.READFILE){
-			Pipe.ReadResponse.Builder reaBuilder = Pipe.ReadResponse.newBuilder();
-			response.setReadResponse(reaBuilder);
+			response.setReadResponse(buildReadResponse().build());
 		}
-
+		if(request.getRequestType() == TaskType.WRITEFILE){
+			//response.setReadResponse(buildReadResponse().build());
+		}
+		return response;
+	}
+	private Pipe.ReadResponse.Builder buildReadResponse(){
+		Pipe.ReadResponse.Builder readRespBuilder = Pipe.ReadResponse.newBuilder();
+		readRespBuilder.setFilename("");
+		readRespBuilder.setFileExt("");
+		readRespBuilder.setFileId("");
+		readRespBuilder.setNumOfChunks(1);
+		//multiple
+		readRespBuilder.addChunkLocation(buildChunkLocation().build());
+		return readRespBuilder;
+	}
+	private Pipe.ChunkLocation.Builder buildChunkLocation(){
+		Pipe.ChunkLocation.Builder chunkLocBuilder = Pipe.ChunkLocation.newBuilder();
+		chunkLocBuilder.setChunkid(0);
+		Pipe.Node.Builder node = buildNode();
+		chunkLocBuilder.setNode(this.conf.getNodeId(), node.build());
+		return chunkLocBuilder;
+	}
+	private Pipe.Node.Builder buildNode(){
+		Pipe.Node.Builder node = Pipe.Node.newBuilder();
+		setHost(node);
+		node.setNodeId(this.conf.getNodeId());
+		node.setPort(this.conf.getHeartbeatDt());
+		return node;
+	}
+	private void setHost(Pipe.Node.Builder node){
+		InetAddress IP= null;
+		try {
+			IP = InetAddress.getLocalHost();
+			node.setHost(IP.getHostAddress());
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
