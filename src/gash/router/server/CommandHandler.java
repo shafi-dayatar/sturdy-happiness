@@ -25,6 +25,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import pipe.common.Common.Failure;
 import pipe.work.Work.Command;
 import pipe.work.Work.LogEntry;
+import routing.Pipe;
 import routing.Pipe.CommandMessage;
 import routing.Pipe.TaskType;
 import routing.Pipe.Chunk;
@@ -79,9 +80,8 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 		command.setClientId(999);
 		command.setKey("Filename");
 		command.setValue("no1.txt");
-		logEntryBuilder.setData(command);
+		logEntryBuilder.setData(0, command);
 		serverState.getRaftState().appendEntries(logEntryBuilder);
-
 		try {
 			// TODO How can you implement this without if-else statements?
 			if (msg.hasReq()){
@@ -107,6 +107,9 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 							serverState.getRaftState().deleteFile(msg.getReq().getRrb());
 						}
 						break;
+
+					//handle response
+					//build response
 				}
 			}
 			if (msg.hasPing()) {
@@ -128,6 +131,15 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 		}
 
 		System.out.flush();
+	}
+	private void buildRespone(Pipe.Request request){
+		Pipe.Response.Builder response = Pipe.Response.newBuilder();
+		response.setResponseType(request.getRequestType());
+		if(request.getRequestType() == TaskType.READFILE){
+			Pipe.ReadResponse.Builder reaBuilder = Pipe.ReadResponse.newBuilder();
+			response.setReadResponse(reaBuilder);
+		}
+
 	}
 	
 	/**

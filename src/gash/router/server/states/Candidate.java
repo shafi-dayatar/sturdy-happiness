@@ -184,6 +184,7 @@ public class Candidate implements RaftServerState {
 
 	@Override
 	public byte[] readFile(Pipe.ReadBody readBody) {
+    	//TODO not sure how to handle read write when it is a candidate
 		byte[] by = new byte[0];
 		return by;
 	}
