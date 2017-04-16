@@ -19,6 +19,8 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -244,6 +246,15 @@ public class MessageServer {
 		public void discoverCluster(){
 			//todo should read all entries
 			
+			String ip_address = null;
+			try {
+				ip_address = InetAddress.getLocalHost().getHostAddress().toString();
+			} catch (UnknownHostException e) {
+				// TODO Auto-generated catch block
+				logger.error("Error in decting ip_address of this node server : ");
+				e.printStackTrace();
+			}
+		    ip_address = ip_address == null ? "localhost" : ip_address;
 			System.out.println("Processing till hear");
 			List<RoutingEntry> re = state.getConf().getRouting();
 			WorkMessage.Builder wmb = WorkMessage.newBuilder();
@@ -257,7 +268,7 @@ public class MessageServer {
 			Discovery.Builder db = Discovery.newBuilder(); 
 			Node.Builder discover = Node.newBuilder(); 
 			discover.setNodeId(state.getConf().getNodeId());
-			discover.setIpAddr("127.0.0.1");
+			discover.setIpAddr(ip_address);
 			discover.setWorkPort(state.getConf().getWorkPort());
 			db.setNode(discover.build());
 			wmb.setType(MessageType.DISCOVERNODE);
