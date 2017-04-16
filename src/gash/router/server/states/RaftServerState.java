@@ -31,7 +31,8 @@ public interface RaftServerState {
 	void appendEntries(ArrayList<LogEntry.Builder> logEntryBuilder);
 	void appendEntries(LogEntry.Builder logEntryBuilder);
 	byte[] readFile(Pipe.ReadBody readBody);
-    void writeFile(Pipe.WriteBody writeBody);
+	// if it returns -1 - all good, else returns the chunk id it failed to write
+    int writeFile(Pipe.WriteBody writeBody);
     void deleteFile(Pipe.ReadBody readBody);
     
 

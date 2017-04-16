@@ -201,11 +201,10 @@ public class Follower implements RaftServerState {
 	}
 
 	@Override
-	public void writeFile(Pipe.WriteBody readBody) {
+	public int writeFile(Pipe.WriteBody readBody) {
 		Pipe.Chunk chunk = readBody.getChunk();
 		ByteString bs = chunk.getChunkData();
-
-		sqlClient.storefile(chunk.getChunkId(), bs.newInput(), readBody.getFilename());
+		return sqlClient.storefile(chunk.getChunkId(), bs.newInput(), readBody.getFilename());
 	}
 
 	@Override
