@@ -1,6 +1,8 @@
 package gash.router.server.messages;
 
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,8 +88,17 @@ public class DiscoverMessage extends Message {
         			boolean newEdge = state.getEmon().addNewEdgeInfo(n.getNodeId(), n.getIpAddr(), 
         					n.getWorkPort());
         			if(newEdge){
+        				String ip_address = null;
+						try {
+							ip_address = InetAddress.getLocalHost().toString();
+						} catch (UnknownHostException e) {
+							// TODO Auto-generated catch block
+							logger.error("Error in decting ip_address of this node server : ");
+							e.printStackTrace();
+						}
+					    ip_address = ip_address == null ? "localhost" : ip_address;
         				WorkMessage wm = createDiscoverMessage(state.getNodeId(), 
-        						n.getNodeId(), "localhost", state.getConf().getWorkPort());
+        						n.getNodeId(), ip_address, state.getConf().getWorkPort());
         				logger.info("Found new node sending discoverreply " + wm.toString());
         				state.getOutBoundMessageQueue().addMessage(wm);
         				
