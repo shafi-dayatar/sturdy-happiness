@@ -34,6 +34,9 @@ public class MessageHandler {
 			case HEARTBEAT:
 				m = new LogAppend(msg);
 				break;
+			case LOGAPPENDENTRY:
+				m = new LogAppend(msg);
+				break;
 			default:
 			//case
 			//hearbeat message ?

@@ -1,5 +1,7 @@
 package gash.router.server.states;
 
+import java.util.ArrayList;
+
 /**
  * Created by rentala on 4/11/17.
  */
@@ -10,6 +12,7 @@ import pipe.election.Election.LeaderElection;
 import pipe.election.Election.LeaderElectionResponse;
 import pipe.work.Work;
 import pipe.work.Work.LogAppendEntry;
+import pipe.work.Work.LogEntry;
 import routing.Pipe;
 
 /**
@@ -25,8 +28,11 @@ public interface RaftServerState {
 	public void collectVote(LeaderElectionResponse leaderElectionResponse);
 	public void declareLeader();
 	public void heartbeat(LogAppendEntry hearbeat);
-	void readFile(Pipe.ReadBody readBody);
+	void appendEntries(ArrayList<LogEntry.Builder> logEntryBuilder);
+	void appendEntries(LogEntry.Builder logEntryBuilder);
+	byte[] readFile(Pipe.ReadBody readBody);
     void writeFile(Pipe.WriteBody writeBody);
     void deleteFile(Pipe.ReadBody readBody);
+    
 
 }

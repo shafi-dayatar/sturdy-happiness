@@ -1,11 +1,14 @@
 package gash.router.server.states;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
+import gash.router.server.db.SqlClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gash.router.server.PrintUtil;
 import gash.router.server.ServerState;
 import gash.router.server.log.LogInfo;
 import pipe.election.Election;
@@ -16,9 +19,14 @@ import pipe.work.Work;
 import pipe.common.Common.Header;
 import pipe.work.Work.LogAppendEntry;
 import pipe.work.Work.LogAppendResponse;
+import pipe.work.Work.LogEntry;
+import pipe.work.Work.LogEntry.Builder;
+import pipe.work.Work.LogEntryList;
 import pipe.work.Work.WorkMessage;
 import pipe.work.Work.WorkMessage.MessageType;
+import routing.*;
 import routing.Pipe;
+import com.google.protobuf.ByteString;
 
 /**
  * Created by rentala on 4/11/17.
@@ -38,8 +46,10 @@ public class Follower implements RaftServerState {
 	//private List<integer, boolean> vote = new ArrayList<Integer, Boolean>();
     private ConcurrentHashMap<Integer, Integer> electionVotes =  new ConcurrentHashMap<Integer, Integer>();
     private LogInfo log;
+	SqlClient sqlClient;
     public Follower(ServerState state){
         this.state = state;
+        this.sqlClient = new SqlClient();
     }
 
     public void vote(){
@@ -56,12 +66,12 @@ public class Follower implements RaftServerState {
     //change this method name to electionVoteResponse
 	public void requestVote(LeaderElection request) {
 		// TODO Auto-generated method stub
-		int logIndex = state.getLastLogIndex();
-		int logTerm = state.getLastLogTerm();
+		int logIndex = state.getLog().getLastApplied();
+		int logTerm = state.getLog().lastLogTerm();
 		WorkMessage wm = null;
 		
-		if( request.getTerm() < state.getCurrentTerm() ||
-				request.getLastLogTerm() < logTerm ||
+		if( request.getTerm() < state.getCurrentTerm() &&
+				request.getLastLogTerm() < logTerm &&
 				request.getLastLogIndex() < logIndex){
 			/**
 			 * vote will be false as: this candidate is lagging
@@ -186,13 +196,16 @@ public class Follower implements RaftServerState {
 	}
 
 	@Override
-	public void readFile(Pipe.ReadBody readBody) {
-
+	public byte[] readFile(Pipe.ReadBody readBody) {
+		return sqlClient.getFile((int)readBody.getFileId());
 	}
 
 	@Override
 	public void writeFile(Pipe.WriteBody readBody) {
+		Pipe.Chunk chunk = readBody.getChunk();
+		ByteString bs = chunk.getChunkData();
 
+		sqlClient.storefile(chunk.getChunkId(), bs.newInput(), readBody.getFilename());
 	}
 
 	@Override
@@ -203,6 +216,78 @@ public class Follower implements RaftServerState {
 	@Override
 	public void logAppend(LogAppendEntry logEntry) {
 		// TODO Auto-generated method stub
+		WorkMessage wm = null;
+		int lastIndex = state.getLog().lastIndex();
+		int lastTerm= state.getLog().lastLogTerm();
+
+		logger.info("Follower Recieved Log Entry" + logEntry.toString());
+		//follower has not received any update from current Leader,
+		//could be a stale message
+		if(logEntry.getElectionTerm() < state.getCurrentTerm() && 
+				lastIndex != logEntry.getPrevLogIndex()){
+			if (lastTerm != logEntry.getPrevLogTerm()){
+				//need to delete logs entry
+			}
+
+			wm = createLogAppendResponse(logEntry.getLeaderNodeId(),
+					lastIndex, state.getCurrentTerm(), false);
+		}
+		else{
+			//reply false, with currentTerm.
+			if (logEntry.hasEntrylist()){
+				LogEntryList lgl = logEntry.getEntrylist();
+				List<LogEntry> entries = lgl.getEntryList();
+				for (LogEntry entry: entries ){
+					state.getLog().appendEntry(entry);	
+					lastIndex = entry.getLogId();
+				}
+				if (state.getLog().lastIndex() != state.getLastLogIndex()){
+					
+				}
+			}
+			if(logEntry.getLeaderCommitIndex() > state.getLog().getCommitIndex()){
+				//state.getLog().setCommitIndex(Math.min(logEntry.getLeaderCommitIndex(),
+				//		logId));
+			}
+			wm = createLogAppendResponse(logEntry.getLeaderNodeId(),
+					lastIndex, state.getCurrentTerm(), true);
+		}
+		state.getOutBoundMessageQueue().addMessage(wm);
+	}
+	
+	public WorkMessage createLogAppendResponse(int destId, int currentIndex, 
+			int currentTerm, boolean success){
+		WorkMessage.Builder msgBuilder = WorkMessage.newBuilder();
+		msgBuilder.setType(MessageType.LOGAPPENDENTRY);
+		msgBuilder.setSecret(9999);
+		
+		Header.Builder header = Header.newBuilder();
+		header.setDestination(destId);
+		header.setNodeId(state.getNodeId());
+		header.setTime(System.currentTimeMillis());
+		
+		msgBuilder.setHeader(header);
+		
+		LogAppendEntry.Builder logAppend = LogAppendEntry.newBuilder();
+		logAppend.setElectionTerm(currentTerm);
+		logAppend.setSuccess(success);
+		logAppend.setPrevLogIndex(currentIndex);
+		logAppend.setLeaderNodeId(state.getNodeId());
+		
+		msgBuilder.setLogAppendEntries(logAppend);
+		return msgBuilder.build();
+	}
+
+	@Override
+	public void appendEntries(ArrayList<Builder> logEntryBuilder) {
+		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void appendEntries(Builder logEntryBuilder) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

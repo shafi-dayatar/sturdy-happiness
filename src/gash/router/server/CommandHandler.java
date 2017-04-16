@@ -23,8 +23,17 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import pipe.common.Common.Failure;
+import pipe.work.Work.Command;
+import pipe.work.Work.LogEntry;
+import pipe.work.Work.LogEntry.DataAction;
+import routing.Pipe;
 import routing.Pipe.CommandMessage;
 import routing.Pipe.TaskType;
+import routing.Pipe.Chunk;
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 /**
  * The message handler processes json messages that are delimited by a 'newline'
  * 
@@ -70,7 +79,17 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 		}
 
 		PrintUtil.printCommand(msg);
-		//serverState.getRaftState().
+		//Test Log Message
+		LogEntry.Builder logEntryBuilder = LogEntry.newBuilder();
+		Command.Builder command = Command.newBuilder();
+		command.setClientId(999);
+		command.setKey("Filename");
+		command.setValue("no1.txt");
+		logEntryBuilder.setAction(DataAction.INSERT);
+		//logEntryBuilder.setData(command);
+		logger.info("Got Request from client, pushing it to leader");
+		serverState.getRaftState().appendEntries(logEntryBuilder);
+
 
 		try {
 			// TODO How can you implement this without if-else statements?
@@ -119,7 +138,52 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 
 		System.out.flush();
 	}
-	
+	private Pipe.Response.Builder buildSuccessRespone(Pipe.Request request){
+		Pipe.Response.Builder response = Pipe.Response.newBuilder();
+		response.setStatus(Pipe.Response.Status.Success);
+		response.setResponseType(request.getRequestType());
+		if(request.getRequestType() == TaskType.READFILE){
+			response.setReadResponse(buildReadResponse().build());
+		}
+		if(request.getRequestType() == TaskType.WRITEFILE){
+			//response.setReadResponse(buildReadResponse().build());
+		}
+		return response;
+	}
+	private Pipe.ReadResponse.Builder buildReadResponse(){
+		Pipe.ReadResponse.Builder readRespBuilder = Pipe.ReadResponse.newBuilder();
+		readRespBuilder.setFilename("");
+		readRespBuilder.setFileExt("");
+		readRespBuilder.setFileId("");
+		readRespBuilder.setNumOfChunks(1);
+		//multiple
+		readRespBuilder.addChunkLocation(buildChunkLocation().build());
+		return readRespBuilder;
+	}
+	private Pipe.ChunkLocation.Builder buildChunkLocation(){
+		Pipe.ChunkLocation.Builder chunkLocBuilder = Pipe.ChunkLocation.newBuilder();
+		chunkLocBuilder.setChunkid(0);
+		Pipe.Node.Builder node = buildNode();
+		chunkLocBuilder.setNode(this.conf.getNodeId(), node.build());
+		return chunkLocBuilder;
+	}
+	private Pipe.Node.Builder buildNode(){
+		Pipe.Node.Builder node = Pipe.Node.newBuilder();
+		setHost(node);
+		node.setNodeId(this.conf.getNodeId());
+		node.setPort(this.conf.getHeartbeatDt());
+		return node;
+	}
+	private void setHost(Pipe.Node.Builder node){
+		InetAddress IP= null;
+		try {
+			IP = InetAddress.getLocalHost();
+			node.setHost(IP.getHostAddress());
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+	}
+
 	/**
 	 * a message was received from the server. Here we dispatch the message to
 	 * the client's thread pool to minimize the time it takes to process other

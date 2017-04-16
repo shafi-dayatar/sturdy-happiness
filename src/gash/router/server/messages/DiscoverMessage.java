@@ -27,6 +27,8 @@ public class DiscoverMessage extends Message {
 	
 	public DiscoverMessage(WorkMessage msg) {
 		// TODO Auto-generated constructor stub
+		logger.info("Got Discover Node Message : " + msg.toString());
+		
 		unPackHeader( msg.getHeader());
 		type = msg.getType();
 		if(msg.hasDiscovery()){
@@ -70,7 +72,9 @@ public class DiscoverMessage extends Message {
         		wmb.setDiscovery(dsb);
         		wmb.setType(MessageType.DISCOVERNODEREPLY);
         		WorkMessage wm = wmb.build();
+        		logger.info("Sending Routing table: " + wm.toString());
         		state.getOutBoundMessageQueue().addMessage(wm);
+        		
         		
         	}else {
         	    // got message from leader or other node with routing table
@@ -78,13 +82,15 @@ public class DiscoverMessage extends Message {
         		
            		List<Node> nodes =  discovery.getRoutingTableList();
         		for (Node n : nodes){
+        			
         			boolean newEdge = state.getEmon().addNewEdgeInfo(n.getNodeId(), n.getIpAddr(), 
         					n.getWorkPort());
         			if(newEdge){
         				WorkMessage wm = createDiscoverMessage(state.getNodeId(), 
-        						n.getNodeId(), "localhost", state.getConf().getRouting().get(0).getPort());
-        				
+        						n.getNodeId(), "localhost", state.getConf().getWorkPort());
+        				logger.info("Found new node sending discoverreply " + wm.toString());
         				state.getOutBoundMessageQueue().addMessage(wm);
+        				
         			}
         		}
         		
