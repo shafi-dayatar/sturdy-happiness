@@ -27,7 +27,7 @@ import pipe.work.Work.WorkMessage.MessageType;
 import routing.*;
 import routing.Pipe;
 import com.google.protobuf.ByteString;
-
+import gash.router.server.IOUtility;
 /**
  * Created by rentala on 4/11/17.
  */
@@ -46,10 +46,8 @@ public class Follower implements RaftServerState {
 	//private List<integer, boolean> vote = new ArrayList<Integer, Boolean>();
     private ConcurrentHashMap<Integer, Integer> electionVotes =  new ConcurrentHashMap<Integer, Integer>();
     private LogInfo log;
-	SqlClient sqlClient;
     public Follower(ServerState state){
         this.state = state;
-        this.sqlClient = new SqlClient();
     }
 
     public void vote(){
@@ -197,14 +195,12 @@ public class Follower implements RaftServerState {
 
 	@Override
 	public byte[] readFile(Pipe.ReadBody readBody) {
-		return sqlClient.getFile((int)readBody.getFileId());
+		return IOUtility.readFile(readBody);
 	}
 
 	@Override
 	public int writeFile(Pipe.WriteBody readBody) {
-		Pipe.Chunk chunk = readBody.getChunk();
-		ByteString bs = chunk.getChunkData();
-		return sqlClient.storefile(chunk.getChunkId(), bs.newInput(), readBody.getFilename());
+		return IOUtility.writeFile(readBody);
 	}
 
 	@Override

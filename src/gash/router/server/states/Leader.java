@@ -9,6 +9,7 @@ import java.util.TreeMap;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import gash.router.server.IOUtility;
 import gash.router.server.db.SqlClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -324,15 +325,15 @@ public class Leader implements RaftServerState, Runnable {
 		return;
 
 	}
-	
+
 	@Override
 	public byte[] readFile(Pipe.ReadBody readBody) {
-       return null;
+		return IOUtility.readFile(readBody);
 	}
 
 	@Override
 	public int writeFile(Pipe.WriteBody readBody) {
-		return -1;
+		return IOUtility.writeFile(readBody);
 	}
 
 	@Override
