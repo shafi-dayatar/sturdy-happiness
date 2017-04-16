@@ -2,25 +2,34 @@ package gash.router.server.states;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.Map.Entry;
 import java.util.Set;
 
+import gash.router.server.db.SqlClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import gash.router.server.ServerState;
+import gash.router.server.edges.EdgeMonitor;
 import gash.router.server.log.LogInfo;
 import pipe.common.Common.Header;
 import pipe.election.Election;
 import pipe.election.Election.LeaderElection;
+import pipe.work.Work;
+import pipe.work.Work.Command;
 import pipe.work.Work.LogAppendEntry;
 import pipe.work.Work.LogEntry;
+import pipe.work.Work.LogEntry.*;
 import pipe.work.Work.LogEntryList;
+import pipe.work.Work.WorkMessage.MessageType;
 import pipe.work.Work.Node;
 import pipe.work.Work.WorkMessage;
-import pipe.work.Work.WorkMessage.MessageType;
 import routing.Pipe;
-
+import com.google.protobuf.ByteString;
 /**
  * Created by rentala on 4/11/17.
  */
@@ -28,7 +37,9 @@ public class Leader implements RaftServerState, Runnable {
 
     protected static Logger logger = LoggerFactory.getLogger("Leader-State");
     private ServerState state;
-    
+    private LogInfo log;
+	SqlClient sqlClient;
+
     
     
     // stores the next logIndex to be sent to each follower
@@ -41,13 +52,13 @@ public class Leader implements RaftServerState, Runnable {
     public Leader(ServerState state){
         this.state = state;
     }
-    
+
 	@Override
 	public void declareLeader() {
 		WorkMessage hearbeat = createHeartBeatMessage();
-		state.getOutBoundMessageQueue().addMessage(hearbeat);	
+		state.getOutBoundMessageQueue().addMessage(hearbeat);
 	}
-	
+
 	@Override
     public synchronized void appendEntries(ArrayList<LogEntry.Builder> logEntryBuilder){
         //logger.info("appendEntries = " + entry);
@@ -147,9 +158,6 @@ public class Leader implements RaftServerState, Runnable {
 		wmb.setSecret(11111);
 		return wmb.build();
 	}
-
-    
-
 	
     private WorkMessage createLogAppendEntry(int nodeId, int lastLogIndex, 
     		int lastLogTerm, int commitIndex,
@@ -230,17 +238,20 @@ public class Leader implements RaftServerState, Runnable {
 		}
 	}
 	
+	
 	public void updateCommitIndex() {
 		state.getLog().setCommitIndex(state.getLog().lastIndex());		
     }
-	
+
 	public WorkMessage createHeartBeatMessage(){
 		WorkMessage.Builder wmb = WorkMessage.newBuilder();
+		
 		
 		Header.Builder hdb = Header.newBuilder();
 		hdb.setNodeId(state.getNodeId());
 		hdb.setDestination(-1);
 		hdb.setTime(System.currentTimeMillis());
+		
 		
 		LogAppendEntry.Builder heartbeat = LogAppendEntry.newBuilder();
 		heartbeat.setElectionTerm(state.getCurrentTerm());
@@ -253,8 +264,9 @@ public class Leader implements RaftServerState, Runnable {
 		wmb.setHeader(hdb);
 		wmb.setLogAppendEntries(heartbeat);
 		return wmb.build();
+
 	}
-	
+
 	@Override
 	public void heartbeat(LogAppendEntry heartbeat) {
 		// TODO Auto-generated method stub
@@ -280,11 +292,11 @@ public class Leader implements RaftServerState, Runnable {
 		}
 		
 	}
-	
+
     public boolean isLeader() {
 		return isLeader;
 	}
-	
+
 	public void setLeader(boolean isLeader) {
 		this.isLeader = isLeader;
 	}
@@ -314,8 +326,8 @@ public class Leader implements RaftServerState, Runnable {
 	}
 	
 	@Override
-	public void readFile(Pipe.ReadBody readBody) {
-
+	public byte[] readFile(Pipe.ReadBody readBody) {
+       return null;
 	}
 
 	@Override
@@ -337,4 +349,5 @@ public class Leader implements RaftServerState, Runnable {
 		}
 		
 	}	
+
 }

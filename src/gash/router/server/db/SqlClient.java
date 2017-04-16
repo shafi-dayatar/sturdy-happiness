@@ -17,6 +17,7 @@ public class SqlClient {
     PreparedStatement insertStatement = null;
     PreparedStatement readByFname = null;
     PreparedStatement readByFId = null;
+    PreparedStatement deletStatement = null;
     public SqlClient(){
         checkDependency();
         establishConnection();
@@ -54,6 +55,7 @@ public class SqlClient {
         try{
             insertStatement = connection.prepareStatement("INSERT INTO FILES(CHUNK_ID, FILENAME, CONTENT) " +
                     "VALUES(?,?,?)");
+            deletStatement = connection.prepareStatement("DELETE from FILES where ID = ? ");
             readByFname = connection.prepareStatement("SELECT CONTENT from FILES where FILENAME = ? LIMIT 1 ");
             readByFId =  connection.prepareStatement("SELECT CONTENT from FILES where ID = ? ");
         }
@@ -73,6 +75,31 @@ public class SqlClient {
             insertStatement.setInt(1, chunck_id);
             insertStatement.setString(2, filename);
             insertStatement.setBinaryStream(3, InputStream, (int) file.length());
+            insertStatement.execute();
+        }catch (Exception e){
+            System.out.println("File store failed");
+            e.printStackTrace();
+        }
+
+    }
+    public void deletefile(int id){
+        try{
+            System.out.println("deleting the file ..... id: " + id);
+            deletStatement.setInt(1, id);
+            deletStatement.execute();
+        }catch (Exception e){
+            System.out.println("Delete file failed");
+            e.printStackTrace();
+        }
+
+    }
+    public void storefile(int chunck_id, InputStream inputStream, String filename){
+        try{
+            System.out.println("storing the file .....");
+
+            insertStatement.setInt(1, chunck_id);
+            insertStatement.setString(2, filename);
+            insertStatement.setBinaryStream(3, inputStream);
             insertStatement.execute();
         }catch (Exception e){
             System.out.println("File store failed");

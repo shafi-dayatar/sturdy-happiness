@@ -183,8 +183,9 @@ public class Candidate implements RaftServerState {
 	}
 
 	@Override
-	public void readFile(Pipe.ReadBody readBody) {
-
+	public byte[] readFile(Pipe.ReadBody readBody) {
+		byte[] by = new byte[0];
+		return by;
 	}
 
 	@Override

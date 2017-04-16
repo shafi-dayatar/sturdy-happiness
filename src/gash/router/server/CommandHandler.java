@@ -28,6 +28,7 @@ import pipe.work.Work.LogEntry;
 import pipe.work.Work.LogEntry.DataAction;
 import routing.Pipe.CommandMessage;
 import routing.Pipe.TaskType;
+import routing.Pipe.Chunk;
 /**
  * The message handler processes json messages that are delimited by a 'newline'
  * 
