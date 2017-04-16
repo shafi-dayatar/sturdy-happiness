@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
+import gash.router.server.db.SqlClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,7 +24,9 @@ import pipe.work.Work.LogEntry.Builder;
 import pipe.work.Work.LogEntryList;
 import pipe.work.Work.WorkMessage;
 import pipe.work.Work.WorkMessage.MessageType;
+import routing.*;
 import routing.Pipe;
+import com.google.protobuf.ByteString;
 
 /**
  * Created by rentala on 4/11/17.
@@ -43,8 +46,10 @@ public class Follower implements RaftServerState {
 	//private List<integer, boolean> vote = new ArrayList<Integer, Boolean>();
     private ConcurrentHashMap<Integer, Integer> electionVotes =  new ConcurrentHashMap<Integer, Integer>();
     private LogInfo log;
+	SqlClient sqlClient;
     public Follower(ServerState state){
         this.state = state;
+        this.sqlClient = new SqlClient();
     }
 
     public void vote(){
@@ -192,13 +197,14 @@ public class Follower implements RaftServerState {
 
 	@Override
 	public byte[] readFile(Pipe.ReadBody readBody) {
-		byte[] by = new byte[0];
-		return by;
+		return sqlClient.getFile((int)readBody.getFileId());
 	}
 
 	@Override
-	public void writeFile(Pipe.WriteBody readBody) {
-
+	public int writeFile(Pipe.WriteBody readBody) {
+		Pipe.Chunk chunk = readBody.getChunk();
+		ByteString bs = chunk.getChunkData();
+		return sqlClient.storefile(chunk.getChunkId(), bs.newInput(), readBody.getFilename());
 	}
 
 	@Override
@@ -282,4 +288,5 @@ public class Follower implements RaftServerState {
 		// TODO Auto-generated method stub
 		
 	}
+
 }

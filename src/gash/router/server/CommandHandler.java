@@ -26,9 +26,14 @@ import pipe.common.Common.Failure;
 import pipe.work.Work.Command;
 import pipe.work.Work.LogEntry;
 import pipe.work.Work.LogEntry.DataAction;
+import routing.Pipe;
 import routing.Pipe.CommandMessage;
 import routing.Pipe.TaskType;
 import routing.Pipe.Chunk;
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 /**
  * The message handler processes json messages that are delimited by a 'newline'
  * 
@@ -81,10 +86,10 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 		command.setKey("Filename");
 		command.setValue("no1.txt");
 		logEntryBuilder.setAction(DataAction.INSERT);
-		logEntryBuilder.setData(command);
+		//logEntryBuilder.setData(command);
 		logger.info("Got Request from client, pushing it to leader");
 		serverState.getRaftState().appendEntries(logEntryBuilder);
-		
+
 
 		try {
 			// TODO How can you implement this without if-else statements?
@@ -92,32 +97,32 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 				switch (msg.getReq().getRequestType()){
 					case READFILE:
 						if(msg.getReq().hasRrb()){
-							serverState.getRaftState().readFile(msg.getReq().getRrb());
+							byte[] chunkContent = serverState.getRaftState().readFile(msg.getReq().getRrb());
+							sendReadResponse(channel, msg, chunkContent);
 						}
-
 						break;
 					case WRITEFILE:
 						if(msg.getReq().hasRwb()){
-							serverState.getRaftState().writeFile(msg.getReq().getRwb());
+							int missingChunk = serverState.getRaftState().writeFile(msg.getReq().getRwb());
+							sendWriteResponse(channel, msg, missingChunk);
 						}
 						break;
 					case UPDATEFILE:
+
+						//same as write no difference
 						if(msg.getReq().hasRwb()){
-							serverState.getRaftState().writeFile(msg.getReq().getRwb());
+							int missingChunk = serverState.getRaftState().writeFile(msg.getReq().getRwb());
+							sendWriteResponse(channel, msg, missingChunk);
 						}
+
 						break;
 					case DELETEFILE:
 						if(msg.getReq().hasRwb()){
 							serverState.getRaftState().deleteFile(msg.getReq().getRrb());
 						}
 						break;
+
 				}
-			}
-			if (msg.hasPing()) {
-				logger.info("ping from " + msg.getHeader().getNodeId());
-			} else if (msg.hasMessage()) {
-				logger.info(msg.getMessage());
-			} else {
 			}
 
 		} catch (Exception e) {
@@ -133,7 +138,88 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 
 		System.out.flush();
 	}
-	
+
+	private void sendReadResponse(Channel channel, CommandMessage cmdMessage, byte[] chunkContent){
+		logger.info("Preparing to send read response for nodeid: "+ cmdMessage.getHeader().getNodeId() );
+		CommandMessage.Builder cmdMsg = CommandMessage.newBuilder(cmdMessage);
+		cmdMsg.setResp(buildReadResponse(cmdMessage.getReq(), chunkContent).build());
+		channel.write(cmdMsg.build());
+	}
+
+	private void sendWriteResponse(Channel channel, CommandMessage cmdMessage, int chunkId){
+		logger.info("Preparing to send write response for nodeid: "+ cmdMessage.getHeader().getNodeId() );
+		CommandMessage.Builder cmdMsg = CommandMessage.newBuilder(cmdMessage);
+		cmdMsg.setResp(buildWriteResponse(cmdMessage.getReq(), chunkId).build());
+		channel.write(cmdMsg.build());
+	}
+
+	private Pipe.Response.Builder buildReadResponse(Pipe.Request request, byte[] chunkContent){
+		logger.info("Building read response for request chunk content length: " + chunkContent.length);
+		Pipe.Response.Builder response = Pipe.Response.newBuilder();
+		response.setResponseType(request.getRequestType());
+		if(chunkContent.length>0){
+			response.setStatus(Pipe.Response.Status.Success);
+			response.setReadResponse(buildReadResponse(request).build());
+			return response;
+		}
+		//failure case
+		response.setStatus(Pipe.Response.Status.Failure);
+		//response.setReadResponse(buildReadResponse().build());
+		return response;
+
+	}
+
+	private Pipe.Response.Builder buildWriteResponse(Pipe.Request request, int chunkId){
+		logger.info("Building write response for request, missing chunk id is : " + chunkId);
+		Pipe.Response.Builder response = Pipe.Response.newBuilder();
+		response.setResponseType(request.getRequestType());
+		Pipe.WriteResponse.Builder writeRespBuilder = Pipe.WriteResponse.newBuilder();
+		if(chunkId != -1){
+			//case for failed to write this chunk id
+			response.setStatus(Pipe.Response.Status.Failure);
+			writeRespBuilder.setChunkId(chunkId,chunkId);
+			response.setWriteResponse(writeRespBuilder.build());
+			return response;
+		}
+		//write is successful
+		response.setStatus(Pipe.Response.Status.Success);
+		return response;
+	}
+
+	private Pipe.ReadResponse.Builder buildReadResponse(Pipe.Request request){
+		Pipe.ReadResponse.Builder readRespBuilder = Pipe.ReadResponse.newBuilder();
+		readRespBuilder.setFilename(request.getRrb().getFilename());
+		readRespBuilder.setFileExt("");
+		readRespBuilder.setFileId(Long.toString(request.getRrb().getFileId()));
+		readRespBuilder.setNumOfChunks(1);
+		//multiple
+		readRespBuilder.addChunkLocation(buildChunkLocation().build());
+		return readRespBuilder;
+	}
+	private Pipe.ChunkLocation.Builder buildChunkLocation(){
+		Pipe.ChunkLocation.Builder chunkLocBuilder = Pipe.ChunkLocation.newBuilder();
+		chunkLocBuilder.setChunkid(0);
+		Pipe.Node.Builder node = buildNode();
+		chunkLocBuilder.setNode(this.conf.getNodeId(), node.build());
+		return chunkLocBuilder;
+	}
+	private Pipe.Node.Builder buildNode(){
+		Pipe.Node.Builder node = Pipe.Node.newBuilder();
+		setHost(node);
+		node.setNodeId(this.conf.getNodeId());
+		node.setPort(this.conf.getHeartbeatDt());
+		return node;
+	}
+	private void setHost(Pipe.Node.Builder node){
+		InetAddress IP= null;
+		try {
+			IP = InetAddress.getLocalHost();
+			node.setHost(IP.getHostAddress());
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+	}
+
 	/**
 	 * a message was received from the server. Here we dispatch the message to
 	 * the client's thread pool to minimize the time it takes to process other
