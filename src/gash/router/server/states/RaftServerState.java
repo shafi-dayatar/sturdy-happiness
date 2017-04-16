@@ -30,7 +30,7 @@ public interface RaftServerState {
 	public void heartbeat(LogAppendEntry hearbeat);
 	void appendEntries(ArrayList<LogEntry.Builder> logEntryBuilder);
 	void appendEntries(LogEntry.Builder logEntryBuilder);
-	void readFile(Pipe.ReadBody readBody);
+	byte[] readFile(Pipe.ReadBody readBody);
     void writeFile(Pipe.WriteBody writeBody);
     void deleteFile(Pipe.ReadBody readBody);
     

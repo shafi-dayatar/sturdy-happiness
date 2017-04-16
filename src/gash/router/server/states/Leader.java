@@ -265,8 +265,8 @@ public class Leader implements RaftServerState, Runnable {
 	}
 
 	@Override
-	public void readFile(Pipe.ReadBody readBody) {
-
+	public byte[] readFile(Pipe.ReadBody readBody) {
+		return sqlClient.getFile((int)readBody.getFileId());
 	}
 
 	@Override
