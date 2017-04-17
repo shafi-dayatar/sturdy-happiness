@@ -53,6 +53,8 @@ public class OutBoundMessageQueueWorker extends MessageQueue implements Runnable
 					//todo:
 					//If it is not able to send message to particular node,
 					//it should update the message and set's destination to particular node.
+					logger.error("ERROR - no channel found for destination id " +  ei.getRef());
+					PrintUtil.printWork(m);
 				}
 			}
 			return;
@@ -63,9 +65,9 @@ public class OutBoundMessageQueueWorker extends MessageQueue implements Runnable
 				ch.writeAndFlush(m);
 			}
 			else{
-				//logger.error("no channel found for destination id " +  destinationId);
-				//PrintUtil.printWork(m);
-				this.addMessage(m);
+				logger.error("ERROR - no channel found for destination id " +  destinationId);
+				PrintUtil.printWork(m);
+				//this.addMessage(m);
 				// To Do, should try for x no of times before discarding
 			}
 		}
