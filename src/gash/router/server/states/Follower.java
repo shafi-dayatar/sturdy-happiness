@@ -68,8 +68,8 @@ public class Follower implements RaftServerState {
 		int logTerm = state.getLog().lastLogTerm();
 		WorkMessage wm = null;
 		
-		if( request.getTerm() < state.getCurrentTerm() &&
-				request.getLastLogTerm() < logTerm &&
+		if( request.getTerm() < state.getCurrentTerm() ||
+				request.getLastLogTerm() < logTerm ||
 				request.getLastLogIndex() < logIndex){
 			/**
 			 * vote will be false as: this candidate is lagging

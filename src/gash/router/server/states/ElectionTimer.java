@@ -32,7 +32,7 @@ public class ElectionTimer implements Runnable {
         minRandom = min;
         this.timerValue = ThreadLocalRandom.current().nextLong(min*1000, max*1000 + 1);
         electionTimeOut  = System.currentTimeMillis() + this.timerValue;
-        electionResolutionTime = 5000;
+        electionResolutionTime = 2000;
     }
 
 	@Override
@@ -58,7 +58,7 @@ public class ElectionTimer implements Runnable {
         		}
         	}
         	logger.info("Election Timeout"); 
-        	if(forever && state.getEmon().getTotalNodes()>= 4){
+        	if(forever && state.getEmon().getTotalNodes() >= 4){
         		logger.info("I am connected to :" + state.getEmon().getTotalNodes());
         		if (state.getRaftState() instanceof Follower)   
         		    state.becomeCandidate();

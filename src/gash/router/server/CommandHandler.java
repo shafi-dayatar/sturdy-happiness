@@ -86,7 +86,7 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 		command.setKey("Filename");
 		command.setValue("no1.txt");
 		logEntryBuilder.setAction(DataAction.INSERT);
-		//logEntryBuilder.setData(command);
+		///logEntryBuilder.setData(command);
 		logger.info("Got Request from client, pushing it to leader");
 		serverState.getRaftState().appendEntries(logEntryBuilder);
 

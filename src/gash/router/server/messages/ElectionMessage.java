@@ -20,6 +20,7 @@ public class ElectionMessage extends Message {
 
     public ElectionMessage(Work.WorkMessage msg) {
         // TODO Auto-generated constructor stub
+    	logger.info("Got Election message : " + msg.toString());
         unPackHeader( msg.getHeader());
         type = msg.getType();
         if(type == MessageType.LEADERELECTION){

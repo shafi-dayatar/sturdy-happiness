@@ -53,7 +53,7 @@ public class ServerState {
     	candidate = new Candidate(this);
     	follower = new Follower(this);
     	raftState = follower;
-		this.electionTimer = new ElectionTimer(this, 8, 10);
+		this.electionTimer = new ElectionTimer(this, 8, 12);
     	//electionTimer = new ElectionTimer(this);	
     }
     
