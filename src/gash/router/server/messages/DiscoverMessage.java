@@ -97,10 +97,10 @@ public class DiscoverMessage extends Message {
 							e.printStackTrace();
 						}
 					    ip_address = ip_address == null ? "localhost" : ip_address;
-        				WorkMessage wm = createDiscoverMessage(state.getNodeId(), 
+        				/*WorkMessage wm = createDiscoverMessage(state.getNodeId(), 
         						n.getNodeId(), ip_address, state.getConf().getWorkPort());
         				logger.info("Found new node sending discoverreply " + wm.toString());
-        				state.getOutBoundMessageQueue().addMessage(wm);
+        				state.getOutBoundMessageQueue().addMessage(wm);*/
         				
         			}
         		}
