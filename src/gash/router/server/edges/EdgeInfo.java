@@ -16,6 +16,8 @@
 package gash.router.server.edges;
 
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelFutureListener;
 
 public class EdgeInfo {
 	private int ref;

@@ -32,6 +32,8 @@ import gash.router.container.RoutingConf.RoutingEntry;
 import gash.router.server.ServerState;
 import gash.router.server.communication.CommConnection;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelFutureListener;
 import pipe.common.Common.Header;
 import pipe.work.Work.Discovery;
 import pipe.work.Work.Heartbeat;
@@ -151,12 +153,9 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 	public void run() {
 		while (forever) {
 			try {
-				System.out.println("Routing table is : ");
+				logger.info("Routing table is : ");
 				for (EdgeInfo ei : this.outboundEdges.map.values()) {
-					logger.info("Checking for unknown connection and will try to make it");
-					logger.info(ei.toString());
 					if (ei.getChannel() == null){
-						logger.info(" trying to add again");
 						onAdd(ei);
 					}
 					if (ei.isActive() && ei.getChannel() != null) {	
@@ -167,7 +166,7 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 						// TODO create a client to the node
 						logger.info("trying to connect to node " + ei.getRef());
 					}
-					System.out.println(ei.toString());
+					logger.info(ei.toString());
 					
 				}
 				Thread.sleep(dt);
@@ -188,6 +187,14 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 				CommConnection cc = new CommConnection(ei.getHost(), ei.getPort());
 				ei.setChannel(cc.connect());
 				ei.setActive(true);
+				ChannelFuture closeFuture = ei.getChannel().closeFuture();
+
+				   closeFuture.addListener(new ChannelFutureListener() {
+				        @Override
+				        public void operationComplete(ChannelFuture future) throws Exception {
+				           onRemove(ei);
+				        }
+				    });
 				discoverCluster();
 			}
 		}
@@ -200,6 +207,10 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 	@Override
 	public synchronized void onRemove(EdgeInfo ei) {
 		// TODO ?
+		 logger.info("Connection was terminated from node : " + ei.getRef());
+		 logger.info("removing it from routing table");
+		outboundEdges.removeNode(ei.getRef());
+		
 	}
 	public ArrayList<EdgeInfo> getOutBoundChannel(int nodeId){
 		//Single Directional 
