@@ -23,7 +23,7 @@ public class SqlClient {
     public SqlClient(){
 
         checkDependency();
-        loadConfig();
+        //loadConfig();
         establishConnection();
         prepareStatements();
     }
