@@ -376,10 +376,11 @@ public class Leader implements RaftServerState, Runnable {
 		     new IOUtility(node.getIpAddr()).writeFile(write);
 		     String addr =  node.getNodeId() + ":" + node.getIpAddr() + ":4" + node.getNodeId() + "68";
 		     location.add(addr);
-		     logEntryBuilder.addData(command);
+		     
 		}
 		new IOUtility().writeFile(write);
 		command.setValue(location.toString());
+		logEntryBuilder.addData(command);
 		appendEntries(logEntryBuilder);
 		
 		return 0;//IOUtility.writeFile(write);
