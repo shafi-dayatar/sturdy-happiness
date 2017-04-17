@@ -15,10 +15,7 @@
  */
 package gash.router.client;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -27,6 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.protobuf.ByteString;
+import org.apache.commons.io.IOUtils;
 
 import pipe.common.Common;
 import pipe.common.Common.Header;
@@ -36,6 +34,7 @@ import routing.Pipe.WriteBody;
 import routing.Pipe.Chunk;
 import routing.Pipe.TaskType;
 import routing.Pipe.CommandMessage;
+import com.google.protobuf.ByteString;
 //import routing.Pipe.WhoIsLeader;
 
 /**
@@ -105,7 +104,42 @@ public class MessageClient {
 			e.printStackTrace();
 		}
 	}
+
+	public void onWriteRequest(CommandMessage msg){
+		System.out.println(" Write request message: "+ msg.getResp().getStatus());
+
+		System.out.println(" done with write request  . .. . .");
+		System.out.flush();
+
+	}
+	public void onReadRequest(CommandMessage msg){
+		System.out.println(" Reaad request message: "+ msg.getResp().getStatus());
+		System.out.println(" No of chunks: "+ msg.getResp().getReadResponse().getNumOfChunks());
+
+		try {
+
+			File file = new File("output");
+			file.createNewFile();
+			ArrayList<ByteString> byteString = new ArrayList<ByteString>();
+			byteString.add(msg.getResp().getReadResponse().getChunk().getChunkData());
+			FileOutputStream outputStream = new FileOutputStream(file);
+			ByteString bs = ByteString.copyFrom(byteString);
+			System.out.println(bs.size());
+			outputStream.write(bs.toByteArray());
+			outputStream.flush();
+			outputStream.close();
+			System.out.println(" Wrote file: ");
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		System.out.println(" flushing  . .. . .");
+		System.out.flush();
+	}
+
 	// Save File to server
+
+
 	private File readFileByPath(String filePath){
 		File file = null;
 		try

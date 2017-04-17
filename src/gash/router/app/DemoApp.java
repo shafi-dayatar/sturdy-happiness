@@ -28,6 +28,8 @@ import com.google.protobuf.ByteString;
 import gash.router.client.CommConnection;
 import gash.router.client.CommListener;
 import gash.router.client.MessageClient;
+import gash.router.server.messages.Message;
+import routing.Pipe;
 import routing.Pipe.CommandMessage;
 
 public class DemoApp implements CommListener {
@@ -69,10 +71,15 @@ public class DemoApp implements CommListener {
 
 	@Override
 	public void onMessage(CommandMessage msg) {
-		//System.out.println("---> Host : " + msg.getLeaderroute().getHost());
-		//System.out.println("---> Port : " + msg.getLeaderroute().getPort());
-		//leaderHost=msg.getLeaderroute().getHost();
-		//leaderPort=msg.getLeaderroute().getPort();
+
+		System.out.println("---> Got response RequestType : " + msg.getResp().getResponseType());
+		System.out.println("---> Got response RequestType : " + msg.getResp().getStatus());
+		if( msg.getResp().getResponseType() == Pipe.TaskType.READFILE){
+			this.mc.onReadRequest(msg);
+		}
+		if( msg.getResp().getResponseType() == Pipe.TaskType.WRITEFILE){
+			this.mc.onWriteRequest(msg);
+		}
 	}
 
 	/**
@@ -96,14 +103,14 @@ public class DemoApp implements CommListener {
 			MessageClient mc = new MessageClient(args[0], Integer.parseInt(args[1]));
 			DemoApp da = new DemoApp(mc);
 			if(args.length == 2){
-				mc.ping();
+				da.mc.ping();
 			}
 
 			if(args.length == 4){
-				mc.fileOperation(args[2], args[3], -1);
+				da.mc.fileOperation(args[2], args[3], -1);
 			}
 			if(args.length == 5){
-				mc.fileOperation(args[2], args[3], Long.parseLong(args[4]));
+				da.mc.fileOperation(args[2], args[3], Long.parseLong(args[4]));
 			}
 
 

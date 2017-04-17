@@ -5486,6 +5486,19 @@ public final class Pipe {
      */
     ChunkLocationOrBuilder getChunkLocationOrBuilder(
             int index);
+
+    /**
+     * <code>optional .Chunk chunk = 6;</code>
+     */
+    boolean hasChunk();
+    /**
+     * <code>optional .Chunk chunk = 6;</code>
+     */
+    Chunk getChunk();
+    /**
+     * <code>optional .Chunk chunk = 6;</code>
+     */
+    ChunkOrBuilder getChunkOrBuilder();
   }
   /**
    * Protobuf type {@code ReadResponse}
@@ -5568,6 +5581,19 @@ public final class Pipe {
                 mutable_bitField0_ |= 0x00000010;
               }
               chunkLocation_.add(input.readMessage(ChunkLocation.PARSER, extensionRegistry));
+              break;
+            }
+            case 50: {
+              Chunk.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000010) == 0x00000010)) {
+                subBuilder = chunk_.toBuilder();
+              }
+              chunk_ = input.readMessage(Chunk.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(chunk_);
+                chunk_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000010;
               break;
             }
           }
@@ -5789,12 +5815,34 @@ public final class Pipe {
       return chunkLocation_.get(index);
     }
 
+    public static final int CHUNK_FIELD_NUMBER = 6;
+    private Chunk chunk_;
+    /**
+     * <code>optional .Chunk chunk = 6;</code>
+     */
+    public boolean hasChunk() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional .Chunk chunk = 6;</code>
+     */
+    public Chunk getChunk() {
+      return chunk_;
+    }
+    /**
+     * <code>optional .Chunk chunk = 6;</code>
+     */
+    public ChunkOrBuilder getChunkOrBuilder() {
+      return chunk_;
+    }
+
     private void initFields() {
       fileId_ = "";
       filename_ = "";
       fileExt_ = "";
       numOfChunks_ = 0;
       chunkLocation_ = java.util.Collections.emptyList();
+      chunk_ = Chunk.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -5808,6 +5856,12 @@ public final class Pipe {
       }
       for (int i = 0; i < getChunkLocationCount(); i++) {
         if (!getChunkLocation(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      if (hasChunk()) {
+        if (!getChunk().isInitialized()) {
           memoizedIsInitialized = 0;
           return false;
         }
@@ -5833,6 +5887,9 @@ public final class Pipe {
       }
       for (int i = 0; i < chunkLocation_.size(); i++) {
         output.writeMessage(5, chunkLocation_.get(i));
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeMessage(6, chunk_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -5862,6 +5919,10 @@ public final class Pipe {
       for (int i = 0; i < chunkLocation_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(5, chunkLocation_.get(i));
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(6, chunk_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -5973,6 +6034,7 @@ public final class Pipe {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
           getChunkLocationFieldBuilder();
+          getChunkFieldBuilder();
         }
       }
       private static Builder create() {
@@ -5995,6 +6057,12 @@ public final class Pipe {
         } else {
           chunkLocationBuilder_.clear();
         }
+        if (chunkBuilder_ == null) {
+          chunk_ = Chunk.getDefaultInstance();
+        } else {
+          chunkBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000020);
         return this;
       }
 
@@ -6047,6 +6115,14 @@ public final class Pipe {
           result.chunkLocation_ = chunkLocation_;
         } else {
           result.chunkLocation_ = chunkLocationBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        if (chunkBuilder_ == null) {
+          result.chunk_ = chunk_;
+        } else {
+          result.chunk_ = chunkBuilder_.build();
         }
         result.bitField0_ = to_bitField0_;
         onBuilt();
@@ -6108,6 +6184,9 @@ public final class Pipe {
             }
           }
         }
+        if (other.hasChunk()) {
+          mergeChunk(other.getChunk());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -6119,6 +6198,12 @@ public final class Pipe {
         }
         for (int i = 0; i < getChunkLocationCount(); i++) {
           if (!getChunkLocation(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasChunk()) {
+          if (!getChunk().isInitialized()) {
             
             return false;
           }
@@ -6643,6 +6728,122 @@ public final class Pipe {
           chunkLocation_ = null;
         }
         return chunkLocationBuilder_;
+      }
+
+      private Chunk chunk_ = Chunk.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          Chunk, Chunk.Builder, ChunkOrBuilder> chunkBuilder_;
+      /**
+       * <code>optional .Chunk chunk = 6;</code>
+       */
+      public boolean hasChunk() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>optional .Chunk chunk = 6;</code>
+       */
+      public Chunk getChunk() {
+        if (chunkBuilder_ == null) {
+          return chunk_;
+        } else {
+          return chunkBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .Chunk chunk = 6;</code>
+       */
+      public Builder setChunk(Chunk value) {
+        if (chunkBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          chunk_ = value;
+          onChanged();
+        } else {
+          chunkBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000020;
+        return this;
+      }
+      /**
+       * <code>optional .Chunk chunk = 6;</code>
+       */
+      public Builder setChunk(
+          Chunk.Builder builderForValue) {
+        if (chunkBuilder_ == null) {
+          chunk_ = builderForValue.build();
+          onChanged();
+        } else {
+          chunkBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000020;
+        return this;
+      }
+      /**
+       * <code>optional .Chunk chunk = 6;</code>
+       */
+      public Builder mergeChunk(Chunk value) {
+        if (chunkBuilder_ == null) {
+          if (((bitField0_ & 0x00000020) == 0x00000020) &&
+              chunk_ != Chunk.getDefaultInstance()) {
+            chunk_ =
+              Chunk.newBuilder(chunk_).mergeFrom(value).buildPartial();
+          } else {
+            chunk_ = value;
+          }
+          onChanged();
+        } else {
+          chunkBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000020;
+        return this;
+      }
+      /**
+       * <code>optional .Chunk chunk = 6;</code>
+       */
+      public Builder clearChunk() {
+        if (chunkBuilder_ == null) {
+          chunk_ = Chunk.getDefaultInstance();
+          onChanged();
+        } else {
+          chunkBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000020);
+        return this;
+      }
+      /**
+       * <code>optional .Chunk chunk = 6;</code>
+       */
+      public Chunk.Builder getChunkBuilder() {
+        bitField0_ |= 0x00000020;
+        onChanged();
+        return getChunkFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .Chunk chunk = 6;</code>
+       */
+      public ChunkOrBuilder getChunkOrBuilder() {
+        if (chunkBuilder_ != null) {
+          return chunkBuilder_.getMessageOrBuilder();
+        } else {
+          return chunk_;
+        }
+      }
+      /**
+       * <code>optional .Chunk chunk = 6;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          Chunk, Chunk.Builder, ChunkOrBuilder>
+          getChunkFieldBuilder() {
+        if (chunkBuilder_ == null) {
+          chunkBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              Chunk, Chunk.Builder, ChunkOrBuilder>(
+                  getChunk(),
+                  getParentForChildren(),
+                  isClean());
+          chunk_ = null;
+        }
+        return chunkBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:ReadResponse)
@@ -9378,21 +9579,22 @@ public final class Pipe {
       "\030\001 \003(\005\"A\n\005Chunk\022\020\n\010chunk_id\030\001 \002(\005\022\022\n\nchu" +
       "nk_data\030\006 \002(\014\022\022\n\nchunk_size\030\t \001(\005\"S\n\010Rea" +
       "dBody\022\020\n\010filename\030\001 \001(\t\022\017\n\007file_id\030\002 \001(\003" +
-      "\022\020\n\010chunk_id\030\003 \001(\003\022\022\n\nchunk_size\030\004 \001(\003\"\202" +
+      "\022\020\n\010chunk_id\030\003 \001(\003\022\022\n\nchunk_size\030\004 \001(\003\"\231" +
       "\001\n\014ReadResponse\022\017\n\007file_id\030\001 \001(\t\022\020\n\010file" +
       "name\030\002 \002(\t\022\020\n\010file_ext\030\003 \001(\t\022\025\n\rnum_of_c" +
       "hunks\030\004 \001(\005\022&\n\016chunk_location\030\005 \003(\0132\016.Ch" +
-      "unkLocation\"5\n\rChunkLocation\022\017\n\007chunkid\030" +
-      "\001 \001(\005\022\023\n\004node\030\002 \003(\0132\005.Node\"3\n\004Node\022\017\n\007no",
-      "de_id\030\001 \002(\005\022\014\n\004host\030\002 \002(\t\022\014\n\004port\030\003 \002(\005\"" +
-      "\336\001\n\010Response\022\037\n\014responseType\030\001 \002(\0162\t.Tas" +
-      "kType\022 \n\006status\030\002 \002(\0162\020.Response.Status\022" +
-      "\020\n\010filename\030\003 \001(\t\022\'\n\rwriteResponse\030\004 \001(\013" +
-      "2\016.WriteResponseH\000\022%\n\014readResponse\030\005 \001(\013" +
-      "2\r.ReadResponseH\000\"\"\n\006Status\022\013\n\007Success\020\001" +
-      "\022\013\n\007Failure\020\002B\t\n\007payload*G\n\010TaskType\022\014\n\010" +
-      "READFILE\020\001\022\r\n\tWRITEFILE\020\002\022\016\n\nDELETEFILE\020" +
-      "\003\022\016\n\nUPDATEFILE\020\004B\013\n\007routingH\001"
+      "unkLocation\022\025\n\005chunk\030\006 \001(\0132\006.Chunk\"5\n\rCh" +
+      "unkLocation\022\017\n\007chunkid\030\001 \001(\005\022\023\n\004node\030\002 \003",
+      "(\0132\005.Node\"3\n\004Node\022\017\n\007node_id\030\001 \002(\005\022\014\n\004ho" +
+      "st\030\002 \002(\t\022\014\n\004port\030\003 \002(\005\"\336\001\n\010Response\022\037\n\014r" +
+      "esponseType\030\001 \002(\0162\t.TaskType\022 \n\006status\030\002" +
+      " \002(\0162\020.Response.Status\022\020\n\010filename\030\003 \001(\t" +
+      "\022\'\n\rwriteResponse\030\004 \001(\0132\016.WriteResponseH" +
+      "\000\022%\n\014readResponse\030\005 \001(\0132\r.ReadResponseH\000" +
+      "\"\"\n\006Status\022\013\n\007Success\020\001\022\013\n\007Failure\020\002B\t\n\007" +
+      "payload*G\n\010TaskType\022\014\n\010READFILE\020\001\022\r\n\tWRI" +
+      "TEFILE\020\002\022\016\n\nDELETEFILE\020\003\022\016\n\nUPDATEFILE\020\004" +
+      "B\013\n\007routingH\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -9448,7 +9650,7 @@ public final class Pipe {
     internal_static_ReadResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ReadResponse_descriptor,
-        new String[] { "FileId", "Filename", "FileExt", "NumOfChunks", "ChunkLocation", });
+        new String[] { "FileId", "Filename", "FileExt", "NumOfChunks", "ChunkLocation", "Chunk", });
     internal_static_ChunkLocation_descriptor =
       getDescriptor().getMessageTypes().get(7);
     internal_static_ChunkLocation_fieldAccessorTable = new
