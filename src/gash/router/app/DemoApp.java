@@ -87,7 +87,9 @@ public class DemoApp implements CommListener {
 		// 3 file path
 
 		try {
-
+			for(String s : args){
+				System.out.println(s);
+			}
 			if(args.length <2){
 				System.out.println("Enter valid inputs - 1 -> ip 2 -> port");
 			}
