@@ -108,7 +108,7 @@ public class SqlClient {
 
             insertStatement.setInt(1, chunk_id);
             insertStatement.setString(2, filename);
-            insertStatement.setBinaryStream(3, inputStream);
+            insertStatement.setBytes(3, IOUtils.toByteArray(inputStream));
             insertStatement.execute();
             result = chunk_id;
         }catch (Exception e){
