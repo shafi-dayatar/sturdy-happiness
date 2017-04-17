@@ -32,7 +32,7 @@ public class ElectionTimer implements Runnable {
         minRandom = min;
         this.timerValue = ThreadLocalRandom.current().nextLong(min*1000, max*1000 + 1);
         electionTimeOut  = System.currentTimeMillis() + this.timerValue;
-        electionResolutionTime = 2000;
+        electionResolutionTime = 5000;
     }
 
 	@Override
@@ -77,6 +77,7 @@ public class ElectionTimer implements Runnable {
 	public void resetElectionTimeOut(){
 		this.timerValue = ThreadLocalRandom.current().nextLong(minRandom, maxRandom + 1) * 1000;
         electionTimeOut  = System.currentTimeMillis() + this.timerValue;
+        logger.info("Election will start in millisecs:  " + (electionTimeOut - System.currentTimeMillis()));
 	}	
 	
 	public void stopThread(){

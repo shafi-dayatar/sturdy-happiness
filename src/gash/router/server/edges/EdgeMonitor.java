@@ -128,7 +128,7 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 			}
 		}
 		catch(Exception e){
-			logger.error("Cannot connect to host!! Server is down!! nodeid = " + e );
+			logger.error("Cannot connect to host!! Server is down!! nodeid =  " + ei.getRef()+" reason: " + e );
 		}
 	}
 
