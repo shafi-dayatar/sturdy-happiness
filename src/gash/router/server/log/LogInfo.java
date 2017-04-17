@@ -3,7 +3,7 @@ package gash.router.server.log;
 
 import java.util.ArrayList;
 
-
+import gash.router.server.messages.LogAppend;
 import pipe.work.Work.LogEntry;
 
 
@@ -14,6 +14,7 @@ public class LogInfo implements LogOperations {
 	//protected static Logger logger = LoggerFactory.getLogger("logging");
 	
 	public ArrayList<LogEntry> log;
+	//public HashTable<Integer, LogEntry> log;
 	private Integer commitIndex;
 	private Integer lastApplied;
 
@@ -49,9 +50,10 @@ public class LogInfo implements LogOperations {
 	 * @param commitIndex
 	 */
 	public void setCommitIndex(Integer commitIndex) {
+		LogEntry  la = log.get(commitIndex);
+		System.out.println("Should insert this log in mysql database for future reads : " + la.toString());
 		this.commitIndex = commitIndex;
 	}
-	
 	
 	public Integer getLastApplied() {
 		return lastApplied;

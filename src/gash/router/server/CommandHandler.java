@@ -73,22 +73,9 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 	public void handleMessage(CommandMessage msg, Channel channel) {
 		if (msg == null) {
 			// TODO add logging
-
 			System.out.println("ERROR: Unexpected content - " + msg);
 			return;
 		}
-
-		PrintUtil.printCommand(msg);
-		//Test Log Message
-		LogEntry.Builder logEntryBuilder = LogEntry.newBuilder();
-		Command.Builder command = Command.newBuilder();
-		command.setClientId(999);
-		command.setKey("Filename");
-		command.setValue("no1.txt");
-		logEntryBuilder.setAction(DataAction.INSERT);
-		///logEntryBuilder.setData(command);
-		logger.info("Got Request from client, pushing it to leader");
-		serverState.getRaftState().appendEntries(logEntryBuilder);
 
 
 		try {

@@ -1,5 +1,6 @@
 package gash.router.server.states;
 
+import java.awt.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -7,8 +8,10 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.Map.Entry;
+import java.util.Random;
 import java.util.Set;
 
+import gash.router.client.MessageClient;
 import gash.router.server.IOUtility;
 import gash.router.server.db.SqlClient;
 import org.slf4j.Logger;
@@ -40,6 +43,7 @@ public class Leader implements RaftServerState, Runnable {
     private ServerState state;
     private LogInfo log;
 	SqlClient sqlClient;
+	private int replicationFactor = 2;
 
     
     
@@ -56,6 +60,7 @@ public class Leader implements RaftServerState, Runnable {
 
 	@Override
 	public void declareLeader() {
+		logger.info("Sending heartbeat Messages to followers");
 		WorkMessage hearbeat = createHeartBeatMessage();
 		state.getOutBoundMessageQueue().addMessage(hearbeat);
 	}
@@ -235,13 +240,22 @@ public class Leader implements RaftServerState, Runnable {
 			matchIndex.put(nodeId, lastIndex);
 			// check if commit index is also increased
 			//if matchIndex increased for most server then updateCommitIndex
-			//updateCommitIndex();
+			Set<Integer> keys = matchIndex.keySet();
+			int savedOn = 0;
+			for(Integer id : keys){
+				if(lastIndex <= matchIndex.get(id)){
+					savedOn++;
+				}
+			}
+			if (savedOn > (state.getEmon().getTotalNodes()/2 + 1)){
+				updateCommitIndex(lastIndex);
+			}
 		}
 	}
 	
 	
-	public void updateCommitIndex() {
-		state.getLog().setCommitIndex(state.getLog().lastIndex());		
+	public void updateCommitIndex(int lastIndex) {
+		state.getLog().setCommitIndex(lastIndex);		
     }
 
 	public WorkMessage createHeartBeatMessage(){
@@ -328,12 +342,46 @@ public class Leader implements RaftServerState, Runnable {
 
 	@Override
 	public byte[] readFile(Pipe.ReadBody readBody) {
-		return IOUtility.readFile(readBody);
+		return null;// IOUtility.readFile(readBody);
+	}
+	
+	
+	public WorkMessage createWriteFileMessage(Pipe.WriteBody writeMessage){
+		return null;
 	}
 
 	@Override
-	public int writeFile(Pipe.WriteBody readBody) {
-		return IOUtility.writeFile(readBody);
+	public int writeFile(Pipe.WriteBody write) {
+		
+		LogEntry.Builder logEntryBuilder = LogEntry.newBuilder();
+		logEntryBuilder.setAction(DataAction.INSERT);
+		Command.Builder command = Command.newBuilder();
+		command.setClientId(999);
+		command.setKey("Filename");
+		command.setValue(write.getFilename());
+		logEntryBuilder.addData(command);
+		command.setKey("FileExt");
+		command.setValue(write.getFileExt());
+		logEntryBuilder.addData(command);
+		command.setKey("chunk_id");
+		command.setValue(Integer.toString(write.getChunk().getChunkId()));
+		logEntryBuilder.addData(command);
+		command.setKey("located_at");
+		ArrayList<Node> followers = state.getEmon().getOutBoundRouteTable();
+		ArrayList<String> location = new ArrayList<String>(); 
+		int loc = new Random().nextInt(followers.size());
+		for(int i = 0; i< replicationFactor; i++){
+			int currentLoc = (loc+i) % followers.size();
+		     Node node = followers.get(currentLoc);
+		     new IOUtility(node.getIpAddr()).writeFile(write);
+		     String addr =  node.getNodeId() + ":" + node.getIpAddr() + ":4" + node.getNodeId() + "68";
+		     location.add(addr);
+		     logEntryBuilder.addData(command);
+		}
+		command.setValue(location.toString());
+		appendEntries(logEntryBuilder);
+		
+		return 0;//IOUtility.writeFile(write);
 	}
 
 	@Override
