@@ -12,11 +12,11 @@ public class IOUtility {
     SqlClient sqlClient;
 	public IOUtility(){
        sqlClient = new SqlClient();
-	}
-	
-	public IOUtility(String hostIp){
-	   sqlClient = new SqlClient();
-	}
+}
+
+    public IOUtility(String hostIp){
+        sqlClient = new SqlClient(hostIp);
+    }
 	
     public int writeFile(Pipe.WriteBody readBody){
         Pipe.Chunk chunk = readBody.getChunk();
