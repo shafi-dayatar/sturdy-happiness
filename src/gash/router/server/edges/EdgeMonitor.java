@@ -14,10 +14,14 @@
  * under the License.
  */
 package gash.router.server.edges;
+import java.net.Inet4Address;
 import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Enumeration;
 import java.util.List;
 
 import pipe.work.Work.Node;
@@ -94,18 +98,32 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 		forever = false;
 	}
 
+	public InetAddress getCurrentIp() {
+        try {
+            Enumeration<NetworkInterface> networkInterfaces = NetworkInterface
+                    .getNetworkInterfaces();
+            while (networkInterfaces.hasMoreElements()) {
+                NetworkInterface ni = (NetworkInterface) networkInterfaces
+                        .nextElement();
+                Enumeration<InetAddress> nias = ni.getInetAddresses();
+                while(nias.hasMoreElements()) {
+                    InetAddress ia= (InetAddress) nias.nextElement();
+                    if (!ia.isLinkLocalAddress() 
+                     && !ia.isLoopbackAddress()
+                     && ia instanceof Inet4Address) {
+                        return ia;
+                    }
+                }
+            }
+        } catch (SocketException e) {
+            logger.error("unable to get current IP " + e.getMessage(), e);
+        }
+        return null;
+    }
+	
 	public void discoverCluster(){
 		//todo should read all entries
 		
-		String ip_address = null;
-		try {
-			ip_address = InetAddress.getLocalHost().getHostAddress().toString();
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			logger.error("Error in decting ip_address of this node server : ");
-			e.printStackTrace();
-		}
-	    ip_address = ip_address == null ? "localhost" : ip_address;
 		System.out.println("Processing till hear");
 		List<RoutingEntry> re = state.getConf().getRouting();
 		WorkMessage.Builder wmb = WorkMessage.newBuilder();
@@ -119,7 +137,7 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 		Discovery.Builder db = Discovery.newBuilder(); 
 		Node.Builder discover = Node.newBuilder(); 
 		discover.setNodeId(state.getConf().getNodeId());
-		discover.setIpAddr(ip_address);
+		discover.setIpAddr(getCurrentIp().getHostAddress());
 		discover.setWorkPort(state.getConf().getWorkPort());
 		db.setNode(discover.build());
 		wmb.setType(MessageType.DISCOVERNODE);
