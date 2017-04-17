@@ -26,6 +26,8 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import routing.Pipe.CommandMessage;
 
+import javax.xml.bind.Unmarshaller;
+
 
 /**
  * A client-side netty pipeline send/receive.
@@ -76,6 +78,11 @@ public class CommHandler extends SimpleChannelInboundHandler<CommandMessage> {
 			// TODO add logging
 			System.out.println("ERROR: Unexpected content - " + msg);
 			return;
+		}
+		for(String listenerId : listeners.keySet()){
+			CommListener commListener = listeners.get(listenerId);
+			commListener.onMessage(msg);
+
 		}
 		System.out.println("im in");
 	}
