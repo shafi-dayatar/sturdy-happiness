@@ -39,8 +39,15 @@ public class Candidate implements RaftServerState {
     
     public void requestVote(LeaderElection request){
         logger.info("requestVote ");
-        WorkMessage wm = createVoteResponse(request.getCandidateId(), state.getNodeId(), 
+        WorkMessage wm = null;
+        if (request.getTerm() > state.getCurrentTerm()){
+        	wm = createVoteResponse(request.getCandidateId(), state.getNodeId(), 
+    				request.getTerm(), true);
+        	state.becomeFollower();
+        }else{
+        	wm = createVoteResponse(request.getCandidateId(), state.getNodeId(), 
 				request.getTerm(), false);
+        }
         state.getOutBoundMessageQueue().addMessage(wm);
         
     }
@@ -173,14 +180,16 @@ public class Candidate implements RaftServerState {
 	@Override
 	public void heartbeat(LogAppendEntry heartbeat) {
 		// TODO Auto-generated method stub
-		logger.info("Got a heartbeat message in While server was in Candidate state");
-		logger.info("Current Elected Leader is :" + heartbeat.getLeaderNodeId() + 
-				", for term : " + heartbeat.getElectionTerm() );
-		state.getElectionTimer().resetElectionTimeOut();
-		state.becomeFollower();
-		state.setCurrentTerm(heartbeat.getElectionTerm());
-		state.setLeaderId(heartbeat.getLeaderNodeId());
-		state.setLeaderKnown(true);
+		if (heartbeat.getElectionTerm() > state.getCurrentTerm()){
+			logger.info("Got a heartbeat message in While server was in Candidate state");
+			logger.info("Current Elected Leader is :" + heartbeat.getLeaderNodeId() + 
+					", for term : " + heartbeat.getElectionTerm() );
+			state.getElectionTimer().resetElectionTimeOut();
+			state.becomeFollower();
+			state.setCurrentTerm(heartbeat.getElectionTerm());
+			state.setLeaderId(heartbeat.getLeaderNodeId());
+			state.setLeaderKnown(true);
+		}
 	}
 
 	@Override

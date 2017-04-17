@@ -167,8 +167,13 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 	
 	public boolean addNewEdgeInfo(int ref, String host, int port){
 		logger.info("Got a new connection from  nodeid : " + ref + " ip :" + host +  " port : " + port  );
-		if (outboundEdges.hasNode(ref))
+		if (outboundEdges.hasNode(ref)){
+			EdgeInfo ei = outboundEdges.getNode(ref);
+			logger.info("Trying to make reverse connection");
+			onAdd(ei);
 			return false;
+		}
+			
 		EdgeInfo ei = outboundEdges.createIfNew(ref, host, port);
 		if (!ei.isActive()) {
 			logger.info("Trying to make reverse connection");
