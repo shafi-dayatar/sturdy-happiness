@@ -198,8 +198,8 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 	private Pipe.ChunkLocation.Builder buildChunkLocation(){
 		Pipe.ChunkLocation.Builder chunkLocBuilder = Pipe.ChunkLocation.newBuilder();
 		//chunkLocBuilder.setChunkid(0);
-		Pipe.Node.Builder node = buildNode();
-		chunkLocBuilder.setNode(this.conf.getNodeId(), node.build());
+		//Pipe.Node.Builder node = buildNode();
+		//chunkLocBuilder.setNode(this.conf.getNodeId(), node.build());
 		return chunkLocBuilder;
 	}
 	private Pipe.Node.Builder buildNode(){
