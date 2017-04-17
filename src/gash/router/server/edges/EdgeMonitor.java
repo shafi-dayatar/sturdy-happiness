@@ -123,7 +123,7 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 	
 	public void discoverCluster(){
 		//todo should read all entries
-		
+
 		System.out.println("Processing till hear");
 		List<RoutingEntry> re = state.getConf().getRouting();
 		WorkMessage.Builder wmb = WorkMessage.newBuilder();
