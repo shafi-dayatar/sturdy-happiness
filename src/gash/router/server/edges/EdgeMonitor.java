@@ -153,7 +153,10 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 			try {
 				System.out.println("Routing table is : ");
 				for (EdgeInfo ei : this.outboundEdges.map.values()) {
+					logger.info("Checking for unknown connection and will try to make it");
+					logger.info(ei.toString());
 					if (ei.getChannel() == null){
+						logger.info(" trying to add again");
 						onAdd(ei);
 					}
 					if (ei.isActive() && ei.getChannel() != null) {	
@@ -170,6 +173,7 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 				Thread.sleep(dt);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
+				logger.info("Thread Interupted while type to update routing table ");
 				e.printStackTrace();
 			}
 		}
@@ -189,6 +193,7 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 		}
 		catch(Exception e){
 			logger.error("Cannot connect to host!! Server is down!! nodeid =  " + ei.getRef()+" reason: " + e );
+			e.printStackTrace();
 		}
 	}
 

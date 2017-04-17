@@ -223,17 +223,17 @@ public class MessageServer {
 
 			TaskList tasks = new TaskList(new NoOpBalancer());
 			state.setTasks(tasks);
+			
+			InBoundMessageQueueWorker inbound = new InBoundMessageQueueWorker(state);
+			OutBoundMessageQueueWorker outbound = new OutBoundMessageQueueWorker(state);
+			state.setInBoundMessageQueue(inbound);
+			state.setOutBoundMessageQueue(outbound);
 
 			EdgeMonitor emon = new EdgeMonitor(state);
 			Thread edgeMonitorThread = new Thread(emon);
 			edgeMonitorThread.start();
-			
-			InBoundMessageQueueWorker inbound = new InBoundMessageQueueWorker(state);
-			OutBoundMessageQueueWorker outbound = new OutBoundMessageQueueWorker(state);
+
 			state.startElectionTimerThread();
-			
-			state.setInBoundMessageQueue(inbound);
-			state.setOutBoundMessageQueue(outbound);
 
 			Thread inboundT =  new Thread(inbound);
 			Thread outboundT = new Thread(outbound);
