@@ -146,7 +146,7 @@ public class SqlClient {
             InputStream IS;
             if(rs.next()) {
                 IS = rs.getBinaryStream("CONTENT");
-                fileOuputStream.close();
+                ///fileOuputStream.close();
                 return IOUtils.toByteArray(IS);
             }
         }

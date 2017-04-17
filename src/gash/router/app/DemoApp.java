@@ -107,10 +107,10 @@ public class DemoApp implements CommListener {
 				da.mc.ping();
 			}
 
-			if(args.length == 4){
+			if(args.length == 3){
 				da.mc.fileOperation(args[2], args[3], null);
 			}
-			if(args.length == 5){
+			if(args.length == 4){
 				da.mc.fileOperation(args[2], args[3], "NOTICE.txt");
 			}
 
