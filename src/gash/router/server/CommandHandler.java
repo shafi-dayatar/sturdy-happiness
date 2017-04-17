@@ -32,7 +32,7 @@ import routing.Pipe;
 import routing.Pipe.CommandMessage;
 import routing.Pipe.TaskType;
 import routing.Pipe.Chunk;
-
+import com.google.protobuf.ByteString;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
@@ -161,11 +161,8 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 		logger.info("Building read response for request chunk content length: " + chunkContent.length);
 		Pipe.Response.Builder response = Pipe.Response.newBuilder();
 		response.setResponseType(request.getRequestType());
-		if(chunkContent.length>0){
-			response.setStatus(Pipe.Response.Status.Success);
-			response.setReadResponse(buildReadResponse(request).build());
-			return response;
-		}
+		response.setStatus(Pipe.Response.Status.Success);
+		response.setReadResponse(RResponseBuild(request, chunkContent).build());
 		//failure case
 		response.setStatus(Pipe.Response.Status.Failure);
 		//response.setReadResponse(buildReadResponse().build());
@@ -184,19 +181,22 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 		return response;
 	}
 
-	private Pipe.ReadResponse.Builder buildReadResponse(Pipe.Request request){
+	private Pipe.ReadResponse.Builder RResponseBuild(Pipe.Request request, byte[] bytes){
 		Pipe.ReadResponse.Builder readRespBuilder = Pipe.ReadResponse.newBuilder();
 		readRespBuilder.setFilename(request.getRrb().getFilename());
 		readRespBuilder.setFileExt("");
 		readRespBuilder.setFileId(Long.toString(request.getRrb().getFileId()));
 		readRespBuilder.setNumOfChunks(1);
+		Chunk.Builder chunkB = Chunk.newBuilder();
+		chunkB.setChunkData(ByteString.copyFrom(bytes));
+		readRespBuilder.setChunk(chunkB.build());
 		//multiple
 		readRespBuilder.addChunkLocation(buildChunkLocation().build());
 		return readRespBuilder;
 	}
 	private Pipe.ChunkLocation.Builder buildChunkLocation(){
 		Pipe.ChunkLocation.Builder chunkLocBuilder = Pipe.ChunkLocation.newBuilder();
-		chunkLocBuilder.setChunkid(0);
+		//chunkLocBuilder.setChunkid(0);
 		Pipe.Node.Builder node = buildNode();
 		chunkLocBuilder.setNode(this.conf.getNodeId(), node.build());
 		return chunkLocBuilder;
