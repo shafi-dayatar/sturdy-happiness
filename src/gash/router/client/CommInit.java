@@ -21,6 +21,7 @@ public class CommInit extends ChannelInitializer<SocketChannel> {
 
 	@Override
 	public void initChannel(SocketChannel ch) throws Exception {
+		System.out.println(" got channel back ");
 		ChannelPipeline pipeline = ch.pipeline();
 
 		// Enable stream compression (you can remove these two if unnecessary)
