@@ -105,6 +105,7 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 			logger.error("Error in decting ip_address of this node server : ");
 			e.printStackTrace();
 		}
+		logger.info("Discover cluster : ip_address " + ip_address);
 	    ip_address = ip_address == null ? "localhost" : ip_address;
 		System.out.println("Processing till hear");
 		List<RoutingEntry> re = state.getConf().getRouting();
