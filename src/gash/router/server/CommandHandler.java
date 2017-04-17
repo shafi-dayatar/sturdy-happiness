@@ -163,13 +163,7 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 		Pipe.Response.Builder response = Pipe.Response.newBuilder();
 		response.setResponseType(request.getRequestType());
 		Pipe.WriteResponse.Builder writeRespBuilder = Pipe.WriteResponse.newBuilder();
-		if(chunkId != -1){
-			//case for failed to write this chunk id
-			response.setStatus(Pipe.Response.Status.Failure);
-			writeRespBuilder.setChunkId(chunkId,chunkId);
-			response.setWriteResponse(writeRespBuilder.build());
-			return response;
-		}
+		response.setWriteResponse(writeRespBuilder.build());
 		//write is successful
 		response.setStatus(Pipe.Response.Status.Success);
 		return response;

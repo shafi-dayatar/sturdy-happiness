@@ -7,10 +7,10 @@ import java.sql.*;
 public class SqlClient {
     final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
     String  db_url = "jdbc:mysql://localhost/cmpe275";
-
+    File conf;
     //  Database credentials
-    final String USER = "root";
-    final String PASSWORD = "password";
+    String USER = "root";
+    String PASSWORD = "password";
 
     Connection connection = null;
     Statement stmt = null;
@@ -20,9 +20,23 @@ public class SqlClient {
     PreparedStatement deletStatement = null;
     
     public SqlClient(){
+
         checkDependency();
+        loadConfig();
         establishConnection();
         prepareStatements();
+    }
+    private void loadConfig(){
+        try {
+            File conf = new File("db.conf");
+            InputStream IS = null;
+            IS = new FileInputStream(conf);
+            USER = IS.toString().split(":")[0];
+            PASSWORD = IS.toString().split(":")[1];
+        } catch (FileNotFoundException e) {
+            System.out.println("Failed to load config ? or IS error");
+            e.printStackTrace();
+        }
     }
     
     public SqlClient(String hostname){
