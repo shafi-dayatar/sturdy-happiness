@@ -2,6 +2,7 @@ package gash.router.server.db;
 import org.apache.commons.io.IOUtils;
 
 import java.io.*;
+import java.net.URL;
 import java.sql.*;
 
 public class SqlClient {
@@ -28,7 +29,8 @@ public class SqlClient {
     }
     private void loadConfig(){
         try {
-            File conf = new File("db.conf");
+            URL path = SqlClient.class.getResource("db.conf");
+            File conf = new File(path.getFile());
             InputStream IS = null;
             IS = new FileInputStream(conf);
             USER = IS.toString().split(":")[0];
