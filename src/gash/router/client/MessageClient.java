@@ -58,31 +58,7 @@ public class MessageClient {
 	public void addListener(CommListener listener) {
 		CommConnection.getInstance().addListener(listener);
 	}
-	public void askForLeader() {
-		// construct the message to send
-		Header.Builder hb = Header.newBuilder();
-		hb.setNodeId(999);
-		hb.setTime(System.currentTimeMillis());
-		hb.setDestination(-1);
-		
-		//WhoIsLeader.Builder wl=WhoIsLeader.newBuilder();
-		//wl.setAskleader(true);
-		
-		CommandMessage.Builder rb = CommandMessage.newBuilder();
-		rb.setHeader(hb);
-		//rb.setWhoisleader(wl);
-		
-		System.out.println("im sending message");
-		try {
-			// direct no queue
-			// CommConnection.getInstance().write(rb.build());
-
-			// using queue
-			CommConnection.getInstance().enqueue(rb.build());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+	private String fileoutput = "output";
 	public void ping() {
 		// construct the message to send
 		Header.Builder hb = Header.newBuilder();
@@ -118,7 +94,7 @@ public class MessageClient {
 
 		try {
 
-			File file = new File("output");
+			File file = new File(fileoutput);
 			file.createNewFile();
 			ArrayList<ByteString> byteString = new ArrayList<ByteString>();
 			byteString.add(msg.getResp().getReadResponse().getChunk().getChunkData());
@@ -155,6 +131,7 @@ public class MessageClient {
 	public void fileOperation(String action, String filePath, String file_name){
 		System.out.println("Actions recived: "+ action + " " + filePath);
 		if(action.contains("get") && file_name != null){
+			this.fileoutput = filePath;
 			CommandMessage commandMessage = buildRCommandMessage(file_name);
 			try
 			{
