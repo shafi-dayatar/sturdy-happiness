@@ -189,6 +189,7 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 		readRespBuilder.setNumOfChunks(1);
 		Chunk.Builder chunkB = Chunk.newBuilder();
 		chunkB.setChunkData(ByteString.copyFrom(bytes));
+		chunkB.setChunkId(0);
 		readRespBuilder.setChunk(chunkB.build());
 		//multiple
 		readRespBuilder.addChunkLocation(buildChunkLocation().build());
