@@ -194,12 +194,12 @@ public class Candidate implements RaftServerState {
 
 	@Override
 	public byte[] readFile(Pipe.ReadBody readBody) {
-		return IOUtility.readFile(readBody);
+		return null ;//IOUtility.readFile(readBody);
 	}
 
 	@Override
 	public int writeFile(Pipe.WriteBody readBody) {
-		return IOUtility.writeFile(readBody);
+		return 0;//IOUtility.writeFile(readBody);
 	}
 
 	@Override

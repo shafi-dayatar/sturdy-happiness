@@ -6,7 +6,7 @@ import java.sql.*;
 
 public class SqlClient {
     final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-    final String DB_URL = "jdbc:mysql://localhost/cmpe275";
+    String  db_url = "jdbc:mysql://localhost/cmpe275";
 
     //  Database credentials
     final String USER = "root";
@@ -18,7 +18,15 @@ public class SqlClient {
     PreparedStatement readByFname = null;
     PreparedStatement readByFId = null;
     PreparedStatement deletStatement = null;
+    
     public SqlClient(){
+        checkDependency();
+        establishConnection();
+        prepareStatements();
+    }
+    
+    public SqlClient(String hostname){
+    	db_url = "jdbc:mysql://" + hostname + "/cmpe275";
         checkDependency();
         establishConnection();
         prepareStatements();
@@ -38,7 +46,7 @@ public class SqlClient {
     private void establishConnection(){
         try
         {
-            connection = DriverManager.getConnection(DB_URL,USER,PASSWORD);
+            connection = DriverManager.getConnection(db_url,USER,PASSWORD);
         }
         catch (SQLException e)
         {
@@ -107,7 +115,7 @@ public class SqlClient {
             System.out.println("File store failed");
             e.printStackTrace();
         }
-        return chunk_id;
+        return result;
 
     }
 
