@@ -118,10 +118,20 @@ public class MessageClient {
 		return file;
 
 	}
-	public void fileOperation(String action, String filePath){
+	public void fileOperation(String action, String filePath, long fileID){
 		System.out.println("Actions recived: "+ action + " " + filePath);
-		if(action.contains("get")){
-
+		if(action.contains("get") && fileID > 0){
+			CommandMessage commandMessage = buildRCommandMessage(fileID);
+			try
+			{
+				System.out.println("Enueued read request.....");
+				CommConnection.getInstance().enqueue(commandMessage);
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+				System.out.println("Couldnt sent read request to the system");
+				return;
+			}
 		} else
 		if(action.contains("post")){
 			File file = readFileByPath(filePath);
@@ -132,7 +142,7 @@ public class MessageClient {
 			if(chunks == null){
 				return;
 			}
-			CommandMessage commandMessage = buildCommandMessage(file, chunks);
+			CommandMessage commandMessage = buildWCommandMessage(file, chunks);
 			try
 			{
 				System.out.println("Enueued file .....");
@@ -151,7 +161,7 @@ public class MessageClient {
 		}
 		else
 		{
-			System.out.println("Enter valid inputs - 3 -> 'get' or 'post' ");
+			System.out.println("Enter valid inputs - 3 -> 'get' or 'post' or file id > 0");
 			return;
 		}
 
@@ -174,7 +184,39 @@ public class MessageClient {
 			return null;
 		}
 	}
-	private CommandMessage buildCommandMessage(File file, ArrayList<ByteString> chunks )
+	private CommandMessage buildRCommandMessage(long fileID)
+	{
+		CommandMessage.Builder command = CommandMessage.newBuilder();
+		try
+		{
+			Request.Builder msg = Request.newBuilder();
+			msg.setRequestType(TaskType.READFILE);
+			Pipe.ReadBody.Builder rrb = Pipe.ReadBody.newBuilder();
+			rrb.setFileId(fileID);
+			msg.setRrb(rrb.build());
+
+			Pipe.Node.Builder node = Pipe.Node.newBuilder();
+
+			node.setHost(InetAddress.getLocalHost().getHostAddress());
+
+			node.setPort(8000);
+			node.setNodeId(-1);
+			//msg.setClient(node);
+			Header.Builder header= Header.newBuilder();
+			header.setNodeId(1);
+			header.setTime(0);
+			command.setHeader(header);
+			command.setReq(msg.build());
+			return command.build();
+		}
+		catch (Exception e)
+		{
+			System.out.println(" Sending read request failed :");
+			e.printStackTrace();
+			return command.build();
+		}
+	}
+	private CommandMessage buildWCommandMessage(File file, ArrayList<ByteString> chunks )
 	{
 		CommandMessage.Builder command = CommandMessage.newBuilder();
 		try

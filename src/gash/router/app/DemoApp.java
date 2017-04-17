@@ -99,8 +99,11 @@ public class DemoApp implements CommListener {
 				mc.ping();
 			}
 
-			if(args.length > 2){
-				mc.fileOperation(args[2], args[3]);
+			if(args.length == 4){
+				mc.fileOperation(args[2], args[3], -1);
+			}
+			if(args.length == 5){
+				mc.fileOperation(args[2], args[3], Long.parseLong(args[4]));
 			}
 
 
