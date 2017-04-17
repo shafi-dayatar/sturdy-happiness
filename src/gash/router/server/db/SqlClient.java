@@ -11,7 +11,7 @@ public class SqlClient {
     File conf;
     //  Database credentials
     String USER = "root";
-    String PASSWORD = "root";
+    String PASSWORD = "password";
 
     Connection connection = null;
     Statement stmt = null;
@@ -42,6 +42,7 @@ public class SqlClient {
     }
     
     public SqlClient(String hostname){
+        System.out.println(" HOST NAME " + hostname);
     	//db_url = "jdbc:mysql://" + hostname + "/cmpe275";
         checkDependency();
         establishConnection();
