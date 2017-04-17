@@ -92,6 +92,7 @@ public class DemoApp implements CommListener {
 		// 1 port
 		// 2 get/post
 		// 3 file path
+		// 4 file name
 
 		try {
 			for(String s : args){
@@ -107,10 +108,10 @@ public class DemoApp implements CommListener {
 			}
 
 			if(args.length == 4){
-				da.mc.fileOperation(args[2], args[3], -1);
+				da.mc.fileOperation(args[2], args[3], null);
 			}
 			if(args.length == 5){
-				da.mc.fileOperation(args[2], args[3], Long.parseLong(args[4]));
+				da.mc.fileOperation(args[2], args[3], "NOTICE.txt");
 			}
 
 

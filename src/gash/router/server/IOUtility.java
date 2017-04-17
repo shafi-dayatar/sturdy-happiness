@@ -24,7 +24,8 @@ public class IOUtility {
         return sqlClient.storefile(chunk.getChunkId(), bs.newInput(), readBody.getFilename());
     }
     public byte[] readFile(Pipe.ReadBody readBody){
-        return sqlClient.getFile((int)readBody.getFileId());
+        return sqlClient.getFile(readBody.getFilename());
+        //return sqlClient.getFile((int)readBody.getFileId());
     }
 
 }

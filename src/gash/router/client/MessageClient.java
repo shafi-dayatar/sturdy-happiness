@@ -152,10 +152,10 @@ public class MessageClient {
 		return file;
 
 	}
-	public void fileOperation(String action, String filePath, long fileID){
+	public void fileOperation(String action, String filePath, String file_name){
 		System.out.println("Actions recived: "+ action + " " + filePath);
-		if(action.contains("get") && fileID > 0){
-			CommandMessage commandMessage = buildRCommandMessage(fileID);
+		if(action.contains("get") && file_name != null){
+			CommandMessage commandMessage = buildRCommandMessage(file_name);
 			try
 			{
 				System.out.println("Enueued read request.....");
@@ -218,7 +218,7 @@ public class MessageClient {
 			return null;
 		}
 	}
-	private CommandMessage buildRCommandMessage(long fileID)
+	private CommandMessage buildRCommandMessage(String file_name)
 	{
 		CommandMessage.Builder command = CommandMessage.newBuilder();
 		try
@@ -226,7 +226,7 @@ public class MessageClient {
 			Request.Builder msg = Request.newBuilder();
 			msg.setRequestType(TaskType.READFILE);
 			Pipe.ReadBody.Builder rrb = Pipe.ReadBody.newBuilder();
-			rrb.setFileId(fileID);
+			rrb.setFilename(file_name);
 			msg.setRrb(rrb.build());
 
 			Pipe.Node.Builder node = Pipe.Node.newBuilder();
