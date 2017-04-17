@@ -22,6 +22,8 @@ import gash.router.container.RoutingConf;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import pipe.common.Client;
+import pipe.common.Common;
 import pipe.common.Common.Failure;
 import pipe.work.Work.Command;
 import pipe.work.Work.LogEntry;
@@ -134,15 +136,25 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 	private void sendReadResponse(Channel channel, CommandMessage cmdMessage, byte[] chunkContent){
 		logger.info("Preparing to send read response for nodeid: "+ cmdMessage.getHeader().getNodeId() );
 		CommandMessage.Builder cmdMsg = CommandMessage.newBuilder(cmdMessage);
+		Common.Header.Builder hd = Common.Header.newBuilder();
+		hd.setNodeId(serverState.getNodeId());
+		hd.setTime(System.currentTimeMillis());
+		hd.setDestination(-1);
 		cmdMsg.setResp(buildReadResponse(cmdMessage.getReq(), chunkContent).build());
-		channel.write(cmdMsg.build());
+		cmdMsg.setHeader(hd);
+		channel.writeAndFlush(cmdMsg.build());
 	}
 
 	private void sendWriteResponse(Channel channel, CommandMessage cmdMessage, int chunkId){
 		logger.info("Preparing to send write response for nodeid: "+ cmdMessage.getHeader().getNodeId() );
 		CommandMessage.Builder cmdMsg = CommandMessage.newBuilder(cmdMessage);
+		Common.Header.Builder hd = Common.Header.newBuilder();
+		hd.setNodeId(serverState.getNodeId());
+		hd.setTime(System.currentTimeMillis());
+		hd.setDestination(-1);
 		cmdMsg.setResp(buildWriteResponse(cmdMessage.getReq(), chunkId).build());
-		channel.write(cmdMsg.build());
+		cmdMsg.setHeader(hd);
+		channel.writeAndFlush(cmdMsg.build());
 	}
 
 	private Pipe.Response.Builder buildReadResponse(Pipe.Request request, byte[] chunkContent){

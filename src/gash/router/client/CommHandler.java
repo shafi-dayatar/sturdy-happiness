@@ -79,6 +79,7 @@ public class CommHandler extends SimpleChannelInboundHandler<CommandMessage> {
 		}
 		System.out.println("im in");
 	}
+
 	@Override
 	protected void channelRead0(ChannelHandlerContext ctx, CommandMessage msg) throws Exception {
 		System.out.println(" got response ! ");
