@@ -1,9 +1,13 @@
 package gash.router.server.messages;
 
 
+import java.net.Inet4Address;
 import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -88,27 +92,43 @@ public class DiscoverMessage extends Message {
         			boolean newEdge = state.getEmon().addNewEdgeInfo(n.getNodeId(), n.getIpAddr(), 
         					n.getWorkPort());
         			if(newEdge){
-        				String ip_address = null;
-						try {
-							ip_address = InetAddress.getLocalHost().getHostAddress();
-						} catch (UnknownHostException e) {
-							// TODO Auto-generated catch block
-							logger.error("Error in decting ip_address of this node server : ");
-							e.printStackTrace();
-						}
-					    ip_address = ip_address == null ? "localhost" : ip_address;
-        				/*WorkMessage wm = createDiscoverMessage(state.getNodeId(), 
-        						n.getNodeId(), ip_address, state.getConf().getWorkPort());
+        				WorkMessage wm = createDiscoverMessage(state.getNodeId(), 
+        						n.getNodeId(), getCurrentIp().getHostAddress(), state.getConf().getWorkPort());
         				logger.info("Found new node sending discoverreply " + wm.toString());
-        				state.getOutBoundMessageQueue().addMessage(wm);*/
+        				state.getOutBoundMessageQueue().addMessage(wm);
         				
         			}
         		}
         		
         	}	
         }
-
     }
+    
+    
+    public InetAddress getCurrentIp() {
+        try {
+            Enumeration<NetworkInterface> networkInterfaces = NetworkInterface
+                    .getNetworkInterfaces();
+            while (networkInterfaces.hasMoreElements()) {
+                NetworkInterface ni = (NetworkInterface) networkInterfaces
+                        .nextElement();
+                Enumeration<InetAddress> nias = ni.getInetAddresses();
+                while(nias.hasMoreElements()) {
+                    InetAddress ia= (InetAddress) nias.nextElement();
+                    if (!ia.isLinkLocalAddress() 
+                     && !ia.isLoopbackAddress()
+                     && ia instanceof Inet4Address) {
+                        return ia;
+                    }
+                }
+            }
+        } catch (SocketException e) {
+            logger.error("unable to get current IP " + e.getMessage(), e);
+        }
+        return null;
+    }
+    
+    
     public void respond(){
         Work.WorkMessage.Builder wm = Work.WorkMessage.newBuilder();
         //setReply(true);
