@@ -43,7 +43,7 @@ public class Leader implements RaftServerState, Runnable {
     private ServerState state;
     private LogInfo log;
 	SqlClient sqlClient;
-	private int replicationFactor = 2;
+	private int replicationFactor;
 
     
     
@@ -369,15 +369,16 @@ public class Leader implements RaftServerState, Runnable {
 		command.setKey("located_at");
 		ArrayList<Node> followers = state.getEmon().getOutBoundRouteTable();
 		ArrayList<String> location = new ArrayList<String>(); 
-		int loc = new Random().nextInt(followers.size());
-		for(int i = 0; i< replicationFactor; i++){
-			int currentLoc = (loc+i) % followers.size();
-		     Node node = followers.get(currentLoc);
+		//int loc = new Random().nextInt(followers.size());
+		for(int i = 0; i< followers.size(); i++){
+			//int currentLoc = (loc+i) % followers.size();
+		     Node node = followers.get(i);
 		     new IOUtility(node.getIpAddr()).writeFile(write);
 		     String addr =  node.getNodeId() + ":" + node.getIpAddr() + ":4" + node.getNodeId() + "68";
 		     location.add(addr);
 		     logEntryBuilder.addData(command);
 		}
+		new IOUtility().writeFile(write);
 		command.setValue(location.toString());
 		appendEntries(logEntryBuilder);
 		
