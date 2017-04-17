@@ -42,7 +42,7 @@ public class SqlClient {
     }
     
     public SqlClient(String hostname){
-    	db_url = "jdbc:mysql://" + hostname + "/cmpe275";
+    	//db_url = "jdbc:mysql://" + hostname + "/cmpe275";
         checkDependency();
         establishConnection();
         prepareStatements();
