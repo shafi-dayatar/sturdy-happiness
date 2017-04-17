@@ -11,8 +11,8 @@ echo server home = $SVR_HOME
 
 #cd ${SVR_HOME}
 
-JAVA_MAIN='gash.router.app.MessageClient'
-JAVA_ARGS="$1 $2 $3"
+JAVA_MAIN='gash.router.app.DemoApp'
+JAVA_ARGS="$1 $2 $3 $4"
 #echo -e "\n** config: ${JAVA_ARGS} **\n"
 
 # superceded by http://ww.oracle.com/technetwork/java/tuning-139912.html

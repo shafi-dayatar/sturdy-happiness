@@ -119,11 +119,11 @@ public class MessageClient {
 
 	}
 	public void fileOperation(String action, String filePath){
-		if(action == "get"){
+		System.out.println("Actions recived: "+ action + " " + filePath);
+		if(action.contains("get")){
 
-		}
-
-		if(action == "post"){
+		} else
+		if(action.contains("post")){
 			File file = readFileByPath(filePath);
 			if(file == null){
 				return;
@@ -135,6 +135,7 @@ public class MessageClient {
 			CommandMessage commandMessage = buildCommandMessage(file, chunks);
 			try
 			{
+				System.out.println("Enueued file .....");
 				CommConnection.getInstance().enqueue(commandMessage);
 			}
 			catch (Exception e) {
@@ -143,13 +144,17 @@ public class MessageClient {
 				return;
 			}
 			finally {
-				CommConnection.getInstance().release();
-				System.out.println("Connection released exiting ! ");
+				//CommConnection.getInstance().release();
+				//System.out.println("Connection released exiting ! ");
 			}
 
 		}
-		System.out.println("Enter valid inputs - 3 -> 'get' or 'post' ");
-		return;
+		else
+		{
+			System.out.println("Enter valid inputs - 3 -> 'get' or 'post' ");
+			return;
+		}
+
 	}
 	private ArrayList<ByteString> chunkFile(File file) {
 		ArrayList<ByteString> chunkedFile = new ArrayList<ByteString>();
@@ -196,6 +201,10 @@ public class MessageClient {
 			node.setPort(8000);
 			node.setNodeId(-1);
 			//msg.setClient(node);
+			Header.Builder header= Header.newBuilder();
+			header.setNodeId(1);
+			header.setTime(0);
+			command.setHeader(header);
 			command.setReq(msg.build());
 			return command.build();
 		}
