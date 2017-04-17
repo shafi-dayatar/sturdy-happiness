@@ -86,12 +86,15 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 						if(msg.getReq().hasRrb()){
 							byte[] chunkContent = serverState.getRaftState().readFile(msg.getReq().getRrb());
 							sendReadResponse(channel, msg, chunkContent);
+
+							logger.info(" end of READFILE");
 						}
 						break;
 					case WRITEFILE:
 						if(msg.getReq().hasRwb()){
 							int missingChunk = serverState.getRaftState().writeFile(msg.getReq().getRwb());
 							sendWriteResponse(channel, msg, missingChunk);
+							logger.info(" end of WRITEFILE");
 						}
 						break;
 					case UPDATEFILE:
@@ -124,7 +127,7 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 			rb.setErr(eb);
 			channel.write(rb.build());
 		}
-
+		logger.info(" flushing . . . .. ");
 		System.out.flush();
 	}
 
