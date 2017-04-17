@@ -50,7 +50,7 @@ public class LogInfo implements LogOperations {
 	 * @param commitIndex
 	 */
 	public void setCommitIndex(Integer commitIndex) {
-		LogEntry  la = log.get(commitIndex);
+		LogEntry  la = log.get(commitIndex-1);
 		System.out.println("Should insert this log in mysql database for future reads : " + la.toString());
 		this.commitIndex = commitIndex;
 	}
