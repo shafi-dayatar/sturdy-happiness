@@ -14,8 +14,11 @@
  * under the License.
  */
 package gash.router.server.edges;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import pipe.work.Work.Node;
 import org.slf4j.Logger;
@@ -26,9 +29,11 @@ import gash.router.server.ServerState;
 import gash.router.server.communication.CommConnection;
 import io.netty.channel.Channel;
 import pipe.common.Common.Header;
+import pipe.work.Work.Discovery;
 import pipe.work.Work.Heartbeat;
 import pipe.work.Work.WorkMessage;
 import pipe.work.Work.WorkState;
+import pipe.work.Work.WorkMessage.MessageType;
 
 public class EdgeMonitor implements EdgeListener, Runnable {
 	protected static Logger logger = LoggerFactory.getLogger("edge monitor");
@@ -89,6 +94,41 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 		forever = false;
 	}
 
+	public void discoverCluster(){
+		//todo should read all entries
+		
+		String ip_address = null;
+		try {
+			ip_address = InetAddress.getLocalHost().getHostAddress().toString();
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			logger.error("Error in decting ip_address of this node server : ");
+			e.printStackTrace();
+		}
+	    ip_address = ip_address == null ? "localhost" : ip_address;
+		System.out.println("Processing till hear");
+		List<RoutingEntry> re = state.getConf().getRouting();
+		WorkMessage.Builder wmb = WorkMessage.newBuilder();
+		Header.Builder hdb = Header.newBuilder();
+		hdb.setNodeId(state.getConf().getNodeId());
+		hdb.setDestination(re.get(0).getId());
+		hdb.setTime(System.currentTimeMillis());
+		wmb.setHeader(hdb.build());
+		wmb.setSecret(1111);
+		
+		Discovery.Builder db = Discovery.newBuilder(); 
+		Node.Builder discover = Node.newBuilder(); 
+		discover.setNodeId(state.getConf().getNodeId());
+		discover.setIpAddr(ip_address);
+		discover.setWorkPort(state.getConf().getWorkPort());
+		db.setNode(discover.build());
+		wmb.setType(MessageType.DISCOVERNODE);
+		wmb.setDiscovery(db.build());
+		state.getOutBoundMessageQueue().addMessage(wmb.build());
+		System.out.println("Still working");
+		
+	}
+	
 	@Override
 	public void run() {
 		while (forever) {
@@ -101,6 +141,7 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 					if (ei.isActive() && ei.getChannel() != null) {	
 						//WorkMessage wm = createHB(ei); this will come from leader
 						//ChannelFuture cf = ei.getChannel().writeAndFlush(wm);
+						
 					} else {
 						// TODO create a client to the node
 						logger.info("trying to connect to node " + ei.getRef());
@@ -125,6 +166,7 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 				CommConnection cc = new CommConnection(ei.getHost(), ei.getPort());
 				ei.setChannel(cc.connect());
 				ei.setActive(true);
+				discoverCluster();
 			}
 		}
 		catch(Exception e){

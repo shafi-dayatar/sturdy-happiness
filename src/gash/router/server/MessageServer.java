@@ -239,44 +239,11 @@ public class MessageServer {
 			Thread outboundT = new Thread(outbound);
 			inboundT.start();
 			outboundT.start();
-			discoverCluster();
+			
 			setServerState(state);
 			
 		}	
-		public void discoverCluster(){
-			//todo should read all entries
-			
-			String ip_address = null;
-			try {
-				ip_address = InetAddress.getLocalHost().getHostAddress().toString();
-			} catch (UnknownHostException e) {
-				// TODO Auto-generated catch block
-				logger.error("Error in decting ip_address of this node server : ");
-				e.printStackTrace();
-			}
-		    ip_address = ip_address == null ? "localhost" : ip_address;
-			System.out.println("Processing till hear");
-			List<RoutingEntry> re = state.getConf().getRouting();
-			WorkMessage.Builder wmb = WorkMessage.newBuilder();
-			Header.Builder hdb = Header.newBuilder();
-			hdb.setNodeId(state.getConf().getNodeId());
-			hdb.setDestination(re.get(0).getId());
-			hdb.setTime(System.currentTimeMillis());
-			wmb.setHeader(hdb.build());
-			wmb.setSecret(1111);
-			
-			Discovery.Builder db = Discovery.newBuilder(); 
-			Node.Builder discover = Node.newBuilder(); 
-			discover.setNodeId(state.getConf().getNodeId());
-			discover.setIpAddr(ip_address);
-			discover.setWorkPort(state.getConf().getWorkPort());
-			db.setNode(discover.build());
-			wmb.setType(MessageType.DISCOVERNODE);
-			wmb.setDiscovery(db.build());
-			state.getOutBoundMessageQueue().addMessage(wmb.build());
-			System.out.println("Still working");
-			
-		}
+		
 
 		@Override
 		public void run() {
