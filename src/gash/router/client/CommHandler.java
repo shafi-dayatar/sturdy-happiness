@@ -81,6 +81,7 @@ public class CommHandler extends SimpleChannelInboundHandler<CommandMessage> {
 	}
 	@Override
 	protected void channelRead0(ChannelHandlerContext ctx, CommandMessage msg) throws Exception {
+		System.out.println(" got response ! ");
 		handleMessage(msg,ctx.channel());
 		/*System.out.println("--> got incoming message");
 		for (String id : listeners.keySet()) {
