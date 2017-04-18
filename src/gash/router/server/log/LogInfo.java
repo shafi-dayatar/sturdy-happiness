@@ -2,8 +2,11 @@ package gash.router.server.log;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
+import gash.router.server.IOUtility;
 import gash.router.server.messages.LogAppend;
+import pipe.work.Work.Command;
 import pipe.work.Work.LogEntry;
 
 
@@ -50,8 +53,35 @@ public class LogInfo implements LogOperations {
 	 * @param commitIndex
 	 */
 	public void setCommitIndex(Integer commitIndex) {
-		LogEntry  la = log.get(commitIndex-1);
+		LogEntry  la = log.get(commitIndex - 1);
+		String filename = null, fileExt = null, locatedAt = null;
+		int fileId =-1, chunkId = -1;
 		System.out.println("Should insert this log in mysql database for future reads : " + la.toString());
+		List<Command> command =  la.getDataList();
+		System.out.println(command.toString());
+
+		for(Command cmd : command){
+			switch (cmd.getKey()) {
+			case "FileId":
+				fileId = Integer.parseInt(cmd.getValue());
+				break;
+			case "Filename":
+				filename = cmd.getValue();
+				break;
+			case "chunk_id":
+				chunkId = Integer.parseInt(cmd.getValue());
+				break;
+			case "located_at":
+				locatedAt = cmd.getValue();
+				break;
+			case "FileExt":
+				fileExt = cmd.getValue();
+				break;
+			default:
+				break;
+			}
+		}
+		IOUtility.insertLogEntry(la.getLogId(), fileId, filename, fileExt, chunkId, locatedAt);
 		this.commitIndex = commitIndex;
 	}
 	

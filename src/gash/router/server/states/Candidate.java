@@ -15,6 +15,7 @@ import pipe.work.Work;
 import pipe.common.Common.Header;
 import pipe.election.Election.LeaderElection;
 import pipe.election.Election.LeaderElectionResponse;
+import pipe.work.Work.FileChunkData;
 import pipe.work.Work.LogAppendEntry;
 import pipe.work.Work.LogEntry.Builder;
 import pipe.work.Work.WorkMessage;
@@ -224,6 +225,30 @@ public class Candidate implements RaftServerState {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void readChunkData(FileChunkData chunk) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void writeChunkData(FileChunkData chunk) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void readChunkDataResponse(FileChunkData chunk) {
+		// TODO Auto-generated method stub
+	
+	}
+
+	@Override
+	public void writeChunkDataResponse(FileChunkData chunk) {
+		// TODO Auto-generated method stub
+	}	
+
 
 
 }

@@ -20,6 +20,11 @@ import "common.proto";
 message CommandMessage {
    required Header header = 1;
 
+   enum MessageType{
+   	PING = 1;
+   	REQUEST = 2;
+   	RESPONSE = 3;
+   }
 
    oneof payload {
         // a client (external) sanity check for testing

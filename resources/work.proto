@@ -59,6 +59,10 @@ message WorkMessage {
         WORKSTATEREPLY = 12;
         LOGAPPENDENTRY = 13;
         LOGAPPENDRESPONSE = 14;
+        CHUNKFILEDATAREAD = 15;
+        CHUNKFILEDATAWRITE = 16;
+        CHUNKFILEDATAREADRESPONSE = 17;
+        CHUNKFILEDATAWRITERESPONSE = 18;
     }
 
    oneof payload {
@@ -81,6 +85,7 @@ message WorkMessage {
       LeaderElectionResponse leaderElectionResponse = 12;
       LogAppendEntry log_append_entries = 13;
       LogAppendResponse logAppendResponse = 14;
+      FileChunkData chunk_data = 15;
 
    }
    
@@ -130,5 +135,15 @@ message LogAppendResponse{
     required bool responseFlag = 7;
     optional bool isHeartBeat = 8;
 
+
+}
+
+message FileChunkData{
+  optional int32 reply_to = 5;
+  required int32 file_id = 1;
+  required string file_name = 2;
+  required int32 chunk_id = 3;
+  optional bytes chunk_data = 4;
+  optional bool success =6;
 }
 

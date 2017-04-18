@@ -1,5 +1,14 @@
 package gash.router.server.states;
 
+import java.io.BufferedWriter;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -17,6 +26,7 @@ import pipe.election.Election.LeaderElectionResponse;
 import pipe.work.Work;
 
 import pipe.common.Common.Header;
+import pipe.work.Work.FileChunkData;
 import pipe.work.Work.LogAppendEntry;
 import pipe.work.Work.LogAppendResponse;
 import pipe.work.Work.LogEntry;
@@ -241,8 +251,8 @@ public class Follower implements RaftServerState {
 				}
 			}
 			if(logEntry.getLeaderCommitIndex() > state.getLog().getCommitIndex()){
-				//state.getLog().setCommitIndex(Math.min(logEntry.getLeaderCommitIndex(),
-				//		logId));
+				state.getLog().setCommitIndex(Math.min(logEntry.getLeaderCommitIndex(),
+						lastIndex));
 			}
 			wm = createLogAppendResponse(logEntry.getLeaderNodeId(),
 					lastIndex, state.getCurrentTerm(), true);
@@ -282,7 +292,93 @@ public class Follower implements RaftServerState {
 	@Override
 	public void appendEntries(Builder logEntryBuilder) {
 		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void readChunkData(FileChunkData chunk) {
+		// TODO Auto-generated method stub
+		
+		String file_name =  "./data/" + chunk.getFileName() + "_" + chunk.getFileId() + "_" + chunk.getChunkId();
+		File file = new File(file_name);
+	    byte[] fileData = new byte[(int) file.length()];
+	    try{
+	    	DataInputStream dis = new DataInputStream(new FileInputStream(file));
+	    	dis.readFully(fileData);
+	    	dis.close();
+	    	
+	    	WorkMessage.Builder msgBuilder = WorkMessage.newBuilder();
+	    	msgBuilder.setSecret(9999999);
+	    	msgBuilder.setType(MessageType.CHUNKFILEDATAREADRESPONSE);
+	    	Header.Builder hd = Header.newBuilder();
+	    	hd.setDestination(chunk.getReplyTo());
+	    	hd.setNodeId(state.getNodeId());
+	    	hd.setTime(System.currentTimeMillis());
+	    	
+	    	FileChunkData.Builder data =  FileChunkData.newBuilder();
+	    	data.setFileId(chunk.getFileId());
+	    	data.setChunkId(chunk.getChunkId());
+	    	data.setFileName(chunk.getFileName());
+	    	data.setChunkData(ByteString.copyFrom(fileData));
+	    	data.setSuccess(true);
+	    	
+	    	msgBuilder.setHeader(hd);
+	    	msgBuilder.setChunkData(data);
+	    	state.getOutBoundMessageQueue().addMessage(msgBuilder.build());
+	    	
+	    }catch(Exception e){
+	    	
+	    }
+        
+	}
+
+	@Override
+	public void writeChunkData(FileChunkData chunk) {
+		// TODO Auto-generated method stub
+		logger.info("Got a write chunk request");
+		String file_name =  "./data/" + chunk.getFileName() + "_" + chunk.getFileId() + "_" + chunk.getChunkId();
+        FileOutputStream writer = null;
+        try {
+        	writer = new FileOutputStream(file_name);
+        	writer.write(chunk.getChunkData().toByteArray());
+        	writer.close();
+        	
+        	WorkMessage.Builder msgBuilder = WorkMessage.newBuilder();
+	    	msgBuilder.setSecret(9999999);
+	    	msgBuilder.setType(MessageType.CHUNKFILEDATAREADRESPONSE);
+	    	Header.Builder hd = Header.newBuilder();
+	    	hd.setDestination(chunk.getReplyTo());
+	    	hd.setNodeId(state.getNodeId());
+	    	hd.setTime(System.currentTimeMillis());
+	    	
+	    	FileChunkData.Builder data =  FileChunkData.newBuilder();
+	    	data.setFileId(chunk.getFileId());
+	    	data.setChunkId(chunk.getChunkId());
+	    	data.setFileName(chunk.getFileName());
+	    	data.setSuccess(true);
+	    	msgBuilder.setHeader(hd);
+	    	msgBuilder.setChunkData(data);
+	    	state.getOutBoundMessageQueue().addMessage(msgBuilder.build());
+        } catch (Exception e) {
+        	// TODO Auto-generated catch block
+        	logger.info("Write chunk request failed due to : ");
+	    	e.printStackTrace();
+        	e.printStackTrace();
+        }
+	}
+
+	@Override
+	public void readChunkDataResponse(FileChunkData chunk) {
+		// TODO Auto-generated method stub
+		logger.info("Got A File Read Response");
 		
 	}
+
+	@Override
+	public void writeChunkDataResponse(FileChunkData chunk) {
+		// TODO Auto-generated method stub
+		logger.info("Got A file write response");
+		
+	}	
+
 
 }

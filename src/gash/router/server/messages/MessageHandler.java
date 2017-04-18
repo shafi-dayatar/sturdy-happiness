@@ -37,6 +37,18 @@ public class MessageHandler {
 			case LOGAPPENDENTRY:
 				m = new LogAppend(msg);
 				break;
+			case CHUNKFILEDATAREAD:
+				m = new FileChunk(msg);
+				break;
+			case CHUNKFILEDATAREADRESPONSE:
+				m = new FileChunk(msg);
+				break;
+			case CHUNKFILEDATAWRITE:
+				m = new FileChunk(msg);
+				break;
+			case CHUNKFILEDATAWRITERESPONSE:
+				m = new FileChunk(msg);
+				break;
 			default:
 			//case
 			//hearbeat message ?

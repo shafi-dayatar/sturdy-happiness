@@ -9,22 +9,24 @@ import com.google.protobuf.ByteString;
  */
 public class IOUtility {
 
-    SqlClient sqlClient;
-	public IOUtility(){
-       sqlClient = new SqlClient();
-}
+    static SqlClient sqlClient = new SqlClient();
 
-    public IOUtility(String hostIp){
-        sqlClient = new SqlClient(hostIp);
-    }
-	
-    public int writeFile(Pipe.WriteBody readBody){
+    public static int writeFile(Pipe.WriteBody readBody){
         Pipe.Chunk chunk = readBody.getChunk();
         ByteString bs = chunk.getChunkData();
         return sqlClient.storefile(chunk.getChunkId(), bs.newInput(), readBody.getFilename());
     }
-    public byte[] readFile(Pipe.ReadBody readBody){
+    public static byte[] readFile(Pipe.ReadBody readBody){
         return sqlClient.getFile((int)readBody.getFileId());
     }
+
+	public static long getFileId(String filename, String fileExt) {
+		// TODO Auto-generated method stub
+		return sqlClient.createIfNotExistFileId(filename, fileExt);
+	}
+	public static boolean insertLogEntry(int log_id, int fileId, String filename, String fileExt, int chunk_id, 
+			String locatedAt){
+		return sqlClient.insertLog(log_id, fileId, filename,  fileExt, chunk_id, locatedAt);
+	}
 
 }

@@ -25,6 +25,7 @@ import pipe.election.Election;
 import pipe.election.Election.LeaderElection;
 import pipe.work.Work;
 import pipe.work.Work.Command;
+import pipe.work.Work.FileChunkData;
 import pipe.work.Work.LogAppendEntry;
 import pipe.work.Work.LogEntry;
 import pipe.work.Work.LogEntry.*;
@@ -33,6 +34,8 @@ import pipe.work.Work.WorkMessage.MessageType;
 import pipe.work.Work.Node;
 import pipe.work.Work.WorkMessage;
 import routing.Pipe;
+import routing.Pipe.Chunk;
+
 import com.google.protobuf.ByteString;
 /**
  * Created by rentala on 4/11/17.
@@ -44,6 +47,7 @@ public class Leader implements RaftServerState, Runnable {
     private LogInfo log;
 	SqlClient sqlClient;
 	private int replicationFactor;
+	private IOUtility db = new IOUtility();
 
     
     
@@ -240,14 +244,18 @@ public class Leader implements RaftServerState, Runnable {
 			matchIndex.put(nodeId, lastIndex);
 			// check if commit index is also increased
 			//if matchIndex increased for most server then updateCommitIndex
+			logger.info("Match Index is : " + matchIndex.toString());
+			logger.info("Next Index is : " + nextIndex.toString());
 			Set<Integer> keys = matchIndex.keySet();
-			int savedOn = 0;
+			int refelectedOn = 0;
 			for(Integer id : keys){
 				if(lastIndex <= matchIndex.get(id)){
-					savedOn++;
+					refelectedOn++;
 				}
 			}
-			if (savedOn > (state.getEmon().getTotalNodes()/2 + 1)){
+			logger.info("Log Entry appended on : " + refelectedOn +" servers..... ");
+			if (refelectedOn >= (state.getEmon().getTotalNodes()/2 + 1)){
+				logger.info("Time To Commit, everything looks perfect");
 				updateCommitIndex(lastIndex);
 			}
 		}
@@ -350,38 +358,74 @@ public class Leader implements RaftServerState, Runnable {
 		return null;
 	}
 
+	
+	public WorkMessage createFileWriteMessage(int dest, int fileId, int chunkId, String FileName, ByteString chunkData){
+		WorkMessage.Builder msgBuilder = WorkMessage.newBuilder();
+    	msgBuilder.setSecret(9999999);
+    	msgBuilder.setType(MessageType.CHUNKFILEDATAWRITE);
+    	Header.Builder hd = Header.newBuilder();
+    	hd.setDestination(dest);
+    	hd.setNodeId(state.getNodeId());
+    	hd.setTime(System.currentTimeMillis());
+    	
+    	FileChunkData.Builder data =  FileChunkData.newBuilder();
+    	data.setReplyTo(state.getNodeId());
+    	data.setFileId(fileId);
+    	data.setChunkId(chunkId);
+    	data.setFileName(FileName);
+    	data.setChunkData(chunkData);
+    	msgBuilder.setHeader(hd);
+    	msgBuilder.setChunkData(data);
+    	return msgBuilder.build();
+    	
+	}
+	
 	@Override
 	public int writeFile(Pipe.WriteBody write) {
 		
-		LogEntry.Builder logEntryBuilder = LogEntry.newBuilder();
-		logEntryBuilder.setAction(DataAction.INSERT);
-		Command.Builder command = Command.newBuilder();
-		command.setClientId(999);
-		command.setKey("Filename");
-		command.setValue(write.getFilename());
-		logEntryBuilder.addData(command);
-		command.setKey("FileExt");
-		command.setValue(write.getFileExt());
-		logEntryBuilder.addData(command);
-		command.setKey("chunk_id");
-		command.setValue(Integer.toString(write.getChunk().getChunkId()));
-		logEntryBuilder.addData(command);
-		command.setKey("located_at");
-		ArrayList<Node> followers = state.getEmon().getOutBoundRouteTable();
-		ArrayList<String> location = new ArrayList<String>(); 
-		//int loc = new Random().nextInt(followers.size());
-		for(int i = 0; i< followers.size(); i++){
-			//int currentLoc = (loc+i) % followers.size();
-		     Node node = followers.get(i);
-		     new IOUtility(node.getIpAddr()).writeFile(write);
-		     String addr =  node.getNodeId() + ":" + node.getIpAddr() + ":4" + node.getNodeId() + "68";
-		     location.add(addr);
-		     
+
+		int fileId = (int)db.getFileId(write.getFilename(), write.getFileExt());
+		
+		if (fileId != -1) {
+			String fileName = write.getFilename();
+			LogEntry.Builder logEntryBuilder = LogEntry.newBuilder();
+			logEntryBuilder.setAction(DataAction.INSERT);
+			Command.Builder command = Command.newBuilder();
+			command.setClientId(999);
+			command.setKey("FileId");
+			command.setValue(Integer.toString(fileId));
+			logEntryBuilder.addData(command);
+			command.setKey("Filename");
+			command.setValue(fileName);
+			logEntryBuilder.addData(command);
+			command.setKey("FileExt");
+			command.setValue(write.getFileExt());
+			logEntryBuilder.addData(command);
+			command.setKey("chunk_id");
+			command.setValue(Integer.toString(write.getChunk().getChunkId()));
+			logEntryBuilder.addData(command);
+			command.setKey("located_at");
+			ArrayList<Node> followers = state.getEmon().getOutBoundRouteTable();
+			ArrayList<String> location = new ArrayList<String>(); 
+			int loc = new Random().nextInt(followers.size());
+			for(int i = 0; i< 2; i++){
+				int currentLoc = (loc+i) % followers.size();
+				Node node = followers.get(currentLoc);
+				//new IOUtility(node.getIpAddr()).writeFile(write);
+				Chunk chunk = write.getChunk();
+				WorkMessage msg  = createFileWriteMessage(node.getNodeId(), fileId, chunk.getChunkId(), 
+						fileName, chunk.getChunkData());
+				logger.info(msg.toString());
+				state.getOutBoundMessageQueue().addMessage(msg);
+				String addr =  node.getNodeId() + ":" + node.getIpAddr() + ":4" + node.getNodeId() + "68";
+				location.add(addr);
+		     }
+			command.setValue(location.toString());
+			logEntryBuilder.addData(command);
+			appendEntries(logEntryBuilder);
 		}
-		new IOUtility().writeFile(write);
-		command.setValue(location.toString());
-		logEntryBuilder.addData(command);
-		appendEntries(logEntryBuilder);
+		
+		
 		
 		return 0;//IOUtility.writeFile(write);
 	}
@@ -398,6 +442,32 @@ public class Leader implements RaftServerState, Runnable {
 			nextIndex.put(node.getNodeId(), state.getLog().lastIndex()+1);
 			matchIndex.put(node.getNodeId(), 0);
 		}
+		
+	}
+
+	@Override
+	public void readChunkData(FileChunkData chunk) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void writeChunkData(FileChunkData chunk) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void readChunkDataResponse(FileChunkData chunk) {
+		// TODO Auto-generated method stub
+		logger.info("Got A File Read Response");
+		
+	}
+
+	@Override
+	public void writeChunkDataResponse(FileChunkData chunk) {
+		// TODO Auto-generated method stub
+		logger.info("Got A file write response");
 		
 	}	
 

@@ -11,6 +11,7 @@ import pipe.election.Election;
 import pipe.election.Election.LeaderElection;
 import pipe.election.Election.LeaderElectionResponse;
 import pipe.work.Work;
+import pipe.work.Work.FileChunkData;
 import pipe.work.Work.LogAppendEntry;
 import pipe.work.Work.LogEntry;
 import routing.Pipe;
@@ -34,6 +35,10 @@ public interface RaftServerState {
 	// if it returns -1 - all good, else returns the chunk id it failed to write
     int writeFile(Pipe.WriteBody writeBody);
     void deleteFile(Pipe.ReadBody readBody);
+	public void readChunkData(FileChunkData chunk);
+	public void writeChunkData(FileChunkData chunk);
+	public void readChunkDataResponse(FileChunkData chunk);
+	public void writeChunkDataResponse(FileChunkData chunk);
     
 
 }
