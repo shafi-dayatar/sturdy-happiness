@@ -46,8 +46,10 @@ public class SqlClient{
         }
     }
     
+
     /*public SqlClient(String hostname){
-    	db_url = "jdbc:mysql://" + hostname + "/cmpe275";
+        System.out.println(" HOST NAME " + hostname);
+    	//db_url = "jdbc:mysql://" + hostname + "/cmpe275";
         checkDependency();
         establishConnection();
         prepareStatements();
@@ -191,9 +193,7 @@ public class SqlClient{
             InputStream IS;
             if(rs.next()) {
                 IS = rs.getBinaryStream("CONTENT");
-                //fileOuputStream = new FileOutputStream(target);
-                //fileOuputStream.write(IOUtils.toByteArray(IS));
-                fileOuputStream.close();
+                ///fileOuputStream.close();
                 return IOUtils.toByteArray(IS);
             }
         }

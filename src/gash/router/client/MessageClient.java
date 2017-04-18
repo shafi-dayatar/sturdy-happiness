@@ -15,10 +15,7 @@
  */
 package gash.router.client;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -27,6 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.protobuf.ByteString;
+import org.apache.commons.io.IOUtils;
 
 import pipe.common.Common;
 import pipe.common.Common.Header;
@@ -36,6 +34,7 @@ import routing.Pipe.WriteBody;
 import routing.Pipe.Chunk;
 import routing.Pipe.TaskType;
 import routing.Pipe.CommandMessage;
+import com.google.protobuf.ByteString;
 //import routing.Pipe.WhoIsLeader;
 
 /**
@@ -59,31 +58,7 @@ public class MessageClient {
 	public void addListener(CommListener listener) {
 		CommConnection.getInstance().addListener(listener);
 	}
-	public void askForLeader() {
-		// construct the message to send
-		Header.Builder hb = Header.newBuilder();
-		hb.setNodeId(999);
-		hb.setTime(System.currentTimeMillis());
-		hb.setDestination(-1);
-		
-		//WhoIsLeader.Builder wl=WhoIsLeader.newBuilder();
-		//wl.setAskleader(true);
-		
-		CommandMessage.Builder rb = CommandMessage.newBuilder();
-		rb.setHeader(hb);
-		//rb.setWhoisleader(wl);
-		
-		System.out.println("im sending message");
-		try {
-			// direct no queue
-			// CommConnection.getInstance().write(rb.build());
-
-			// using queue
-			CommConnection.getInstance().enqueue(rb.build());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+	private String fileoutput = "output";
 	public void ping() {
 		// construct the message to send
 		Header.Builder hb = Header.newBuilder();
@@ -105,7 +80,42 @@ public class MessageClient {
 			e.printStackTrace();
 		}
 	}
+
+	public void onWriteRequest(CommandMessage msg){
+		System.out.println(" Write request message: "+ msg.getResp().getStatus());
+
+		System.out.println(" done with write request  . .. . .");
+		System.out.flush();
+
+	}
+	public void onReadRequest(CommandMessage msg){
+		System.out.println(" Reaad request message: "+ msg.getResp().getStatus());
+		System.out.println(" No of chunks: "+ msg.getResp().getReadResponse().getNumOfChunks());
+
+		try {
+
+			File file = new File(fileoutput);
+			file.createNewFile();
+			ArrayList<ByteString> byteString = new ArrayList<ByteString>();
+			byteString.add(msg.getResp().getReadResponse().getChunk().getChunkData());
+			FileOutputStream outputStream = new FileOutputStream(file);
+			ByteString bs = ByteString.copyFrom(byteString);
+			System.out.println(bs.size());
+			outputStream.write(bs.toByteArray());
+			outputStream.flush();
+			outputStream.close();
+			System.out.println(" Wrote file: ");
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		System.out.println(" flushing  . .. . .");
+		System.out.flush();
+	}
+
 	// Save File to server
+
+
 	private File readFileByPath(String filePath){
 		File file = null;
 		try
@@ -118,10 +128,21 @@ public class MessageClient {
 		return file;
 
 	}
-	public void fileOperation(String action, String filePath){
+	public void fileOperation(String action, String filePath, String file_name){
 		System.out.println("Actions recived: "+ action + " " + filePath);
-		if(action.contains("get")){
-
+		if(action.contains("get") && file_name != null){
+			this.fileoutput = filePath;
+			CommandMessage commandMessage = buildRCommandMessage(file_name);
+			try
+			{
+				System.out.println("Enueued read request.....");
+				CommConnection.getInstance().enqueue(commandMessage);
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+				System.out.println("Couldnt sent read request to the system");
+				return;
+			}
 		} else
 		if(action.contains("post")){
 			File file = readFileByPath(filePath);
@@ -132,7 +153,7 @@ public class MessageClient {
 			if(chunks == null){
 				return;
 			}
-			CommandMessage commandMessage = buildCommandMessage(file, chunks);
+			CommandMessage commandMessage = buildWCommandMessage(file, chunks);
 			try
 			{
 				System.out.println("Enueued file .....");
@@ -151,7 +172,7 @@ public class MessageClient {
 		}
 		else
 		{
-			System.out.println("Enter valid inputs - 3 -> 'get' or 'post' ");
+			System.out.println("Enter valid inputs - 3 -> 'get' or 'post' or file id > 0");
 			return;
 		}
 
@@ -174,7 +195,39 @@ public class MessageClient {
 			return null;
 		}
 	}
-	private CommandMessage buildCommandMessage(File file, ArrayList<ByteString> chunks )
+	private CommandMessage buildRCommandMessage(String file_name)
+	{
+		CommandMessage.Builder command = CommandMessage.newBuilder();
+		try
+		{
+			Request.Builder msg = Request.newBuilder();
+			msg.setRequestType(TaskType.READFILE);
+			Pipe.ReadBody.Builder rrb = Pipe.ReadBody.newBuilder();
+			rrb.setFilename(file_name);
+			msg.setRrb(rrb.build());
+
+			Pipe.Node.Builder node = Pipe.Node.newBuilder();
+
+			node.setHost(InetAddress.getLocalHost().getHostAddress());
+
+			node.setPort(8000);
+			node.setNodeId(-1);
+			//msg.setClient(node);
+			Header.Builder header= Header.newBuilder();
+			header.setNodeId(1);
+			header.setTime(0);
+			command.setHeader(header);
+			command.setReq(msg.build());
+			return command.build();
+		}
+		catch (Exception e)
+		{
+			System.out.println(" Sending read request failed :");
+			e.printStackTrace();
+			return command.build();
+		}
+	}
+	private CommandMessage buildWCommandMessage(File file, ArrayList<ByteString> chunks )
 	{
 		CommandMessage.Builder command = CommandMessage.newBuilder();
 		try

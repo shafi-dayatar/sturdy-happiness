@@ -350,7 +350,7 @@ public class Leader implements RaftServerState, Runnable {
 
 	@Override
 	public byte[] readFile(Pipe.ReadBody readBody) {
-		return null;// IOUtility.readFile(readBody);
+		return new IOUtility().readFile(readBody);
 	}
 	
 	

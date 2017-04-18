@@ -22,6 +22,8 @@ import gash.router.container.RoutingConf;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import pipe.common.Client;
+import pipe.common.Common;
 import pipe.common.Common.Failure;
 import pipe.work.Work.Command;
 import pipe.work.Work.LogEntry;
@@ -30,7 +32,7 @@ import routing.Pipe;
 import routing.Pipe.CommandMessage;
 import routing.Pipe.TaskType;
 import routing.Pipe.Chunk;
-
+import com.google.protobuf.ByteString;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
@@ -86,12 +88,15 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 						if(msg.getReq().hasRrb()){
 							byte[] chunkContent = serverState.getRaftState().readFile(msg.getReq().getRrb());
 							sendReadResponse(channel, msg, chunkContent);
+
+							logger.info(" end of READFILE");
 						}
 						break;
 					case WRITEFILE:
 						if(msg.getReq().hasRwb()){
 							int missingChunk = serverState.getRaftState().writeFile(msg.getReq().getRwb());
 							sendWriteResponse(channel, msg, missingChunk);
+							logger.info(" end of WRITEFILE");
 						}
 						break;
 					case UPDATEFILE:
@@ -124,33 +129,40 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 			rb.setErr(eb);
 			channel.write(rb.build());
 		}
-
+		logger.info(" flushing . . . .. ");
 		System.out.flush();
 	}
 
 	private void sendReadResponse(Channel channel, CommandMessage cmdMessage, byte[] chunkContent){
 		logger.info("Preparing to send read response for nodeid: "+ cmdMessage.getHeader().getNodeId() );
 		CommandMessage.Builder cmdMsg = CommandMessage.newBuilder(cmdMessage);
+		Common.Header.Builder hd = Common.Header.newBuilder();
+		hd.setNodeId(serverState.getNodeId());
+		hd.setTime(System.currentTimeMillis());
+		hd.setDestination(-1);
 		cmdMsg.setResp(buildReadResponse(cmdMessage.getReq(), chunkContent).build());
-		channel.write(cmdMsg.build());
+		cmdMsg.setHeader(hd);
+		channel.writeAndFlush(cmdMsg.build());
 	}
 
 	private void sendWriteResponse(Channel channel, CommandMessage cmdMessage, int chunkId){
 		logger.info("Preparing to send write response for nodeid: "+ cmdMessage.getHeader().getNodeId() );
 		CommandMessage.Builder cmdMsg = CommandMessage.newBuilder(cmdMessage);
+		Common.Header.Builder hd = Common.Header.newBuilder();
+		hd.setNodeId(serverState.getNodeId());
+		hd.setTime(System.currentTimeMillis());
+		hd.setDestination(-1);
 		cmdMsg.setResp(buildWriteResponse(cmdMessage.getReq(), chunkId).build());
-		channel.write(cmdMsg.build());
+		cmdMsg.setHeader(hd);
+		channel.writeAndFlush(cmdMsg.build());
 	}
 
 	private Pipe.Response.Builder buildReadResponse(Pipe.Request request, byte[] chunkContent){
 		logger.info("Building read response for request chunk content length: " + chunkContent.length);
 		Pipe.Response.Builder response = Pipe.Response.newBuilder();
 		response.setResponseType(request.getRequestType());
-		if(chunkContent.length>0){
-			response.setStatus(Pipe.Response.Status.Success);
-			response.setReadResponse(buildReadResponse(request).build());
-			return response;
-		}
+		response.setStatus(Pipe.Response.Status.Success);
+		response.setReadResponse(RResponseBuild(request, chunkContent).build());
 		//failure case
 		response.setStatus(Pipe.Response.Status.Failure);
 		//response.setReadResponse(buildReadResponse().build());
@@ -169,21 +181,25 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 		return response;
 	}
 
-	private Pipe.ReadResponse.Builder buildReadResponse(Pipe.Request request){
+	private Pipe.ReadResponse.Builder RResponseBuild(Pipe.Request request, byte[] bytes){
 		Pipe.ReadResponse.Builder readRespBuilder = Pipe.ReadResponse.newBuilder();
 		readRespBuilder.setFilename(request.getRrb().getFilename());
 		readRespBuilder.setFileExt("");
 		readRespBuilder.setFileId(Long.toString(request.getRrb().getFileId()));
 		readRespBuilder.setNumOfChunks(1);
+		Chunk.Builder chunkB = Chunk.newBuilder();
+		chunkB.setChunkData(ByteString.copyFrom(bytes));
+		chunkB.setChunkId(0);
+		readRespBuilder.setChunk(chunkB.build());
 		//multiple
 		readRespBuilder.addChunkLocation(buildChunkLocation().build());
 		return readRespBuilder;
 	}
 	private Pipe.ChunkLocation.Builder buildChunkLocation(){
 		Pipe.ChunkLocation.Builder chunkLocBuilder = Pipe.ChunkLocation.newBuilder();
-		chunkLocBuilder.setChunkid(0);
-		Pipe.Node.Builder node = buildNode();
-		chunkLocBuilder.setNode(this.conf.getNodeId(), node.build());
+		//chunkLocBuilder.setChunkid(0);
+		//Pipe.Node.Builder node = buildNode();
+		//chunkLocBuilder.setNode(this.conf.getNodeId(), node.build());
 		return chunkLocBuilder;
 	}
 	private Pipe.Node.Builder buildNode(){

@@ -16,8 +16,10 @@ public class IOUtility {
         ByteString bs = chunk.getChunkData();
         return sqlClient.storefile(chunk.getChunkId(), bs.newInput(), readBody.getFilename());
     }
-    public static byte[] readFile(Pipe.ReadBody readBody){
-        return sqlClient.getFile((int)readBody.getFileId());
+
+    public byte[] readFile(Pipe.ReadBody readBody){
+        return sqlClient.getFile(readBody.getFilename());
+        //return sqlClient.getFile((int)readBody.getFileId());
     }
 
 	public static long getFileId(String filename, String fileExt) {
