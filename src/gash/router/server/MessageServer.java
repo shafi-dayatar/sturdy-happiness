@@ -208,22 +208,29 @@ public class MessageServer {
 			if (conf == null)
 				throw new RuntimeException("missing conf");
 
+			logger.info("Initializing Server State");
 			state = new ServerState();
+			logger.info("Loading config files");
 			state.setConf(conf);
-			
 
+			logger.info("Initializing TaskList");
 			TaskList tasks = new TaskList(new NoOpBalancer());
 			state.setTasks(tasks);
 			
+			logger.info("Starting Inbound workMessage Queue and Worker Thread pool");
 			InBoundWorkMessageQueue inbound = new InBoundWorkMessageQueue(state, 5);
-			OutBoundWorkMessageQueue outbound = new OutBoundWorkMessageQueue(state, 5);
 			state.setInBoundMessageQueue(inbound);
+			
+			logger.info("Starting outbound workMessage Queue and Worker Thread pool");
+			OutBoundWorkMessageQueue outbound = new OutBoundWorkMessageQueue(state, 5);
 			state.setOutBoundMessageQueue(outbound);
-
+			
 			EdgeMonitor emon = new EdgeMonitor(state);
 			Thread edgeMonitorThread = new Thread(emon);
 			edgeMonitorThread.start();
 
+			
+            logger.info("Starting Election Timer Thread");
 			state.startElectionTimerThread();
 			setServerState(state);
 			

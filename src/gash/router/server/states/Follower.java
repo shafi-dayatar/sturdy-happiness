@@ -20,6 +20,8 @@ import org.slf4j.LoggerFactory;
 import gash.router.server.PrintUtil;
 import gash.router.server.ServerState;
 import gash.router.server.log.LogInfo;
+import gash.router.server.messages.ElectionMessage;
+import gash.router.server.messages.LogAppend;
 import pipe.election.Election;
 import pipe.election.Election.LeaderElection;
 import pipe.election.Election.LeaderElectionResponse;
@@ -56,18 +58,11 @@ public class Follower implements RaftServerState {
     
 	protected static Logger logger = LoggerFactory.getLogger("Follower-State");
 	private ServerState state;
-	//private List<integer, boolean> vote = new ArrayList<Integer, Boolean>();
+	
     private ConcurrentHashMap<Integer, Integer> electionVotes =  new ConcurrentHashMap<Integer, Integer>();
-    private LogInfo log;
+    
     public Follower(ServerState state){
         this.state = state;
-    }
-
-    public void vote(){
-        logger.info("voting .... ");
-    }
-    public void listenHeartBeat(){
-
     }
     
     public void toCandidate(){
@@ -87,67 +82,25 @@ public class Follower implements RaftServerState {
 			/**
 			 * vote will be false as: this candidate is lagging
 			 */
-			wm = createVoteResponse(request.getCandidateId(), state.getNodeId(), 
+			wm = ElectionMessage.createVoteResponse(request.getCandidateId(), state.getNodeId(), 
 					request.getTerm(), false);
 		}else{
 			if(electionVotes.containsKey(request.getTerm())){
-				wm  =  createVoteResponse(request.getCandidateId(), state.getNodeId(), 
+				wm  =  ElectionMessage.createVoteResponse(request.getCandidateId(), state.getNodeId(), 
 						request.getTerm(), false);
 			}
 			else{
 				state.setCurrentTerm(request.getTerm());
 				electionVotes.put(request.getTerm(), request.getCandidateId());
-				wm  =  createVoteResponse(request.getCandidateId(), state.getNodeId(), 
+				wm  =  ElectionMessage.createVoteResponse(request.getCandidateId(), state.getNodeId(), 
 						request.getTerm(), true);
 			}
 			   
 		}
 		state.getOutBoundMessageQueue().addMessage(wm);
 	}
-
-	private WorkMessage createVoteResponse(int destId, int sourceId, int term, boolean b) {
-		logger.info("will I vote for " + destId + " for term : " + term +"?, and answer is : " + b);
-		// TODO Auto-generated method stub
-		WorkMessage.Builder wmb = WorkMessage.newBuilder();
-		Header.Builder hdb = Header.newBuilder();
-		hdb.setNodeId(sourceId);
-		hdb.setTime(System.currentTimeMillis());
-		hdb.setDestination(destId);
-	    wmb.setHeader(hdb);
-	    
-	    LeaderElectionResponse.Builder leb = LeaderElectionResponse.newBuilder();
-	    leb.setForTerm(term);
-	    leb.setFromNodeId(sourceId);
-	    leb.setVoteGranted(b);
-	    
-		wmb.setLeaderElectionResponse(leb);
-		wmb.setType(MessageType.LEADERELECTIONREPLY);
-		wmb.setSecret(10100);
-		return wmb.build();
-	}
 	
 
-	public void startElection() {
-		// TODO Auto-generated method stub	
-		
-	}
-
-	public void leaderElect() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	
-    @java.lang.Override
-    public void collectVote(Election.LeaderElectionResponse leaderElectionResponse) {
-
-    }
-
-	@Override
-	public void declareLeader() {
-		// TODO Auto-generated method stub
-		
-	}
 	
 	class Vote {
 		int candidateId;
@@ -187,16 +140,17 @@ public class Follower implements RaftServerState {
 	 * entries starting from lastApplied + 1 to commit index
 	 */
 	public void updateCommitIndex(int newCommitIndex) {
-		log.setCommitIndex(newCommitIndex);
-		if(log.getCommitIndex() >log.getLastApplied()) {
-			log.setLastApplied(log.getCommitIndex());
+		state.getLog().setCommitIndex(newCommitIndex);
+		if(newCommitIndex > state.getLog().getLastApplied()) {
+			state.getLog().setLastApplied(newCommitIndex);
+			
 		}
 	}
 
 
 	@Override
 	public void heartbeat(LogAppendEntry heartbeat) {
-		logger.info("Got a heartbeat message in While server was in Follower state");
+		logger.info("Received a heartbeat message in Follower state");
 		logger.info("Current Elected Leader is :" + heartbeat.getLeaderNodeId() + 
 				", for term : " + heartbeat.getElectionTerm() );
 		state.getElectionTimer().resetElectionTimeOut();
@@ -204,17 +158,11 @@ public class Follower implements RaftServerState {
 		state.becomeFollower();
 		state.setCurrentTerm(heartbeat.getElectionTerm());
 		state.setLeaderKnown(true);
+		
+		//need to send a response to server provide followers log information
 	}
 
-	@Override
-	public byte[] readFile(ReadRequest readBody) {
-		return null;//IOUtility.readFile(readBody);
-	}
 
-	@Override
-	public int writeFile(WriteRequest readBody) {
-		return 0;//IOUtility.writeFile(readBody);
-	}
 
 	@Override
 	public void logAppend(LogAppendEntry logEntry) {
@@ -232,7 +180,7 @@ public class Follower implements RaftServerState {
 				//need to delete logs entry
 			}
 
-			wm = createLogAppendResponse(logEntry.getLeaderNodeId(),
+			wm = LogAppend.createLogAppendResponse(state.getNodeId(), logEntry.getLeaderNodeId(),
 					lastIndex, state.getCurrentTerm(), false);
 		}
 		else{
@@ -252,34 +200,12 @@ public class Follower implements RaftServerState {
 				state.getLog().setCommitIndex(Math.min(logEntry.getLeaderCommitIndex(),
 						lastIndex));
 			}
-			wm = createLogAppendResponse(logEntry.getLeaderNodeId(),
+			wm = LogAppend.createLogAppendResponse(state.getNodeId(), logEntry.getLeaderNodeId(),
 					lastIndex, state.getCurrentTerm(), true);
 		}
 		state.getOutBoundMessageQueue().addMessage(wm);
 	}
 	
-	public WorkMessage createLogAppendResponse(int destId, int currentIndex, 
-			int currentTerm, boolean success){
-		WorkMessage.Builder msgBuilder = WorkMessage.newBuilder();
-		msgBuilder.setType(MessageType.LOGAPPENDENTRY);
-		msgBuilder.setSecret(9999);
-		
-		Header.Builder header = Header.newBuilder();
-		header.setDestination(destId);
-		header.setNodeId(state.getNodeId());
-		header.setTime(System.currentTimeMillis());
-		
-		msgBuilder.setHeader(header);
-		
-		LogAppendEntry.Builder logAppend = LogAppendEntry.newBuilder();
-		logAppend.setElectionTerm(currentTerm);
-		logAppend.setSuccess(success);
-		logAppend.setPrevLogIndex(currentIndex);
-		logAppend.setLeaderNodeId(state.getNodeId());
-		
-		msgBuilder.setLogAppendEntries(logAppend);
-		return msgBuilder.build();
-	}
 
 	@Override
 	public void appendEntries(ArrayList<Builder> logEntryBuilder) {
@@ -299,6 +225,7 @@ public class Follower implements RaftServerState {
 		String file_name =  "./data/" + chunk.getFileName() + "_" + chunk.getFileId() + "_" + chunk.getChunkId();
 		File file = new File(file_name);
 	    byte[] fileData = new byte[(int) file.length()];
+	    
 	    try{
 	    	DataInputStream dis = new DataInputStream(new FileInputStream(file));
 	    	dis.readFully(fileData);
@@ -324,9 +251,9 @@ public class Follower implements RaftServerState {
 	    	state.getOutBoundMessageQueue().addMessage(msgBuilder.build());
 	    	
 	    }catch(Exception e){
-	    	
-	    }
-        
+	        logger.info("Got error while reading chunk data in follower: " );
+	        e.printStackTrace();
+	    }    
 	}
 
 	@Override
@@ -377,6 +304,38 @@ public class Follower implements RaftServerState {
 		logger.info("Got A file write response");
 		
 	}	
+	
+	public void startElection() {
+		// TODO Auto-generated method stub	
+		
+	}
+
+	public void leaderElect() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
+    @java.lang.Override
+    public void collectVote(Election.LeaderElectionResponse leaderElectionResponse) {
+
+    }
+
+	@Override
+	public void declareLeader() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public byte[] readFile(ReadRequest readBody) {
+		return null;//IOUtility.readFile(readBody);
+	}
+
+	@Override
+	public int writeFile(WriteRequest readBody) {
+		return 0;//IOUtility.writeFile(readBody);
+	}
 
 
 }

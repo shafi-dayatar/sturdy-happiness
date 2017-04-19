@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import gash.router.server.PrintUtil;
 import gash.router.server.ServerState;
 import gash.router.server.states.RaftServerState;
+import pipe.common.Common.Header;
 import pipe.election.Election;
 import pipe.work.Work.LogAppendEntry;
 import pipe.work.Work.WorkMessage;
@@ -35,4 +36,27 @@ public class LogAppend extends Message {
     	}
         return;
     }
+    
+	public static WorkMessage createLogAppendResponse(int sourceId, int destId, int currentIndex, 
+			int currentTerm, boolean success){
+		WorkMessage.Builder msgBuilder = WorkMessage.newBuilder();
+		msgBuilder.setType(MessageType.LOGAPPENDENTRY);
+		msgBuilder.setSecret(9999);
+		
+		Header.Builder header = Header.newBuilder();
+		header.setDestination(destId);
+		header.setNodeId(sourceId);
+		header.setTime(System.currentTimeMillis());
+		
+		msgBuilder.setHeader(header);
+		
+		LogAppendEntry.Builder logAppend = LogAppendEntry.newBuilder();
+		logAppend.setElectionTerm(currentTerm);
+		logAppend.setSuccess(success);
+		logAppend.setPrevLogIndex(currentIndex);
+		logAppend.setLeaderNodeId(sourceId);
+		
+		msgBuilder.setLogAppendEntries(logAppend);
+		return msgBuilder.build();
+	}
 }

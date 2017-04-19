@@ -30,9 +30,9 @@ public class ElectionTimer implements Runnable {
         this.state = state;
         maxRandom = max;
         minRandom = min;
-        this.timerValue = ThreadLocalRandom.current().nextLong(min*1000, max*1000 + 1);
+        this.timerValue = ThreadLocalRandom.current().nextLong(min, max + 1);
         electionTimeOut  = System.currentTimeMillis() + this.timerValue;
-        electionResolutionTime = 5000;
+        electionResolutionTime = 100;
     }
 
 	@Override

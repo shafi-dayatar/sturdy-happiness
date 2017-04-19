@@ -28,9 +28,7 @@ public class ServerState {
 	private Thread electionTimerThread;
 	private Thread leaderThread;
 	
-	
 	private int currentTerm = 0;
-	private int votedFor = 0;
 	private int leaderNodeId;
 	private boolean isLeaderKnown = false;
 
@@ -40,6 +38,8 @@ public class ServerState {
 	private TaskList tasks;
     private MessageQueue obmQueue;
     private MessageQueue ibmQueue;
+    
+	private IOUtility db = new IOUtility();
     
     private LogInfo log = new LogInfo();
 
@@ -54,10 +54,8 @@ public class ServerState {
     	candidate = new Candidate(this);
     	follower = new Follower(this);
     	raftState = follower;
-		this.electionTimer = new ElectionTimer(this, 8, 12);
-    	//electionTimer = new ElectionTimer(this);	
-    }
-    
+		//this.
+    } 
     
 	public RoutingConf getConf() {
 		return conf;
@@ -140,14 +138,6 @@ public class ServerState {
     public int getCurrentTerm(){
         return this.currentTerm;
     }
-    
-    public void setVotedFor(int votedFor){
-        this.votedFor = votedFor;
-    }
-    
-    public int getVotedFor(){
-        return this.votedFor;
-    }
 
 	public int getNodeId() {
 		return nodeId;
@@ -176,6 +166,7 @@ public class ServerState {
 	}
 	
 	public void startElectionTimerThread(){
+		electionTimer = new ElectionTimer(this, getConf().getHeartbeatDt()+150, getConf().getHeartbeatDt()+500);	
 		electionTimerThread = new Thread(electionTimer);
 		electionTimerThread.start();
 	}
@@ -210,6 +201,16 @@ public class ServerState {
 	public Node getLeaderNode() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+
+	public IOUtility getDb() {
+		return db;
+	}
+
+
+	public void setDb(IOUtility db) {
+		this.db = db;
 	}
 	
 

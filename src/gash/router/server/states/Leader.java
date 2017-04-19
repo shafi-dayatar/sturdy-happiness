@@ -46,13 +46,11 @@ public class Leader implements RaftServerState, Runnable {
 
     protected static Logger logger = LoggerFactory.getLogger("Leader-State");
     private ServerState state;
-    private LogInfo log;
 	SqlClient sqlClient;
-	private int replicationFactor;
-	private IOUtility db = new IOUtility();
+	private int replicationFactor = 3; // this should come from config file.
 
-    
-    
+
+
     // stores the next logIndex to be sent to each follower
  	Hashtable<Integer, Integer> nextIndex = new Hashtable<Integer, Integer>();
  	// stores the last logIndex response from each follower
@@ -80,7 +78,6 @@ public class Leader implements RaftServerState, Runnable {
             LogEntry entry  = builder.build();
             Set<Integer> keys = nextIndex.keySet();
             for(Integer nodeId : keys){
-            	
             	int nextlogindex = nextIndex.get(nodeId);
             	state.getLog().appendEntry(entry);
             	if (state.getLog().lastIndex() >= nextlogindex){
@@ -309,7 +306,7 @@ public class Leader implements RaftServerState, Runnable {
 		while(isLeader){
 			declareLeader();
 			try {
-				logger.info("Will Send a hearbeat message in" + state.getConf().getHeartbeatDt());
+				logger.info("Will Send a hearbeat message in " + state.getConf().getHeartbeatDt());
 				Thread.sleep(state.getConf().getHeartbeatDt());
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
@@ -387,7 +384,7 @@ public class Leader implements RaftServerState, Runnable {
 	public int writeFile(WriteRequest write) {
 		
 
-		int fileId = (int)db.getFileId(write.getFilename(), write.getFileExt());
+		int fileId = (int)state.getDb().getFileId(write.getFilename(), write.getFileExt());
 		
 		if (fileId != -1) {
 			String fileName = write.getFilename();

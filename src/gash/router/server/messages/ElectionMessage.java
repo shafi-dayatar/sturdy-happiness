@@ -4,8 +4,13 @@ import gash.router.server.ServerState;
 import gash.router.server.states.RaftServerState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import pipe.common.Common.Header;
 import pipe.election.Election;
+import pipe.election.Election.LeaderElection;
+import pipe.election.Election.LeaderElectionResponse;
 import pipe.work.Work;
+import pipe.work.Work.WorkMessage;
 import pipe.work.Work.WorkMessage.MessageType;
 
 /**
@@ -40,4 +45,49 @@ public class ElectionMessage extends Message {
     	}
         return;
     }
+    
+    
+    public static WorkMessage createElectionMessage(int sourceId, int lastLogIndex, 
+    		int lastLogTerm, int currentTerm){
+		//Create Leader Election BroadCast Message:
+		WorkMessage.Builder wmb = WorkMessage.newBuilder();
+		Header.Builder hdb = Header.newBuilder();
+		hdb.setNodeId(sourceId);
+		hdb.setTime(System.currentTimeMillis());
+		hdb.setDestination(-1);
+	    wmb.setHeader(hdb);
+	    
+	    LeaderElection.Builder leb = LeaderElection.newBuilder();
+	    leb.setLastLogIndex(lastLogIndex);
+	    leb.setLastLogTerm(lastLogTerm);
+	    leb.setTerm(currentTerm);
+	    leb.setCandidateId(sourceId);
+	    
+		wmb.setLeaderElectionRequest(leb);
+		wmb.setType(MessageType.LEADERELECTION);
+		wmb.setSecret(10100);
+		return wmb.build();
+	}
+    
+    public static WorkMessage createVoteResponse(int destId, int sourceId, int term, boolean b) {
+		logger.info("will I vote for " + destId + "?, and answer is : " + b);
+		// TODO Auto-generated method stub
+		WorkMessage.Builder wmb = WorkMessage.newBuilder();
+		Header.Builder hdb = Header.newBuilder();
+		hdb.setNodeId(sourceId);
+		hdb.setTime(System.currentTimeMillis());
+		hdb.setDestination(destId);
+	    wmb.setHeader(hdb);
+	    
+	    LeaderElectionResponse.Builder leb = LeaderElectionResponse.newBuilder();
+	    leb.setForTerm(term);
+	    leb.setFromNodeId(sourceId);
+	    leb.setVoteGranted(b);
+	    
+		wmb.setLeaderElectionResponse(leb);
+		wmb.setType(MessageType.LEADERELECTIONREPLY);
+		wmb.setSecret(10100);
+		return wmb.build();
+	}
+  
 }

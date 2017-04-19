@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import gash.router.server.ServerState;
-
+import gash.router.server.messages.ElectionMessage;
 import pipe.election.Election;
 import pipe.work.Work;
 import pipe.common.Common.Header;
@@ -44,11 +44,11 @@ public class Candidate implements RaftServerState {
         logger.info("requestVote ");
         WorkMessage wm = null;
         if (request.getTerm() > state.getCurrentTerm()){
-        	wm = createVoteResponse(request.getCandidateId(), state.getNodeId(), 
+        	wm = ElectionMessage.createVoteResponse(request.getCandidateId(), state.getNodeId(), 
     				request.getTerm(), true);
         	state.becomeFollower();
         }else{
-        	wm = createVoteResponse(request.getCandidateId(), state.getNodeId(), 
+        	wm = ElectionMessage.createVoteResponse(request.getCandidateId(), state.getNodeId(), 
 				request.getTerm(), false);
         }
         state.getOutBoundMessageQueue().addMessage(wm);
@@ -58,14 +58,18 @@ public class Candidate implements RaftServerState {
 	public void startElection() {
 		// TODO Auto-generated method stub	
 		logger.info(" I am starting a election with term : " + state.getCurrentTerm() + 
-		", Hopefully I will become leader ");
+		", Will I become leader ???");
 		
 		election = new Election(state.getCurrentTerm(), 
 				state.getEmon().getTotalNodes(), state.getLastLogIndex(),
 				state.getLastLogTerm());
 		startTime = System.currentTimeMillis();		
 		state.getOutBoundMessageQueue().addMessage(
-				election.createElectionMessage());
+				ElectionMessage.createElectionMessage(state.getNodeId(), 
+						state.getLog().getLogIndex(), 
+						 state.getLog().lastLogTerm(), 
+	            state.getCurrentTerm())
+		);
 	}
 	
 	public void leaderElect() {
@@ -76,9 +80,9 @@ public class Candidate implements RaftServerState {
 	@java.lang.Override
 	public void collectVote(LeaderElectionResponse voteResponse) {
 		/**
-		 *  vote is counted only if it from currentTerm, 
-		 *  which will handle stale election response votes,
-		 *  also duplicate vote response is handled
+		 *  vote will be counted only if it is from currentTerm, 
+		 *  which will handle stale election response votes from previous term,
+		 *  No Duplicate vote is allowed.
 		 */
 		
 		logger.info("Got vote from : " + voteResponse.getFromNodeId());
@@ -101,28 +105,6 @@ public class Candidate implements RaftServerState {
 		}
 		
 	}
-	
-	
-	private WorkMessage createVoteResponse(int destId, int sourceId, int term, boolean b) {
-		logger.info("will I vote for " + destId + "?, and answer is : " + b);
-		// TODO Auto-generated method stub
-		WorkMessage.Builder wmb = WorkMessage.newBuilder();
-		Header.Builder hdb = Header.newBuilder();
-		hdb.setNodeId(sourceId);
-		hdb.setTime(System.currentTimeMillis());
-		hdb.setDestination(destId);
-	    wmb.setHeader(hdb);
-	    
-	    LeaderElectionResponse.Builder leb = LeaderElectionResponse.newBuilder();
-	    leb.setForTerm(term);
-	    leb.setFromNodeId(sourceId);
-	    leb.setVoteGranted(b);
-	    
-		wmb.setLeaderElectionResponse(leb);
-		wmb.setType(MessageType.LEADERELECTIONREPLY);
-		wmb.setSecret(10100);
-		return wmb.build();
-	}
 
 	public class Election {
 		public int term;
@@ -137,27 +119,6 @@ public class Candidate implements RaftServerState {
 			this.voteRequired = (voteRequired/2) + 1;
 			this.lastLogIndex = lastLogIndex;
 			this.lastLogTerm = lastLogTerm;
-		}
-		
-		public WorkMessage createElectionMessage(){
-			//Create Leader Election BroadCast Message:
-			WorkMessage.Builder wmb = WorkMessage.newBuilder();
-			Header.Builder hdb = Header.newBuilder();
-			hdb.setNodeId(state.getNodeId());
-			hdb.setTime(System.currentTimeMillis());
-			hdb.setDestination(-1);
-		    wmb.setHeader(hdb);
-		    
-		    LeaderElection.Builder leb = LeaderElection.newBuilder();
-		    leb.setLastLogIndex(state.getLastLogIndex());
-		    leb.setLastLogTerm(state.getLastLogTerm());
-		    leb.setTerm(state.getCurrentTerm());
-		    leb.setCandidateId(state.getNodeId());
-		    
-			wmb.setLeaderElectionRequest(leb);
-			wmb.setType(MessageType.LEADERELECTION);
-			wmb.setSecret(10100);
-			return wmb.build();
 		}
 		
 		public boolean checkElectionResult(){
@@ -245,7 +206,5 @@ public class Candidate implements RaftServerState {
 	public void writeChunkDataResponse(FileChunkData chunk) {
 		// TODO Auto-generated method stub
 	}	
-
-
-
+	
 }
