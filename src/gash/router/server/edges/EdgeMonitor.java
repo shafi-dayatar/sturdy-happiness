@@ -30,6 +30,7 @@ import org.slf4j.LoggerFactory;
 import gash.router.container.RoutingConf.RoutingEntry;
 import gash.router.server.ServerState;
 import gash.router.server.communication.CommConnection;
+import gash.router.server.messages.DiscoverMessage;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
@@ -98,55 +99,6 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 	public void shutdown() {
 		forever = false;
 	}
-
-	public InetAddress getCurrentIp() {
-        try {
-            Enumeration<NetworkInterface> networkInterfaces = NetworkInterface
-                    .getNetworkInterfaces();
-            while (networkInterfaces.hasMoreElements()) {
-                NetworkInterface ni = (NetworkInterface) networkInterfaces
-                        .nextElement();
-                Enumeration<InetAddress> nias = ni.getInetAddresses();
-                while(nias.hasMoreElements()) {
-                    InetAddress ia= (InetAddress) nias.nextElement();
-                    if (!ia.isLinkLocalAddress() 
-                     && !ia.isLoopbackAddress()
-                     && ia instanceof Inet4Address) {
-                        return ia;
-                    }
-                }
-            }
-        } catch (SocketException e) {
-            logger.error("unable to get current IP " + e.getMessage(), e);
-        }
-        return null;
-    }
-	
-	public void discoverCluster(){
-		//todo should read all entries
-
-		System.out.println("Processing till hear");
-		List<RoutingEntry> re = state.getConf().getRouting();
-		WorkMessage.Builder wmb = WorkMessage.newBuilder();
-		Header.Builder hdb = Header.newBuilder();
-		hdb.setNodeId(state.getConf().getNodeId());
-		hdb.setDestination(re.get(0).getId());
-		hdb.setTime(System.currentTimeMillis());
-		wmb.setHeader(hdb.build());
-		wmb.setSecret(1111);
-		
-		Discovery.Builder db = Discovery.newBuilder(); 
-		Node.Builder discover = Node.newBuilder(); 
-		discover.setNodeId(state.getConf().getNodeId());
-		discover.setIpAddr(getCurrentIp().getHostAddress());
-		discover.setWorkPort(state.getConf().getWorkPort());
-		db.setNode(discover.build());
-		wmb.setType(MessageType.DISCOVERNODE);
-		wmb.setDiscovery(db.build());
-		state.getOutBoundMessageQueue().addMessage(wmb.build());
-		System.out.println("Still working");
-		
-	}
 	
 	@Override
 	public void run() {
@@ -194,7 +146,11 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 				           onRemove(ei);
 				        }
 				    });
-				discoverCluster();
+				long startTime = System.currentTimeMillis();   
+				WorkMessage wm  = DiscoverMessage.discoverMessage(state.getNodeId(), ei.getRef(),
+						state.getConf().getWorkPort());
+				logger.info("Time Taken to create Initial discovery Message : " + (System.currentTimeMillis() - startTime));
+				state.getOutBoundMessageQueue().addMessage(wm);
 			}
 		}
 		catch(Exception e){

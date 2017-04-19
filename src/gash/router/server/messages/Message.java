@@ -13,30 +13,18 @@ public class Message implements MessageInterface {
 	private int replyFrom;
 	private long timestamp;
 	private int maxHops;
-	private MessageType type;
 	private Channel channel;
 	private int secret = 123245;
 	
-	public MessageType getType() {
-		return type;
-	}
 
-	public void setType(MessageType type) {
-		this.type = type;
-	}
 	
 	public void unPackHeader(Header hd){
 		nodeId = hd.getNodeId();
 		destinationId = hd.getDestination();
 		timestamp = hd.getTime();
 		maxHops = hd.getMaxHops();
-		//reply = hd.getIsReply();
-		//replyFrom = hd.getReplyFrom();
 	}
 
-	@java.lang.Override
-	public void discard() {
-	}
 
 	public Header createHeader(){
 		Header.Builder hd = Header.newBuilder();
@@ -44,19 +32,11 @@ public class Message implements MessageInterface {
 		hd.setMaxHops(maxHops);
 		hd.setTime(timestamp);
 		hd.setNodeId(nodeId);
-//		if (reply){
-//			hd.setReplyFrom(replyFrom);
-//			hd.setIsReply(reply);
-//		}
 		return hd.build();
 	}
 	
 	public WorkMessage forward(){
 		return null;
-	}
-
-	@java.lang.Override
-	public void respond() {
 	}
 
 	/*
@@ -68,10 +48,10 @@ public class Message implements MessageInterface {
 	public void setNodeId(int nodeId) {
 		this.nodeId = nodeId;
 	}
-	public int getDestinationId() {
+	public int getDestId() {
 		return destinationId;
 	}
-	public void setDestinationId(int destinationId) {
+	public void setDestId(int destinationId) {
 		this.destinationId = destinationId;
 	}
 	public boolean isReply() {
@@ -98,23 +78,18 @@ public class Message implements MessageInterface {
 	public void setMaxHops(int maxHops) {
 		this.maxHops = maxHops;
 	}
-
 	public int getSecret() {
 		return secret;
 	}
-
 	public void setSecret(int secret) {
 		this.secret = secret;
 	}
-
 	public Channel getChannel() {
 		return channel;
 	}
-
 	public void setChannel(Channel channel) {
 		this.channel = channel;
 	}
-
 	@Override
 	public void processMessage(ServerState state) {
 		// TODO Auto-generated method stub

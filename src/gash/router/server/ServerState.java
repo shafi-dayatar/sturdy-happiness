@@ -10,13 +10,14 @@ import org.slf4j.LoggerFactory;
 import gash.router.container.RoutingConf;
 import gash.router.server.edges.EdgeMonitor;
 import gash.router.server.log.LogInfo;
-import gash.router.server.messages.MessageQueue;
+import gash.router.server.queue.MessageQueue;
 import gash.router.server.states.Candidate;
 import gash.router.server.states.ElectionTimer;
 import gash.router.server.states.Follower;
 import gash.router.server.states.Leader;
 import gash.router.server.states.RaftServerState;
 import gash.router.server.tasks.TaskList;
+import pipe.work.Work.Node;
 
 public class ServerState {
 	private RaftServerState raftState;
@@ -121,13 +122,15 @@ public class ServerState {
 	public void becomeLeader(){
 		logger.info("Becoming leader for election term : " + currentTerm );
 		raftState = leader;
-		leader.setLeader(true);
-		leader.setNextAndMatchIndex();
-		if (leaderThread == null)
-			leaderThread = new Thread(leader);
-		
-		leaderThread.start();
-		electionTimer.stopThread();
+		if (!leader.isLeader() ){
+			leader.setLeader(true);
+			leader.setNextAndMatchIndex();
+			if (leaderThread == null)
+				leaderThread = new Thread(leader);
+
+			leaderThread.start();
+			electionTimer.stopThread();
+		}
 	}
 	
 	public void setCurrentTerm(int currentTerm){
@@ -201,6 +204,12 @@ public class ServerState {
 
 	public void setLog(LogInfo log) {
 		this.log = log;
+	}
+
+
+	public Node getLeaderNode() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 

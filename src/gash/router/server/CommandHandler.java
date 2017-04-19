@@ -30,7 +30,6 @@ import pipe.work.Work.LogEntry;
 import pipe.work.Work.LogEntry.DataAction;
 import routing.Pipe;
 import routing.Pipe.CommandMessage;
-import routing.Pipe.TaskType;
 import routing.Pipe.Chunk;
 import com.google.protobuf.ByteString;
 import java.net.InetAddress;
@@ -79,10 +78,10 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 			return;
 		}
 
-
-		try {
+	}
+		//try {
 			// TODO How can you implement this without if-else statements?
-			if (msg.hasReq()){
+			/*if (msg.hasReq()){
 				switch (msg.getReq().getRequestType()){
 					case READFILE:
 						if(msg.getReq().hasRrb()){

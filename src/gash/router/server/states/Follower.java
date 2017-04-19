@@ -36,6 +36,9 @@ import pipe.work.Work.WorkMessage;
 import pipe.work.Work.WorkMessage.MessageType;
 import routing.*;
 import routing.Pipe;
+import routing.Pipe.ReadRequest;
+import routing.Pipe.WriteRequest;
+
 import com.google.protobuf.ByteString;
 import gash.router.server.IOUtility;
 /**
@@ -204,18 +207,13 @@ public class Follower implements RaftServerState {
 	}
 
 	@Override
-	public byte[] readFile(Pipe.ReadBody readBody) {
+	public byte[] readFile(ReadRequest readBody) {
 		return null;//IOUtility.readFile(readBody);
 	}
 
 	@Override
-	public int writeFile(Pipe.WriteBody readBody) {
+	public int writeFile(WriteRequest readBody) {
 		return 0;//IOUtility.writeFile(readBody);
-	}
-
-	@Override
-	public void deleteFile(Pipe.ReadBody readBody) {
-
 	}
 
 	@Override

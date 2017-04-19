@@ -35,6 +35,8 @@ import pipe.work.Work.Node;
 import pipe.work.Work.WorkMessage;
 import routing.Pipe;
 import routing.Pipe.Chunk;
+import routing.Pipe.ReadRequest;
+import routing.Pipe.WriteRequest;
 
 import com.google.protobuf.ByteString;
 /**
@@ -307,6 +309,7 @@ public class Leader implements RaftServerState, Runnable {
 		while(isLeader){
 			declareLeader();
 			try {
+				logger.info("Will Send a hearbeat message in" + state.getConf().getHeartbeatDt());
 				Thread.sleep(state.getConf().getHeartbeatDt());
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
@@ -349,12 +352,12 @@ public class Leader implements RaftServerState, Runnable {
 	}
 
 	@Override
-	public byte[] readFile(Pipe.ReadBody readBody) {
+	public byte[] readFile(ReadRequest readBody) {
 		return new IOUtility().readFile(readBody);
 	}
 	
 	
-	public WorkMessage createWriteFileMessage(Pipe.WriteBody writeMessage){
+	public WorkMessage createWriteFileMessage(ReadRequest writeMessage){
 		return null;
 	}
 
@@ -381,7 +384,7 @@ public class Leader implements RaftServerState, Runnable {
 	}
 	
 	@Override
-	public int writeFile(Pipe.WriteBody write) {
+	public int writeFile(WriteRequest write) {
 		
 
 		int fileId = (int)db.getFileId(write.getFilename(), write.getFileExt());
@@ -428,11 +431,6 @@ public class Leader implements RaftServerState, Runnable {
 		
 		
 		return 0;//IOUtility.writeFile(write);
-	}
-
-	@Override
-	public void deleteFile(Pipe.ReadBody readBody) {
-
 	}
 
 	public void setNextAndMatchIndex() {

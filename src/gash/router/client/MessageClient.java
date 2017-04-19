@@ -29,10 +29,7 @@ import org.apache.commons.io.IOUtils;
 import pipe.common.Common;
 import pipe.common.Common.Header;
 import routing.Pipe;
-import routing.Pipe.Request;
-import routing.Pipe.WriteBody;
 import routing.Pipe.Chunk;
-import routing.Pipe.TaskType;
 import routing.Pipe.CommandMessage;
 import com.google.protobuf.ByteString;
 //import routing.Pipe.WhoIsLeader;
@@ -82,22 +79,22 @@ public class MessageClient {
 	}
 
 	public void onWriteRequest(CommandMessage msg){
-		System.out.println(" Write request message: "+ msg.getResp().getStatus());
+		//System.out.println(" Write request message: "+ msg.getResp().getStatus());
 
 		System.out.println(" done with write request  . .. . .");
 		System.out.flush();
 
 	}
 	public void onReadRequest(CommandMessage msg){
-		System.out.println(" Reaad request message: "+ msg.getResp().getStatus());
-		System.out.println(" No of chunks: "+ msg.getResp().getReadResponse().getNumOfChunks());
+		//System.out.println(" Reaad request message: "+ msg.getResp().getStatus());
+		//System.out.println(" No of chunks: "+ msg.getResp().getReadResponse().getNumOfChunks());
 
 		try {
 
 			File file = new File(fileoutput);
 			file.createNewFile();
 			ArrayList<ByteString> byteString = new ArrayList<ByteString>();
-			byteString.add(msg.getResp().getReadResponse().getChunk().getChunkData());
+			//byteString.add(msg.getResp().getReadResponse().getChunk().getChunkData());
 			FileOutputStream outputStream = new FileOutputStream(file);
 			ByteString bs = ByteString.copyFrom(byteString);
 			System.out.println(bs.size());
@@ -200,11 +197,11 @@ public class MessageClient {
 		CommandMessage.Builder command = CommandMessage.newBuilder();
 		try
 		{
-			Request.Builder msg = Request.newBuilder();
-			msg.setRequestType(TaskType.READFILE);
-			Pipe.ReadBody.Builder rrb = Pipe.ReadBody.newBuilder();
-			rrb.setFilename(file_name);
-			msg.setRrb(rrb.build());
+			//Request.Builder msg = Request.newBuilder();
+			//msg.setRequestType(TaskType.READFILE);
+			//Pipe.ReadBody.Builder rrb = Pipe.ReadBody.newBuilder();
+			//rrb.setFilename(file_name);
+			//msg.setRrb(rrb.build());
 
 			Pipe.Node.Builder node = Pipe.Node.newBuilder();
 
@@ -217,7 +214,7 @@ public class MessageClient {
 			header.setNodeId(1);
 			header.setTime(0);
 			command.setHeader(header);
-			command.setReq(msg.build());
+			//command.setReq(msg.build());
 			return command.build();
 		}
 		catch (Exception e)
@@ -232,7 +229,7 @@ public class MessageClient {
 		CommandMessage.Builder command = CommandMessage.newBuilder();
 		try
 		{
-			Request.Builder msg = Request.newBuilder();
+			/*Request.Builder msg = Request.newBuilder();
 			msg.setRequestType(TaskType.WRITEFILE);
 			WriteBody.Builder rwb  = WriteBody.newBuilder();
 			rwb.setFileExt(file.getName().substring(file.getName().lastIndexOf(".") + 1));
@@ -259,7 +256,8 @@ public class MessageClient {
 			header.setTime(0);
 			command.setHeader(header);
 			command.setReq(msg.build());
-			return command.build();
+			return command.build();*/
+			return null;
 		}
 		catch (Exception e)
 		{
@@ -282,7 +280,7 @@ public class MessageClient {
 		chb.setChunkData(chunkData);
 		chb.setChunkSize(chunkData.size());
 
-		WriteBody.Builder wb= WriteBody.newBuilder();
+		/*WriteBody.Builder wb= WriteBody.newBuilder();
 		wb.setFileId("1");
 		wb.setFilename(filename);
 		wb.setChunk(chb);
@@ -292,11 +290,11 @@ public class MessageClient {
 		//request type, read,write,etc
 		rb.setRequestType(TaskType.WRITEFILE ); // operation to be
 														// performed
-		rb.setRwb(wb);
+		rb.setRwb(wb);*/
 		CommandMessage.Builder cb = CommandMessage.newBuilder();
 		// Prepare the CommandMessage structure
 		cb.setHeader(hb);
-		cb.setReq(rb.build());
+		//cb.setReq(rb.build());
 
 		// Initiate connection to the server and prepare to save file
 		try {

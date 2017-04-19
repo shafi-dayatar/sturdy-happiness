@@ -15,6 +15,8 @@ import pipe.work.Work.FileChunkData;
 import pipe.work.Work.LogAppendEntry;
 import pipe.work.Work.LogEntry;
 import routing.Pipe;
+import routing.Pipe.ReadRequest;
+import routing.Pipe.WriteRequest;
 
 /**
  *  Parent state class that defines every node - Leader Candidate Follower
@@ -31,10 +33,10 @@ public interface RaftServerState {
 	public void heartbeat(LogAppendEntry hearbeat);
 	void appendEntries(ArrayList<LogEntry.Builder> logEntryBuilder);
 	void appendEntries(LogEntry.Builder logEntryBuilder);
-	byte[] readFile(Pipe.ReadBody readBody);
+	byte[] readFile(ReadRequest readBody);
 	// if it returns -1 - all good, else returns the chunk id it failed to write
-    int writeFile(Pipe.WriteBody writeBody);
-    void deleteFile(Pipe.ReadBody readBody);
+    int writeFile(WriteRequest writeBody);
+    //void deleteFile(Pipe.ReadBody readBody);
 	public void readChunkData(FileChunkData chunk);
 	public void writeChunkData(FileChunkData chunk);
 	public void readChunkDataResponse(FileChunkData chunk);

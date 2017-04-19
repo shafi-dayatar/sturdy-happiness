@@ -13,8 +13,4 @@ import pipe.work.Work.WorkMessage;
 //
 public interface MessageInterface {
     public void processMessage(ServerState state);
-    void discard();
-    //WorkMessage forward();
-    void respond();
-    
 }

@@ -24,7 +24,7 @@ public class PingMessage extends Message{
 		//setReply(true);
 		setMaxHops(10);
 		//setReplyFrom(getDestinationId());
-		setDestinationId(getNodeId());
+		setDestId(getNodeId());
 		wm.setHeader(createHeader());
 		wm.setPing(true);
 		wm.setSecret(getSecret());
@@ -32,21 +32,12 @@ public class PingMessage extends Message{
 	}
 	
 	public WorkMessage forward(){
-//		if(getMaxHops() > 0){
-//			System.out.println("Is it forwarding or not???");
-//			setMaxHops(getMaxHops() - 1);
-//			Header hd = createHeader();
-//			WorkMessage.Builder wb = WorkMessage.newBuilder();
-//			wb.setHeader(hd);
-//			wb.setSecret(new Integer(123123123));
-//			wb.setPing(true);
-//			return wb.build();
-//		}
 		return null;
 	}
+	
 	public WorkMessage processMessage(int nodeId){
-		System.out.println("nodeId" + nodeId + "getDestinationId" + getDestinationId());
-		if(nodeId == getDestinationId()){
+		//System.out.println("nodeId" + nodeId + "getDestinationId" + getDestinationId());
+		if(nodeId == getDestId()){
 			//return respond();
 		}
 		return forward();

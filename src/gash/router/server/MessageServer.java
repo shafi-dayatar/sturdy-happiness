@@ -19,10 +19,7 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.HashMap;
-import java.util.List;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
@@ -31,10 +28,9 @@ import org.slf4j.LoggerFactory;
 import com.google.protobuf.Message;
 
 import gash.router.container.RoutingConf;
-import gash.router.container.RoutingConf.RoutingEntry;
 import gash.router.server.edges.EdgeMonitor;
-import gash.router.server.messages.InBoundMessageQueueWorker;
-import gash.router.server.messages.OutBoundMessageQueueWorker;
+import gash.router.server.queue.InBoundWorkMessageQueue;
+import gash.router.server.queue.OutBoundWorkMessageQueue;
 import gash.router.server.tasks.NoOpBalancer;
 import gash.router.server.tasks.TaskList;
 import io.netty.bootstrap.ServerBootstrap;
@@ -43,11 +39,6 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import pipe.common.Common.Header;
-import pipe.work.Work.Discovery;
-import pipe.work.Work.Node;
-import pipe.work.Work.WorkMessage;
-import pipe.work.Work.WorkMessage.MessageType;
 
 public class MessageServer {
 	protected static Logger logger = LoggerFactory.getLogger("server");
@@ -224,8 +215,8 @@ public class MessageServer {
 			TaskList tasks = new TaskList(new NoOpBalancer());
 			state.setTasks(tasks);
 			
-			InBoundMessageQueueWorker inbound = new InBoundMessageQueueWorker(state);
-			OutBoundMessageQueueWorker outbound = new OutBoundMessageQueueWorker(state);
+			InBoundWorkMessageQueue inbound = new InBoundWorkMessageQueue(state, 5);
+			OutBoundWorkMessageQueue outbound = new OutBoundWorkMessageQueue(state, 5);
 			state.setInBoundMessageQueue(inbound);
 			state.setOutBoundMessageQueue(outbound);
 
@@ -234,12 +225,6 @@ public class MessageServer {
 			edgeMonitorThread.start();
 
 			state.startElectionTimerThread();
-
-			Thread inboundT =  new Thread(inbound);
-			Thread outboundT = new Thread(outbound);
-			inboundT.start();
-			outboundT.start();
-			
 			setServerState(state);
 			
 		}	

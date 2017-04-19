@@ -72,14 +72,14 @@ public class DemoApp implements CommListener {
 	@Override
 	public void onMessage(CommandMessage msg) {
 
-		System.out.println("---> Got response RequestType : " + msg.getResp().getResponseType());
+		/*System.out.println("---> Got response RequestType : " + msg.getResp().getResponseType());
 		System.out.println("---> Got response RequestType : " + msg.getResp().getStatus());
 		if( msg.getResp().getResponseType() == Pipe.TaskType.READFILE){
 			this.mc.onReadRequest(msg);
 		}
 		if( msg.getResp().getResponseType() == Pipe.TaskType.WRITEFILE){
 			this.mc.onWriteRequest(msg);
-		}
+		}*/
 	}
 
 	/**

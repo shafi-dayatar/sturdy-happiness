@@ -22,6 +22,8 @@ import pipe.work.Work.WorkMessage;
 import pipe.work.Work.WorkMessage.MessageType;
 import pipe.work.Work.WorkMessageOrBuilder;
 import routing.Pipe;
+import routing.Pipe.ReadRequest;
+import routing.Pipe.WriteRequest;
 
 /**
  * Created by rentala on 4/11/17.
@@ -194,18 +196,13 @@ public class Candidate implements RaftServerState {
 	}
 
 	@Override
-	public byte[] readFile(Pipe.ReadBody readBody) {
+	public byte[] readFile(ReadRequest read) {
 		return null ;//IOUtility.readFile(readBody);
 	}
 
 	@Override
-	public int writeFile(Pipe.WriteBody readBody) {
+	public int writeFile(WriteRequest write) {
 		return 0;//IOUtility.writeFile(readBody);
-	}
-
-	@Override
-	public void deleteFile(Pipe.ReadBody readBody) {
-
 	}
 
 	@Override

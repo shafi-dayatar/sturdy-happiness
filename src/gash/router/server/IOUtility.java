@@ -2,6 +2,9 @@ package gash.router.server;
 
 import gash.router.server.db.SqlClient;
 import routing.Pipe;
+import routing.Pipe.ReadRequest;
+import routing.Pipe.WriteRequest;
+
 import com.google.protobuf.ByteString;
 
 /**
@@ -11,14 +14,14 @@ public class IOUtility {
 
     static SqlClient sqlClient = new SqlClient();
 
-    public static int writeFile(Pipe.WriteBody readBody){
-        Pipe.Chunk chunk = readBody.getChunk();
+    public static int writeFile(WriteRequest read){
+        Pipe.Chunk chunk = read.getChunk();
         ByteString bs = chunk.getChunkData();
-        return sqlClient.storefile(chunk.getChunkId(), bs.newInput(), readBody.getFilename());
+        return sqlClient.storefile(chunk.getChunkId(), bs.newInput(), read.getFilename());
     }
 
-    public byte[] readFile(Pipe.ReadBody readBody){
-        return sqlClient.getFile(readBody.getFilename());
+    public byte[] readFile(ReadRequest read){
+        return sqlClient.getFile(read.getFilename());
         //return sqlClient.getFile((int)readBody.getFileId());
     }
 
