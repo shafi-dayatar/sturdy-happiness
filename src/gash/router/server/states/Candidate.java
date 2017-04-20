@@ -57,13 +57,15 @@ public class Candidate implements RaftServerState {
 
 	public void startElection() {
 		// TODO Auto-generated method stub	
-		logger.info(" I am starting a election with term : " + state.getCurrentTerm() + 
+		logger.debug(" I am starting a election for term : " + state.getCurrentTerm() + 
 		", Will I become leader ???");
 		
 		election = new Election(state.getCurrentTerm(), 
 				state.getEmon().getTotalNodes(), state.getLastLogIndex(),
 				state.getLastLogTerm());
-		startTime = System.currentTimeMillis();		
+		startTime = System.currentTimeMillis();	
+		
+		logger.debug("Asking for votes from other servers in cluster");
 		state.getOutBoundMessageQueue().addMessage(
 				ElectionMessage.createElectionMessage(state.getNodeId(), 
 						state.getLog().getLogIndex(), 

@@ -150,7 +150,7 @@ public class LogInfo implements LogOperations {
 	public int lastIndex() {
 		if (log.size() > 0)
 		   return log.get(log.size()-1).getLogId();
-		return -1;
+		return 0;
 	}
 	
 	@Override

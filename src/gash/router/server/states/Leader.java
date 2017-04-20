@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import gash.router.server.ServerState;
 import gash.router.server.edges.EdgeMonitor;
 import gash.router.server.log.LogInfo;
+import gash.router.server.messages.LogAppend;
 import pipe.common.Common.Header;
 import pipe.election.Election;
 import pipe.election.Election.LeaderElection;
@@ -88,34 +89,32 @@ public class Leader implements RaftServerState, Runnable {
             }
         }
     }
-    
+	
 	public synchronized void appendEntries(LogEntry.Builder logEntryBuilder){
 		int lastLogIndex = state.getLog().lastIndex();
 		int lastLogTerm = state.getLog().lastLogTerm();
         int commitIndex = state.getLog().getCommitIndex();
-        
-		lastLogIndex = lastLogIndex == -1 ? 0 : lastLogIndex;
-		lastLogTerm = lastLogTerm == -1 ? state.getCurrentTerm() : lastLogTerm;
 				
 		logEntryBuilder.setTerm(lastLogTerm);
 		logEntryBuilder.setLogId(lastLogIndex+1);
 		LogEntry entry  = logEntryBuilder.build();
 		
-		logger.info("last log index :  " + lastLogIndex + ",\n ");
-		logger.info("Current Log Id is : " +  lastLogIndex+1);
+		logger.debug("last log index :  " + lastLogIndex + ",\n ");
+		logger.debug("Current Log Id is : " +  lastLogIndex+1);
         state.getLog().appendEntry(entry);
         state.getLog().setLastApplied(lastLogIndex+1);
         
 
         Set<Integer> keys = nextIndex.keySet();
-        logger.info("Last Log index of leader is : " + lastLogIndex);
+        logger.debug("Last Log index of leader is : " + lastLogIndex);
         for(Integer nodeId : keys){
             int nextlogindex = nextIndex.get(nodeId);
-            logger.info("NextIndex Table is : " + nextIndex.toString());
+            logger.debug("NextIndex Table is : " + nextIndex.toString());
             if (lastLogIndex + 1  >= nextlogindex){
-            	logger.info("Sending LogAppend to all connected server");
-            	WorkMessage wm = createLogAppendEntry(nodeId, lastLogIndex, lastLogTerm, commitIndex, entry);
-            	logger.info("Message is : " +  wm.toString());
+            	logger.debug("Sending LogAppend to all connected server");
+            	WorkMessage wm = LogAppend.createLogAppendEntry(state.getNodeId(), nodeId, 
+            			state.getCurrentTerm(), lastLogIndex, lastLogTerm, commitIndex, entry);
+            	logger.debug("Message is : " +  wm.toString());
             	state.getOutBoundMessageQueue().addMessage(wm);
             }
         }
@@ -127,79 +126,19 @@ public class Leader implements RaftServerState, Runnable {
 		logger.info("Got logAppend response from follower: " + logEntry.toString());
 		int nodeId = logEntry.getLeaderNodeId();
 		if (logEntry.getSuccess()){
-			updateNextAndMatchIndex(logEntry.getLeaderNodeId(), logEntry.getPrevLogIndex());
-			if (logEntry.getPrevLogIndex() < state.getLastLogIndex()){
-				//resendAppendRequest(nodeId, nextIndex.get(nodeId)+1);
-			}
-		}else{
+			updateNextAndMatchIndex(logEntry.getLeaderNodeId(), logEntry.getPrevLogIndex());	
+		}
+		if (logEntry.getPrevLogIndex() < state.getLog().lastIndex()){
 			int logId = getDecrementedNextIndex(nodeId);
-		    //resendAppendRequest(nodeId,logId);
+			LogEntry log = state.getLog().getEntry(logId - 1);
+			int lastLogIndex = log.getLogId();
+			int lastLogTerm = log.getTerm();
+			log = state.getLog().getEntry(logId);
+			int commitIndex = state.getLog().getCommitIndex();
+		    LogAppend.resendAppendRequest(state.getNodeId(), logEntry.getLeaderNodeId(),
+		    		state.getCurrentTerm(), commitIndex, logId, log, lastLogIndex, lastLogTerm);
 		}
 	}
-    
-    
-	/**
-	 * Build AppendRequest to send to a follower with log entries
-	 * starting from logStartIndex to latestIndex
-	 */
-	public WorkMessage resendAppendRequest(int fNode, int logIndex) {
-		WorkMessage.Builder wmb = WorkMessage.newBuilder();
-		Header.Builder hdb = Header.newBuilder();
-		hdb.setNodeId(state.getNodeId());
-		hdb.setTime(System.currentTimeMillis());
-		hdb.setDestination(fNode);
-		
-	    wmb.setHeader(hdb.build());
-	    
-	    LogEntryList.Builder l = LogEntryList.newBuilder();
-		l.addAllEntry(Arrays.asList(state.getLog().getEntries(logIndex)));
-		
-	    LogAppendEntry.Builder le = LogAppendEntry.newBuilder();
-		le.setElectionTerm(state.getCurrentTerm());
-		le.setPrevLogIndex(state.getLastLogIndex());
-		le.setPrevLogTerm((logIndex - 1) != 0 ? state.getLog().getEntry(logIndex - 1).getTerm() : 0);
-		le.setLeaderCommitIndex(state.getLog().getCommitIndex());
-		le.setLeaderNodeId(state.getNodeId());
-		le.setEntrylist(l.build());	    
-
-	    wmb.setLogAppendEntries(le.build());
-		wmb.setType(WorkMessage.MessageType.LOGAPPENDENTRY);
-		wmb.setSecret(11111);
-		return wmb.build();
-	}
-	
-    private WorkMessage createLogAppendEntry(int nodeId, int lastLogIndex, 
-    		int lastLogTerm, int commitIndex,
-    		LogEntry logEntry) {
-
-		// TODO Auto-generated method stub
-		WorkMessage.Builder wmb = WorkMessage.newBuilder();
-		Header.Builder hdb = Header.newBuilder();
-		hdb.setNodeId(state.getNodeId());
-		hdb.setTime(System.currentTimeMillis());
-		hdb.setDestination(nodeId);
-		
-		wmb.setHeader(hdb.build());
-		
-		LogEntryList.Builder entryList = LogEntryList.newBuilder();
-	    entryList.addEntry(logEntry);
-	    
-	    LogAppendEntry.Builder logAppend = LogAppendEntry.newBuilder();
-	    
-	    logAppend.setElectionTerm(state.getCurrentTerm());
-	    logAppend.setPrevLogIndex(lastLogIndex);
-	    logAppend.setPrevLogTerm(lastLogTerm);
-	    logAppend.setLeaderCommitIndex(commitIndex);
-	    logAppend.setLeaderNodeId(state.getNodeId());
-	    logAppend.setEntrylist(entryList.build());	    
-
-	    wmb.setLogAppendEntries(logAppend.build());
-		wmb.setType(WorkMessage.MessageType.LOGAPPENDENTRY);
-		wmb.setSecret(9999);
-		return wmb.build();
-		
-	}
-	
 	
 	/**
 	 * After leader is elected, reinitialize nextIndex 
@@ -253,14 +192,14 @@ public class Leader implements RaftServerState, Runnable {
 				}
 			}
 			logger.info("Log Entry appended on : " + refelectedOn +" servers..... ");
-			if (refelectedOn >= (state.getEmon().getTotalNodes()/2 + 1)){
+			if (refelectedOn >= (state.getEmon().getTotalNodes()/2 + 1) && 
+					state.getLog().getCommitIndex() < lastIndex){
 				logger.info("Time To Commit, everything looks perfect");
 				updateCommitIndex(lastIndex);
 			}
 		}
 	}
-	
-	
+
 	public void updateCommitIndex(int lastIndex) {
 		state.getLog().setCommitIndex(lastIndex);		
     }

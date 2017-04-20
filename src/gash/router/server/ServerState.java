@@ -27,7 +27,7 @@ public class ServerState {
 	private ElectionTimer electionTimer;
 	private Thread electionTimerThread;
 	private Thread leaderThread;
-	
+
 	private int currentTerm = 0;
 	private int leaderNodeId;
 	private boolean isLeaderKnown = false;
@@ -36,27 +36,27 @@ public class ServerState {
 	private int nodeId;
 	private EdgeMonitor emon;
 	private TaskList tasks;
-    private MessageQueue obmQueue;
-    private MessageQueue ibmQueue;
-    
-	private IOUtility db = new IOUtility();
-    
-    private LogInfo log = new LogInfo();
+	private MessageQueue obmQueue;
+	private MessageQueue ibmQueue;
 
-	public ElectionTimer getElectionTimer(){
-    	return electionTimer;
+	private IOUtility db = new IOUtility();
+
+	private LogInfo log = new LogInfo();
+
+	public ElectionTimer getElectionTimer() {
+		return electionTimer;
 	}
 
 	protected static Logger logger = LoggerFactory.getLogger("Server State");
-    
-    public ServerState(){ 	
-    	leader = new Leader(this);
-    	candidate = new Candidate(this);
-    	follower = new Follower(this);
-    	raftState = follower;
-		//this.
-    } 
-    
+
+	public ServerState() {
+		leader = new Leader(this);
+		candidate = new Candidate(this);
+		follower = new Follower(this);
+		raftState = follower;
+		// this.
+	}
+
 	public RoutingConf getConf() {
 		return conf;
 	}
@@ -69,19 +69,19 @@ public class ServerState {
 	public EdgeMonitor getEmon() {
 		return emon;
 	}
-	
+
 	public MessageQueue getOutBoundMessageQueue() {
 		return obmQueue;
 	}
-	
+
 	public void setOutBoundMessageQueue(MessageQueue obmp) {
 		this.obmQueue = obmp;
 	}
-	
+
 	public MessageQueue getInBoundMessageQueue() {
 		return ibmQueue;
 	}
-	
+
 	public void setInBoundMessageQueue(MessageQueue ibmp) {
 		this.ibmQueue = ibmp;
 	}
@@ -98,29 +98,31 @@ public class ServerState {
 		this.tasks = tasks;
 	}
 
-	public void becomeFollower(){
+	public void becomeFollower() {
 		logger.info("There is only two way I could become a follower, either I stepped down from candidate or,"
 				+ " I found the Leader ");
 		raftState = follower;
+		//startElectionTimerThread();
+		
 	}
-	
-	public void becomeCandidate(){
-		logger.info("I would like to become a Candidate as I didn't received any heartbeat from leader, ");
+
+	public void becomeCandidate() {
+		logger.debug("I am Candidate and I need to start leader election ");
 		currentTerm++;
 		electionTimer.setElectionStartTime(System.currentTimeMillis());
 		candidate.startElection();
 		raftState = candidate;
 	}
 
-	public RaftServerState getRaftState(){
-		logger.debug("My Current State is :  " + this.raftState.getClass().getName() );
+	public RaftServerState getRaftState() {
+		logger.debug("My Current State is :  " + this.raftState.getClass().getName());
 		return this.raftState;
 	}
-	
-	public void becomeLeader(){
-		logger.info("Becoming leader for election term : " + currentTerm );
+
+	public void becomeLeader() {
+		logger.info("Becoming leader for election term : " + currentTerm);
 		raftState = leader;
-		if (!leader.isLeader() ){
+		if (!leader.isLeader()) {
 			leader.setLeader(true);
 			leader.setNextAndMatchIndex();
 			if (leaderThread == null)
@@ -130,14 +132,14 @@ public class ServerState {
 			electionTimer.stopThread();
 		}
 	}
-	
-	public void setCurrentTerm(int currentTerm){
-        this.currentTerm = currentTerm;
-    }
-	
-    public int getCurrentTerm(){
-        return this.currentTerm;
-    }
+
+	public void setCurrentTerm(int currentTerm) {
+		this.currentTerm = currentTerm;
+	}
+
+	public int getCurrentTerm() {
+		return this.currentTerm;
+	}
 
 	public int getNodeId() {
 		return nodeId;
@@ -156,65 +158,55 @@ public class ServerState {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	
-	public void restartElectionTimerThread(){
-		electionTimerThread.run();
-	}
-	
-	public void stopElectionTimerThread(){
+
+	public void stopElectionTimerThread() {
 		electionTimer.stopThread();
-	}
-	
-	public void startElectionTimerThread(){
-		electionTimer = new ElectionTimer(this, getConf().getHeartbeatDt()+150, getConf().getHeartbeatDt()+500);	
-		electionTimerThread = new Thread(electionTimer);
-		electionTimerThread.start();
+		electionTimer = null;
 	}
 
+	public void startElectionTimerThread() {
+		if (electionTimer == null){
+			electionTimer = new ElectionTimer(this, getConf().getHeartbeatDt() + 150,
+					getConf().getHeartbeatDt() + 500);
+			electionTimer.setForever(true);
+			electionTimerThread = new Thread(electionTimer);
+			
+			electionTimerThread.start();
+		}
+	}
 
 	public void setLeaderId(int leaderNodeId) {
 		// TODO Auto-generated method stub
 		this.leaderNodeId = leaderNodeId;
 	}
 
-
 	public boolean isLeaderKnown() {
 		return isLeaderKnown;
 	}
-
 
 	public void setLeaderKnown(boolean isLeaderKnown) {
 		this.isLeaderKnown = isLeaderKnown;
 	}
 
-
 	public LogInfo getLog() {
 		return log;
 	}
 
-
 	public void setLog(LogInfo log) {
 		this.log = log;
 	}
-
 
 	public Node getLeaderNode() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-
 	public IOUtility getDb() {
 		return db;
 	}
 
-
 	public void setDb(IOUtility db) {
 		this.db = db;
 	}
-	
 
-
-
-	
 }

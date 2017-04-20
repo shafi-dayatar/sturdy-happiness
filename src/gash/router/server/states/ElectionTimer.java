@@ -57,31 +57,33 @@ public class ElectionTimer implements Runnable {
         			e.printStackTrace();
         		}
         	}
-        	logger.info("Election Timeout"); 
+        	logger.debug("Election Timeout  occurred, looking if it connected to more than 4 nodes"); 
         	if(forever && state.getEmon().getTotalNodes() >= 4){
-        		logger.info("I am connected to :" + state.getEmon().getTotalNodes());
+        		logger.debug("I am connected to :" + state.getEmon().getTotalNodes());
+        		logger.debug("If I am follower, become candidate and start election");
         		if (state.getRaftState() instanceof Follower)   
         		    state.becomeCandidate();
         		
         	}
         	resetElectionTimeOut();
-        	try {
-    			Thread.sleep(100);
-    		} catch (InterruptedException e) {
-    			// TODO Auto-generated catch block
-    			e.printStackTrace();
-    		}
         }
     }
 	
 	public void resetElectionTimeOut(){
-		this.timerValue = ThreadLocalRandom.current().nextLong(minRandom*1000, maxRandom *1000 + 1);
+		this.timerValue = ThreadLocalRandom.current().nextLong(minRandom, maxRandom + 1);
         electionTimeOut  = System.currentTimeMillis() + this.timerValue;
         logger.info("Election will start in millisecs:  " + (electionTimeOut - System.currentTimeMillis()));
 	}	
 	
 	public void stopThread(){
 		forever = false;
+	}
+	
+	public boolean isForever(){
+		return forever;	
+	}
+	public void setForever(boolean forever){
+		this.forever =  forever;	
 	}
 
 	public long getElectionStartTime() {
