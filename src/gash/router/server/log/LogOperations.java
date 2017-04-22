@@ -9,7 +9,7 @@ public interface LogOperations {
 
 	long size();
 	
-	void appendEntry(LogEntry entry);
+	void appendEntry(int logId, LogEntry entry);
 	
 	int firstIndex();
 	
@@ -17,5 +17,5 @@ public interface LogOperations {
 	
 	LogEntry getEntry(int index);
 	
-	public int lastLogTerm();
+	public int lastLogTerm(int index);
 }

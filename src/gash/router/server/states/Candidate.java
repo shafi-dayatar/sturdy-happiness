@@ -65,13 +65,14 @@ public class Candidate implements RaftServerState {
 				state.getLastLogTerm());
 		startTime = System.currentTimeMillis();	
 		
-		logger.debug("Asking for votes from other servers in cluster");
-		state.getOutBoundMessageQueue().addMessage(
-				ElectionMessage.createElectionMessage(state.getNodeId(), 
-						state.getLog().getLogIndex(), 
-						 state.getLog().lastLogTerm(), 
-	            state.getCurrentTerm())
-		);
+		logger.debug("Sending vote request to peers in cluster");
+		int lastIndex  = state.getLog().getLogIndex();
+		int lastTerm = state.getLog().lastLogTerm(lastIndex);
+		
+		WorkMessage  wm = ElectionMessage.createElectionMessage(state.getNodeId(), 
+				lastIndex, lastTerm, state.getCurrentTerm());
+		
+		state.getOutBoundMessageQueue().addMessage(wm);
 	}
 	
 	public void leaderElect() {
@@ -87,13 +88,15 @@ public class Candidate implements RaftServerState {
 		 *  No Duplicate vote is allowed.
 		 */
 		
-		logger.info("Got vote from : " + voteResponse.getFromNodeId());
-		logger.info("Vote was : " + voteResponse.getVoteGranted());
+		logger.info("Got vote response from : " + voteResponse.getFromNodeId());
+		logger.info("Vote was in favor of me: " + voteResponse.getVoteGranted());
 		
 		if (election.term == voteResponse.getForTerm()){
 			if(election.voteFrom.add(voteResponse.getFromNodeId())){
 				if(voteResponse.getVoteGranted()){
-					election.voteCount++;
+					synchronized(election) {
+					   election.voteCount++;
+					}
 					if(election.checkElectionResult()){
 						endTime = System.currentTimeMillis();
 						logger.info("Leader was elected in " + (endTime - startTime));

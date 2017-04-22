@@ -102,7 +102,7 @@ public class ServerState {
 		logger.info("There is only two way I could become a follower, either I stepped down from candidate or,"
 				+ " I found the Leader ");
 		raftState = follower;
-		//startElectionTimerThread();
+		startElectionTimerThread();
 		
 	}
 

@@ -72,8 +72,8 @@ public class Follower implements RaftServerState {
     //change this method name to electionVoteResponse
 	public void requestVote(LeaderElection request) {
 		// TODO Auto-generated method stub
-		int logIndex = state.getLog().getLastApplied();
-		int logTerm = state.getLog().lastLogTerm();
+		int logIndex = state.getLog().lastIndex();
+		int logTerm = state.getLog().lastLogTerm(logIndex);
 		WorkMessage wm = null;
 		
 		if( request.getTerm() < state.getCurrentTerm() ||
@@ -141,7 +141,7 @@ public class Follower implements RaftServerState {
 	 */
 	public void updateCommitIndex(int newCommitIndex) {
 		state.getLog().setCommitIndex(newCommitIndex);
-		if(newCommitIndex > state.getLog().getLastApplied()) {
+		if(newCommitIndex > state.getLog().lastIndex()) {
 			state.getLog().setLastApplied(newCommitIndex);
 			
 		}
@@ -150,14 +150,25 @@ public class Follower implements RaftServerState {
 
 	@Override
 	public void heartbeat(LogAppendEntry heartbeat) {
+		logger.info("Heartbeat details : " +  heartbeat.toString());
 		logger.info("Received a heartbeat message in Follower state");
 		logger.info("Current Elected Leader is :" + heartbeat.getLeaderNodeId() + 
 				", for term : " + heartbeat.getElectionTerm() );
+		int followerLastIndex = state.getLog().lastIndex();
+		int lastIndex = heartbeat.getPrevLogIndex();
 		state.getElectionTimer().resetElectionTimeOut();
 		state.setLeaderId(heartbeat.getLeaderNodeId());
-		state.becomeFollower();
 		state.setCurrentTerm(heartbeat.getElectionTerm());
 		state.setLeaderKnown(true);
+		if(followerLastIndex < lastIndex ){
+			WorkMessage wm = LogAppend.createLogAppendResponse(state.getNodeId(), heartbeat.getLeaderNodeId(),
+					followerLastIndex, state.getCurrentTerm(), true);
+			state.getOutBoundMessageQueue().addMessage(wm);
+			logger.info("My leader known index is : " + lastIndex +
+					", and my last known index is :" + state.getLog().lastIndex() );
+			logger.info("requesting log append entries : " + wm.toString());
+			
+		}
 		
 		//need to send a response to server provide followers log information
 	}
@@ -165,15 +176,14 @@ public class Follower implements RaftServerState {
 
 
 	@Override
-	public void logAppend(LogAppendEntry logEntry) {
+	public synchronized void logAppend(LogAppendEntry logEntry) {
 		// TODO Auto-generated method stub
 		WorkMessage wm = null;
 		int lastIndex = state.getLog().lastIndex();
-		int lastTerm= state.getLog().lastLogTerm();
+		int lastTerm= state.getLog().lastLogTerm(lastIndex);
 
 		logger.info("Follower Recieved Log Entry" + logEntry.toString());
-		//follower has not received any update from current Leader,
-		//could be a stale message
+
 		if(logEntry.getElectionTerm() < state.getCurrentTerm() && 
 				lastIndex != logEntry.getPrevLogIndex()){
 			if (lastTerm != logEntry.getPrevLogTerm()){
@@ -189,8 +199,9 @@ public class Follower implements RaftServerState {
 				LogEntryList lgl = logEntry.getEntrylist();
 				List<LogEntry> entries = lgl.getEntryList();
 				for (LogEntry entry: entries ){
-					state.getLog().appendEntry(entry);	
 					lastIndex = entry.getLogId();
+					state.getLog().appendEntry(lastIndex, entry);	
+					
 				}
 				if (state.getLog().lastIndex() != state.getLastLogIndex()){
 					
@@ -203,6 +214,7 @@ public class Follower implements RaftServerState {
 			wm = LogAppend.createLogAppendResponse(state.getNodeId(), logEntry.getLeaderNodeId(),
 					lastIndex, state.getCurrentTerm(), true);
 		}
+		logger.info("Log Append response from follower would  be : " + wm.toString());
 		state.getOutBoundMessageQueue().addMessage(wm);
 	}
 	

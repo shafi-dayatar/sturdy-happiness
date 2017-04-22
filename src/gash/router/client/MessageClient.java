@@ -31,6 +31,9 @@ import pipe.common.Common.Header;
 import routing.Pipe;
 import routing.Pipe.Chunk;
 import routing.Pipe.CommandMessage;
+import routing.Pipe.CommandMessage.MessageType;
+import routing.Pipe.WriteRequest;
+
 import com.google.protobuf.ByteString;
 //import routing.Pipe.WhoIsLeader;
 
@@ -42,7 +45,8 @@ import com.google.protobuf.ByteString;
  */
 public class MessageClient {
 	// track requests
-	private int curID = 0;
+
+	private int messageId = 1;
 	protected static Logger logger = LoggerFactory.getLogger("Client");
 	public MessageClient(String host, int port) {
 		init(host, port);
@@ -150,11 +154,11 @@ public class MessageClient {
 			if(chunks == null){
 				return;
 			}
-			CommandMessage commandMessage = buildWCommandMessage(file, chunks);
+			//CommandMessage commandMessage = buildWCommandMessage(file, chunks);
 			try
 			{
 				System.out.println("Enueued file .....");
-				CommConnection.getInstance().enqueue(commandMessage);
+				//CommConnection.getInstance().enqueue(commandMessage);
 			}
 			catch (Exception e) {
 				e.printStackTrace();
@@ -174,7 +178,7 @@ public class MessageClient {
 		}
 
 	}
-	private ArrayList<ByteString> chunkFile(File file) {
+	public ArrayList<ByteString> chunkFile(File file) {
 		ArrayList<ByteString> chunkedFile = new ArrayList<ByteString>();
 		int sizeOfFiles = 254 * 254; // equivalent 64KB ~
 		byte[] buffer = new byte[sizeOfFiles];
@@ -224,40 +228,33 @@ public class MessageClient {
 			return command.build();
 		}
 	}
-	private CommandMessage buildWCommandMessage(File file, ArrayList<ByteString> chunks )
+	public CommandMessage buildWCommandMessage(String file, ArrayList<ByteString> chunks )
 	{
 		CommandMessage.Builder command = CommandMessage.newBuilder();
 		try
 		{
-			/*Request.Builder msg = Request.newBuilder();
-			msg.setRequestType(TaskType.WRITEFILE);
-			WriteBody.Builder rwb  = WriteBody.newBuilder();
-			rwb.setFileExt(file.getName().substring(file.getName().lastIndexOf(".") + 1));
-			rwb.setFilename(file.getName());
+			///*Request.Builder msg = Request.newBuilder();
+			command.setMessageType(MessageType.REQUESTWRITEFILE);
+			command.setMessageId(messageId++);
+			WriteRequest.Builder rwb  = WriteRequest.newBuilder();
+			rwb.setFileExt(".sh");
+			rwb.setFilename(file);
 			rwb.setNumOfChunks(chunks.size());
+			int i = 1;
 			for(ByteString chunk : chunks){
 				Chunk.Builder chunkBuilder = Chunk.newBuilder();
-				chunkBuilder.setChunkId(nextId());
+				chunkBuilder.setChunkId(i++);
 				chunkBuilder.setChunkSize(chunk.size());
 				chunkBuilder.setChunkData(chunk);
 				rwb.setChunk(chunkBuilder.build());
 			}
-			msg.setRwb(rwb);
-
-			Pipe.Node.Builder node = Pipe.Node.newBuilder();
-
-			node.setHost(InetAddress.getLocalHost().getHostAddress());
-
-			node.setPort(8000);
-			node.setNodeId(-1);
-			//msg.setClient(node);
+			command.setRequestWrite(rwb);
 			Header.Builder header= Header.newBuilder();
 			header.setNodeId(1);
-			header.setTime(0);
+			header.setTime(System.currentTimeMillis());
 			command.setHeader(header);
-			command.setReq(msg.build());
-			return command.build();*/
-			return null;
+
+			return command.build();
 		}
 		catch (Exception e)
 		{
@@ -280,21 +277,16 @@ public class MessageClient {
 		chb.setChunkData(chunkData);
 		chb.setChunkSize(chunkData.size());
 
-		/*WriteBody.Builder wb= WriteBody.newBuilder();
+		WriteRequest.Builder wb= WriteRequest.newBuilder();
 		wb.setFileId("1");
 		wb.setFilename(filename);
 		wb.setChunk(chb);
 		wb.setNumOfChunks(noOfChunks);
-
-		Request.Builder rb = Request.newBuilder();
-		//request type, read,write,etc
-		rb.setRequestType(TaskType.WRITEFILE ); // operation to be
-														// performed
-		rb.setRwb(wb);*/
 		CommandMessage.Builder cb = CommandMessage.newBuilder();
 		// Prepare the CommandMessage structure
 		cb.setHeader(hb);
-		//cb.setReq(rb.build());
+		cb.setMessageType(MessageType.REQUESTWRITEFILE);
+		cb.setRequestWrite(wb);
 
 		// Initiate connection to the server and prepare to save file
 		try {
@@ -316,7 +308,4 @@ public class MessageClient {
 	 * 
 	 * @return
 	 */
-	private synchronized int nextId() {
-		return ++curID;
-	}
 }

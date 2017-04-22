@@ -2,10 +2,14 @@ package gash.router.server.log;
 
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 
+
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+
 import gash.router.server.IOUtility;
-import gash.router.server.messages.LogAppend;
 import pipe.work.Work.Command;
 import pipe.work.Work.LogEntry;
 
@@ -14,10 +18,9 @@ import pipe.work.Work.LogEntry;
 public class LogInfo implements LogOperations {
 
 
-	//protected static Logger logger = LoggerFactory.getLogger("logging");
+	protected static Logger logger = LoggerFactory.getLogger("logging");
 	
-	public ArrayList<LogEntry> log;
-	//public HashTable<Integer, LogEntry> log;
+	public Hashtable<Integer, LogEntry> log;
 	private Integer commitIndex;
 	private Integer lastApplied;
 
@@ -25,9 +28,9 @@ public class LogInfo implements LogOperations {
 //	private String logStoreDir = "./resources/files";
 	
 	public LogInfo() {
-		log = new ArrayList<LogEntry>();
+		log = new Hashtable<Integer, LogEntry>();
 		commitIndex = (int) 0;
-		lastApplied = (int) -1;
+		lastApplied = (int) 0;
 	}
 	
 	/**
@@ -52,41 +55,27 @@ public class LogInfo implements LogOperations {
 	 * Set commitIndex to passed value
 	 * @param commitIndex
 	 */
-	public void setCommitIndex(Integer commitIndex) {
-		LogEntry  la = log.get(commitIndex - 1);
+	public synchronized void setCommitIndex(Integer commitIndex) {
+		logger.info("Committing log at :" + commitIndex);
+		LogEntry  la = log.get(commitIndex);
+
 		String filename = null, fileExt = null, locatedAt = null;
 		int fileId =-1, chunkId = -1;
 		System.out.println("Should insert this log in mysql database for future reads : " + la.toString());
-		List<Command> command =  la.getDataList();
-		System.out.println(command.toString());
-
-		for(Command cmd : command){
-			switch (cmd.getKey()) {
-			case "FileId":
-				fileId = Integer.parseInt(cmd.getValue());
-				break;
-			case "Filename":
-				filename = cmd.getValue();
-				break;
-			case "chunk_id":
-				chunkId = Integer.parseInt(cmd.getValue());
-				break;
-			case "located_at":
-				locatedAt = cmd.getValue();
-				break;
-			case "FileExt":
-				fileExt = cmd.getValue();
-				break;
-			default:
-				break;
-			}
+		List<Command> commands =  la.getDataList();
+		for(Command cmd :commands){
+			cmd.getClientId();
+			String [] logEntry = cmd.getValue().split(":");
+			fileId = Integer.parseInt(logEntry[0]);
+			filename = logEntry[1];
+			fileExt = logEntry[2];
+			chunkId = Integer.parseInt(logEntry[3]);
+			locatedAt = logEntry[4];
+			
 		}
+		
 		IOUtility.insertLogEntry(la.getLogId(), fileId, filename, fileExt, chunkId, locatedAt);
 		this.commitIndex = commitIndex;
-	}
-	
-	public Integer getLastApplied() {
-		return lastApplied;
 	}
 
 	public void setLastApplied(Integer lastApplied) {
@@ -111,14 +100,9 @@ public class LogInfo implements LogOperations {
 	 * @return long index
 	 */
 	@Override
-	public synchronized void  appendEntry(LogEntry entry) {
-		
-		log.add(entry);
-		
-//		if(isSegmentLimitReached()) {
-//			storeLogSegment();
-//		}
-//		
+	public synchronized void  appendEntry(int logIndex, LogEntry entry) {
+		log.put(logIndex, entry);
+		lastApplied = logIndex;
 	}
 	
 	/**
@@ -129,17 +113,7 @@ public class LogInfo implements LogOperations {
 	 * @param LogEntry[] entries
 	 * @return Long index - last index
 	 */
-	public void appendEntry(LogEntry[] entries) {
-		
-		for(LogEntry logEntry: entries) {
-			log.add(logEntry);
-			
-//			if(isSegmentLimitReached()) {
-//				storeLogSegment();
-//			}
-		}
-		
-	}
+
 
 	@Override
 	public int firstIndex() {
@@ -148,15 +122,14 @@ public class LogInfo implements LogOperations {
 
 	@Override
 	public int lastIndex() {
-		if (log.size() > 0)
-		   return log.get(log.size()-1).getLogId();
-		return 0;
+		return lastApplied;
 	}
 	
 	@Override
-	public int lastLogTerm() {
-		if (log.size() > 0)
-		   return log.get(log.size()-1).getTerm();
+	public int lastLogTerm(int index) {
+		int lastLog = lastIndex();
+		if (log.size()>0)
+			return log.get(index).getTerm();
 		return 0;
 	}
 
@@ -184,11 +157,11 @@ public class LogInfo implements LogOperations {
 	 * @param startIndex
 	 * @return LogEntry[] - array of log entries in order from startIndex to lastIndex
 	 */
-	public LogEntry[] getEntries(int startIndex) {
+	public LogEntry[] getEntries(int startIndex, int lastIndex) {
 		if(startIndex < 0)
 			return null;
 		
-		int size = (int) (lastIndex() - startIndex)+1;
+		int size = (int) (lastIndex - startIndex)+1;
 		LogEntry[] entries = new LogEntry[size];
 		int i = 0;
 		

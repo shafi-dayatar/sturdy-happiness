@@ -77,6 +77,15 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 			System.out.println("ERROR: Unexpected content - " + msg);
 			return;
 		}
+	//logger.info("Request received at server : " + msg.toString());
+		switch(msg.getMessageType()){
+		
+		    case REQUESTWRITEFILE:
+		    	int missingChunk = serverState.getRaftState().writeFile(msg.getRequestWrite());
+		    	break;
+		    default:
+		    	break;
+		}
 
 	}
 		//try {

@@ -30,7 +30,7 @@ public class ElectionTimer implements Runnable {
         this.state = state;
         maxRandom = max;
         minRandom = min;
-        this.timerValue = ThreadLocalRandom.current().nextLong(min, max + 1);
+        this.timerValue = ThreadLocalRandom.current().nextLong(min, max + 150);
         electionTimeOut  = System.currentTimeMillis() + this.timerValue;
         electionResolutionTime = 100;
     }
@@ -70,7 +70,7 @@ public class ElectionTimer implements Runnable {
     }
 	
 	public void resetElectionTimeOut(){
-		this.timerValue = ThreadLocalRandom.current().nextLong(minRandom, maxRandom + 1);
+		this.timerValue = ThreadLocalRandom.current().nextLong(minRandom, maxRandom + 150);
         electionTimeOut  = System.currentTimeMillis() + this.timerValue;
         logger.info("Election will start in millisecs:  " + (electionTimeOut - System.currentTimeMillis()));
 	}	
