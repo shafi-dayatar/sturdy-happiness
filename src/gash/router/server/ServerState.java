@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import gash.router.container.RoutingConf;
+import gash.router.server.communication.ConnectionManager;
 import gash.router.server.edges.EdgeMonitor;
 import gash.router.server.log.LogInfo;
 import gash.router.server.queue.MessageQueue;
@@ -35,6 +36,7 @@ public class ServerState {
 	private TaskList tasks;
 	private MessageQueue obmQueue;
 	private MessageQueue ibmQueue;
+	public ConnectionManager connectionManager = new ConnectionManager();
 
 	private IOUtility db = new IOUtility();
 

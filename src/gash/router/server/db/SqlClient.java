@@ -279,7 +279,7 @@ public class SqlClient{
         // TODO Auto-generated method stub
         ChunkRow[] data = null;
         try {
-            PreparedStatement fileQuery = connection.prepareStatement("select name, total_chunks "
+            PreparedStatement fileQuery = connection.prepareStatement("select id, name, total_chunks "
                     + "from files where name = ? and file_ext = ?");
             String [] str  = fileName.split(".");
             fileQuery.setString(1, str[0]);
@@ -310,11 +310,13 @@ public class SqlClient{
         }
         return data;
     }
+    
+    
 	public Integer[][] getChunks(String fileName) {
 		// TODO Auto-generated method stub
 		Integer[][] data = null;
 		try {
-			PreparedStatement fileQuery = connection.prepareStatement("select name, total_chunks "
+			PreparedStatement fileQuery = connection.prepareStatement("select id, name, total_chunks "
 					+ "from files where name = ? and file_ext = ?");
 			String [] str  = fileName.split(".");
 			fileQuery.setString(1, str[0]);
@@ -347,6 +349,46 @@ public class SqlClient{
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		return data;
+	}
+	
+	public Integer [] chunkLocation(String filename, int chunkId , int fileId ){
+		Integer[] data = null;
+		try {
+			if (fileId == -1){
+				PreparedStatement fileQuery = connection.prepareStatement("select name, total_chunks "
+						+ "from files where name = ? and file_ext = ?");
+				String [] str  = filename.split(".");
+				fileQuery.setString(1, str[0]);
+				fileQuery.setString(2, str[1]);
+				ResultSet rs = fileQuery.executeQuery();
+				if (rs.next()){
+					fileId = rs.getInt(1);
+				}
+			}
+			PreparedStatement chunksQuery = connection.prepareStatement("select location_at "
+					+ "from chunks where file_id = ?");		
+			chunksQuery.setInt(1, fileId);
+			chunksQuery.setInt(2, chunkId);
+			ResultSet rs = chunksQuery.executeQuery();
+			if (rs.next()){
+				String arr = rs.getString(1);
+				String[] items = arr.replaceAll("\\[", "").replaceAll("\\]", "").replaceAll("\\s", "").split(",");
+
+				data = new Integer[items.length];
+
+				for (int i = 0; i < items.length; i++) {
+				    try {
+				        data[i] = Integer.parseInt(items[i]);
+				    } catch (NumberFormatException nfe) {
+				        //NOTE: write something here if you need to recover from formatting errors
+				    };
+				}
+			}
+				
+		}catch(Exception e){
+			
 		}
 		return data;
 	}
