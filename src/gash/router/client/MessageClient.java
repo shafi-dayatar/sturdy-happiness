@@ -198,6 +198,7 @@ public class MessageClient {
 					chunkedFile.add(ByteString.copyFrom(buffer));
 				}
 			}
+			
 			return chunkedFile;
 		} catch (Exception e) {
 			e.printStackTrace();
