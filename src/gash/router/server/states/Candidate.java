@@ -214,8 +214,6 @@ public class Candidate implements RaftServerState {
 		return null;
 	}
 
-	}
-
 	@Override
 	public Response getFileChunkLocation(ReadBody request) {
 		// TODO Auto-generated method stub

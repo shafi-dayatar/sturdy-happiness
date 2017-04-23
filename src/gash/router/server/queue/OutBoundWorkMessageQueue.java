@@ -4,7 +4,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import gash.router.server.ServerState;
-import pipe.work.Work;
+import pipe.work.*;
 import pipe.work.Work.WorkMessage;
 
 public class OutBoundWorkMessageQueue implements MessageQueue{

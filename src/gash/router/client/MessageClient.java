@@ -31,8 +31,8 @@ import pipe.common.Common.Header;
 import routing.Pipe;
 import routing.Pipe.Chunk;
 import routing.Pipe.CommandMessage;
-import routing.Pipe.CommandMessage.MessageType;
-import routing.Pipe.WriteRequest;
+import routing.Pipe.CommandMessage.PayloadCase;
+import routing.Pipe.*;
 
 import com.google.protobuf.ByteString;
 //import routing.Pipe.WhoIsLeader;
@@ -215,8 +215,7 @@ public class MessageClient {
 			// rrb.setFilename(file_name);
 			// msg.setRrb(rrb.build());
 
-			Pipe.Node.Builder node = Pipe.Node.newBuilder();
-
+			Common.Node.Builder node = Common.Node.newBuilder();
 			node.setHost(InetAddress.getLocalHost().getHostAddress());
 
 			node.setPort(8000);
@@ -239,7 +238,7 @@ public class MessageClient {
 		CommandMessage.Builder command = CommandMessage.newBuilder();
 		try {
 			/// *Request.Builder msg = Request.newBuilder();
-			command.setMessageType(MessageType.REQUESTWRITEFILE);
+			command.setMessageType(TaskType.REQUESTWRITEFILE);
 			command.setMessageId(messageId++);
 			WriteRequest.Builder rwb = WriteRequest.newBuilder();
 			rwb.setFileExt(".sh");

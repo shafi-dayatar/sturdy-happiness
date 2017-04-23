@@ -19,7 +19,7 @@ message Heartbeat {
  */
 message Task {  
     required int64 series_id = 1;
-    required int32 seq_id = 2;
+    required int32 seq_id = 2;//add cmnd message
 }
 
 message Discovery{
