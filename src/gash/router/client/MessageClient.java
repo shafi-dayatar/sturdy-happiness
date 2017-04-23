@@ -31,8 +31,11 @@ import pipe.common.Common.Header;
 import routing.Pipe;
 import routing.Pipe.Chunk;
 import routing.Pipe.CommandMessage;
-import routing.Pipe.CommandMessage.MessageType;
-import routing.Pipe.WriteRequest;
+//import routing.Pipe.CommandMessage.MessageType;
+import routing.Pipe.Request;
+import routing.Pipe.TaskType;
+import routing.Pipe.WriteBody;
+//import routing.Pipe.WriteRequest;
 
 import com.google.protobuf.ByteString;
 //import routing.Pipe.WhoIsLeader;
@@ -45,9 +48,9 @@ import com.google.protobuf.ByteString;
  */
 public class MessageClient {
 	// track requests
-
 	private int messageId = 1;
 	protected static Logger logger = LoggerFactory.getLogger("Client");
+
 	public MessageClient(String host, int port) {
 		init(host, port);
 	}
@@ -59,7 +62,9 @@ public class MessageClient {
 	public void addListener(CommListener listener) {
 		CommConnection.getInstance().addListener(listener);
 	}
+
 	private String fileoutput = "output";
+
 	public void ping() {
 		// construct the message to send
 		Header.Builder hb = Header.newBuilder();
@@ -82,23 +87,27 @@ public class MessageClient {
 		}
 	}
 
-	public void onWriteRequest(CommandMessage msg){
-		//System.out.println(" Write request message: "+ msg.getResp().getStatus());
+	public void onWriteRequest(CommandMessage msg) {
+		// System.out.println(" Write request message: "+
+		// msg.getResp().getStatus());
 
 		System.out.println(" done with write request  . .. . .");
 		System.out.flush();
 
 	}
-	public void onReadRequest(CommandMessage msg){
-		//System.out.println(" Reaad request message: "+ msg.getResp().getStatus());
-		//System.out.println(" No of chunks: "+ msg.getResp().getReadResponse().getNumOfChunks());
+
+	public void onReadRequest(CommandMessage msg) {
+		// System.out.println(" Reaad request message: "+
+		// msg.getResp().getStatus());
+		// System.out.println(" No of chunks: "+
+		// msg.getResp().getReadResponse().getNumOfChunks());
 
 		try {
 
 			File file = new File(fileoutput);
 			file.createNewFile();
 			ArrayList<ByteString> byteString = new ArrayList<ByteString>();
-			//byteString.add(msg.getResp().getReadResponse().getChunk().getChunkData());
+			// byteString.add(msg.getResp().getReadResponse().getChunk().getChunkData());
 			FileOutputStream outputStream = new FileOutputStream(file);
 			ByteString bs = ByteString.copyFrom(byteString);
 			System.out.println(bs.size());
@@ -116,191 +125,191 @@ public class MessageClient {
 
 	// Save File to server
 
-
-	private File readFileByPath(String filePath){
+	private File readFileByPath(String filePath) {
 		File file = null;
-		try
-		{
+		try {
 			file = new File(filePath);
-		}
-		catch (Exception e){
+		} catch (Exception e) {
 			System.out.println("File not found !!");
 		}
 		return file;
 
 	}
-	public void fileOperation(String action, String filePath, String file_name){
-		System.out.println("Actions recived: "+ action + " " + filePath);
-		if(action.contains("get") && file_name != null){
+
+	public void fileOperation(String action, String filePath, String file_name) {
+		System.out.println("Actions recived: " + action + " " + filePath);
+		ClassLoader classLoader = getClass().getClassLoader();
+		File file = new File(filePath+"/"+file_name);
+		if (action.contains("get") && file_name != null) {
 			this.fileoutput = filePath;
 			CommandMessage commandMessage = buildRCommandMessage(file_name);
-			try
-			{
+			try {
 				System.out.println("Enueued read request.....");
 				CommConnection.getInstance().enqueue(commandMessage);
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 				System.out.println("Couldnt sent read request to the system");
 				return;
 			}
-		} else
-		if(action.contains("post")){
-			File file = readFileByPath(filePath);
-			if(file == null){
+		} else if (action.contains("post")) {
+			// File file = readFileByPath(filePath);
+			if (file_name == null) {
 				return;
 			}
 			ArrayList<ByteString> chunks = chunkFile(file);
-			if(chunks == null){
+			if (chunks == null) {
 				return;
 			}
-			//CommandMessage commandMessage = buildWCommandMessage(file, chunks);
-			try
-			{
+			CommandMessage commandMessage = buildWCommandMessage(file, chunks);
+			try {
 				System.out.println("Enueued file .....");
-				//CommConnection.getInstance().enqueue(commandMessage);
-			}
-			catch (Exception e) {
+				CommConnection.getInstance().enqueue(commandMessage);
+			} catch (Exception e) {
 				e.printStackTrace();
 				System.out.println("Couldnt sent to the system");
 				return;
-			}
-			finally {
-				//CommConnection.getInstance().release();
-				//System.out.println("Connection released exiting ! ");
+			} finally {
+				// CommConnection.getInstance().release();
+				// System.out.println("Connection released exiting ! ");
 			}
 
-		}
-		else
-		{
+		} else {
 			System.out.println("Enter valid inputs - 3 -> 'get' or 'post' or file id > 0");
 			return;
 		}
 
 	}
+
 	public ArrayList<ByteString> chunkFile(File file) {
 		ArrayList<ByteString> chunkedFile = new ArrayList<ByteString>();
-		int sizeOfFiles = 254 * 254; // equivalent 64KB ~
-		byte[] buffer = new byte[sizeOfFiles];
+		float len = file.length();
+		int sizeOfChunk = 1024;
+		byte[] buffer = new byte[sizeOfChunk];
+		int noOfChunks = (int) Math.ceil(len / (double) sizeOfChunk);
 
 		try {
 			BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
-			int tmpBuffer = 0;
-			while ((tmpBuffer = bis.read(buffer)) > 0) {
-				ByteString byteString = ByteString.copyFrom(buffer, 0, tmpBuffer);
-				chunkedFile.add(byteString);
+			while (len > 0) {
+				bis.read(buffer);
+				if (len < sizeOfChunk) {
+					byte[] leftData = new byte[(int) sizeOfChunk];
+					chunkedFile.add(ByteString.copyFrom(leftData));
+					len =0;
+				} else {
+					len = len - sizeOfChunk;
+					logger.info("chunk"+len);
+					chunkedFile.add(ByteString.copyFrom(buffer));
+				}
 			}
+			
 			return chunkedFile;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
-	private CommandMessage buildRCommandMessage(String file_name)
-	{
+
+	private CommandMessage buildRCommandMessage(String file_name) {
 		CommandMessage.Builder command = CommandMessage.newBuilder();
-		try
-		{
-			//Request.Builder msg = Request.newBuilder();
-			//msg.setRequestType(TaskType.READFILE);
-			//Pipe.ReadBody.Builder rrb = Pipe.ReadBody.newBuilder();
-			//rrb.setFilename(file_name);
-			//msg.setRrb(rrb.build());
+		try {
+			// Request.Builder msg = Request.newBuilder();
+			// msg.setRequestType(TaskType.READFILE);
+			// Pipe.ReadBody.Builder rrb = Pipe.ReadBody.newBuilder();
+			// rrb.setFilename(file_name);
+			// msg.setRrb(rrb.build());
 
-			Pipe.Node.Builder node = Pipe.Node.newBuilder();
-
-			node.setHost(InetAddress.getLocalHost().getHostAddress());
-
-			node.setPort(8000);
-			node.setNodeId(-1);
-			//msg.setClient(node);
-			Header.Builder header= Header.newBuilder();
+//			Pipe.Node.Builder node = Pipe.Node.newBuilder();
+//
+//			node.setHost(InetAddress.getLocalHost().getHostAddress());
+//
+//			node.setPort(8000);
+//			node.setNodeId(-1);
+			// msg.setClient(node);
+			Header.Builder header = Header.newBuilder();
 			header.setNodeId(1);
 			header.setTime(0);
 			command.setHeader(header);
-			//command.setReq(msg.build());
+			// command.setReq(msg.build());
 			return command.build();
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			System.out.println(" Sending read request failed :");
 			e.printStackTrace();
 			return command.build();
 		}
 	}
-	public CommandMessage buildWCommandMessage(String file, ArrayList<ByteString> chunks )
-	{
+
+	public CommandMessage buildWCommandMessage(File file, ArrayList<ByteString> chunks) {
 		CommandMessage.Builder command = CommandMessage.newBuilder();
-		try
-		{
-			///*Request.Builder msg = Request.newBuilder();
-			command.setMessageType(MessageType.REQUESTWRITEFILE);
-			command.setMessageId(messageId++);
-			WriteRequest.Builder rwb  = WriteRequest.newBuilder();
-			rwb.setFileExt(".sh");
-			rwb.setFilename(file);
+		try {
+			/// *Request.Builder msg = Request.newBuilder();
+			Request.Builder req = Request.newBuilder();
+			req.setRequestType(TaskType.REQUESTWRITEFILE);
+			WriteBody.Builder rwb = WriteBody.newBuilder();
+			String ext[] =  file.getName().toString().split("\\.");
+			rwb.setFileExt(ext[1]);
+			rwb.setFilename(file.getName());
 			rwb.setNumOfChunks(chunks.size());
 			int i = 1;
-			for(ByteString chunk : chunks){
+			rwb.setFileId(i++);
+			for (ByteString chunk : chunks) {
 				Chunk.Builder chunkBuilder = Chunk.newBuilder();
 				chunkBuilder.setChunkId(i++);
 				chunkBuilder.setChunkSize(chunk.size());
 				chunkBuilder.setChunkData(chunk);
 				rwb.setChunk(chunkBuilder.build());
 			}
-			command.setRequestWrite(rwb);
-			Header.Builder header= Header.newBuilder();
+			req.setRwb(rwb.build());
+			Header.Builder header = Header.newBuilder();
 			header.setNodeId(1);
 			header.setTime(System.currentTimeMillis());
+			command.setReq(req);
 			command.setHeader(header);
 
 			return command.build();
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			System.out.println(" Sending write request failed :");
 			e.printStackTrace();
 			return command.build();
 		}
 	}
-	public void writeFile(String filename, ByteString chunkData, int noOfChunks, int chunkId) {
 
-		logger.info("Printing byte size"+chunkData.size());
-		Header.Builder hb = Header.newBuilder();
-		hb.setNodeId(999);
-		hb.setTime(System.currentTimeMillis());
-		hb.setDestination(-1);
+//	public void writeFile(String filename, ByteString chunkData, int noOfChunks, int chunkId) {
+//
+//		logger.info("Printing byte size" + chunkData.size());
+//		Header.Builder hb = Header.newBuilder();
+//		hb.setNodeId(999);
+//		hb.setTime(System.currentTimeMillis());
+//		hb.setDestination(-1);
+//
+//		Chunk.Builder chb = Chunk.newBuilder();
+//		chb.setChunkId(chunkId);
+//		chb.setChunkData(chunkData);
+//		chb.setChunkSize(chunkData.size());
+//
+//		WriteRequest.Builder wb = WriteRequest.newBuilder();
+//		wb.setFileId("1");
+//		wb.setFilename(filename);
+//		wb.setChunk(chb);
+//		wb.setNumOfChunks(noOfChunks);
+//		CommandMessage.Builder cb = CommandMessage.newBuilder();
+//		// Prepare the CommandMessage structure
+//		cb.setHeader(hb);
+//		cb.setMessageType(MessageType.REQUESTWRITEFILE);
+//		cb.setRequestWrite(wb);
+//
+//		// Initiate connection to the server and prepare to save file
+//		try {
+//			CommConnection.getInstance().enqueue(cb.build());
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			logger.error("Problem connecting to the system");
+//		}
+//
+//	}
 
-
-		Chunk.Builder chb=Chunk.newBuilder();
-		chb.setChunkId(chunkId);
-		chb.setChunkData(chunkData);
-		chb.setChunkSize(chunkData.size());
-
-		WriteRequest.Builder wb= WriteRequest.newBuilder();
-		wb.setFileId("1");
-		wb.setFilename(filename);
-		wb.setChunk(chb);
-		wb.setNumOfChunks(noOfChunks);
-		CommandMessage.Builder cb = CommandMessage.newBuilder();
-		// Prepare the CommandMessage structure
-		cb.setHeader(hb);
-		cb.setMessageType(MessageType.REQUESTWRITEFILE);
-		cb.setRequestWrite(wb);
-
-		// Initiate connection to the server and prepare to save file
-		try {
-			CommConnection.getInstance().enqueue(cb.build());
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error("Problem connecting to the system");
-		}
-
-	}
-
-	/*public void release() {
-		CommConnection.getInstance().release();
-	}*/
+	/*
+	 * public void release() { CommConnection.getInstance().release(); }
+	 */
 
 	/**
 	 * Since the service/server is asychronous we need a unique ID to associate
