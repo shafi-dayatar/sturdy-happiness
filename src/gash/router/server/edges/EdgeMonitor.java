@@ -23,7 +23,7 @@ import java.util.Collection;
 import java.util.Enumeration;
 import java.util.List;
 
-import pipe.work.Work.Node;
+import pipe.common.Common.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -188,7 +188,7 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 		return null;
 	}
 	
-	public ArrayList<Node> getOutBoundRouteTable(){
+	public ArrayList<pipe.common.Common.Node> getOutBoundRouteTable(){
 		return outboundEdges.getRoutingTable();	
 	}
 	

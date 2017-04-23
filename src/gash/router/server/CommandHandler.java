@@ -22,7 +22,6 @@ import gash.router.container.RoutingConf;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import pipe.common.Client;
 import pipe.common.Common;
 import pipe.common.Common.Failure;
 import pipe.work.Work.Command;
@@ -30,10 +29,14 @@ import pipe.work.Work.LogEntry;
 import pipe.work.Work.LogEntry.DataAction;
 import routing.Pipe;
 import routing.Pipe.CommandMessage;
+import routing.Pipe.ReadBody;
+import routing.Pipe.WriteBody;
 import routing.Pipe.Chunk;
+import routing.Pipe.Response;
 import com.google.protobuf.ByteString;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+
 
 /**
  * The message handler processes json messages that are delimited by a 'newline'
@@ -78,13 +81,27 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 			return;
 		}
 	//logger.info("Request received at server : " + msg.toString());
-		switch(msg.getMessageType()){
+		if(msg.hasReq()){
+			
+			switch(msg.getReq().getRequestType()){
+		
 		
 		    case REQUESTWRITEFILE:
-		    	int missingChunk = serverState.getRaftState().writeFile(msg.getRequestWrite());
+		    	WriteBody writeReq = msg.getReq().getRwb();
+		    	int missingChunk = serverState.getRaftState().writeFile(writeReq);
 		    	break;
+		    case REQUESTREADFILE:
+		    	ReadBody readReq = msg.getReq().getRrb();
+		    	Response res = null;
+		    	if(readReq.hasChunkId()){
+		    		
+		    	}else{
+		    		res = serverState.getRaftState().getFileChunkLocation(readReq);
+		    	}
+		    	sendReadResponse(channel, res, msg.getHeader().getNodeId());
 		    default:
 		    	break;
+			}
 		}
 
 	}
@@ -139,20 +156,20 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 		}
 		logger.info(" flushing . . . .. ");
 		System.out.flush();
-	}
+	}*/
 
-	private void sendReadResponse(Channel channel, CommandMessage cmdMessage, byte[] chunkContent){
-		logger.info("Preparing to send read response for nodeid: "+ cmdMessage.getHeader().getNodeId() );
-		CommandMessage.Builder cmdMsg = CommandMessage.newBuilder(cmdMessage);
+	private void sendReadResponse(Channel channel, Response rsp, int clientNodeId){
+		logger.info("Preparing to send read response for nodeid: "+ clientNodeId );
+		CommandMessage.Builder cmdMsg = CommandMessage.newBuilder();
 		Common.Header.Builder hd = Common.Header.newBuilder();
 		hd.setNodeId(serverState.getNodeId());
 		hd.setTime(System.currentTimeMillis());
-		hd.setDestination(-1);
-		cmdMsg.setResp(buildReadResponse(cmdMessage.getReq(), chunkContent).build());
+		hd.setDestination(clientNodeId);
+		cmdMsg.setResp(rsp);
 		cmdMsg.setHeader(hd);
 		channel.writeAndFlush(cmdMsg.build());
 	}
-
+    /*
 	private void sendWriteResponse(Channel channel, CommandMessage cmdMessage, int chunkId){
 		logger.info("Preparing to send write response for nodeid: "+ cmdMessage.getHeader().getNodeId() );
 		CommandMessage.Builder cmdMsg = CommandMessage.newBuilder(cmdMessage);
