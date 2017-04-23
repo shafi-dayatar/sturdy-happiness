@@ -49,6 +49,8 @@ import com.google.protobuf.ByteString;
 public class MessageClient {
 	// track requests
 	private int messageId = 1;
+	private static int fileId = 0;
+	private static int chunkId = 0;
 	protected static Logger logger = LoggerFactory.getLogger("Client");
 
 	public MessageClient(String host, int port) {
@@ -156,14 +158,18 @@ public class MessageClient {
 			if (file_name == null) {
 				return;
 			}
+			
 			ArrayList<ByteString> chunks = chunkFile(file);
 			if (chunks == null) {
 				return;
 			}
-			CommandMessage commandMessage = buildWCommandMessage(file, chunks);
+			int chunksNum = chunks.size();
 			try {
+				for(int i =0;i< chunks.size();i++){
+					CommandMessage commandMessage = buildWCommandMessage(file, chunks.get(i),chunksNum);
 				System.out.println("Enueued file .....");
 				CommConnection.getInstance().enqueue(commandMessage);
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 				System.out.println("Couldnt sent to the system");
@@ -238,7 +244,7 @@ public class MessageClient {
 		}
 	}
 
-	public CommandMessage buildWCommandMessage(File file, ArrayList<ByteString> chunks) {
+	public CommandMessage buildWCommandMessage(File file, ByteString chunk, int noOfChunks) {
 		CommandMessage.Builder command = CommandMessage.newBuilder();
 		try {
 			/// *Request.Builder msg = Request.newBuilder();
@@ -248,23 +254,22 @@ public class MessageClient {
 			String ext[] =  file.getName().toString().split("\\.");
 			rwb.setFileExt(ext[1]);
 			rwb.setFilename(file.getName());
-			rwb.setNumOfChunks(chunks.size());
+			rwb.setNumOfChunks(noOfChunks);
 			int i = 1;
-			rwb.setFileId(i++);
-			for (ByteString chunk : chunks) {
+			//rwb.setFileId(++fileId);
 				Chunk.Builder chunkBuilder = Chunk.newBuilder();
-				chunkBuilder.setChunkId(i++);
+				chunkBuilder.setChunkId(++chunkId);
 				chunkBuilder.setChunkSize(chunk.size());
 				chunkBuilder.setChunkData(chunk);
 				rwb.setChunk(chunkBuilder.build());
-			}
+
 			req.setRwb(rwb.build());
 			Header.Builder header = Header.newBuilder();
 			header.setNodeId(1);
 			header.setTime(System.currentTimeMillis());
 			command.setReq(req);
 			command.setHeader(header);
-
+			System.out.println(chunkId);
 			return command.build();
 		} catch (Exception e) {
 			System.out.println(" Sending write request failed :");
