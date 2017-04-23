@@ -22,7 +22,6 @@ import gash.router.server.ServerState;
 import gash.router.server.log.LogInfo;
 import gash.router.server.messages.ElectionMessage;
 import gash.router.server.messages.LogAppend;
-import pipe.common.Common;
 import pipe.election.Election;
 import pipe.election.Election.LeaderElection;
 import pipe.election.Election.LeaderElectionResponse;
@@ -304,20 +303,6 @@ public class Follower implements RaftServerState {
 	    	e.printStackTrace();
         	e.printStackTrace();
         }
-	}
-
-	@Override
-	public void readChunkDataResponse(FileChunkData chunk) {
-		// TODO Auto-generated method stub
-		logger.info("Got A File Read Response");
-		
-	}
-
-	@Override
-	public void writeChunkDataResponse(FileChunkData chunk) {
-		// TODO Auto-generated method stub
-		logger.info("Got A file write response");
-		
 	}
 
 	@Override

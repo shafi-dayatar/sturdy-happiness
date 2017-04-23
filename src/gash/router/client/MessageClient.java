@@ -31,8 +31,11 @@ import pipe.common.Common.Header;
 import routing.Pipe;
 import routing.Pipe.Chunk;
 import routing.Pipe.CommandMessage;
-import routing.Pipe.CommandMessage.PayloadCase;
-import routing.Pipe.*;
+//import routing.Pipe.CommandMessage.MessageType;
+import routing.Pipe.Request;
+import routing.Pipe.TaskType;
+import routing.Pipe.WriteBody;
+//import routing.Pipe.WriteRequest;
 
 import com.google.protobuf.ByteString;
 //import routing.Pipe.WhoIsLeader;
@@ -215,11 +218,12 @@ public class MessageClient {
 			// rrb.setFilename(file_name);
 			// msg.setRrb(rrb.build());
 
-			Common.Node.Builder node = Common.Node.newBuilder();
-			node.setHost(InetAddress.getLocalHost().getHostAddress());
-
-			node.setPort(8000);
-			node.setNodeId(-1);
+//			Pipe.Node.Builder node = Pipe.Node.newBuilder();
+//
+//			node.setHost(InetAddress.getLocalHost().getHostAddress());
+//
+//			node.setPort(8000);
+//			node.setNodeId(-1);
 			// msg.setClient(node);
 			Header.Builder header = Header.newBuilder();
 			header.setNodeId(1);
@@ -238,13 +242,15 @@ public class MessageClient {
 		CommandMessage.Builder command = CommandMessage.newBuilder();
 		try {
 			/// *Request.Builder msg = Request.newBuilder();
-			command.setMessageType(TaskType.REQUESTWRITEFILE);
-			command.setMessageId(messageId++);
-			WriteRequest.Builder rwb = WriteRequest.newBuilder();
-			rwb.setFileExt(".sh");
+			Request.Builder req = Request.newBuilder();
+			req.setRequestType(TaskType.REQUESTWRITEFILE);
+			WriteBody.Builder rwb = WriteBody.newBuilder();
+			String ext[] =  file.getName().toString().split("\\.");
+			rwb.setFileExt(ext[1]);
 			rwb.setFilename(file.getName());
 			rwb.setNumOfChunks(chunks.size());
 			int i = 1;
+			rwb.setFileId(i++);
 			for (ByteString chunk : chunks) {
 				Chunk.Builder chunkBuilder = Chunk.newBuilder();
 				chunkBuilder.setChunkId(i++);
@@ -252,10 +258,11 @@ public class MessageClient {
 				chunkBuilder.setChunkData(chunk);
 				rwb.setChunk(chunkBuilder.build());
 			}
-			command.setRequestWrite(rwb);
+			req.setRwb(rwb.build());
 			Header.Builder header = Header.newBuilder();
 			header.setNodeId(1);
 			header.setTime(System.currentTimeMillis());
+			command.setReq(req);
 			command.setHeader(header);
 
 			return command.build();
@@ -266,39 +273,39 @@ public class MessageClient {
 		}
 	}
 
-	public void writeFile(String filename, ByteString chunkData, int noOfChunks, int chunkId) {
-
-		logger.info("Printing byte size" + chunkData.size());
-		Header.Builder hb = Header.newBuilder();
-		hb.setNodeId(999);
-		hb.setTime(System.currentTimeMillis());
-		hb.setDestination(-1);
-
-		Chunk.Builder chb = Chunk.newBuilder();
-		chb.setChunkId(chunkId);
-		chb.setChunkData(chunkData);
-		chb.setChunkSize(chunkData.size());
-
-		WriteRequest.Builder wb = WriteRequest.newBuilder();
-		wb.setFileId("1");
-		wb.setFilename(filename);
-		wb.setChunk(chb);
-		wb.setNumOfChunks(noOfChunks);
-		CommandMessage.Builder cb = CommandMessage.newBuilder();
-		// Prepare the CommandMessage structure
-		cb.setHeader(hb);
-		cb.setMessageType(MessageType.REQUESTWRITEFILE);
-		cb.setRequestWrite(wb);
-
-		// Initiate connection to the server and prepare to save file
-		try {
-			CommConnection.getInstance().enqueue(cb.build());
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error("Problem connecting to the system");
-		}
-
-	}
+//	public void writeFile(String filename, ByteString chunkData, int noOfChunks, int chunkId) {
+//
+//		logger.info("Printing byte size" + chunkData.size());
+//		Header.Builder hb = Header.newBuilder();
+//		hb.setNodeId(999);
+//		hb.setTime(System.currentTimeMillis());
+//		hb.setDestination(-1);
+//
+//		Chunk.Builder chb = Chunk.newBuilder();
+//		chb.setChunkId(chunkId);
+//		chb.setChunkData(chunkData);
+//		chb.setChunkSize(chunkData.size());
+//
+//		WriteRequest.Builder wb = WriteRequest.newBuilder();
+//		wb.setFileId("1");
+//		wb.setFilename(filename);
+//		wb.setChunk(chb);
+//		wb.setNumOfChunks(noOfChunks);
+//		CommandMessage.Builder cb = CommandMessage.newBuilder();
+//		// Prepare the CommandMessage structure
+//		cb.setHeader(hb);
+//		cb.setMessageType(MessageType.REQUESTWRITEFILE);
+//		cb.setRequestWrite(wb);
+//
+//		// Initiate connection to the server and prepare to save file
+//		try {
+//			CommConnection.getInstance().enqueue(cb.build());
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			logger.error("Problem connecting to the system");
+//		}
+//
+//	}
 
 	/*
 	 * public void release() { CommConnection.getInstance().release(); }
