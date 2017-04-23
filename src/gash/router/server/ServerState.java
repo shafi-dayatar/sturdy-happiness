@@ -11,13 +11,10 @@ import gash.router.container.RoutingConf;
 import gash.router.server.edges.EdgeMonitor;
 import gash.router.server.log.LogInfo;
 import gash.router.server.queue.MessageQueue;
-import gash.router.server.states.Candidate;
-import gash.router.server.states.ElectionTimer;
 import gash.router.server.states.Follower;
 import gash.router.server.states.Leader;
-import gash.router.server.states.RaftServerState;
 import gash.router.server.tasks.TaskList;
-import pipe.work.Work.Node;
+import pipe.common.Common.Node;
 
 public class ServerState {
 	private RaftServerState raftState;

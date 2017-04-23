@@ -27,6 +27,5 @@ fi
 /usr/local/opt/protobuf-3.0.0/src/protoc --proto_path=${project_base}/resources --java_out=${project_base}/generated ${project_base}/resources/common.proto
 /usr/local/opt/protobuf-3.0.0/src/protoc --proto_path=${project_base}/resources --java_out=${project_base}/generated ${project_base}/resources/election.proto
 /usr/local/opt/protobuf-3.0.0/src/protoc --proto_path=${project_base}/resources --java_out=${project_base}/generated ${project_base}/resources/work.proto
-/usr/local/opt/protobuf-3.0.0/src/protoc --proto_path=${project_base}/resources --java_out=${project_base}/generated ${project_base}/resources/client.proto
 
 /usr/local/opt/protobuf-3.0.0/src/protoc --proto_path=${project_base}/resources --java_out=${project_base}/generated ${project_base}/resources/pipe.proto

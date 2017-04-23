@@ -5,21 +5,17 @@ import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
+
 import java.util.Enumeration;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import gash.router.container.RoutingConf.RoutingEntry;
 import gash.router.server.ServerState;
-import gash.router.server.edges.EdgeInfo;
 import pipe.common.Common.Header;
-import pipe.work.Work;
 import pipe.work.Work.Discovery;
-import pipe.work.Work.Node;
+import pipe.common.Common.Node;
 import pipe.work.Work.WorkMessage;
 import pipe.work.Work.WorkMessage.MessageType;
 
@@ -56,8 +52,8 @@ public class DiscoverMessage extends Message {
         		//(System.currentTimeMillis() - getTimestamp() ));
         		
         		Node newNode = discovery.getNode();
-        		state.getEmon().addNewEdgeInfo(newNode.getNodeId(), newNode.getIpAddr(),
-        				newNode.getWorkPort());
+        		state.getEmon().addNewEdgeInfo(newNode.getNodeId(), newNode.getHost(),
+        				newNode.getPort());
         		//Send routing table to requestor;
         		Discovery.Builder dsb = Discovery.newBuilder(); 
         		List<Node> nodes = state.getEmon().getOutBoundRouteTable();
@@ -82,8 +78,8 @@ public class DiscoverMessage extends Message {
            		List<Node> nodes =  discovery.getRoutingTableList();
         		for (Node n : nodes){
         			if (n.getNodeId() != state.getNodeId()){
-        				boolean newEdge = state.getEmon().addNewEdgeInfo(n.getNodeId(), n.getIpAddr(), 
-        						n.getWorkPort());
+        				boolean newEdge = state.getEmon().addNewEdgeInfo(n.getNodeId(), n.getHost(), 
+        						n.getPort());
         				if(newEdge){
         					WorkMessage wm = discoverMessage(state.getNodeId(), 
         							n.getNodeId(), state.getConf().getWorkPort());
@@ -116,8 +112,8 @@ public class DiscoverMessage extends Message {
 		Discovery.Builder discovery = Discovery.newBuilder();
 		Node.Builder node = Node.newBuilder(); 
 		node.setNodeId(sourceId);
-		node.setIpAddr(ipAddress);
-		node.setWorkPort(sourcePort);
+		node.setHost(ipAddress);
+		node.setPort(sourcePort);
 		discovery.setNode(node.build());
 
 		wmb.setDiscovery(discovery);

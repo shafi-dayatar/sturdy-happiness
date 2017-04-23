@@ -16,61 +16,10 @@ import "common.proto";
  * Command Message is delivered from the client and will be used to communicate with the client
 */
 
-message CommandMessage {
-   required Header header = 1;
-
-   // As we need to identify message from different network, message_id would help with that. 
-   // in addition with node_id, it will remain unique every time.
-   required int64 message_id = 2;
-   required MessageType message_type = 3;
-   optional Status  tatus = 4;
-
-
-   enum MessageType{
-       PING = 1;
-       PINGRESPONSE = 2;
-       REQUESTREADFILE = 3;
-       REQUESTWRITEFILE = 4;
-       RESPONSEREADFILE = 5;
-       RESPONSEWRITEFILE = 6;
-   }
-
-   enum Status {
-       SUCCESS = 1;
-       SERVERTIMEOUT = 2; //if message got lost in intra cluster you need to send a resonpse back to client.
-       REDIRECTION = 3; // when leader sends a response back with location of chunks node.
-       FILENOTFOUND = 4; // no file was found on server
-       NOLEADER = 5; // cannot recieve request, or must say client to stop sending request
-       UNREACHABLE = 6; //cluster to clust communication stops working, broken link.
-       SERVICEDOWN = 7; //what if it has less number of nodes alive in cluster.
-       ERROR = 8; //similiar to failure messages.
-   }
-
-   oneof payload {
-        // a client (external) sanity check for testing
-        bool ping = 5;
-        string message = 6;
-        Failure err = 7;
-        WriteRequest request_write = 8;
-        ReadRequest request_read = 9;
-        WriteResponse response_write = 10;
-        ReadResponse response_read = 11;
-   }
-
-}
-
 message Chunk{
      required int32 chunk_id = 1;
      required bytes chunk_data = 6;
      optional int32 chunk_size=9;
-}
-
-message WriteRequest{
-     optional string file_id = 1;
-     required string filename = 2;
-     optional string file_ext=3;
-     optional Chunk chunk=4;
-     optional int32 num_of_chunks = 5;
 }
 
 message ChunkLocation{
@@ -78,32 +27,102 @@ message ChunkLocation{
      repeated Node node = 2;
 }
 
-message Node{
-     required int32 node_id = 1;
-     required string host = 2;
-     required int32 port = 3;
+
+message CommandMessage {
+   required Header header = 1;
+
+   // As we need to identify message from different network, message_id would help with that. 
+   // in addition with node_id, it will remain unique every time.
+
+   oneof payload {
+      // a client (external) sanity check for testing
+      bool ping = 3;
+      string message = 4;
+      Failure err = 5;
+      Request req = 6;
+      Response resp = 7;
+   }
+
+}
+
+
+enum TaskType{ 
+     PING = 1;
+     PINGRESPONSE = 2;
+     REQUESTREADFILE = 3;
+     REQUESTWRITEFILE = 4;
+     RESPONSEREADFILE = 5;
+     RESPONSEWRITEFILE = 6;
+  }
+
+/*
+Added Request Message(as defined previously in common.proto)
+*/
+message Request { 
+  optional Node client = 1;
+  required TaskType requestType = 3; 
+  oneof payload{
+    WriteBody rwb = 4;
+    ReadBody rrb = 5;
+  } 
+}
+
+message WriteBody{
+     optional int64 file_id = 1;
+     required string filename = 2;
+     optional string file_ext=3;
+     optional Chunk chunk=4;
+     optional int32 num_of_chunks = 5;
+}
+
+message ReadBody{
+    optional string filename = 1; // to get all use * wildcard
+    optional int64 file_id = 2;
+    optional int32 chunk_id = 3;
+    optional int32 chunk_size = 4;
+}
+
+
+/*
+Response Message was defined previously. So added this again
+*/
+message Response{
+  required TaskType responseType = 1; 
+  optional string filename=3; 
+  optional Status status = 10;  // Status should be part of Response
+
+  enum Status {
+     SUCCESS = 1;
+     SERVERTIMEOUT = 2; //if message got lost in intra cluster you need to send a resonpse back to client.
+     REDIRECTION = 3; // when leader sends a response back with location of chunks node.
+     FILENOTFOUND = 4; // no file was found on server
+     NOLEADER = 5; // cannot recieve request, or must say client to stop sending request
+     UNREACHABLE = 6; //cluster to clust communication stops working, broken link.
+     SERVICEDOWN = 7; //what if it has less number of nodes alive in cluster.
+     ERROR = 8; //similiar to failure messages.
+     INCOMPLETEFILE = 9; //adding new status
+  }
+
+
+  oneof payload{
+    WriteResponse writeResponse = 4;
+    ReadResponse readResponse = 5;
+  }
+}
+
+
+//this payload will be only present when chunks are missing on server during write
+//and will request client to send it again.
+message WriteResponse {
+    repeated int32 ChunkId=1;
+    optional string filename = 2;
 }
 
 message ReadResponse{
-    optional string file_id = 1;
+    optional int64 file_id = 1;
     required string filename = 2;
     optional string file_ext= 3;
     optional int32 num_of_chunks = 4;
     repeated ChunkLocation chunk_location = 5;
     optional Chunk chunk = 6;
 }
-
-message ReadRequest{
-    optional string filename = 1; // to get all use * wildcard
-    optional int64 file_id = 2;
-    optional int64 chunk_id = 3;
-    optional int64 chunk_size = 4;
-}
-
-//this payload will be only present when chunks are missing on server during write
-//and will request client to send it again.
-message WriteResponse {
-    repeated int32 ChunkId=1;
-}
-
-

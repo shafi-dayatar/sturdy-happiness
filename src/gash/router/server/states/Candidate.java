@@ -22,8 +22,10 @@ import pipe.work.Work.WorkMessage;
 import pipe.work.Work.WorkMessage.MessageType;
 import pipe.work.Work.WorkMessageOrBuilder;
 import routing.Pipe;
-import routing.Pipe.ReadRequest;
-import routing.Pipe.WriteRequest;
+import routing.Pipe.ReadBody;
+import routing.Pipe.ReadResponse;
+import routing.Pipe.Response;
+import routing.Pipe.WriteBody;
 
 /**
  * Created by rentala on 4/11/17.
@@ -162,16 +164,6 @@ public class Candidate implements RaftServerState {
 	}
 
 	@Override
-	public byte[] readFile(ReadRequest read) {
-		return null ;//IOUtility.readFile(readBody);
-	}
-
-	@Override
-	public int writeFile(WriteRequest write) {
-		return 0;//IOUtility.writeFile(readBody);
-	}
-
-	@Override
 	public void logAppend(LogAppendEntry logEntry) {
 		// TODO Auto-generated method stub
 		
@@ -210,6 +202,18 @@ public class Candidate implements RaftServerState {
 	@Override
 	public void writeChunkDataResponse(FileChunkData chunk) {
 		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public Response getFileChunkLocation(ReadBody request) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int writeFile(WriteBody writeBody) {
+		// TODO Auto-generated method stub
+		return 0;
 	}	
 	
 }
