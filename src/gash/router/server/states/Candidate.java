@@ -210,6 +210,16 @@ public class Candidate implements RaftServerState {
 	@Override
 	public void writeChunkDataResponse(FileChunkData chunk) {
 		// TODO Auto-generated method stub
-	}	
-	
+	}
+
+	@Override
+	public void stealWork() {
+		//Candidate doesnt steal work
+	}
+
+	@Override
+	public WorkMessage getWork() {
+		return null;
+	}
+
 }

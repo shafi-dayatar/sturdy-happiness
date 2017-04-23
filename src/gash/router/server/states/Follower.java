@@ -22,6 +22,7 @@ import gash.router.server.ServerState;
 import gash.router.server.log.LogInfo;
 import gash.router.server.messages.ElectionMessage;
 import gash.router.server.messages.LogAppend;
+import pipe.common.Common;
 import pipe.election.Election;
 import pipe.election.Election.LeaderElection;
 import pipe.election.Election.LeaderElectionResponse;
@@ -315,8 +316,39 @@ public class Follower implements RaftServerState {
 		// TODO Auto-generated method stub
 		logger.info("Got A file write response");
 		
-	}	
-	
+	}
+
+	@Override
+	public void stealWork() {
+		//Follower can steal work
+		try
+		{
+			for(Work.Node node : this.state.getEmon().getOutBoundRouteTable()){
+				WorkMessage.Builder msgBuilder = WorkMessage.newBuilder();
+				msgBuilder.setSecret(9999999);
+				msgBuilder.setType(MessageType.WORKSTEALREQUEST);
+				Header.Builder hd = Header.newBuilder();
+				hd.setDestination(node.getNodeId());
+				hd.setNodeId(state.getNodeId());
+				hd.setTime(System.currentTimeMillis());
+				msgBuilder.setHeader(hd);
+				state.getOutBoundMessageQueue().addMessage(msgBuilder.build());
+			}
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			logger.info(" stealWork request failed due to : ");
+			e.printStackTrace();
+		}
+
+	}
+
+	@Override
+	public WorkMessage getWork() {
+		//TODO : Add logic to check if the work message can be handled by the requested node id
+		return state.getInBoundMessageQueue().getQueuedMessage();
+	}
+
 	public void startElection() {
 		// TODO Auto-generated method stub	
 		

@@ -380,6 +380,16 @@ public class Leader implements RaftServerState, Runnable {
 	}
 
 	@Override
+	public void stealWork() {
+		//leader doesnt steal the work
+	}
+
+	@Override
+	public WorkMessage getWork() {
+		return null;
+	}
+
+	@Override
 	public void appendEntries(ArrayList<Builder> logEntryBuilder) {
 		// TODO Auto-generated method stub
 

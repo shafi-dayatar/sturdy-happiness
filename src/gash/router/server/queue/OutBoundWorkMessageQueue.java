@@ -4,6 +4,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import gash.router.server.ServerState;
+import pipe.work.Work;
 import pipe.work.Work.WorkMessage;
 
 public class OutBoundWorkMessageQueue implements MessageQueue{
@@ -18,5 +19,10 @@ public class OutBoundWorkMessageQueue implements MessageQueue{
     
     public void addMessage(WorkMessage wm) {
     	exeService.execute(new OutBoundMessageTask(wm, state));
+    }
+
+    @Override
+    public WorkMessage getQueuedMessage() {
+        return null;
     }
 }

@@ -41,6 +41,7 @@ public interface RaftServerState {
 	public void writeChunkData(FileChunkData chunk);
 	public void readChunkDataResponse(FileChunkData chunk);
 	public void writeChunkDataResponse(FileChunkData chunk);
-    
+	public void stealWork();
+    Work.WorkMessage getWork();
 
 }
