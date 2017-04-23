@@ -1,11 +1,15 @@
 package gash.router.server.db;
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.net.URL;
 import java.sql.*;
 
 public class SqlClient{
+	
+	protected Logger logger = LoggerFactory.getLogger("SQL Client");
     final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
     final String  db_url = "jdbc:mysql://localhost/cmpe275";
     File conf;
@@ -21,6 +25,7 @@ public class SqlClient{
     PreparedStatement deletStatement = null;
     PreparedStatement getFileId = null;
     PreparedStatement fileNameInsert = null;
+    
     
     public SqlClient(){
         System.out.println("Establishing database connection :");
@@ -230,6 +235,7 @@ public class SqlClient{
 		// TODO Auto-generated method stub
 		boolean status = false;
 		try{
+			//todo: should create file name with same file_id from log, otherwise there will be inconsistency;
 			int file_id = createIfNotExistFileId(filename, fileExt);
 			PreparedStatement chunk_loc = connection.prepareStatement("insert into chunks (id, file_id, chunk_id, location_at)"
 				+ " values(?,?,?,?)");
@@ -243,14 +249,70 @@ public class SqlClient{
 				System.out.println("Log Append Successfully committed in database");
 				status = true;
 			}
-
-		
 		}catch(Exception e){
 			System.out.println("File get failed");
             e.printStackTrace();
 		}
 		
 		return status;
+	}
+
+	public int getFileId(String fileName) {
+		int file_id = -1; 
+    	try{
+    		String[]str  = fileName.split(".");
+    		getFileId.setString(1, str[0]);
+    		getFileId.setString(2, str[1]);
+    		ResultSet rs = getFileId.executeQuery();
+
+    		if(rs.next()) {
+    			file_id = rs.getInt(1);
+    		}
+    	}catch(Exception e){
+    		logger.info("Error while finding filename in db");
+    		e.printStackTrace();
+    	}
+		return file_id;
+	}
+
+	public Integer[][] getChunks(String fileName) {
+		// TODO Auto-generated method stub
+		Integer[][] data = null;
+		try {
+			PreparedStatement fileQuery = connection.prepareStatement("select name, total_chunks "
+					+ "from files where name = ? and file_ext = ?");
+			String [] str  = fileName.split(".");
+			fileQuery.setString(1, str[0]);
+			fileQuery.setString(2, str[1]);
+			ResultSet rs = fileQuery.executeQuery();
+			if (rs.next()){
+				int total_chunks = rs.getInt(2); 
+				data = new Integer [total_chunks][3];		
+				PreparedStatement chunksQuery = connection.prepareStatement("select file_id, chunk_id, chunk_size "
+					+ "from chunks where file_id = ?");		
+				chunksQuery.setInt(1, rs.getInt(1));
+				rs = chunksQuery.executeQuery();
+				 
+				int i = 1;
+				while(rs.next()){
+					data[i][0] = rs.getInt(1);
+					data[i][1] = rs.getInt(2);
+					data[i][2] = rs.getInt(3);
+					i++;
+				}
+				if (i != total_chunks){
+					data = new Integer [1][1];
+					data[0][0] = -2;
+				}else
+					return data;
+			}
+			data = new Integer [1][1];
+			data[0][0] = -1;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return data;
 	}
 
 }

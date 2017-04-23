@@ -39,8 +39,10 @@ import pipe.work.Work.WorkMessage;
 import pipe.work.Work.WorkMessage.MessageType;
 import routing.*;
 import routing.Pipe;
-import routing.Pipe.ReadRequest;
-import routing.Pipe.WriteRequest;
+import routing.Pipe.ReadBody;
+import routing.Pipe.ReadResponse;
+import routing.Pipe.Response;
+import routing.Pipe.WriteBody;
 
 import com.google.protobuf.ByteString;
 import gash.router.server.IOUtility;
@@ -282,7 +284,7 @@ public class Follower implements RaftServerState {
         	
         	WorkMessage.Builder msgBuilder = WorkMessage.newBuilder();
 	    	msgBuilder.setSecret(9999999);
-	    	msgBuilder.setType(MessageType.CHUNKFILEDATAREADRESPONSE);
+	    	msgBuilder.setType(MessageType.CHUNKFILEDATAWRITERESPONSE);
 	    	Header.Builder hd = Header.newBuilder();
 	    	hd.setDestination(chunk.getReplyTo());
 	    	hd.setNodeId(state.getNodeId());
@@ -370,15 +372,17 @@ public class Follower implements RaftServerState {
 		// TODO Auto-generated method stub
 		
 	}
-	
+
 	@Override
-	public byte[] readFile(ReadRequest readBody) {
-		return null;//IOUtility.readFile(readBody);
+	public Response getFileChunkLocation(ReadBody request) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
-	public int writeFile(WriteRequest readBody) {
-		return 0;//IOUtility.writeFile(readBody);
+	public int writeFile(WriteBody writeBody) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 

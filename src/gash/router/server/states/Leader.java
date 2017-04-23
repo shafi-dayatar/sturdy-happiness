@@ -4,6 +4,7 @@ import java.awt.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.TreeMap;
@@ -20,8 +21,11 @@ import org.slf4j.LoggerFactory;
 import gash.router.server.ServerState;
 import gash.router.server.edges.EdgeMonitor;
 import gash.router.server.log.LogInfo;
+import gash.router.server.messages.DiscoverMessage;
+import gash.router.server.messages.FileChunk;
 import gash.router.server.messages.LogAppend;
 import pipe.common.Common.Header;
+import pipe.common.Common.Node;
 import pipe.election.Election;
 import pipe.election.Election.LeaderElection;
 import pipe.work.Work;
@@ -32,12 +36,9 @@ import pipe.work.Work.LogEntry;
 import pipe.work.Work.LogEntry.*;
 import pipe.work.Work.LogEntryList;
 import pipe.work.Work.WorkMessage.MessageType;
-import pipe.work.Work.Node;
 import pipe.work.Work.WorkMessage;
-import routing.Pipe;
-import routing.Pipe.Chunk;
-import routing.Pipe.ReadRequest;
-import routing.Pipe.WriteRequest;
+import routing.Pipe.*;
+import routing.Pipe.Response.Status;
 
 import com.google.protobuf.ByteString;
 
@@ -131,22 +132,6 @@ public class Leader implements RaftServerState, Runnable {
 		}
 
 	}
-
-	/**
-	 * After leader is elected, reinitialize nextIndex to lastIndex+1 and
-	 * matchIndex to 0 of all followers
-	 */
-
-	private void reinitializeIndexes() {
-		for (Node node : state.getEmon().getOutBoundRouteTable()) {
-			// Next Index
-			nextIndex.put(node.getNodeId(), state.getLog().lastIndex() + 1);
-			// Match Index
-			matchIndex.put(node.getNodeId(), (int) 0);
-		}
-	}
-
-	
 
 	/**
 	 * When AppendRequest is successful for a node, update it's nextIndex to
@@ -277,69 +262,88 @@ public class Leader implements RaftServerState, Runnable {
 	}
 
 	@Override
-	public byte[] readFile(ReadRequest readBody) {
-		return new IOUtility().readFile(readBody);
-	}
-
-	public WorkMessage createWriteFileMessage(ReadRequest writeMessage) {
-		return null;
-	}
-
-	public WorkMessage createFileWriteMessage(int dest, int fileId, int chunkId, String FileName,
-			ByteString chunkData) {
-		WorkMessage.Builder msgBuilder = WorkMessage.newBuilder();
-		msgBuilder.setSecret(9999999);
-		msgBuilder.setType(MessageType.CHUNKFILEDATAWRITE);
-		Header.Builder hd = Header.newBuilder();
-		hd.setDestination(dest);
-		hd.setNodeId(state.getNodeId());
-		hd.setTime(System.currentTimeMillis());
-
-		FileChunkData.Builder data = FileChunkData.newBuilder();
-		data.setReplyTo(state.getNodeId());
-		data.setFileId(fileId);
-		data.setChunkId(chunkId);
-		data.setFileName(FileName);
-		data.setChunkData(chunkData);
-		msgBuilder.setHeader(hd);
-		msgBuilder.setChunkData(data);
-		return msgBuilder.build();
-
+	public routing.Pipe.Response getFileChunkLocation(ReadBody request) {
+		String fileName = request.getFilename();
+		Integer [][] chunks = state.getDb().getChunks(fileName);
+		
+		routing.Pipe.Response.Builder res = Response.newBuilder();
+		res.setFilename(fileName);
+		res.setResponseType(TaskType.RESPONSEREADFILE);
+		
+		ReadResponse.Builder rr = ReadResponse.newBuilder();
+		rr.setFilename(fileName);
+		
+		if (chunks[0].length == 1){
+			if (chunks[0][0] == -1){
+				logger.info("File not found on server");
+				res.setStatus(Status.FILENOTFOUND);
+			}
+			else if (chunks[0][0] == -2){
+				logger.info("File is incomplete, all chunks have not received ");
+				res.setStatus(Status.INCOMPLETEFILE);
+			}
+				
+		}else{
+			res.setStatus(Status.SUCCESS);
+			
+	        Node.Builder node = Node.newBuilder();
+			node.setHost(DiscoverMessage.getCurrentIp());
+			node.setNodeId(state.getNodeId());
+			node.setPort(state.getConf().getCommandPort());
+			int i ;
+			for( i= 0; i < chunks.length; i++){
+				ChunkLocation.Builder chunkloc = ChunkLocation.newBuilder();
+				chunkloc.addNode(node);
+				chunkloc.setChunkid(chunks[i][0]);
+				rr.addChunkLocation(chunkloc);
+			}
+			rr.setNumOfChunks(i);
+			
+		}
+		res.setReadResponse(rr);
+		
+		return res.build();//new IOUtility().readFile(readBody);
 	}
 
 	@Override
-	public int writeFile(WriteRequest write) {
+	public int writeFile(WriteBody request) {
 		int fileId;
-		synchronized (this) {
-			fileId = (int) state.getDb().getFileId(write.getFilename(), write.getFileExt());
-		}
-		if (fileId != -1) {
-			String fileName = write.getFilename();
-			LogEntry.Builder logEntryBuilder = LogEntry.newBuilder();
-			logEntryBuilder.setAction(DataAction.INSERT);
-			String chunk_value = Integer.toString(fileId) + ":" + fileName + ":" + write.getFileExt() + ":"
-					+ Integer.toString(write.getChunk().getChunkId()) + ":";
-			Command.Builder command = Command.newBuilder();
-			command.setKey("chunk");
-			ArrayList<Node> followers = state.getEmon().getOutBoundRouteTable();
-			int loc = new Random().nextInt(followers.size());
-			for (int i = 0; i < 2; i++) {
-				int currentLoc = (loc + i) % followers.size();
-				Node node = followers.get(currentLoc);
-				Chunk chunk = write.getChunk();
-				WorkMessage msg = createFileWriteMessage(node.getNodeId(), fileId, chunk.getChunkId(), fileName,
-						chunk.getChunkData());
-				// logger.info(msg.toString());
-				state.getOutBoundMessageQueue().addMessage(msg);
-				chunk_value += node.getNodeId() + ",";
+		try{
+			synchronized (this){
+				fileId = (int) state.getDb().getFileId(request.getFilename(), request.getFileExt());
 			}
-			command.setValue(chunk_value);
-			command.setClientId(999);
-			logEntryBuilder.addData(command);
-			appendEntries(logEntryBuilder);
+			if (fileId != -1) {
+				String fileName = request.getFilename();
+				LogEntry.Builder logEntryBuilder = LogEntry.newBuilder();
+				logEntryBuilder.setAction(DataAction.INSERT);
+				String chunk_value = Integer.toString(fileId) + ":" + fileName + ":" + request.getFileExt() + ":"
+						+ Integer.toString(request.getChunk().getChunkId()) + ":";
+				Command.Builder command = Command.newBuilder();
+				command.setKey("chunk");
+				ArrayList<Node> followers = state.getEmon().getOutBoundRouteTable();
+				int loc = new Random().nextInt(followers.size());
+				HashSet<Integer> location = new HashSet<Integer>();
+				for (int i = 0; i < replicationFactor ; i++) {
+					int currentLoc = (loc + i) % followers.size();
+					Node node = followers.get(currentLoc);
+					location.add(node.getNodeId());
+					Chunk chunk = request.getChunk();
+					WorkMessage msg = FileChunk.createFileWriteMessage(state.getNodeId(), node.getNodeId(), fileId, 
+							chunk.getChunkId(), fileName, chunk.getChunkData());
+					state.getOutBoundMessageQueue().addMessage(msg);	
+				}
+				chunk_value += location.toString();
+				command.setValue(chunk_value);
+				command.setClientId(999);
+				logEntryBuilder.addData(command);
+				appendEntries(logEntryBuilder);
+			}
+		}catch(Exception e){
+			logger.info("Found exception while writing file");
+			e.printStackTrace();
+			return request.getChunk().getChunkId();
 		}
-
-		return 0;// IOUtility.writeFile(write);
+		return -1;// IOUtility.writeFile(write);
 	}
 
 	public void setNextAndMatchIndex() {

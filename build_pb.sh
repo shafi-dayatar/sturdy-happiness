@@ -26,6 +26,5 @@ fi
 /usr/bin/protoc --proto_path=${project_base}/resources --java_out=${project_base}/generated ${project_base}/resources/common.proto
 /usr/bin/protoc --proto_path=${project_base}/resources --java_out=${project_base}/generated ${project_base}/resources/election.proto
 /usr/bin/protoc --proto_path=${project_base}/resources --java_out=${project_base}/generated ${project_base}/resources/work.proto
-/usr/bin/protoc --proto_path=${project_base}/resources --java_out=${project_base}/generated ${project_base}/resources/client.proto
 
 /usr/bin/protoc --proto_path=${project_base}/resources --java_out=${project_base}/generated ${project_base}/resources/pipe.proto

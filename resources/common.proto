@@ -9,6 +9,7 @@ option java_package = "pipe.common";
 message Header {  
     required int32 node_id = 1;
     required int64 time = 2;
+    optional int32 message_id =3;
    
     // if the message is for a specific node, this will be set
     optional int32 destination = 8;
@@ -21,4 +22,10 @@ message Failure {
     required int32 id = 1;
     optional int32 ref_id = 2;
     optional string message = 3;
+}
+
+message Node{
+     required int32 node_id = 1;
+     required string host = 2;
+     required int32 port = 3;
 }
