@@ -370,20 +370,6 @@ public class Leader implements RaftServerState, Runnable {
 	}
 
 	@Override
-	public void readChunkDataResponse(FileChunkData chunk) {
-		// TODO Auto-generated method stub
-		logger.info("Got A File Read Response");
-
-	}
-
-	@Override
-	public void writeChunkDataResponse(FileChunkData chunk) {
-		// TODO Auto-generated method stub
-		logger.info("Got A file write response");
-
-	}
-
-	@Override
 	public void appendEntries(ArrayList<Builder> logEntryBuilder) {
 		// TODO Auto-generated method stub
 

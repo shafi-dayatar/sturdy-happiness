@@ -303,20 +303,6 @@ public class Follower implements RaftServerState {
 	    	e.printStackTrace();
         	e.printStackTrace();
         }
-	}
-
-	@Override
-	public void readChunkDataResponse(FileChunkData chunk) {
-		// TODO Auto-generated method stub
-		logger.info("Got A File Read Response");
-		
-	}
-
-	@Override
-	public void writeChunkDataResponse(FileChunkData chunk) {
-		// TODO Auto-generated method stub
-		logger.info("Got A file write response");
-		
 	}	
 	
 	public void startElection() {

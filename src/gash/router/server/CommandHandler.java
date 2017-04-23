@@ -102,6 +102,10 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 		    default:
 		    	break;
 			}
+		}else if(msg.hasPing()){
+			
+		}else{
+			logger.info("Unsupport msg received from client  msg detail is : " + msg.toString());
 		}
 
 	}
