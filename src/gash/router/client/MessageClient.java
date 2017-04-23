@@ -141,7 +141,7 @@ public class MessageClient {
 	public void fileOperation(String action, String filePath, String file_name) {
 		System.out.println("Actions recived: " + action + " " + filePath);
 		ClassLoader classLoader = getClass().getClassLoader();
-		File file = new File(filePath+"/"+file_name);
+		File file = new File(filePath + "/" + file_name);
 		if (action.contains("get") && file_name != null) {
 			this.fileoutput = filePath;
 			CommandMessage commandMessage = buildRCommandMessage(file_name);
@@ -158,17 +158,17 @@ public class MessageClient {
 			if (file_name == null) {
 				return;
 			}
-			
+			createFileChunks(file);
 			ArrayList<ByteString> chunks = chunkFile(file);
 			if (chunks == null) {
 				return;
 			}
 			int chunksNum = chunks.size();
 			try {
-				for(int i =0;i< chunks.size();i++){
-					CommandMessage commandMessage = buildWCommandMessage(file, chunks.get(i),chunksNum);
-				System.out.println("Enueued file .....");
-				CommConnection.getInstance().enqueue(commandMessage);
+				for (int i = 0; i < chunks.size(); i++) {
+					CommandMessage commandMessage = buildWCommandMessage(file, chunks.get(i), chunksNum);
+					System.out.println("Enueued file .....");
+					CommConnection.getInstance().enqueue(commandMessage);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -200,14 +200,14 @@ public class MessageClient {
 				if (len < sizeOfChunk) {
 					byte[] leftData = new byte[(int) sizeOfChunk];
 					chunkedFile.add(ByteString.copyFrom(leftData));
-					len =0;
+					len = 0;
 				} else {
 					len = len - sizeOfChunk;
-					logger.info("chunk"+len);
+					logger.info("chunk" + len);
 					chunkedFile.add(ByteString.copyFrom(buffer));
 				}
 			}
-			
+
 			return chunkedFile;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -224,12 +224,12 @@ public class MessageClient {
 			// rrb.setFilename(file_name);
 			// msg.setRrb(rrb.build());
 
-//			Pipe.Node.Builder node = Pipe.Node.newBuilder();
-//
-//			node.setHost(InetAddress.getLocalHost().getHostAddress());
-//
-//			node.setPort(8000);
-//			node.setNodeId(-1);
+			// Pipe.Node.Builder node = Pipe.Node.newBuilder();
+			//
+			// node.setHost(InetAddress.getLocalHost().getHostAddress());
+			//
+			// node.setPort(8000);
+			// node.setNodeId(-1);
 			// msg.setClient(node);
 			Header.Builder header = Header.newBuilder();
 			header.setNodeId(1);
@@ -251,17 +251,17 @@ public class MessageClient {
 			Request.Builder req = Request.newBuilder();
 			req.setRequestType(TaskType.REQUESTWRITEFILE);
 			WriteBody.Builder rwb = WriteBody.newBuilder();
-			String ext[] =  file.getName().toString().split("\\.");
+			String ext[] = file.getName().toString().split("\\.");
 			rwb.setFileExt(ext[1]);
 			rwb.setFilename(file.getName());
 			rwb.setNumOfChunks(noOfChunks);
 			int i = 1;
-			//rwb.setFileId(++fileId);
-				Chunk.Builder chunkBuilder = Chunk.newBuilder();
-				chunkBuilder.setChunkId(++chunkId);
-				chunkBuilder.setChunkSize(chunk.size());
-				chunkBuilder.setChunkData(chunk);
-				rwb.setChunk(chunkBuilder.build());
+			// rwb.setFileId(++fileId);
+			Chunk.Builder chunkBuilder = Chunk.newBuilder();
+			chunkBuilder.setChunkId(++chunkId);
+			chunkBuilder.setChunkSize(chunk.size());
+			chunkBuilder.setChunkData(chunk);
+			rwb.setChunk(chunkBuilder.build());
 
 			req.setRwb(rwb.build());
 			Header.Builder header = Header.newBuilder();
@@ -277,49 +277,43 @@ public class MessageClient {
 			return command.build();
 		}
 	}
-
-//	public void writeFile(String filename, ByteString chunkData, int noOfChunks, int chunkId) {
-//
-//		logger.info("Printing byte size" + chunkData.size());
-//		Header.Builder hb = Header.newBuilder();
-//		hb.setNodeId(999);
-//		hb.setTime(System.currentTimeMillis());
-//		hb.setDestination(-1);
-//
-//		Chunk.Builder chb = Chunk.newBuilder();
-//		chb.setChunkId(chunkId);
-//		chb.setChunkData(chunkData);
-//		chb.setChunkSize(chunkData.size());
-//
-//		WriteRequest.Builder wb = WriteRequest.newBuilder();
-//		wb.setFileId("1");
-//		wb.setFilename(filename);
-//		wb.setChunk(chb);
-//		wb.setNumOfChunks(noOfChunks);
-//		CommandMessage.Builder cb = CommandMessage.newBuilder();
-//		// Prepare the CommandMessage structure
-//		cb.setHeader(hb);
-//		cb.setMessageType(MessageType.REQUESTWRITEFILE);
-//		cb.setRequestWrite(wb);
-//
-//		// Initiate connection to the server and prepare to save file
-//		try {
-//			CommConnection.getInstance().enqueue(cb.build());
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			logger.error("Problem connecting to the system");
-//		}
-//
-//	}
+	// public void writeFile(String filename, ByteString chunkData, int
+	// noOfChunks, int chunkId) {
+	//
+	// logger.info("Printing byte size" + chunkData.size());
+	// Header.Builder hb = Header.newBuilder();
+	// hb.setNodeId(999);
+	// hb.setTime(System.currentTimeMillis());
+	// hb.setDestination(-1);
+	//
+	// Chunk.Builder chb = Chunk.newBuilder();
+	// chb.setChunkId(chunkId);
+	// chb.setChunkData(chunkData);
+	// chb.setChunkSize(chunkData.size());
+	//
+	// WriteRequest.Builder wb = WriteRequest.newBuilder();
+	// wb.setFileId("1");
+	// wb.setFilename(filename);
+	// wb.setChunk(chb);
+	// wb.setNumOfChunks(noOfChunks);
+	// CommandMessage.Builder cb = CommandMessage.newBuilder();
+	// // Prepare the CommandMessage structure
+	// cb.setHeader(hb);
+	// cb.setMessageType(MessageType.REQUESTWRITEFILE);
+	// cb.setRequestWrite(wb);
+	//
+	// // Initiate connection to the server and prepare to save file
+	// try {
+	// CommConnection.getInstance().enqueue(cb.build());
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// logger.error("Problem connecting to the system");
+	// }
+	//
+	// }
 
 	/*
 	 * public void release() { CommConnection.getInstance().release(); }
 	 */
 
-	/**
-	 * Since the service/server is asychronous we need a unique ID to associate
-	 * our requests with the server's reply
-	 * 
-	 * @return
-	 */
 }
