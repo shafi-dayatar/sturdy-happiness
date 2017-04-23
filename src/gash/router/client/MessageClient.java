@@ -245,7 +245,8 @@ public class MessageClient {
 			Request.Builder req = Request.newBuilder();
 			req.setRequestType(TaskType.REQUESTWRITEFILE);
 			WriteBody.Builder rwb = WriteBody.newBuilder();
-			rwb.setFileExt(".sh");
+			String ext[] =  file.getName().toString().split("\\.");
+			rwb.setFileExt(ext[1]);
 			rwb.setFilename(file.getName());
 			rwb.setNumOfChunks(chunks.size());
 			int i = 1;
