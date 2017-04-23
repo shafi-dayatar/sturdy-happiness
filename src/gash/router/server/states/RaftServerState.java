@@ -33,15 +33,17 @@ public interface RaftServerState {
 	public void heartbeat(LogAppendEntry hearbeat);
 	void appendEntries(ArrayList<LogEntry.Builder> logEntryBuilder);
 	void appendEntries(LogEntry.Builder logEntryBuilder);
-	// if it returns -1 - all good, else returns the chunk id it failed to write
-    
-    //void deleteFile(Pipe.ReadBody readBody);
+
+
+
 	public void readChunkData(FileChunkData chunk);
 	public void writeChunkData(FileChunkData chunk);
 	public void readChunkDataResponse(FileChunkData chunk);
 	public void writeChunkDataResponse(FileChunkData chunk);
 	routing.Pipe.Response getFileChunkLocation(ReadBody request);
 	int writeFile(WriteBody writeBody);
-    
+
+	public void stealWork();
+    Work.WorkMessage getWork();
 
 }

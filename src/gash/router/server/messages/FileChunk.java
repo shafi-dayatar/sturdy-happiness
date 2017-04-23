@@ -39,10 +39,10 @@ protected static Logger logger = LoggerFactory.getLogger("LogAppendEntry Message
     		serverState.writeChunkData(chunk);
     		break;
     	case CHUNKFILEDATAREADRESPONSE:
-    		serverState.readChunkDataResponse(chunk);
+    		//serverState.readChunkDataResponse(chunk);
     		break;
     	case CHUNKFILEDATAWRITERESPONSE:
-    		serverState.writeChunkDataResponse(chunk);
+    		//serverState.writeChunkDataResponse(chunk);
     		break;
 
 

@@ -4,4 +4,5 @@ import pipe.work.Work.WorkMessage;
 
 public interface MessageQueue {
 	void addMessage(WorkMessage wmsg);
+	WorkMessage getQueuedMessage();
 }

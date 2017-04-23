@@ -21,6 +21,9 @@ public class InBoundMessageTask implements Runnable {
     	this.state = state;
     	this.wmsg = wm;
     }
+    public WorkMessage getWorkMessage(){
+    	return wmsg;
+	}
 
     @Override
     public void run() {

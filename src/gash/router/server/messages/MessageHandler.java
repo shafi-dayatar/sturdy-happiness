@@ -49,6 +49,8 @@ public class MessageHandler {
 			case CHUNKFILEDATAWRITERESPONSE:
 				m = new FileChunk(msg);
 				break;
+			case WORKSTEALREQUEST:
+				m = new WorkStealMessage(msg);
 			default:
 			//case
 			//hearbeat message ?
