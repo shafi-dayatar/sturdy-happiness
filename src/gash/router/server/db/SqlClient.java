@@ -2,6 +2,7 @@ package gash.router.server.db;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import routing.Pipe;
 
 import java.io.*;
 import java.net.URL;
@@ -274,7 +275,41 @@ public class SqlClient{
     	}
 		return file_id;
 	}
+    public ChunkRow[] getChunkRows(String fileName) {
+        // TODO Auto-generated method stub
+        ChunkRow[] data = null;
+        try {
+            PreparedStatement fileQuery = connection.prepareStatement("select name, total_chunks "
+                    + "from files where name = ? and file_ext = ?");
+            String [] str  = fileName.split(".");
+            fileQuery.setString(1, str[0]);
+            fileQuery.setString(2, str[1]);
+            ResultSet rs = fileQuery.executeQuery();
+            if (rs.next()){
+                int total_chunks = rs.getInt(2);
+                data = new ChunkRow[total_chunks];
+                PreparedStatement chunksQuery = connection.prepareStatement("select file_id, chunk_id, chunk_size, location_at "
+                        + "from chunks where file_id = ?");
+                chunksQuery.setInt(1, rs.getInt(1));
+                rs = chunksQuery.executeQuery();
 
+                int i = 1;
+                while(rs.next()){
+                    data[i].setFile_id(rs.getInt(1));
+                    data[i].setChunk_id(rs.getInt(2));
+                    data[i].setChunk_size(rs.getInt(3));
+                    data[i].setLocation_at(rs.getString(4));
+                    i++;
+                }
+                return data;
+            }
+            return data;
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return data;
+    }
 	public Integer[][] getChunks(String fileName) {
 		// TODO Auto-generated method stub
 		Integer[][] data = null;
@@ -287,8 +322,8 @@ public class SqlClient{
 			ResultSet rs = fileQuery.executeQuery();
 			if (rs.next()){
 				int total_chunks = rs.getInt(2); 
-				data = new Integer [total_chunks][3];		
-				PreparedStatement chunksQuery = connection.prepareStatement("select file_id, chunk_id, chunk_size "
+				data = new Integer [total_chunks][4];
+				PreparedStatement chunksQuery = connection.prepareStatement("select file_id, chunk_id, chunk_size, location_at "
 					+ "from chunks where file_id = ?");		
 				chunksQuery.setInt(1, rs.getInt(1));
 				rs = chunksQuery.executeQuery();
@@ -298,6 +333,7 @@ public class SqlClient{
 					data[i][0] = rs.getInt(1);
 					data[i][1] = rs.getInt(2);
 					data[i][2] = rs.getInt(3);
+                    //data[i][3] = rs.getInt(4);
 					i++;
 				}
 				if (i != total_chunks){

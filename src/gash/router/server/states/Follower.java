@@ -22,6 +22,7 @@ import gash.router.server.ServerState;
 import gash.router.server.log.LogInfo;
 import gash.router.server.messages.ElectionMessage;
 import gash.router.server.messages.LogAppend;
+import pipe.common.Common;
 import pipe.election.Election;
 import pipe.election.Election.LeaderElection;
 import pipe.election.Election.LeaderElectionResponse;
@@ -305,12 +306,22 @@ public class Follower implements RaftServerState {
         }
 	}
 
-	@Override
+    @Override
+    public void readChunkDataResponse(FileChunkData chunk) {
+
+    }
+
+    @Override
+    public void writeChunkDataResponse(FileChunkData chunk) {
+
+    }
+
+    @Override
 	public void stealWork() {
 		//Follower can steal work
 		try
 		{
-			for(Work.Node node : this.state.getEmon().getOutBoundRouteTable()){
+			for(Common.Node node : this.state.getEmon().getOutBoundRouteTable()){
 				WorkMessage.Builder msgBuilder = WorkMessage.newBuilder();
 				msgBuilder.setSecret(9999999);
 				msgBuilder.setType(MessageType.WORKSTEALREQUEST);

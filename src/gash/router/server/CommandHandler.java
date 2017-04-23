@@ -24,6 +24,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import pipe.common.Common;
 import pipe.common.Common.Failure;
+import pipe.work.Work;
 import pipe.work.Work.Command;
 import pipe.work.Work.LogEntry;
 import pipe.work.Work.LogEntry.DataAction;
@@ -94,6 +95,9 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 		    	ReadBody readReq = msg.getReq().getRrb();
 		    	Response res = null;
 		    	if(readReq.hasChunkId()){
+					Work.Task.Builder task = Work.Task.newBuilder();
+					task.setMsg(msg);
+		    		serverState.getTasks().addTask(task.build());
 		    		
 		    	}else{
 		    		res = serverState.getRaftState().getFileChunkLocation(readReq);

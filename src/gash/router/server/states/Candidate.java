@@ -193,6 +193,16 @@ public class Candidate implements RaftServerState {
 		
 	}
 
+	@Override
+	public void readChunkDataResponse(FileChunkData chunk) {
+
+	}
+
+	@Override
+	public void writeChunkDataResponse(FileChunkData chunk) {
+
+	}
+
 
 	@Override
 	public void stealWork() {

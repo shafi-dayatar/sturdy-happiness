@@ -4,6 +4,7 @@ option java_package = "pipe.work";
 
 import "common.proto";
 import "election.proto";
+import "pipe.proto";
 
 message WorkState {
    required int32 enqueued = 1;
@@ -19,7 +20,8 @@ message Heartbeat {
  */
 message Task {  
     required int64 series_id = 1;
-    required int32 seq_id = 2;//add cmnd message
+    required int32 seq_id = 2;
+    optional CommandMessage msg =3;
 }
 
 message Discovery{
@@ -82,7 +84,7 @@ message WorkMessage {
       LogAppendEntry log_append_entries = 13;
       LogAppendResponse logAppendResponse = 14;
       FileChunkData chunk_data = 15;
-      WorkMessage stolenWork = 16;
+      CommandMessage stolenWork = 16;
    }
    
 }

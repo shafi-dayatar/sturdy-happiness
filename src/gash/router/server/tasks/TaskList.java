@@ -15,8 +15,11 @@
  */
 package gash.router.server.tasks;
 
+import java.util.Iterator;
 import java.util.concurrent.LinkedBlockingDeque;
 
+import gash.router.server.ServerState;
+import gash.router.server.db.ChunkRow;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -90,5 +93,28 @@ public class TaskList {
 			logger.error("failed to dequeue a task", e);
 		}
 		return t;
+	}
+	public synchronized Task getStealableTask(ServerState state, int node_id){
+
+		Iterator<Task> taskIterator = inbound.iterator();
+		Task task = null;
+		while (taskIterator.hasNext()){
+			task = taskIterator.next();
+			String filename = task.getMsg().getReq().getRrb().getFilename();
+			ChunkRow[] arr = state.getDb().getChunkRows(filename);
+			for(ChunkRow r : arr){
+				logger.info(" checkinbg for " + r.getLocation_at() + " message req filename  " + filename);
+				if(r.getLocation_at().contains(Integer.toString(node_id))){
+					logger.info(" node_id " + node_id + " will steal for "+ filename + " of type " + task.getMsg().getReq().getRequestType());
+					//yes the node can steal this task now
+
+					//remove task from queue
+					inbound.remove(task);
+					return task;
+				}
+			}
+
+		}
+		return task;
 	}
 }

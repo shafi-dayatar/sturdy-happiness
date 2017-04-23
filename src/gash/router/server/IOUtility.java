@@ -1,5 +1,6 @@
 package gash.router.server;
 
+import gash.router.server.db.ChunkRow;
 import gash.router.server.db.SqlClient;
 import routing.Pipe;
 import routing.Pipe.WriteBody;
@@ -35,6 +36,11 @@ public class IOUtility {
 		// TODO Auto-generated method stub
 		return sqlClient.getChunks(fileName);
 		
+	}
+	public ChunkRow[] getChunkRows(String fileName) {
+		// TODO Auto-generated method stub
+		return sqlClient.getChunkRows(fileName);
+
 	}
 
 }

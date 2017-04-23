@@ -386,11 +386,14 @@ public class Leader implements RaftServerState, Runnable {
 	@Override
 	public void stealWork() {
 		//leader doesnt steal the work
+
 	}
 
 	@Override
 	public WorkMessage getWork() {
-		return null;
+		CommandMessage cmdMessage = state.getTasks().getStealableTask(state, 1).getMsg();
+		WorkMessage.Builder workMessage = WorkMessage.newBuilder();
+		return workMessage.build();
 	}
 
 	@Override
