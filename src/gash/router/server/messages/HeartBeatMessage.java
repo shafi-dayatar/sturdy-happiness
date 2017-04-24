@@ -1,7 +1,6 @@
 package gash.router.server.messages;
 
 import gash.router.server.ServerState;
-import pipe.work.Work;
 
 public class HeartBeatMessage extends Message{
 

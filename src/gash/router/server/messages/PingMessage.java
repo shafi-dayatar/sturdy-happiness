@@ -1,8 +1,6 @@
 package gash.router.server.messages;
 
-import gash.router.server.ServerState;
 import io.netty.channel.Channel;
-import pipe.common.Common.Header;
 import pipe.work.Work.WorkMessage;
 
 public class PingMessage extends Message{

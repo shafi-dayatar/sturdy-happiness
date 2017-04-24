@@ -7,8 +7,6 @@ import org.slf4j.LoggerFactory;
 
 import gash.router.server.ServerState;
 import gash.router.server.edges.EdgeInfo;
-import gash.router.server.messages.MessageHandler;
-import gash.router.server.messages.MessageInterface;
 import io.netty.channel.Channel;
 import pipe.work.Work.WorkMessage;
 

@@ -1,18 +1,16 @@
 package gash.router.server.queue;
 
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+
 /**
  * Created by rentala on 4/23/17.
  */
 
 import gash.router.server.ServerState;
 import gash.router.server.customexecutor.ExtendedExecutor;
-import pipe.common.Common;
-import pipe.work.Work;
 import routing.Pipe;
-
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 public class ReadTaskQueue {
 

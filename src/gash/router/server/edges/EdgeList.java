@@ -16,7 +16,6 @@
 package gash.router.server.edges;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 import pipe.common.Common.Node;

@@ -5,7 +5,6 @@ import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
-
 import java.util.Enumeration;
 import java.util.List;
 
@@ -14,8 +13,8 @@ import org.slf4j.LoggerFactory;
 
 import gash.router.server.ServerState;
 import pipe.common.Common.Header;
-import pipe.work.Work.Discovery;
 import pipe.common.Common.Node;
+import pipe.work.Work.Discovery;
 import pipe.work.Work.WorkMessage;
 import pipe.work.Work.WorkMessage.MessageType;
 
