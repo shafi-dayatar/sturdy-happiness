@@ -35,12 +35,12 @@ import routing.Pipe.ReadResponse;
 
 /**
  * A client-side netty pipeline send/receive.
- * 
+ *
  * Note a management client is (and should only be) a trusted, private client.
  * This is not intended for public use.
- * 
+ *
  * @author gash
- * 
+ *
  */
 public class CommHandler extends SimpleChannelInboundHandler<CommandMessage> {
 	protected static Logger logger = LoggerFactory.getLogger("connect");
@@ -50,6 +50,7 @@ public class CommHandler extends SimpleChannelInboundHandler<CommandMessage> {
 	private String host;
 	private int port;
 	private int chunkCounter =0;
+
 	// private MessageClient mc = new MessageClient(host,port);
 	private MessageClient mc = new MessageClient();
 	private TreeMap<Integer, ByteString> chunkDataList = new TreeMap<Integer, ByteString>();
@@ -61,11 +62,11 @@ public class CommHandler extends SimpleChannelInboundHandler<CommandMessage> {
 	/**
 	 * Notification registration. Classes/Applications receiving information
 	 * will register their interest in receiving content.
-	 * 
+	 *
 	 * Note: Notification is serial, FIFO like. If multiple listeners are
 	 * present, the data (message) is passed to the listener as a mutable
 	 * object.
-	 * 
+	 *
 	 * @param listener
 	 */
 	// public void take(String host, int port){
@@ -83,12 +84,12 @@ public class CommHandler extends SimpleChannelInboundHandler<CommandMessage> {
 	 * a message was received from the server. Here we dispatch the message to
 	 * the client's thread pool to minimize the time it takes to process other
 	 * messages.
-	 * 
+	 *
 	 * @param ctx
 	 *            The channel the message was received from
 	 * @param msg
 	 *            The message
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public void handleMessage(CommandMessage msg, Channel channel) throws IOException {
 		if (msg == null) {
@@ -102,52 +103,58 @@ public class CommHandler extends SimpleChannelInboundHandler<CommandMessage> {
 //
 //		}
 		System.out.println("im in");
-	//logger.info("Request received at server : " + msg.toString());
+		//logger.info("Request received at server : " + msg.toString());
 		if(msg.hasResp()){
-			
+
 			switch(msg.getResp().getResponseType()){
-		
-		
-		    case RESPONSEREADFILE:
-		    	//System.out.println("I'm here");
-		    	if(msg.getResp().getReadResponse().getChunkLocationCount()!=0){
-		    	ReadResponse readRes = msg.getResp().getReadResponse();
-		    	System.out.println(readRes.getNumOfChunks());
-		    	chunkCounter = readRes.getNumOfChunks();
-		    	mc.sendfileReadRequests(msg);
-		    	//System.out.println("chunkloccount"+readRes.getChunkLocationCount()+" loc list "+readRes.getChunkLocationList().toString()+"");
-		    	}
-		    	else{
-		    		++chunkCounter;
-		    		ReadResponse readRes = msg.getResp().getReadResponse();
-		    		chunkDataList.put(readRes.getChunk().getChunkId(),readRes.getChunk().getChunkData());
-		    		if(chunkDataList.size()==chunkCounter){
-		    			for(int i=0;i<chunkDataList.size();i++){
-		    				byte[] eachChunk = new byte[1024];
-				    		eachChunk = chunkDataList.get(i).toByteArray();
-				    		FileOutputStream fos = null;
-							try {
-							fos = new FileOutputStream("/Users/prabhutej/Documents/Gossamer/sturdy-happiness/resources/filesreceived/"+readRes.getFilename());
-							fos.write(eachChunk);
-				    		fos.close();
+
+
+				case RESPONSEREADFILE:
+					//System.out.println("I'm here");
+					if(msg.getResp().getReadResponse().getChunkLocationCount()!=0){
+						ReadResponse readRes = msg.getResp().getReadResponse();
+						System.out.println(readRes.getNumOfChunks());
+						chunkCounter = readRes.getNumOfChunks();
+						mc.sendfileReadRequests(msg);
+						//System.out.println("chunkloccount"+readRes.getChunkLocationCount()+" loc list "+readRes.getChunkLocationList().toString()+"")
+					}
+					else{
+						//++chunkCounter;
+						System.out.println(" Counter " + chunkCounter);
+						System.out.println(" Size " + chunkDataList.size());
+						ReadResponse readRes = msg.getResp().getReadResponse();
+						if(readRes.getChunk().getChunkData() == null){
+							System.out.println(" Got chunk data as null");
+						}
+						chunkDataList.put(readRes.getChunk().getChunkId(),readRes.getChunk().getChunkData());
+						if(chunkDataList.size()==chunkCounter){
+							try
+							{
+								FileOutputStream fos = null;
+								fos = new FileOutputStream("/home/rentala/Desktop/"+readRes.getFilename());
+								for(int i=1;i<=chunkDataList.size();i++){
+									fos.write(chunkDataList.get(i).toByteArray());
+								}
+								fos.close();
+								System.out.println(" Done writing file !!");
+								chunkCounter=0;
 							}
 							catch (FileNotFoundException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
+								System.out.println(" Failed writing file !!");
 							}
-						chunkCounter=0;
-		    			}
-		    		}
-		    		
-		    		 
-		    		
-		    	}
-		    	break;
-		    default:
-		    	break;
+						}
+
+
+
+					}
+					break;
+				default:
+					break;
 			}
 		}else if(msg.hasPing()){
-			
+
 		}else{
 			logger.info("Unsupport msg received from client  msg detail is : " + msg.toString());
 		}
