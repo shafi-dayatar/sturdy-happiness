@@ -102,13 +102,13 @@ public class SqlClient{
     }
     private void prepareStatements(){
         try{
-            insertStatement = connection.prepareStatement("INSERT INTO FILES(CHUNK_ID, FILENAME, CONTENT) " +
+            insertStatement = connection.prepareStatement("INSERT INTO files(CHUNK_ID, FILENAME, CONTENT) " +
                     "VALUES(?,?,?)");
-            deletStatement = connection.prepareStatement("DELETE from FILES where ID = ? ");
-            readByFname = connection.prepareStatement("SELECT CONTENT from FILES where FILENAME = ? LIMIT 1 ");
-            readByFId =  connection.prepareStatement("SELECT CONTENT from FILES where ID = ? ");
+            deletStatement = connection.prepareStatement("DELETE from files where ID = ? ");
+            readByFname = connection.prepareStatement("SELECT CONTENT from files where FILENAME = ? LIMIT 1 ");
+            readByFId =  connection.prepareStatement("SELECT CONTENT from files where ID = ? ");
             getFileId = connection.prepareStatement("SELECT id from files where name =? and file_ext= ?");
-            fileNameInsert = connection.prepareStatement("INSERT INTO FILES (name, file_ext, total_chunks) values (?,?,?)");
+            fileNameInsert = connection.prepareStatement("INSERT INTO files (name, file_ext, total_chunks) values (?,?,?)");
     		
             
         }
@@ -188,7 +188,7 @@ public class SqlClient{
     	if(rs.next()) {
     		file_id = rs.getInt(1);
     	}else{
-    		 PreparedStatement fileNameInsert = connection.prepareStatement("INSERT INTO FILES (id ,name, file_ext, total_chunks) values (?,?,?,?)");
+    		 PreparedStatement fileNameInsert = connection.prepareStatement("INSERT INTO files (id ,name, file_ext, total_chunks) values (?,?,?,?)");
     		 fileNameInsert.setInt(1, fileId);
     		fileNameInsert.setString(2, filename);
     		fileNameInsert.setString(3, fileExt);
