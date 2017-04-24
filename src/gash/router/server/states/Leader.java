@@ -310,7 +310,7 @@ public class Leader implements RaftServerState, Runnable {
 		int fileId;
 		try{
 			synchronized (this){
-				fileId = (int) state.getDb().getFileId(request.getFilename(), request.getFileExt());
+				fileId = (int) state.getDb().getFileId(request.getFilename(), request.getFileExt(), request.getNumOfChunks());
 			}
 			if (fileId != -1) {
 				String fileName = request.getFilename();
@@ -332,7 +332,7 @@ public class Leader implements RaftServerState, Runnable {
 							chunk.getChunkId(), fileName, chunk.getChunkData());
 					state.getOutBoundMessageQueue().addMessage(msg);	
 				}
-				chunk_value += location.toString();
+				chunk_value += location.toString() + ":" +request.getNumOfChunks();
 				command.setValue(chunk_value);
 				command.setClientId(999);
 				logEntryBuilder.addData(command);

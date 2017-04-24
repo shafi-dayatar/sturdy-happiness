@@ -60,7 +60,7 @@ public class LogInfo implements LogOperations {
 		LogEntry  la = log.get(commitIndex);
 
 		String filename = null, fileExt = null, locatedAt = null;
-		int fileId =-1, chunkId = -1;
+		int fileId =-1, chunkId = -1, totalChunks = 0 ;
 		System.out.println("Should insert this log in mysql database for future reads : " + la.toString());
 		List<Command> commands =  la.getDataList();
 		for(Command cmd :commands){
@@ -71,10 +71,11 @@ public class LogInfo implements LogOperations {
 			fileExt = logEntry[2];
 			chunkId = Integer.parseInt(logEntry[3]);
 			locatedAt = logEntry[4];
+			totalChunks = Integer.parseInt(logEntry[5]);
 			
 		}
 		
-		IOUtility.insertLogEntry(la.getLogId(), fileId, filename, fileExt, chunkId, locatedAt);
+		IOUtility.insertLogEntry(la.getLogId(), fileId, filename, fileExt, chunkId, locatedAt, totalChunks);
 		this.commitIndex = commitIndex;
 	}
 
