@@ -37,13 +37,15 @@ public class SqlClient{
     public SqlClient(String host, int port, String username, String password){
         System.out.println("Establishing database connection :");
         long startTime = System.currentTimeMillis();
+        db_url = "jdbc:mysql://"+ host + ":"+ port +"/cmpe275";
+        logger.info("jdbs url is : " +  db_url);
+        this.USER = username;
+        this.PASSWORD = password;
         checkDependency();
         
         establishConnection();
         prepareStatements();
-        db_url = "jdbc:mysql://"+ host+":"+port +"/cmpe275";
-        this.USER = username;
-        this.PASSWORD = password;
+       
         
         System.out.println("Time Taken to make a db connection: " + (System.currentTimeMillis() - startTime));
     }
