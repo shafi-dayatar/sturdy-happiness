@@ -121,6 +121,7 @@ public class ServerState {
 		currentTerm++;
 		electionTimer.setElectionStartTime(System.currentTimeMillis());
 		candidate.startElection();
+		setLeaderKnown(false);
 		raftState = candidate;
 	}
 
@@ -133,6 +134,7 @@ public class ServerState {
 		logger.info("Becoming leader for election term : " + currentTerm);
 		raftState = leader;
 		if (!leader.isLeader()) {
+			setLeaderKnown(true);
 			redis.updateLeader(getConf().getClusterId(),
 					DiscoverMessage.getCurrentIp() + ":" + getConf().getCommandPort());
 			leader.setLeader(true);

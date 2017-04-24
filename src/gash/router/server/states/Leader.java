@@ -55,6 +55,7 @@ public class Leader implements RaftServerState, Runnable {
 	public void declareLeader() {
 		logger.info("Sending heartbeat Messages to followers");
 		WorkMessage hearbeat = createHeartBeatMessage();
+		logger.info("Heartbeat message for followers is : " + hearbeat.toString());
 		state.getOutBoundMessageQueue().addMessage(hearbeat);
 	}
 
@@ -102,13 +103,14 @@ public class Leader implements RaftServerState, Runnable {
 		}
 		if (logEntry.getSuccess()) {
 			updateNextAndMatchIndex(nodeId, logEntry.getPrevLogIndex());
-			
-
 		} 
 			
-		if (nextIndex.get(nodeId) < state.getLog().lastIndex()
+		if (nextIndex.get(nodeId) <= state.getLog().lastIndex()
 				&& logEntry.getPrevLogIndex() < state.getLog().lastIndex()) {
+			logger.info("My Last Index is : " + state.getLog().lastIndex());
 			logId = nextIndex.get(nodeId);
+			logger.info("Follower next index is " + logId);
+			logger.info("Next index : " + nextIndex.toString() + " Match Index : " +  matchIndex.toString());
 			LogEntry log = state.getLog().getEntry(logId);
 			int lastLogIndex = log.getLogId();
 			int lastLogTerm = log.getTerm();
@@ -116,6 +118,7 @@ public class Leader implements RaftServerState, Runnable {
 			int commitIndex = state.getLog().getCommitIndex();
 			WorkMessage wmsg = LogAppend.resendAppendRequest(state.getNodeId(), nodeId, state.getCurrentTerm(),
 					commitIndex, logId, log, lastLogIndex, lastLogTerm);
+			logger.info("Resending data: " + wmsg.toString());
 			state.getOutBoundMessageQueue().addMessage(wmsg);
 		}
 
@@ -213,7 +216,6 @@ public class Leader implements RaftServerState, Runnable {
 				e.printStackTrace();
 			}
 		}
-
 	}
 
 	public boolean isLeader() {
