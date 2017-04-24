@@ -218,16 +218,17 @@ public class SqlClient{
 	public ChunkRow getChunkRowById(int chunk_id){
         ChunkRow data = null;
         try {
-            PreparedStatement chunksQuery = connection.prepareStatement("select file_id, chunk_id, chunk_size, location_at "
+            PreparedStatement chunksQuery = connection.prepareStatement("select file_id, chunk_id, chunk_size, location_at, id "
                     + "from chunks where chunk_id = ?");
             chunksQuery.setInt(1, chunk_id);
             ResultSet rs = chunksQuery.executeQuery();
 
             if(rs.next()){
-                data.setFile_id(rs.getInt(1));
+            	data = new ChunkRow(rs.getInt(5), rs.getInt(1), rs.getInt(2), rs.getString(4), rs.getInt(3));
+                /*data.setFile_id(rs.getInt(1));
                 data.setChunk_id(rs.getInt(2));
                 data.setChunk_size(rs.getInt(3));
-                data.setLocation_at(rs.getString(4));
+                data.setLocation_at(rs.getString(4));*/
             }
             return data;
         } catch (SQLException e) {

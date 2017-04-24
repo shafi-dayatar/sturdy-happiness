@@ -52,6 +52,7 @@ public class CommHandler extends SimpleChannelInboundHandler<CommandMessage> {
 
 	private String host;
 	private int port;
+	private int chunkCounter =0;
 	// private MessageClient mc = new MessageClient(host,port);
 	private MessageClient mc = new MessageClient();
 	private TreeMap<Integer, ByteString> chunkDataList = new TreeMap<Integer, ByteString>();
@@ -115,13 +116,15 @@ public class CommHandler extends SimpleChannelInboundHandler<CommandMessage> {
 		    	if(msg.getResp().getReadResponse().getChunkLocationCount()!=0){
 		    	ReadResponse readRes = msg.getResp().getReadResponse();
 		    	System.out.println(readRes.getNumOfChunks());
+		    	chunkCounter = readRes.getNumOfChunks();
 		    	mc.sendfileReadRequests(msg);
 		    	//System.out.println("chunkloccount"+readRes.getChunkLocationCount()+" loc list "+readRes.getChunkLocationList().toString()+"");
 		    	}
 		    	else{
+		    		++chunkCounter;
 		    		ReadResponse readRes = msg.getResp().getReadResponse();
 		    		chunkDataList.put(readRes.getChunk().getChunkId(),readRes.getChunk().getChunkData());
-		    		if(chunkDataList.size()==readRes.getNumOfChunks()){
+		    		if(chunkDataList.size()==chunkCounter){
 		    			for(int i=0;i<chunkDataList.size();i++){
 		    				byte[] eachChunk = new byte[1024];
 				    		eachChunk = chunkDataList.get(i).toByteArray();
@@ -135,6 +138,7 @@ public class CommHandler extends SimpleChannelInboundHandler<CommandMessage> {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
+						chunkCounter=0;
 		    			}
 		    		}
 		    		

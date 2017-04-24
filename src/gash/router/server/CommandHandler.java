@@ -100,15 +100,12 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 		    	Response res = null;
 		    	if(readReq.hasChunkId()){
 		    		serverState.connectionManager.setConnection(msg.getHeader().getNodeId(), channel);
-					Work.WorkMessage.Builder wmb = Work.WorkMessage.newBuilder();
-					//wmb.set
-
-					//msg.getReq().getRrb()
-		    		//serverState.getTasks().addTask();
+		    		serverState.getReadTaskQueue().addMessage(msg);
 		    	}else{
 		    		res = serverState.getRaftState().getFileChunkLocation(readReq);
+					serverState.sendReadResponse(channel, res, msg.getHeader().getNodeId());
 		    	}
-		    	sendReadResponse(channel, res, msg.getHeader().getNodeId());
+
 		    default:
 		    	break;
 			}
@@ -172,17 +169,7 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 		System.out.flush();
 	}*/
 
-	private void sendReadResponse(Channel channel, Response rsp, int clientNodeId){
-		logger.info("Preparing to send read response for nodeid: "+ clientNodeId );
-		CommandMessage.Builder cmdMsg = CommandMessage.newBuilder();
-		Common.Header.Builder hd = Common.Header.newBuilder();
-		hd.setNodeId(serverState.getNodeId());
-		hd.setTime(System.currentTimeMillis());
-		hd.setDestination(clientNodeId);
-		cmdMsg.setResp(rsp);
-		cmdMsg.setHeader(hd);
-		channel.writeAndFlush(cmdMsg.build());
-	}
+
     
 	private void sendWriteResponse(Channel channel, CommandMessage cmdMessage, Status status){
 		logger.info("Preparing to send write response for nodeid: "+ cmdMessage.getHeader().getNodeId() );

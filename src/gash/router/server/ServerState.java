@@ -5,6 +5,8 @@ import gash.router.server.states.Candidate;
 import gash.router.server.states.RaftServerState;
 
 import gash.router.server.states.ElectionTimer;
+import gash.router.server.tasks.ReadTaskQueue;
+import io.netty.channel.Channel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,6 +47,7 @@ public class ServerState {
 	private TaskList tasks;
 	private MessageQueue obmQueue;
 	private MessageQueue ibmQueue;
+	private ReadTaskQueue readTaskQueue;
 	public ConnectionManager connectionManager = new ConnectionManager();
 
 	private IOUtility db = new IOUtility();
@@ -254,6 +257,22 @@ public class ServerState {
 		int rnd = new Random().nextInt(arr.length);
 		return arr[rnd];
 	}
+	public int getRandomNodeWithChunk(int chunkid){
+		logger.info(" Getting node location for chunnk id :" + chunkid);
+		ChunkRow chunkRow = getDb().getChunkRowById(chunkid);
+
+		if(chunkRow!= null){
+			int[] locations = transformLocationAt(chunkRow.getLocation_at());
+			// now randomly pick a location and reroute the message to them
+			if(locations.length == 0)
+				return -1;
+
+			return getRandom(locations);
+		}
+		logger.info(" chunk id not found ");
+		return -1;
+
+	}
 	public boolean assertServability(Work.WorkMessage wmsg){
 		Pipe.CommandMessage msg = wmsg.getReadCmdMessage();
 		String filename = msg.getReq().getRrb().getFilename();
@@ -288,8 +307,24 @@ public class ServerState {
 		return false;
 	}
 
-	public void identiyRouteForMessage(){
-
-
+	public ReadTaskQueue getReadTaskQueue() {
+		return readTaskQueue;
 	}
+
+	public void setReadTaskQueue(ReadTaskQueue readTaskQueue) {
+		this.readTaskQueue = readTaskQueue;
+	}
+
+	public void sendReadResponse(Channel channel, Pipe.Response rsp, int clientNodeId){
+		logger.info("Preparing to send read response for nodeid: "+ clientNodeId );
+		Pipe.CommandMessage.Builder cmdMsg = Pipe.CommandMessage.newBuilder();
+		Common.Header.Builder hd = Common.Header.newBuilder();
+		hd.setNodeId(this.getNodeId());
+		hd.setTime(System.currentTimeMillis());
+		hd.setDestination(clientNodeId);
+		cmdMsg.setResp(rsp);
+		cmdMsg.setHeader(hd);
+		channel.writeAndFlush(cmdMsg.build());
+	}
+
 }
