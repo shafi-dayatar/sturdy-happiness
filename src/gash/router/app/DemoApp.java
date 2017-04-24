@@ -42,7 +42,6 @@ public class DemoApp implements CommListener {
 		int dest = scan.nextInt();
 		System.out.println("Enter number of pings : ");
 		int N = scan.nextInt();
-		final int maxN = 10;
 		long[] dt = new long[N];
 		long st = System.currentTimeMillis(), ft = 0;
 		for (int n = 0; n < N; n++) {
