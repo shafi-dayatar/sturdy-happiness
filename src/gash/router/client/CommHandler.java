@@ -102,7 +102,7 @@ public class CommHandler extends SimpleChannelInboundHandler<CommandMessage> {
 //			commListener.onMessage(msg);
 //
 //		}
-		System.out.println("im in");
+		//System.out.println("im in");
 		//logger.info("Request received at server : " + msg.toString());
 		if(msg.hasResp()){
 
@@ -120,13 +120,14 @@ public class CommHandler extends SimpleChannelInboundHandler<CommandMessage> {
 					}
 					else{
 						//++chunkCounter;
-						System.out.println(" Counter " + chunkCounter);
-						System.out.println(" Size " + chunkDataList.size());
 						ReadResponse readRes = msg.getResp().getReadResponse();
 						if(readRes.getChunk().getChunkData() == null){
 							System.out.println(" Got chunk data as null");
 						}
-						chunkDataList.put(readRes.getChunk().getChunkId(),readRes.getChunk().getChunkData());
+						//System.out.println("Chunk Response is " + msg.toString());
+						chunkDataList.put(readRes.getChunk().getChunkId(), readRes.getChunk().getChunkData());
+						System.out.println(" Counter " + chunkCounter);
+						System.out.println(" Size " + chunkDataList.size());
 						if(chunkDataList.size()==chunkCounter){
 							try
 							{

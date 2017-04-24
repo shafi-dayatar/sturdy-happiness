@@ -160,6 +160,7 @@ public class MessageClient {
 		} else if (action.contains("post")) {
 			// File file = readFileByPath(filePath);
 			File file = new File(filePath + "/" + file_name);
+			this.chunkId = 0;
 			if (file_name == null) {
 				return;
 			}

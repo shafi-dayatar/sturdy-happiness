@@ -178,7 +178,7 @@ public class SqlClient{
 	}
 
 	private int createIfNotExistFileId(int fileId, String filename, String fileExt, int totalChunks) {
-		long startTime = System.currentTimeMillis();
+		/*long startTime = System.currentTimeMillis();
     	int file_id = -1; 
     	try{
     	getFileId.setString(1, filename);
@@ -187,24 +187,26 @@ public class SqlClient{
     	
     	if(rs.next()) {
     		file_id = rs.getInt(1);
-    	}else{
+    	}else{*/
+		int file_id = -1;
+		try{
     		 PreparedStatement fileNameInsert = connection.prepareStatement("INSERT INTO files (id ,name, file_ext, total_chunks) values (?,?,?,?)");
     		 fileNameInsert.setInt(1, fileId);
     		fileNameInsert.setString(2, filename);
     		fileNameInsert.setString(3, fileExt);
     		fileNameInsert.setInt(4, totalChunks);
     		int statement = fileNameInsert.executeUpdate();
-    		rs = fileNameInsert.getGeneratedKeys();
+    		ResultSet rs = fileNameInsert.getGeneratedKeys();
     		if (rs.next()){
     			file_id =  rs.getInt(1);
     		}
-    	}
+    	//}
     	}catch(Exception e){
     		System.out.println("FileName insertion failed");
     		e.printStackTrace();
     	}
-    	long timeTaken =  System.currentTimeMillis() - startTime;
-    	System.out.println("Take taken to execute query is :" + timeTaken);
+    	//long timeTaken =  System.currentTimeMillis() - startTime;
+    	//System.out.println("Take taken to execute query is :" + timeTaken);
     	
     	
     	return file_id;
