@@ -100,9 +100,11 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 		    	Response res = null;
 		    	if(readReq.hasChunkId()){
 		    		serverState.connectionManager.setConnection(msg.getHeader().getNodeId(), channel);
-					Work.Task.Builder task = Work.Task.newBuilder();
-					task.setMsg(msg);
-		    		serverState.getTasks().addTask(task.build());
+					Work.WorkMessage.Builder wmb = Work.WorkMessage.newBuilder();
+					//wmb.set
+
+					//msg.getReq().getRrb()
+		    		//serverState.getTasks().addTask();
 		    	}else{
 		    		res = serverState.getRaftState().getFileChunkLocation(readReq);
 		    	}

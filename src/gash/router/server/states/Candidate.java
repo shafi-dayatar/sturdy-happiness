@@ -212,11 +212,6 @@ public class Candidate implements RaftServerState {
 	}
 
 	@Override
-	public WorkMessage getWork() {
-		return null;
-	}
-
-	@Override
 	public Response getFileChunkLocation(ReadBody request) {
 		// TODO Auto-generated method stub
 		return null;
@@ -229,7 +224,7 @@ public class Candidate implements RaftServerState {
 	}
 
 	@Override
-	public CommandMessage getWork(int node_id) {
+	public CommandMessage getWork() {
 		// TODO Auto-generated method stub
 		return null;
 	}
