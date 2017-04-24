@@ -58,7 +58,7 @@ import gash.router.server.IOUtility;
  *
  */
 
-public class Follower implements RaftServerState {
+public class Follower implements RaftServerState, Runnable {
     
 	protected static Logger logger = LoggerFactory.getLogger("Follower-State");
 	private ServerState state;
@@ -103,9 +103,13 @@ public class Follower implements RaftServerState {
 		}
 		state.getOutBoundMessageQueue().addMessage(wm);
 	}
-	
 
-	
+	@Override
+	public void run() {
+		stealWork();
+	}
+
+
 	class Vote {
 		int candidateId;
 		boolean vote;
