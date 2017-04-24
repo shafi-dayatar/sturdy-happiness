@@ -150,7 +150,7 @@ public class MessageClient {
 	public void fileOperation(String action, String filePath, String file_name) {
 		System.out.println("Actions recived: " + action + " " + filePath);
 		ClassLoader classLoader = getClass().getClassLoader();
-		File file = new File(filePath + "/" + file_name);
+		
 		if (action.contains("get") && file_name != null) {
 			this.fileoutput = filePath;
 			CommandMessage commandMessage = buildRCommandMessage(file_name);
@@ -164,6 +164,7 @@ public class MessageClient {
 			}
 		} else if (action.contains("post")) {
 			// File file = readFileByPath(filePath);
+			File file = new File(filePath + "/" + file_name);
 			if (file_name == null) {
 				return;
 			}

@@ -111,6 +111,11 @@ public class DemoApp implements CommListener {
 			this.mc.onWriteRequest(msg);
 		}*/
 	}
+	public void readFile(Scanner scan){
+		System.out.print("Enter File Name: ");
+		String fileName = scan.nextLine();
+		mc.fileOperation("get", "./", fileName.trim());
+	}
 
 	/**
 	 * sample application (client) use of our messaging service
@@ -158,6 +163,7 @@ public class DemoApp implements CommListener {
 					da.uploadFolder(scan);
 					break;
 				case 4:
+					da.readFile(scan);
 					break;
 				case 5:
 					break;
