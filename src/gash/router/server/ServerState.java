@@ -25,6 +25,9 @@ import pipe.common.Common.Node;
 import pipe.work.Work;
 import routing.Pipe;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 
 public class ServerState {
@@ -252,7 +255,22 @@ public class ServerState {
 		}
 		return locations;
 	}
-
+	private int[] filterOutLeader(int[] locations){
+		List<Integer> result = new ArrayList<Integer>();
+		for (int i : locations){
+			if(this.leaderNodeId != i){
+				result.add(i);
+			}
+		}
+		int[] locs = new int[result.size()];
+		int j =0;
+		Iterator<Integer> iter = result.iterator();
+		while (iter.hasNext()){
+			locs[j] = iter.next();
+			j++;
+		}
+		return locs;
+	}
 	private int getRandom(int[] arr){
 		int rnd = new Random().nextInt(arr.length);
 		return arr[rnd];
@@ -264,6 +282,8 @@ public class ServerState {
 		if(chunkRow!= null){
 			int[] locations = transformLocationAt(chunkRow.getLocation_at());
 			// now randomly pick a location and reroute the message to them
+
+			locations = filterOutLeader(locations);
 			if(locations.length == 0)
 				return -1;
 
