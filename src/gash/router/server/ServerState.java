@@ -133,8 +133,8 @@ public class ServerState {
 		raftState = leader;
 		if (!leader.isLeader()) {
 			setLeaderKnown(true);
-			redis.updateLeader(getConf().getClusterId(),
-					DiscoverMessage.getCurrentIp() + ":" + getConf().getCommandPort());
+			redis.updateLeader( getConf().getClusterId(),
+					getNodeId() + ":" +  DiscoverMessage.getCurrentIp() + ":" + getConf().getCommandPort());
 			leader.setLeader(true);
 			leader.setNextAndMatchIndex();
 			if (leaderThread == null)

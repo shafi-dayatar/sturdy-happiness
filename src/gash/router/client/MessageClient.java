@@ -61,13 +61,13 @@ public class MessageClient {
 	private int clientId=1;
 	protected static Logger logger = LoggerFactory.getLogger("Client");
 
-	public MessageClient(String host, int port) {
-		init(host, port);
+	public MessageClient(int clusterId, String host, int port) {
+		init( clusterId, host, port);
 
 	}
 	public MessageClient(){};
-	private void init(String host, int port) {
-		CommConnection.initConnection(host, port);
+	private void init(int clusterId, String host, int port) {
+		CommConnection.initConnection(clusterId, host, port);
 	}
 
 	public void addListener(CommListener listener) {
@@ -76,10 +76,10 @@ public class MessageClient {
 
 	private String fileoutput = "output";
 
-	public void ping() {
+	public void ping(int destinationId) {
 		// construct the message to send
 		Header.Builder hb = Header.newBuilder();
-		hb.setNodeId(999);
+		hb.setNodeId(destinationId);
 		hb.setTime(System.currentTimeMillis());
 		hb.setDestination(-1);
 
