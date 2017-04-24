@@ -49,6 +49,7 @@ import routing.Pipe.WriteBody;
  */
 public class MessageClient {
 	// track requests
+	int sizeOfChunk = 1024 * 1024;
 	private int messageId = 1;
 	private static int fileId = 0;
 	private static int chunkId = 0;
@@ -193,7 +194,7 @@ public class MessageClient {
 	public ArrayList<ByteString> chunkFile(File file) {
 		ArrayList<ByteString> chunkedFile = new ArrayList<ByteString>();
 		float len = file.length();
-		int sizeOfChunk = 1024;
+
 		byte[] buffer = new byte[sizeOfChunk];
 		int noOfChunks = (int) Math.ceil(len / (double) sizeOfChunk);
 
