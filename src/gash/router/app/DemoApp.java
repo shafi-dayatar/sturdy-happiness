@@ -30,6 +30,7 @@ import gash.router.client.CommListener;
 import gash.router.client.*;
 import gash.router.client.MessageClient;
 import gash.router.server.messages.Message;
+import pipe.common.Common.Node;
 import routing.Pipe;
 import routing.Pipe.CommandMessage;
 
@@ -46,22 +47,50 @@ public class DemoApp implements CommListener {
 		this.mc.addListener(this);
 	}
 
-	private void ping(int N) {
+	private void ping(Scanner scan) {
 		// test round-trip overhead (note overhead for initial connection)
+		System.out.println("Enter Destination NodeId : ");
+		int dest = scan.nextInt();
+		System.out.println("Enter number of pings : ");
+		int N = scan.nextInt();
 		final int maxN = 10;
 		long[] dt = new long[N];
 		long st = System.currentTimeMillis(), ft = 0;
 		for (int n = 0; n < N; n++) {
-			mc.ping();
+			mc.ping(dest);
 			ft = System.currentTimeMillis();
 			dt[n] = ft - st;
 			st = ft;
 		}
-
 		System.out.println("Round-trip ping times (msec)");
 		for (int n = 0; n < N; n++)
 			System.out.print(dt[n] + " ");
 		System.out.println("");
+	}
+	
+	private void uploadFolder(Scanner scan) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void uploadMultipleFiles(Scanner scan) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void uploadFile(Scanner scan) {
+		// TODO Auto-generated method stub
+		System.out.print("Enter File Path : ");
+		String filePath = scan.nextLine().trim();
+		System.out.print("Enter File Name : ");
+		String fileName = scan.nextLine().trim();
+		mc.fileOperation("post", filePath, fileName);
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 
@@ -89,37 +118,63 @@ public class DemoApp implements CommListener {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// 0 ip
-		// 1 port
-		// 2 get/post
-		// 3 file path
-		// 4 file name
+		RedisGSDN redis = new RedisGSDN("localhost", 6379);
 
-		try {
-			for(String s : args){
-				System.out.println(s);
-			}
-			if(args.length <2){
-				System.out.println("Enter valid inputs - 1 -> ip 2 -> port");
-			}
-			MessageClient mc = new MessageClient(args[0], Integer.parseInt(args[1]));
-			DemoApp da = new DemoApp(mc);
-//			CommHandler ch = new CommHandler();
-//			ch.take(args[0], Integer.parseInt(args[1]));
-			if(args.length == 2){
-				da.mc.ping();
-			}
+		 loop: while(true){
 
-			if(args.length == 4){
-				da.mc.fileOperation(args[2], args[3], null);
+			int nodeId;
+			Scanner scan = new Scanner(System.in);
+			System.out.println("Enter cluster details :");
+			System.out.print("Enter Node id: ");
+			nodeId = Integer.parseInt(scan.nextLine());		
+			Node node = redis.getLeader(nodeId);
+			MessageClient mc = new MessageClient(node.getNodeId(), node.getHost(),
+					node.getPort());
+			DemoApp da  = new DemoApp(mc);
+			loop1: while(true){
+				System.out.println("\n\n===============================================");
+				System.out.println("===============================================\n");
+				System.out.println("1. Upload a single file");
+				System.out.println("2. Upload multiple files");
+				System.out.println("3. upload all files from a directory");
+				System.out.println("4: Read a File");
+				System.out.println("5. Read Multiple files");
+				System.out.println("6. Ping Node");
+				System.out.println("7. Restart");
+				System.out.println("8. Exit");
+				System.out.println("\n===============================================");
+				System.out.print("Enter Command no. :");
+				int option = Integer.parseInt(scan.nextLine());
+				System.out.println("Enter Option is : " + option);
+				switch(option){
+				case 1:
+					System.out.println("You have selected option one");
+					da.uploadFile(scan);
+					break;
+				case 2:
+					da.uploadMultipleFiles(scan);
+					break;
+				case 3:
+					da.uploadFolder(scan);
+					break;
+				case 4:
+					break;
+				case 5:
+					break;
+				case 6:
+					da.ping(scan);
+					break;
+				case 7:
+					break loop1;
+				case 8:
+					break loop;
+				default :
+					break;
+				}
 			}
-			if(args.length == 5){
-				da.mc.fileOperation(args[2], args[3], args[4]);
-			}
-
-
-		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("Thank you for using our system!!! Hope to see you soon!");
 		}
 	}
+
+	
 }

@@ -24,6 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import routing.Pipe.CommandMessage;
 
+import java.util.Hashtable;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -56,14 +57,14 @@ public class CommConnection {
      * @param host
      * @param port
      */
-    protected CommConnection(String host, int port) {
+    protected CommConnection(int clusterId, String host, int port) {
         this.host = host;
         this.port = port;
         init();
     }
 
-    public static CommConnection initConnection(String host, int port) {
-        instance.compareAndSet(null, new CommConnection(host, port));
+    public static CommConnection initConnection(int clusterId, String host, int port) {
+        instance.compareAndSet(null, new CommConnection(clusterId, host, port));
         System.out.println("Printing instance " + instance.get());
         return instance.get();
     }
