@@ -3,7 +3,6 @@ package gash.router.server.queue;
 import gash.router.server.ServerState;
 import pipe.common.Common;
 import pipe.work.Work;
-import pipe.work.Work.WorkMessage;
 import routing.Pipe.CommandMessage;
 
 public class ReadTask implements Runnable{

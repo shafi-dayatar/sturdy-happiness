@@ -18,7 +18,6 @@ package gash.router.client;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -26,15 +25,13 @@ import java.util.concurrent.ConcurrentMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.protobuf.ByteString;
+
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import routing.Pipe.CommandMessage;
-import routing.Pipe.ReadBody;
 import routing.Pipe.ReadResponse;
-import routing.Pipe.Response;
-import com.google.protobuf.ByteString;
-import javax.xml.bind.Unmarshaller;
 
 /**
  * A client-side netty pipeline send/receive.

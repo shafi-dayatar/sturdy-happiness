@@ -16,8 +16,6 @@
 package gash.router.server.communication;
 
 
-import java.util.concurrent.atomic.AtomicReference;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

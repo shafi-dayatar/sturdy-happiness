@@ -2,15 +2,8 @@ package gash.router.server.states;
 
 import java.util.ArrayList;
 
-/**
- * Created by rentala on 4/11/17.
- */
-
-
-import pipe.election.Election;
 import pipe.election.Election.LeaderElection;
 import pipe.election.Election.LeaderElectionResponse;
-import pipe.work.Work;
 import pipe.work.Work.FileChunkData;
 import pipe.work.Work.LogAppendEntry;
 import pipe.work.Work.LogEntry;

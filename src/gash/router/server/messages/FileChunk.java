@@ -14,8 +14,6 @@ import pipe.work.Work.WorkMessage;
 import pipe.work.Work.WorkMessage.MessageType;
 import routing.Pipe;
 
-import java.nio.channels.Channel;
-
 public class FileChunk extends Message {
 	
 protected static Logger logger = LoggerFactory.getLogger("LogAppendEntry Message");
