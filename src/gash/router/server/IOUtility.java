@@ -14,12 +14,6 @@ public class IOUtility {
 
     static SqlClient sqlClient = new SqlClient();
 
-    public static int writeFile(WriteBody read){
-        Pipe.Chunk chunk = read.getChunk();
-        ByteString bs = chunk.getChunkData();
-        return sqlClient.storefile(chunk.getChunkId(), bs.newInput(), read.getFilename());
-    }
-
 	public static long getFileId(String filename, String fileExt, int totalChunks) {
 		return sqlClient.createIfNotExistFileId(filename, fileExt, totalChunks);
 	}
