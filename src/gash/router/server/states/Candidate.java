@@ -22,6 +22,7 @@ import pipe.work.Work.WorkMessage;
 import pipe.work.Work.WorkMessage.MessageType;
 import pipe.work.Work.WorkMessageOrBuilder;
 import routing.Pipe;
+import routing.Pipe.CommandMessage;
 import routing.Pipe.ReadBody;
 import routing.Pipe.ReadResponse;
 import routing.Pipe.Response;
@@ -211,7 +212,7 @@ public class Candidate implements RaftServerState {
 	}
 
 	@Override
-	public Pipe.CommandMessage getWork() {
+	public WorkMessage getWork() {
 		return null;
 	}
 
@@ -225,6 +226,12 @@ public class Candidate implements RaftServerState {
 	public Status writeFile(WriteBody writeBody) {
 		// TODO Auto-generated method stub
 		return Status.NOLEADER;
+	}
+
+	@Override
+	public CommandMessage getWork(int node_id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

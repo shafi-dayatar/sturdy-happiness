@@ -1,7 +1,12 @@
 package gash.router.server.log;
 
 
-import java.util.ArrayList;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -21,16 +26,17 @@ public class LogInfo implements LogOperations {
 	protected static Logger logger = LoggerFactory.getLogger("logging");
 	
 	public Hashtable<Integer, LogEntry> log;
-	private Integer commitIndex;
-	private Integer lastApplied;
+	private Integer commitIndex; // change it to atomic integer
+	private Integer lastApplied;// change it to atomic integer 
 
-//	private int thresholdSize = 65536;
-//	private String logStoreDir = "./resources/files";
+	private int thresholdSize = 100;
+	private String logStoreDir = "./resources/files";
 	
 	public LogInfo() {
 		log = new Hashtable<Integer, LogEntry>();
 		commitIndex = (int) 0;
 		lastApplied = (int) 0;
+		restoreLogSegment();
 	}
 	
 	/**
@@ -72,11 +78,70 @@ public class LogInfo implements LogOperations {
 			chunkId = Integer.parseInt(logEntry[3]);
 			locatedAt = logEntry[4];
 			totalChunks = Integer.parseInt(logEntry[5]);
-			
 		}
 		
 		IOUtility.insertLogEntry(la.getLogId(), fileId, filename, fileExt, chunkId, locatedAt, totalChunks);
 		this.commitIndex = commitIndex;
+		if (commitIndex % thresholdSize == 0){
+			storeLogSegment();
+		}
+	}
+	
+	public void storeLogSegment() {
+		// lastEntry = log.get(lastIndex());
+
+		long lastIndex = lastIndex();
+		long commitIndex = getCommitIndex();
+		String fileName = "Raft.log";
+
+		try {
+			log.remove(lastIndex());
+
+			File file = new File(logStoreDir,fileName);
+
+			if(!file.exists()) {
+				file.createNewFile(); 
+			}
+
+			ObjectOutputStream o = new ObjectOutputStream(new FileOutputStream(file));
+			o.writeLong(lastIndex);
+			o.writeLong(commitIndex);
+			o.writeObject(log);
+			o.close();
+		} catch(IOException e) {
+			logger.error(e.getMessage());
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void restoreLogSegment() {
+		// lastEntry = log.get(lastIndex());
+
+
+		String fileName = "Raft.log";
+
+		try {
+			log.remove(lastIndex());
+
+			File file = new File(logStoreDir,fileName);
+
+			if(!file.exists()) {
+				file.createNewFile(); 
+			}
+
+			ObjectInputStream o = new ObjectInputStream(new FileInputStream(file));
+			this.lastApplied = (int) o.readLong();
+			this.commitIndex = (int) o.readLong();
+			try {
+				this.log = (Hashtable<Integer, LogEntry>) o.readObject();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			o.close();
+		} catch(IOException e) {
+			logger.error(e.getMessage());
+		}
 	}
 
 	public void setLastApplied(Integer lastApplied) {
@@ -286,31 +351,7 @@ public class LogInfo implements LogOperations {
 //	
 //
 //	
-//	// functions written to test file operations
-//	
-//	public void testFileCreation() {
-//		try {
-//			String testString = "Hello";
-//			File file = new File("./fresources/iles","RaftLog_9");
-//			if(!file.exists()) {
-//				file.createNewFile(); 
-//			}
-//			FileOutputStream f = new FileOutputStream(file);
-//			ObjectOutputStream o = new ObjectOutputStream(f);
-//			o.writeObject(testString);
-//			o.close();
-//			
-//			ObjectInputStream oi = new ObjectInputStream(new FileInputStream("./files/test.txt"));
-//			String inputString = (String)oi.readObject();
-//			System.out.println(inputString);
-//			oi.close();
-//		} catch(Exception e) {
-//			//logger.error(e.getMessage());
-//			System.out.println(e.getMessage());
-//		}
-//	}
-//	
-//}
+
 	
 	
 //	// storing logs in file when size exceeds the limit
@@ -358,21 +399,5 @@ public class LogInfo implements LogOperations {
 //				System.out.println(e.getMessage());
 //			}
 //		}
-//	
-//	public void testFileParsing() {
-//		try {
-//			File parent = new File("./resources/files");
-//			File[] files = parent.listFiles();
-//			for(File file: files) {
-//				String fileName = file.getName();
-//				int lastIndex = Integer.parseInt(fileName.split("_")[1]);
-//				System.out.println(lastIndex);
-//			}
-//			
-//		} catch(Exception e) {
-//			//logger.error(e.getMessage());
-//			System.out.println(e.getMessage());
-//		}
-//	}
-//}
+
 

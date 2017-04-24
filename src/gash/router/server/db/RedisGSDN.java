@@ -12,7 +12,7 @@ public class RedisGSDN {
 	private Jedis dbConnection;
 	
 	public RedisGSDN(ServerState state){
-		dbConnection = new Jedis(state.getConf().getRedishost(), 
+		dbConnection = new Jedis(state.getConf().getRedisHost(), 
 				state.getConf().getRedisPort());
 	}
 	

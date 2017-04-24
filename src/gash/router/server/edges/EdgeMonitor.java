@@ -130,7 +130,7 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 	}
 
 	@Override
-	public synchronized void onAdd(EdgeInfo ei) {
+	public synchronized void onAdd(final EdgeInfo ei) {
 		// TODO check connection
 		try{
 			if (ei != null && ei.getChannel() == null){

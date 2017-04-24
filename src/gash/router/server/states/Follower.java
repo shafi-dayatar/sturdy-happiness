@@ -39,6 +39,7 @@ import pipe.work.Work.WorkMessage;
 import pipe.work.Work.WorkMessage.MessageType;
 import routing.*;
 import routing.Pipe;
+import routing.Pipe.CommandMessage;
 import routing.Pipe.ReadBody;
 import routing.Pipe.ReadResponse;
 import routing.Pipe.Response;
@@ -58,7 +59,7 @@ import gash.router.server.IOUtility;
  *
  */
 
-public class Follower implements RaftServerState, Runnable {
+public class Follower implements RaftServerState {
     
 	protected static Logger logger = LoggerFactory.getLogger("Follower-State");
 	private ServerState state;
@@ -103,13 +104,9 @@ public class Follower implements RaftServerState, Runnable {
 		}
 		state.getOutBoundMessageQueue().addMessage(wm);
 	}
+	
 
-	@Override
-	public void run() {
-		stealWork();
-	}
-
-
+	
 	class Vote {
 		int candidateId;
 		boolean vote;
