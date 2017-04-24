@@ -7,8 +7,6 @@ import org.slf4j.LoggerFactory;
 
 import gash.router.server.ServerState;
 import gash.router.server.edges.EdgeInfo;
-import gash.router.server.messages.MessageHandler;
-import gash.router.server.messages.MessageInterface;
 import io.netty.channel.Channel;
 import pipe.work.Work.WorkMessage;
 
@@ -50,6 +48,7 @@ public class OutBoundMessageTask implements Runnable{
 			}
 			return;
 	    }
+		logger.info(" ------> sending to -- > destinationId " + destinationId );
 		if ( connectedNode != null){
 			Channel ch = connectedNode.get(0).getChannel();
 			if(ch != null){

@@ -1,10 +1,10 @@
 package gash.router.server.messages;
 
-import gash.router.server.ServerState;
-import gash.router.server.states.RaftServerState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gash.router.server.ServerState;
+import gash.router.server.states.RaftServerState;
 import pipe.common.Common.Header;
 import pipe.election.Election;
 import pipe.election.Election.LeaderElection;

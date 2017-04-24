@@ -1,34 +1,24 @@
 package gash.router.server.states;
 
-import java.io.BufferedWriter;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
-import gash.router.server.db.SqlClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import gash.router.server.PrintUtil;
+import com.google.protobuf.ByteString;
+
 import gash.router.server.ServerState;
-import gash.router.server.log.LogInfo;
 import gash.router.server.messages.ElectionMessage;
 import gash.router.server.messages.LogAppend;
-import pipe.common.Common;
+import pipe.common.Common.Header;
 import pipe.election.Election;
 import pipe.election.Election.LeaderElection;
-import pipe.election.Election.LeaderElectionResponse;
-import pipe.work.Work;
-
-import pipe.common.Common.Header;
 import pipe.work.Work.FileChunkData;
 import pipe.work.Work.LogAppendEntry;
 import pipe.work.Work.LogAppendResponse;
@@ -37,20 +27,11 @@ import pipe.work.Work.LogEntry.Builder;
 import pipe.work.Work.LogEntryList;
 import pipe.work.Work.WorkMessage;
 import pipe.work.Work.WorkMessage.MessageType;
-import routing.*;
 import routing.Pipe;
-import routing.Pipe.CommandMessage;
 import routing.Pipe.ReadBody;
-import routing.Pipe.ReadResponse;
 import routing.Pipe.Response;
 import routing.Pipe.Response.Status;
 import routing.Pipe.WriteBody;
-
-import com.google.protobuf.ByteString;
-import gash.router.server.IOUtility;
-/**
- * Created by rentala on 4/11/17.
- */
 
 /**
  * TO DO:

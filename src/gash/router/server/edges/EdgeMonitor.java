@@ -14,16 +14,8 @@
  * under the License.
  */
 package gash.router.server.edges;
-import java.net.Inet4Address;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.SocketException;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Enumeration;
-import java.util.List;
 
-import pipe.common.Common.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,15 +23,12 @@ import gash.router.container.RoutingConf.RoutingEntry;
 import gash.router.server.ServerState;
 import gash.router.server.communication.CommConnection;
 import gash.router.server.messages.DiscoverMessage;
-import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import pipe.common.Common.Header;
-import pipe.work.Work.Discovery;
 import pipe.work.Work.Heartbeat;
 import pipe.work.Work.WorkMessage;
 import pipe.work.Work.WorkState;
-import pipe.work.Work.WorkMessage.MessageType;
 
 public class EdgeMonitor implements EdgeListener, Runnable {
 	protected static Logger logger = LoggerFactory.getLogger("edge monitor");

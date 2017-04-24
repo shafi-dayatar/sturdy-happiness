@@ -1,12 +1,18 @@
 package gash.router.server.db;
-import org.apache.commons.io.IOUtils;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import routing.Pipe;
-
-import java.io.*;
-import java.net.URL;
-import java.sql.*;
 
 public class SqlClient{
 	

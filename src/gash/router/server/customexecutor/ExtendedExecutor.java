@@ -1,11 +1,10 @@
 package gash.router.server.customexecutor;
 
-import gash.router.server.ServerState;
-import pipe.work.Work.WorkMessage;
-
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+
+import gash.router.server.ServerState;
 
 /**
  * Created by rentala on 4/22/17.

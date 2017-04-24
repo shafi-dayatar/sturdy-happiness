@@ -15,23 +15,12 @@
  */
 package gash.router.app;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Scanner;
 
-import com.google.protobuf.ByteString;
-
-import gash.router.client.CommConnection;
 import gash.router.client.CommListener;
-import gash.router.client.*;
 import gash.router.client.MessageClient;
-import gash.router.server.messages.Message;
+import gash.router.client.RedisGSDN;
 import pipe.common.Common.Node;
-import routing.Pipe;
 import routing.Pipe.CommandMessage;
 
 public class DemoApp implements CommListener {

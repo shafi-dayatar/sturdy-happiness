@@ -1,34 +1,33 @@
 package gash.router.server;
 
-import gash.router.server.db.ChunkRow;
-import gash.router.server.states.Candidate;
-import gash.router.server.states.RaftServerState;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
 
-import gash.router.server.states.ElectionTimer;
-import gash.router.server.tasks.ReadTaskQueue;
-import io.netty.channel.Channel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import gash.router.container.RoutingConf;
 import gash.router.server.communication.ConnectionManager;
+import gash.router.server.db.ChunkRow;
 import gash.router.server.db.RedisGSDN;
 import gash.router.server.edges.EdgeMonitor;
 import gash.router.server.log.LogInfo;
 import gash.router.server.messages.DiscoverMessage;
 import gash.router.server.queue.MessageQueue;
+import gash.router.server.queue.ReadTaskQueue;
+import gash.router.server.states.Candidate;
+import gash.router.server.states.ElectionTimer;
 import gash.router.server.states.Follower;
 import gash.router.server.states.Leader;
+import gash.router.server.states.RaftServerState;
 import gash.router.server.tasks.TaskList;
+import io.netty.channel.Channel;
 import pipe.common.Common;
 import pipe.common.Common.Node;
 import pipe.work.Work;
 import routing.Pipe;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
 
 public class ServerState {
 	private RaftServerState raftState;
@@ -345,6 +344,7 @@ public class ServerState {
 		cmdMsg.setResp(rsp);
 		cmdMsg.setHeader(hd);
 		channel.writeAndFlush(cmdMsg.build());
+		logger.info(" Sent read response to "  + cmdMsg.getHeader().getDestination());
 	}
 
 }

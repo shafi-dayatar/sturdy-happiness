@@ -15,9 +15,11 @@
  */
 package gash.router.client;
 
-import java.io.*;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,13 +28,8 @@ import org.slf4j.LoggerFactory;
 
 import com.google.protobuf.ByteString;
 
-
-
-import org.apache.commons.io.IOUtils;
-
 import pipe.common.Common;
 import pipe.common.Common.Header;
-import routing.Pipe;
 import routing.Pipe.Chunk;
 import routing.Pipe.ChunkLocation;
 import routing.Pipe.CommandMessage;
@@ -43,9 +40,6 @@ import routing.Pipe.Request;
 import routing.Pipe.TaskType;
 import routing.Pipe.WriteBody;
 //import routing.Pipe.WriteRequest;
-
-import com.google.protobuf.ByteString;
-//import routing.Pipe.WhoIsLeader;
 
 /**
  * front-end (proxy) to our service - functional-based

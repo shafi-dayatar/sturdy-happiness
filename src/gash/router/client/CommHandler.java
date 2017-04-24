@@ -18,7 +18,6 @@ package gash.router.client;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -26,15 +25,13 @@ import java.util.concurrent.ConcurrentMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.protobuf.ByteString;
+
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import routing.Pipe.CommandMessage;
-import routing.Pipe.ReadBody;
 import routing.Pipe.ReadResponse;
-import routing.Pipe.Response;
-import com.google.protobuf.ByteString;
-import javax.xml.bind.Unmarshaller;
 
 /**
  * A client-side netty pipeline send/receive.
@@ -53,6 +50,7 @@ public class CommHandler extends SimpleChannelInboundHandler<CommandMessage> {
 	private String host;
 	private int port;
 	private int chunkCounter =0;
+
 	// private MessageClient mc = new MessageClient(host,port);
 	private MessageClient mc = new MessageClient();
 	private TreeMap<Integer, ByteString> chunkDataList = new TreeMap<Integer, ByteString>();
@@ -114,14 +112,20 @@ public class CommHandler extends SimpleChannelInboundHandler<CommandMessage> {
 		    case RESPONSEREADFILE:
 		    	System.out.println("I'm here");
 		    	if(msg.getResp().getReadResponse().getChunkLocationCount()!=0){
-		    	ReadResponse readRes = msg.getResp().getReadResponse();
-		    	System.out.println(readRes.getNumOfChunks());
-		    	chunkCounter = readRes.getNumOfChunks();
-		    	mc.sendfileReadRequests(msg);
-		    	//System.out.println("chunkloccount"+readRes.getChunkLocationCount()+" loc list "+readRes.getChunkLocationList().toString()+"");
+					ReadResponse readRes = msg.getResp().getReadResponse();
+					System.out.println(readRes.getNumOfChunks());
+					chunkCounter = readRes.getNumOfChunks();
+					mc.sendfileReadRequests(msg);
+					//System.out.println("chunkloccount"+readRes.getChunkLocationCount()+" loc list "+readRes.getChunkLocationList().toString()+"")
 		    	}
 		    	else{
+<<<<<<< HEAD
 		    		System.out.println("chunk received");
+=======
+		    		//++chunkCounter;
+		    		System.out.println(" Counter " + chunkCounter);
+		    		System.out.println(" Size " + chunkDataList.size());
+>>>>>>> branch 'master' of https://github.com/shafi-dayatar/sturdy-happiness
 		    		ReadResponse readRes = msg.getResp().getReadResponse();
 		    		chunkDataList.put(readRes.getChunk().getChunkId(),readRes.getChunk().getChunkData());
 		    		if(chunkDataList.size()==chunkCounter){
@@ -130,9 +134,10 @@ public class CommHandler extends SimpleChannelInboundHandler<CommandMessage> {
 				    		eachChunk = chunkDataList.get(i).toByteArray();
 				    		FileOutputStream fos = null;
 							try {
-							fos = new FileOutputStream("/Users/prabhutej/Documents/Gossamer/sturdy-happiness/resources/filesreceived/"+readRes.getFilename());
+							fos = new FileOutputStream("/home/rentala/Desktop/"+readRes.getFilename());
 							fos.write(eachChunk);
 				    		fos.close();
+				    		System.out.println(" Done writing file !!");
 							}
 							catch (FileNotFoundException e) {
 								// TODO Auto-generated catch block

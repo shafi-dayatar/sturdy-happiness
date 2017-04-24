@@ -5,11 +5,9 @@ import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import gash.router.server.PrintUtil;
 import gash.router.server.ServerState;
 import gash.router.server.states.RaftServerState;
 import pipe.common.Common.Header;
-import pipe.election.Election;
 import pipe.work.Work.LogAppendEntry;
 import pipe.work.Work.LogEntry;
 import pipe.work.Work.LogEntryList;

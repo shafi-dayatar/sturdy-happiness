@@ -21,7 +21,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 
-import gash.router.server.tasks.ReadTaskQueue;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +32,7 @@ import gash.router.server.db.RedisGSDN;
 import gash.router.server.edges.EdgeMonitor;
 import gash.router.server.queue.InBoundWorkMessageQueue;
 import gash.router.server.queue.OutBoundWorkMessageQueue;
+import gash.router.server.queue.ReadTaskQueue;
 import gash.router.server.tasks.NoOpBalancer;
 import gash.router.server.tasks.TaskList;
 import io.netty.bootstrap.ServerBootstrap;
