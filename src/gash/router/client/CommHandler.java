@@ -138,7 +138,7 @@ public class CommHandler extends SimpleChannelInboundHandler<CommandMessage> {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
-						chunkCounter
+						chunkCounter=0;
 		    			}
 		    		}
 		    		
