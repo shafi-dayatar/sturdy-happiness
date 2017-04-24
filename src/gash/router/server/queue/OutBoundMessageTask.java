@@ -50,6 +50,7 @@ public class OutBoundMessageTask implements Runnable{
 			}
 			return;
 	    }
+		logger.info(" ------> sending to -- > destinationId " + destinationId );
 		if ( connectedNode != null){
 			Channel ch = connectedNode.get(0).getChannel();
 			if(ch != null){

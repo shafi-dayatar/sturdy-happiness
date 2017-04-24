@@ -345,6 +345,7 @@ public class ServerState {
 		cmdMsg.setResp(rsp);
 		cmdMsg.setHeader(hd);
 		channel.writeAndFlush(cmdMsg.build());
+		logger.info(" Sent read response to "  + cmdMsg.getHeader().getDestination());
 	}
 
 }

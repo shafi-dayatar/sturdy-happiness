@@ -53,6 +53,7 @@ public class CommHandler extends SimpleChannelInboundHandler<CommandMessage> {
 	private String host;
 	private int port;
 	private int chunkCounter =0;
+
 	// private MessageClient mc = new MessageClient(host,port);
 	private MessageClient mc = new MessageClient();
 	private TreeMap<Integer, ByteString> chunkDataList = new TreeMap<Integer, ByteString>();
@@ -114,14 +115,16 @@ public class CommHandler extends SimpleChannelInboundHandler<CommandMessage> {
 		    case RESPONSEREADFILE:
 		    	//System.out.println("I'm here");
 		    	if(msg.getResp().getReadResponse().getChunkLocationCount()!=0){
-		    	ReadResponse readRes = msg.getResp().getReadResponse();
-		    	System.out.println(readRes.getNumOfChunks());
-		    	chunkCounter = readRes.getNumOfChunks();
-		    	mc.sendfileReadRequests(msg);
-		    	//System.out.println("chunkloccount"+readRes.getChunkLocationCount()+" loc list "+readRes.getChunkLocationList().toString()+"");
+					ReadResponse readRes = msg.getResp().getReadResponse();
+					System.out.println(readRes.getNumOfChunks());
+					chunkCounter = readRes.getNumOfChunks();
+					mc.sendfileReadRequests(msg);
+					//System.out.println("chunkloccount"+readRes.getChunkLocationCount()+" loc list "+readRes.getChunkLocationList().toString()+"")
 		    	}
 		    	else{
-		    		++chunkCounter;
+		    		//++chunkCounter;
+		    		System.out.println(" Counter " + chunkCounter);
+		    		System.out.println(" Size " + chunkDataList.size());
 		    		ReadResponse readRes = msg.getResp().getReadResponse();
 		    		chunkDataList.put(readRes.getChunk().getChunkId(),readRes.getChunk().getChunkData());
 		    		if(chunkDataList.size()==chunkCounter){
@@ -130,9 +133,10 @@ public class CommHandler extends SimpleChannelInboundHandler<CommandMessage> {
 				    		eachChunk = chunkDataList.get(i).toByteArray();
 				    		FileOutputStream fos = null;
 							try {
-							fos = new FileOutputStream("/Users/prabhutej/Documents/Gossamer/sturdy-happiness/resources/filesreceived/"+readRes.getFilename());
+							fos = new FileOutputStream("/home/rentala/Desktop/"+readRes.getFilename());
 							fos.write(eachChunk);
 				    		fos.close();
+				    		System.out.println(" Done writing file !!");
 							}
 							catch (FileNotFoundException e) {
 								// TODO Auto-generated catch block
