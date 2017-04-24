@@ -1,26 +1,16 @@
 package gash.router.server.states;
 
-import java.awt.List;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Set;
 
-import gash.router.client.MessageClient;
-import gash.router.server.IOUtility;
 import gash.router.server.db.SqlClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import gash.router.server.ServerState;
-import gash.router.server.edges.EdgeMonitor;
-import gash.router.server.log.LogInfo;
 import gash.router.server.messages.DiscoverMessage;
 import gash.router.server.messages.FileChunk;
 import gash.router.server.messages.LogAppend;
@@ -28,19 +18,16 @@ import pipe.common.Common.Header;
 import pipe.common.Common.Node;
 import pipe.election.Election;
 import pipe.election.Election.LeaderElection;
-import pipe.work.Work;
 import pipe.work.Work.Command;
 import pipe.work.Work.FileChunkData;
 import pipe.work.Work.LogAppendEntry;
 import pipe.work.Work.LogEntry;
 import pipe.work.Work.LogEntry.*;
-import pipe.work.Work.LogEntryList;
 import pipe.work.Work.WorkMessage.MessageType;
 import pipe.work.Work.WorkMessage;
 import routing.Pipe.*;
 import routing.Pipe.Response.Status;
 
-import com.google.protobuf.ByteString;
 
 /**
  * Created by rentala on 4/11/17.
@@ -306,7 +293,7 @@ public class Leader implements RaftServerState, Runnable {
 	}
 
 	@Override
-	public int writeFile(WriteBody request) {
+	public Status writeFile(WriteBody request) {
 		int fileId;
 		try{
 			synchronized (this){
@@ -341,9 +328,9 @@ public class Leader implements RaftServerState, Runnable {
 		}catch(Exception e){
 			logger.info("Found exception while writing file");
 			e.printStackTrace();
-			return request.getChunk().getChunkId();
+			return Status.ERROR;
 		}
-		return -1;// IOUtility.writeFile(write);
+		return Status.SUCCESS;// IOUtility.writeFile(write);
 	}
 
 	public void setNextAndMatchIndex() {

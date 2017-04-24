@@ -16,6 +16,7 @@ import pipe.work.Work.LogAppendEntry;
 import pipe.work.Work.LogEntry;
 import routing.Pipe;
 import routing.Pipe.ReadBody;
+import routing.Pipe.Response.Status;
 import routing.Pipe.WriteBody;
 
 /**
@@ -41,7 +42,7 @@ public interface RaftServerState {
 	public void readChunkDataResponse(FileChunkData chunk);
 	public void writeChunkDataResponse(FileChunkData chunk);
 	routing.Pipe.Response getFileChunkLocation(ReadBody request);
-	int writeFile(WriteBody writeBody);
+	Status writeFile(WriteBody writeBody);
 
 	public void stealWork();
     Work.WorkMessage getWork();
