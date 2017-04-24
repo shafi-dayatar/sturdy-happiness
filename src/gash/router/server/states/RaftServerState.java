@@ -45,6 +45,6 @@ public interface RaftServerState {
 	Status writeFile(WriteBody writeBody);
 
 	public void stealWork();
-    Work.WorkMessage getWork();
+    Pipe.CommandMessage getWork(int node_id);
 
 }

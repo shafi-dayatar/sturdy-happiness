@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import pipe.common.Common;
 import pipe.work.Work;
 import pipe.work.Work.WorkMessage;
+import routing.Pipe;
 
 /**
  * Created by rentala on 4/22/17.
@@ -29,12 +30,12 @@ public class WorkStealMessage extends Message {
         switch(msg.getType()){
             case WORKSTEALREQUEST:
                 //check if it has any in its queue and respond
-               WorkMessage wmsg = state.getRaftState().getWork();
-                if(wmsg != null){
+               Pipe.CommandMessage stolenCmdMessage = state.getRaftState().getWork(msg.getHeader().getNodeId());
+                if(stolenCmdMessage != null){
                     WorkMessage.Builder wmsgBuilder = WorkMessage.newBuilder();
                     wmsgBuilder.setSecret(9999999);
                     wmsgBuilder.setType(WorkMessage.MessageType.WORKSTEALRESPONSE);
-                    wmsgBuilder.setStolenWork(wmsg);
+                    wmsgBuilder.setStolenWork(stolenCmdMessage);
                     //build header
                     Common.Header.Builder hd = Common.Header.newBuilder();
                     hd.setDestination(msg.getHeader().getNodeId());
@@ -46,8 +47,21 @@ public class WorkStealMessage extends Message {
 
                 break;
             case WORKSTEALRESPONSE:
-                WorkMessage work = msg.getStolenWork();
-                state.getInBoundMessageQueue().addMessage(work);
+                Pipe.CommandMessage stolenMessage = msg.getStolenWork();
+                if(state.assertServability(stolenMessage)){
+                    stolenMessage.getReq().getRrb();
+                    Work.FileChunkData.Builder data = Work.FileChunkData.newBuilder();
+                    data.setChunkId(stolenMessage.getReq().getRrb().getChunkId());
+                    data.setFileId((int)stolenMessage.getReq().getRrb().getFileId());
+                    data.setReplyTo(stolenMessage.getHeader().getNodeId());
+                    data.setFileName(stolenMessage.getReq().getRrb().getFilename());
+
+                    WorkMessage.Builder wm = WorkMessage.newBuilder();
+                    wm.setHeader(stolenMessage.getHeader());
+                    wm.setChunkData(data);
+                    wm.setType(WorkMessage.MessageType.CHUNKFILEDATAREAD);
+                    state.getInBoundMessageQueue().addMessage(wm.build());
+                }
                 break;
 
         }

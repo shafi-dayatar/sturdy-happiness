@@ -239,6 +239,7 @@ public class Follower implements RaftServerState {
 		// TODO Auto-generated method stub
 		
 		String file_name =  "./data/" + chunk.getFileName() + "_" + chunk.getFileId() + "_" + chunk.getChunkId();
+		logger.info(file_name + " ---> serving read chunk data request for it. ");
 		File file = new File(file_name);
 	    byte[] fileData = new byte[(int) file.length()];
 	    

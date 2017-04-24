@@ -84,16 +84,23 @@ public class TaskList {
 	 * 
 	 * @return
 	 */
-	protected Task dequeue() {
+	public Task dequeue() {
 		Task t = null;
+		//dequeue only if queue is big. BIG = 20
+		//TODO: Make 'BIG' dynamic , remove below hardcoding
+
+
 		try {
-			t = inbound.take();
-			processed++;
+			if(inbound.size() > 20){
+				t = inbound.take();
+				processed++;
+			}
 		} catch (InterruptedException e) {
 			logger.error("failed to dequeue a task", e);
 		}
 		return t;
 	}
+
 	public synchronized Task getStealableTask(ServerState state, int node_id){
 
 		Iterator<Task> taskIterator = inbound.iterator();

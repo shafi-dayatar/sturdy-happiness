@@ -1,5 +1,6 @@
 package gash.router.server;
 
+import gash.router.server.db.ChunkRow;
 import gash.router.server.states.Candidate;
 import gash.router.server.states.RaftServerState;
 
@@ -125,7 +126,7 @@ public class ServerState {
 		logger.info("Becoming leader for election term : " + currentTerm);
 		raftState = leader;
 		if (!leader.isLeader()) {
-			redis.updateLeader(getConf().getClusterId(), 
+			redis.updateLeader(getConf().getClusterId(),
 					DiscoverMessage.getCurrentIp() + ":" + getConf().getCommandPort());
 			leader.setLeader(true);
 			leader.setNextAndMatchIndex();
@@ -221,4 +222,28 @@ public class ServerState {
 		this.redis = redis;
 	}
 
+	public boolean assertServability(Pipe.CommandMessage msg){
+		String filename = msg.getReq().getRrb().getFilename();
+		ChunkRow chunkRow = getDb().getChunkRowById(msg.getReq().getRrb().getChunkId());
+		logger.info(" checking for " + chunkRow.getLocation_at() + " message req filename  " + filename);
+		if(chunkRow!= null){
+
+			if(chunkRow.getLocation_at().contains(Integer.toString(this.nodeId))) {
+				logger.info(" node_id " + this.nodeId + " will steal for " + filename + " of type " + msg.getReq().getRequestType());
+				//yes the node can steal this task now
+				return true;
+			} else {
+
+				return false;
+			}
+
+		}
+
+		return false;
+	}
+
+	public void identiyRouteForMessage(){
+
+
+	}
 }
