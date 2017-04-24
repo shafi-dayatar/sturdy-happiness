@@ -156,11 +156,11 @@ public class SqlClient{
 		boolean status = false;
 		try{
 			//todo: should create file name with same file_id from log, otherwise there will be inconsistency;
-			int file_id = createIfNotExistFileId(fileId, filename, fileExt, total_chunks);
+			createIfNotExistFileId(fileId, filename, fileExt, total_chunks);
 			PreparedStatement chunk_loc = connection.prepareStatement("insert into chunks (id, file_id, chunk_id, location_at)"
 				+ " values(?,?,?,?)");
 			chunk_loc.setInt(1, logId);
-			chunk_loc.setInt(2, file_id);
+			chunk_loc.setInt(2, fileId);
 			chunk_loc.setInt(3, chunk_id);
 			chunk_loc.setString(4, locatedAt);
 			int statement = chunk_loc.executeUpdate();
@@ -177,40 +177,36 @@ public class SqlClient{
 		return status;
 	}
 
-	private int createIfNotExistFileId(int fileId, String filename, String fileExt, int totalChunks) {
-		/*long startTime = System.currentTimeMillis();
-    	int file_id = -1; 
-    	try{
-    	getFileId.setString(1, filename);
-    	getFileId.setString(2, fileExt);
-    	ResultSet rs = getFileId.executeQuery();
-    	
-    	if(rs.next()) {
-    		file_id = rs.getInt(1);
-    	}else{*/
-		int file_id = -1;
+	private void createIfNotExistFileId(int fileId, String filename, String fileExt, int totalChunks) {
+		long startTime = System.currentTimeMillis();
+		int file_id;
 		try{
-    		 PreparedStatement fileNameInsert = connection.prepareStatement("INSERT INTO files (id ,name, file_ext, total_chunks) values (?,?,?,?)");
-    		 fileNameInsert.setInt(1, fileId);
-    		fileNameInsert.setString(2, filename);
-    		fileNameInsert.setString(3, fileExt);
-    		fileNameInsert.setInt(4, totalChunks);
-    		int statement = fileNameInsert.executeUpdate();
-    		ResultSet rs = fileNameInsert.getGeneratedKeys();
-    		if (rs.next()){
-    			file_id =  rs.getInt(1);
-    		}
-    	//}
-    	}catch(Exception e){
-    		System.out.println("FileName insertion failed");
-    		e.printStackTrace();
-    	}
-    	//long timeTaken =  System.currentTimeMillis() - startTime;
-    	//System.out.println("Take taken to execute query is :" + timeTaken);
-    	
-    	
-    	return file_id;
+			getFileId.setString(1, filename);
+			getFileId.setString(2, fileExt);
+			ResultSet rs = getFileId.executeQuery();
+
+			if(rs.next()) {
+				file_id = rs.getInt(1);
+			}else{
+
+				PreparedStatement fileNameInsert = connection.prepareStatement("INSERT INTO files (id ,name, file_ext, total_chunks) values (?,?,?,?)");
+				fileNameInsert.setInt(1, fileId);
+				fileNameInsert.setString(2, filename);
+				fileNameInsert.setString(3, fileExt);
+				fileNameInsert.setInt(4, totalChunks);
+				int statement = fileNameInsert.executeUpdate();
+				rs = fileNameInsert.getGeneratedKeys();
+
+			}
+		}
+		catch(Exception e){
+			System.out.println("FileName insertion failed");
+			e.printStackTrace();
+		}
+		long timeTaken =  System.currentTimeMillis() - startTime;
+		System.out.println("Take taken to execute query is :" + timeTaken);
 	}
+
 
 	public int getFileId(String fileName) {
 		int file_id = -1; 
