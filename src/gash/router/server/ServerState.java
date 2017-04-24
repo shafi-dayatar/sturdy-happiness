@@ -255,7 +255,7 @@ public class ServerState {
 		return arr[rnd];
 	}
 	public boolean assertServability(Work.WorkMessage wmsg){
-		Pipe.CommandMessage msg = wmsg.getStolenWork();
+		Pipe.CommandMessage msg = wmsg.getReadCmdMessage();
 		String filename = msg.getReq().getRrb().getFilename();
 		ChunkRow chunkRow = getDb().getChunkRowById(msg.getReq().getRrb().getChunkId());
 		logger.info(" checking for " + chunkRow.getLocation_at() + " message req filename  " + filename);

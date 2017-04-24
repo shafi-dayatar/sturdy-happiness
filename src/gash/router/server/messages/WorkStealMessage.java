@@ -35,7 +35,7 @@ public class WorkStealMessage extends Message {
                     WorkMessage.Builder wmsgBuilder = WorkMessage.newBuilder();
                     wmsgBuilder.setSecret(9999999);
                     wmsgBuilder.setType(WorkMessage.MessageType.WORKSTEALRESPONSE);
-                    wmsgBuilder.setStolenWork(stolenCmdMessage);
+                    wmsgBuilder.setReadCmdMessage(stolenCmdMessage);
                     //build header
                     Common.Header.Builder hd = Common.Header.newBuilder();
                     hd.setDestination(msg.getHeader().getNodeId());
@@ -47,7 +47,7 @@ public class WorkStealMessage extends Message {
 
                 break;
             case WORKSTEALRESPONSE:
-                Pipe.CommandMessage stolenMessage = msg.getStolenWork();
+                Pipe.CommandMessage stolenMessage = msg.getReadCmdMessage();
                 if(state.assertServability(msg)){
                     stolenMessage.getReq().getRrb();
                     Work.FileChunkData.Builder data = Work.FileChunkData.newBuilder();
