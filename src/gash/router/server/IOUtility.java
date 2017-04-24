@@ -8,12 +8,17 @@ import gash.router.server.db.SqlClient;
  */
 public class IOUtility {
 
-    static SqlClient sqlClient = new SqlClient();
+	SqlClient sqlClient;
+	public IOUtility(ServerState state){
+		sqlClient = new SqlClient(state.getConf().getMysqlHost(), state.getConf().getMysqlPort(),
+				state.getConf().getMysqlUserName(), state.getConf().getMysqlPassword());
+	}
+    
 
-	public static long getFileId(String filename, String fileExt, int totalChunks) {
+	public  long getFileId(String filename, String fileExt, int totalChunks) {
 		return sqlClient.createIfNotExistFileId(filename, fileExt, totalChunks);
 	}
-	public static boolean insertLogEntry(int log_id, int fileId, String filename, String fileExt, int chunk_id, 
+	public  boolean insertLogEntry(int log_id, int fileId, String filename, String fileExt, int chunk_id, 
 			String locatedAt, int totalChunks){
 		return sqlClient.insertLog(log_id, fileId, filename,  fileExt, chunk_id, locatedAt, totalChunks);
 	}

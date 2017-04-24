@@ -52,9 +52,9 @@ public class ServerState {
 	private ReadTaskQueue readTaskQueue;
 	public ConnectionManager connectionManager = new ConnectionManager();
 
-	private IOUtility db = new IOUtility();
+	private IOUtility db; //= new IOUtility();
 
-	private LogInfo log = new LogInfo();
+	private LogInfo log = new LogInfo(this);
 
 	public ElectionTimer getElectionTimer() {
 		return electionTimer;

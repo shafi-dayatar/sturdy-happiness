@@ -218,6 +218,10 @@ public class MessageServer {
 			logger.info("Initializing connection to redis GSND");
 			RedisGSDN redis = new RedisGSDN(state);
 			state.setRedis(redis);
+			
+			logger.info("Initializing connection with mysql datatbase");
+			IOUtility db = new IOUtility(state);
+			state.setDb(db);
 
 			logger.info("Initializing TaskList");
 			TaskList tasks = new TaskList(new NoOpBalancer());

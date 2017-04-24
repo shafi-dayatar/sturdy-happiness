@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import gash.router.server.IOUtility;
+import gash.router.server.ServerState;
 import pipe.work.Work.Command;
 import pipe.work.Work.LogEntry;
 
@@ -30,11 +31,13 @@ public class LogInfo implements LogOperations {
 
 	private int thresholdSize = 100;
 	private String logStoreDir = "./resources/files";
+	private ServerState state;
 	
-	public LogInfo() {
+	public LogInfo(ServerState state) {
 		log = new Hashtable<Integer, LogEntry>();
 		commitIndex = (int) 0;
 		lastApplied = (int) 0;
+		this.state = state;
 		restoreLogSegment();
 	}
 	
@@ -79,7 +82,7 @@ public class LogInfo implements LogOperations {
 			totalChunks = Integer.parseInt(logEntry[5]);
 		}
 		
-		IOUtility.insertLogEntry(la.getLogId(), fileId, filename, fileExt, chunkId, locatedAt, totalChunks);
+		state.getDb().insertLogEntry(la.getLogId(), fileId, filename, fileExt, chunkId, locatedAt, totalChunks);
 		this.commitIndex = commitIndex;
 		if (commitIndex % thresholdSize == 0){
 			storeLogSegment();

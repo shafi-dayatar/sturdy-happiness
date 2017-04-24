@@ -18,11 +18,11 @@ public class SqlClient{
 	
 	protected Logger logger = LoggerFactory.getLogger("SQL Client");
     final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-    final String  db_url = "jdbc:mysql://localhost/cmpe275";
+     String  db_url;
     File conf;
     //  Database credentials
-    String USER = "root";
-    String PASSWORD = "root";
+    String USER;
+    String PASSWORD;
 
     Connection connection = null;
     Statement stmt = null;
@@ -34,13 +34,17 @@ public class SqlClient{
     PreparedStatement fileNameInsert = null;
     
     
-    public SqlClient(){
+    public SqlClient(String host, int port, String username, String password){
         System.out.println("Establishing database connection :");
         long startTime = System.currentTimeMillis();
         checkDependency();
-        //loadConfig();
+        
         establishConnection();
         prepareStatements();
+        db_url = "jdbc:mysql://"+ host+":"+port +"/cmpe275";
+        this.USER = username;
+        this.PASSWORD = password;
+        
         System.out.println("Time Taken to make a db connection: " + (System.currentTimeMillis() - startTime));
     }
     
