@@ -16,7 +16,7 @@ public class SqlClient{
     File conf;
     //  Database credentials
     String USER = "root";
-    String PASSWORD = "password";
+    String PASSWORD = "root";
 
     Connection connection = null;
     Statement stmt = null;

@@ -284,7 +284,7 @@ public class Leader implements RaftServerState, Runnable {
 			for( i= 0; i < chunks.length; i++){
 				ChunkLocation.Builder chunkloc = ChunkLocation.newBuilder();
 				chunkloc.addNode(node);
-				chunkloc.setChunkid(chunks[i][0]);
+				chunkloc.setChunkid(chunks[i][1]);
 				rr.addChunkLocation(chunkloc);
 			}
 			rr.setNumOfChunks(i);

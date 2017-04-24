@@ -307,6 +307,7 @@ public class MessageClient {
 				CommandMessage commandMessage = buildRCommandMessage(file_name, node_id, host, port, chunkId);
 				CommConnection.getInstance().enqueue(commandMessage);
 				System.out.println("Sent Read Request .....");
+				System.out.println(chunkId+" chunk"+ "   j "+j+ "    list  "+list.get(j).toString());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

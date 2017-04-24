@@ -112,7 +112,7 @@ public class CommHandler extends SimpleChannelInboundHandler<CommandMessage> {
 		
 		
 		    case RESPONSEREADFILE:
-		    	//System.out.println("I'm here");
+		    	System.out.println("I'm here");
 		    	if(msg.getResp().getReadResponse().getChunkLocationCount()!=0){
 		    	ReadResponse readRes = msg.getResp().getReadResponse();
 		    	System.out.println(readRes.getNumOfChunks());
@@ -121,7 +121,7 @@ public class CommHandler extends SimpleChannelInboundHandler<CommandMessage> {
 		    	//System.out.println("chunkloccount"+readRes.getChunkLocationCount()+" loc list "+readRes.getChunkLocationList().toString()+"");
 		    	}
 		    	else{
-		    		++chunkCounter;
+		    		System.out.println("chunk received");
 		    		ReadResponse readRes = msg.getResp().getReadResponse();
 		    		chunkDataList.put(readRes.getChunk().getChunkId(),readRes.getChunk().getChunkData());
 		    		if(chunkDataList.size()==chunkCounter){
