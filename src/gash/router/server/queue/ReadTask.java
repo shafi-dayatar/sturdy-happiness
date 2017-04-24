@@ -38,7 +38,7 @@ public class ReadTask implements Runnable{
 
 	        Common.Header.Builder hd = Common.Header.newBuilder();
 	        //set to whichever node it may set it to
-	        int dest = state.getRandomNodeWithChunk(chunk_id);
+	        int dest = state.getRandomNodeWithChunk(chunk_id, fileId);
 	        if(dest > 0 ){
 	            //chunk exists
 	            hd.setDestination(dest);

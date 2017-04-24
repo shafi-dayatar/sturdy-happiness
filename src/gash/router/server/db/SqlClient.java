@@ -217,6 +217,7 @@ public class SqlClient{
     		getFileId.setString(1, str[0]);
     		getFileId.setString(2, str[1]);
     		ResultSet rs = getFileId.executeQuery();
+    		logger.info("Get file id query is " + getFileId.toString());
 
     		if(rs.next()) {
     			file_id = rs.getInt(1);
@@ -228,12 +229,13 @@ public class SqlClient{
 		return file_id;
 	}
 	
-	public ChunkRow getChunkRowById(int chunk_id){
+	public ChunkRow getChunkRowById(int chunk_id, int file_id){
         ChunkRow data = null;
         try {
             PreparedStatement chunksQuery = connection.prepareStatement("select file_id, chunk_id, chunk_size, location_at, id "
-                    + "from chunks where chunk_id = ?");
+                    + "from chunks where chunk_id = ? and file_id = ?");
             chunksQuery.setInt(1, chunk_id);
+            chunksQuery.setInt(2, file_id);
             ResultSet rs = chunksQuery.executeQuery();
 
             if(rs.next()){

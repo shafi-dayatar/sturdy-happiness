@@ -23,7 +23,7 @@ public class IOUtility {
 		return sqlClient.insertLog(log_id, fileId, filename,  fileExt, chunk_id, locatedAt, totalChunks);
 	}
 
-	public int getFileId(String fileName) {
+	public synchronized int  getFileId(String fileName) {
 		return sqlClient.getFileId(fileName);
 	}
 
@@ -38,9 +38,9 @@ public class IOUtility {
 
 	}
 
-	public ChunkRow getChunkRowById(int id) {
+	public ChunkRow getChunkRowById(int id, int file_id) {
 		// TODO Auto-generated method stub
-		return sqlClient.getChunkRowById(id);
+		return sqlClient.getChunkRowById(id, file_id);
 
 	}
 
