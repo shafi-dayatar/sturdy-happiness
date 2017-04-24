@@ -29,7 +29,7 @@ public class ReadTaskQueue {
     }
 
     public void addMessage(Pipe.CommandMessage cmdMsg) {
-
+  
         Work.WorkMessage.Builder msgBuilder = Work.WorkMessage.newBuilder();
         msgBuilder.setSecret(9999999);
         msgBuilder.setType(Work.WorkMessage.MessageType.CHUNKFILEDATAREAD);
@@ -52,7 +52,8 @@ public class ReadTaskQueue {
             hd.setNodeId(state.getNodeId());
             hd.setTime(System.currentTimeMillis());
             msgBuilder.setHeader(hd);
-            exeService.execute(new InBoundMessageTask(msgBuilder.build(), state));
+            state.getOutBoundMessageQueue().addMessage(msgBuilder.build());
+            //exeService.execute(new InBoundMesageTask(msgBuilder.build(), state));
         }
         else{
             //invalid chunk id
