@@ -143,6 +143,7 @@ public class CommHandler extends SimpleChannelInboundHandler<CommandMessage> {
 			cl.onMessage(msg);
 		}*/
 	}
+	
 	@Override
 	public void userEventTriggered(ChannelHandlerContext ctx, Object evt) {
 		System.out.println("--> user event: " + evt.toString());

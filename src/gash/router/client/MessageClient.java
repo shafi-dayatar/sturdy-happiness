@@ -283,7 +283,6 @@ public class MessageClient {
 			header.setNodeId(1);
 			header.setTime(System.currentTimeMillis());
 			command.setReq(req);
-			
 			command.setHeader(header);
 			System.out.println(chunkId);
 			return command.build();
