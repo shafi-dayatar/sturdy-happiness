@@ -309,4 +309,8 @@ public class ServerState {
 		return readTaskQueue;
 	}
 
+	public void setReadTaskQueue(ReadTaskQueue readTaskQueue) {
+		this.readTaskQueue = readTaskQueue;
+	}
+
 }

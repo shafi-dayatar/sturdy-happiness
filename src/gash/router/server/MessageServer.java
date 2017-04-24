@@ -21,6 +21,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 
+import gash.router.server.tasks.ReadTaskQueue;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -229,7 +230,12 @@ public class MessageServer {
 			logger.info("Starting outbound workMessage Queue and Worker Thread pool");
 			OutBoundWorkMessageQueue outbound = new OutBoundWorkMessageQueue(state, 5);
 			state.setOutBoundMessageQueue(outbound);
-			
+
+			logger.info("Starting read task Queue and Worker Thread pool");
+			ReadTaskQueue readTaskQueue = new ReadTaskQueue(state, 5);
+			state.setReadTaskQueue(readTaskQueue);
+
+
 			EdgeMonitor emon = new EdgeMonitor(state);
 			Thread edgeMonitorThread = new Thread(emon);
 			edgeMonitorThread.start();
