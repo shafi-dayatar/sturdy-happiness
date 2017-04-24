@@ -19,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import gash.router.container.RoutingConf;
+import gash.router.server.states.Leader;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -32,6 +33,8 @@ import routing.Pipe;
 import routing.Pipe.CommandMessage;
 import routing.Pipe.ReadBody;
 import routing.Pipe.WriteBody;
+import routing.Pipe.Response.Status;
+import routing.Pipe.TaskType;
 import routing.Pipe.Chunk;
 import routing.Pipe.Response;
 import com.google.protobuf.ByteString;
@@ -89,16 +92,17 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 		
 		    case REQUESTWRITEFILE:
 		    	WriteBody writeReq = msg.getReq().getRwb();
-		    	int missingChunk = serverState.getRaftState().writeFile(writeReq);
+		    	Status status = serverState.getRaftState().writeFile(writeReq);	
+		    	sendWriteResponse(channel, msg, status);
 		    	break;
 		    case REQUESTREADFILE:
 		    	ReadBody readReq = msg.getReq().getRrb();
 		    	Response res = null;
 		    	if(readReq.hasChunkId()){
+		    		serverState.connectionManager.setConnection(msg.getHeader().getNodeId(), channel);
 					Work.Task.Builder task = Work.Task.newBuilder();
 					task.setMsg(msg);
 		    		serverState.getTasks().addTask(task.build());
-		    		
 		    	}else{
 		    		res = serverState.getRaftState().getFileChunkLocation(readReq);
 		    	}
@@ -177,19 +181,26 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 		cmdMsg.setHeader(hd);
 		channel.writeAndFlush(cmdMsg.build());
 	}
-    /*
-	private void sendWriteResponse(Channel channel, CommandMessage cmdMessage, int chunkId){
+    
+	private void sendWriteResponse(Channel channel, CommandMessage cmdMessage, Status status){
 		logger.info("Preparing to send write response for nodeid: "+ cmdMessage.getHeader().getNodeId() );
 		CommandMessage.Builder cmdMsg = CommandMessage.newBuilder(cmdMessage);
 		Common.Header.Builder hd = Common.Header.newBuilder();
 		hd.setNodeId(serverState.getNodeId());
 		hd.setTime(System.currentTimeMillis());
-		hd.setDestination(-1);
-		cmdMsg.setResp(buildWriteResponse(cmdMessage.getReq(), chunkId).build());
+		hd.setDestination(cmdMessage.getHeader().getNodeId());
+		
+		Response.Builder response = Response.newBuilder();
+		response.setResponseType(TaskType.RESPONSEWRITEFILE);
+		response.setStatus(status);
+		
+		Pipe.WriteResponse.Builder writeRespBuilder = Pipe.WriteResponse.newBuilder();
+		writeRespBuilder.addChunkId(cmdMessage.getReq().getRwb().getChunk().getChunkId());
+		response.setWriteResponse(writeRespBuilder.build());
 		cmdMsg.setHeader(hd);
 		channel.writeAndFlush(cmdMsg.build());
 	}
-
+    /*
 	private Pipe.Response.Builder buildReadResponse(Pipe.Request request, byte[] chunkContent){
 		logger.info("Building read response for request chunk content length: " + chunkContent.length);
 		Pipe.Response.Builder response = Pipe.Response.newBuilder();

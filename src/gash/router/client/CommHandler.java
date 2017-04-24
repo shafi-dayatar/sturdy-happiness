@@ -25,8 +25,12 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import routing.Pipe.CommandMessage;
+import routing.Pipe.ReadBody;
+import routing.Pipe.ReadResponse;
+import routing.Pipe.Response;
 
 import javax.xml.bind.Unmarshaller;
+
 
 
 /**
@@ -79,12 +83,41 @@ public class CommHandler extends SimpleChannelInboundHandler<CommandMessage> {
 			System.out.println("ERROR: Unexpected content - " + msg);
 			return;
 		}
-		for(String listenerId : listeners.keySet()){
-			CommListener commListener = listeners.get(listenerId);
-			commListener.onMessage(msg);
-
-		}
+//		for(String listenerId : listeners.keySet()){
+//			CommListener commListener = listeners.get(listenerId);
+//			commListener.onMessage(msg);
+//
+//		}
 		System.out.println("im in");
+	//logger.info("Request received at server : " + msg.toString());
+		if(msg.hasReq()){
+			
+			switch(msg.getReq().getRequestType()){
+		
+		
+		    case RESPONSEREADFILE:
+		    	ReadResponse readRes = msg.getResp().getReadResponse();
+		    	System.out.println(readRes.getChunkLocationCount()+"  "+readRes.getChunkLocationList().toString()+"");
+		    	//int missingChunk = serverState.getRaftState().writeFile(writeReq);
+		    	break;
+		    case REQUESTREADFILE:
+		    	ReadBody readReq = msg.getReq().getRrb();
+		    	Response res = null;
+		    	if(readReq.hasChunkId()){
+		    		
+		    	}else{
+		    		//res = serverState.getRaftState().getFileChunkLocation(readReq);
+		    	}
+		    	//sendReadResponse(channel, res, msg.getHeader().getNodeId());
+		    default:
+		    	break;
+			}
+		}else if(msg.hasPing()){
+			
+		}else{
+			logger.info("Unsupport msg received from client  msg detail is : " + msg.toString());
+		}
+
 	}
 
 	@Override

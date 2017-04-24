@@ -28,6 +28,7 @@ import org.slf4j.LoggerFactory;
 import com.google.protobuf.Message;
 
 import gash.router.container.RoutingConf;
+import gash.router.server.db.RedisGSDN;
 import gash.router.server.edges.EdgeMonitor;
 import gash.router.server.queue.InBoundWorkMessageQueue;
 import gash.router.server.queue.OutBoundWorkMessageQueue;
@@ -212,6 +213,10 @@ public class MessageServer {
 			state = new ServerState();
 			logger.info("Loading config files");
 			state.setConf(conf);
+			
+			logger.info("Initializing connection to redis GSND");
+			RedisGSDN redis = new RedisGSDN(state);
+			state.setRedis(redis);
 
 			logger.info("Initializing TaskList");
 			TaskList tasks = new TaskList(new NoOpBalancer());

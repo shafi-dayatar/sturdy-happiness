@@ -42,6 +42,7 @@ import routing.Pipe;
 import routing.Pipe.ReadBody;
 import routing.Pipe.ReadResponse;
 import routing.Pipe.Response;
+import routing.Pipe.Response.Status;
 import routing.Pipe.WriteBody;
 
 import com.google.protobuf.ByteString;
@@ -377,9 +378,9 @@ public class Follower implements RaftServerState {
 	}
 
 	@Override
-	public int writeFile(WriteBody writeBody) {
+	public Status writeFile(WriteBody writeBody) {
 		// TODO Auto-generated method stub
-		return 0;
+		return Status.NOLEADER;
 	}
 
 

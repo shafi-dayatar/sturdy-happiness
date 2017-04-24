@@ -35,6 +35,13 @@ public class RoutingConf {
 	private int nodeId;
 	private int commandPort;
 	private int workPort;
+	private int mysqlPort;
+	private String mysqlHost;
+	private String mysqlUserName;
+	private String mysqlPassword;
+	private String redishost;
+	private int redisPort;
+	private int clusterId;
 	private boolean internalNode = true;
 	private int heartbeatDt = 2000;
 	private List<RoutingEntry> routing;
@@ -105,6 +112,62 @@ public class RoutingConf {
 
 	public void setRouting(List<RoutingEntry> conf) {
 		this.routing = conf;
+	}
+
+	public int getMysqlPort() {
+		return mysqlPort;
+	}
+
+	public void setMysqlPort(int mysqlPort) {
+		this.mysqlPort = mysqlPort;
+	}
+
+	public String getMysqlHost() {
+		return mysqlHost;
+	}
+
+	public void setMysqlHost(String mysqlHost) {
+		this.mysqlHost = mysqlHost;
+	}
+
+	public String getMysqlUserName() {
+		return mysqlUserName;
+	}
+
+	public void setMysqlUserName(String mysqlUserName) {
+		this.mysqlUserName = mysqlUserName;
+	}
+
+	public String getMysqlPassword() {
+		return mysqlPassword;
+	}
+
+	public void setMysqlPassword(String mysqlPassword) {
+		this.mysqlPassword = mysqlPassword;
+	}
+
+	public String getRedishost() {
+		return redishost;
+	}
+
+	public void setRedishost(String redishost) {
+		this.redishost = redishost;
+	}
+
+	public int getRedisPort() {
+		return redisPort;
+	}
+
+	public void setRedisPort(int redisPort) {
+		this.redisPort = redisPort;
+	}
+
+	public int getClusterId() {
+		return clusterId;
+	}
+
+	public void setClusterId(int clusterId) {
+		this.clusterId = clusterId;
 	}
 
 	@XmlRootElement(name = "entry")

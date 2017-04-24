@@ -31,6 +31,7 @@ import pipe.common.Common.Header;
 import routing.Pipe;
 import routing.Pipe.Chunk;
 import routing.Pipe.CommandMessage;
+import routing.Pipe.ReadBody;
 //import routing.Pipe.CommandMessage.MessageType;
 import routing.Pipe.Request;
 import routing.Pipe.TaskType;
@@ -231,11 +232,17 @@ public class MessageClient {
 			// node.setPort(8000);
 			// node.setNodeId(-1);
 			// msg.setClient(node);
+			Request.Builder req = Request.newBuilder();
+			req.setRequestType(TaskType.REQUESTREADFILE);
+			ReadBody.Builder rrb = ReadBody.newBuilder();
+			rrb.setFilename(file_name);
+
+			req.setRrb(rrb.build());
 			Header.Builder header = Header.newBuilder();
 			header.setNodeId(1);
-			header.setTime(0);
+			header.setTime(System.currentTimeMillis());
+			command.setReq(req);
 			command.setHeader(header);
-			// command.setReq(msg.build());
 			return command.build();
 		} catch (Exception e) {
 			System.out.println(" Sending read request failed :");
@@ -253,7 +260,7 @@ public class MessageClient {
 			WriteBody.Builder rwb = WriteBody.newBuilder();
 			String ext[] = file.getName().toString().split("\\.");
 			rwb.setFileExt(ext[1]);
-			rwb.setFilename(file.getName());
+			rwb.setFilename(ext[0]);
 			rwb.setNumOfChunks(noOfChunks);
 			int i = 1;
 			// rwb.setFileId(++fileId);
