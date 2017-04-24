@@ -19,19 +19,25 @@ import java.io.*;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.protobuf.ByteString;
+
+
+
 import org.apache.commons.io.IOUtils;
 
 import pipe.common.Common;
 import pipe.common.Common.Header;
 import routing.Pipe;
 import routing.Pipe.Chunk;
+import routing.Pipe.ChunkLocation;
 import routing.Pipe.CommandMessage;
 import routing.Pipe.ReadBody;
+import routing.Pipe.ReadResponse;
 //import routing.Pipe.CommandMessage.MessageType;
 import routing.Pipe.Request;
 import routing.Pipe.TaskType;
@@ -52,12 +58,14 @@ public class MessageClient {
 	private int messageId = 1;
 	private static int fileId = 0;
 	private static int chunkId = 0;
+	private int clientId=1;
 	protected static Logger logger = LoggerFactory.getLogger("Client");
 
 	public MessageClient(String host, int port) {
 		init(host, port);
-	}
 
+	}
+	public MessageClient(){};
 	private void init(String host, int port) {
 		CommConnection.initConnection(host, port);
 	}
@@ -284,6 +292,63 @@ public class MessageClient {
 			return command.build();
 		}
 	}
+	public void sendfileReadRequests(CommandMessage msg) {
+		// TODO Auto-generated method stub
+		ReadResponse readRes = msg.getResp().getReadResponse();
+		List<ChunkLocation> list = new ArrayList<>(readRes.getChunkLocationList());
+		try {
+			int listSize = list.size();
+			for(int j =0;j<listSize;j++){
+				int node_id = list.get(j).getNode(0).getNodeId();
+				String host = list.get(j).getNode(0).getHost();
+				int port = list.get(j).getNode(0).getPort();
+				String file_name = readRes.getFilename();
+				int chunkId = list.get(j).getChunkid();
+				CommandMessage commandMessage = buildRCommandMessage(file_name, node_id, host, port, chunkId);
+				CommConnection.getInstance().enqueue(commandMessage);
+				System.out.println("Sent Read Request .....");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Couldnt sent to the system");
+			return;
+		}
+	}
+		
+		public CommandMessage buildRCommandMessage(String file_name,int node_id, String host, int port, int chunkId){
+		CommandMessage.Builder command = CommandMessage.newBuilder();
+		try{
+		Request.Builder req = Request.newBuilder();
+		req.setRequestType(TaskType.REQUESTREADFILE);
+		ReadBody.Builder rrb = ReadBody.newBuilder();
+		rrb.setFilename(file_name);
+		rrb.setChunkId(chunkId);
+		
+		Common.Node.Builder node = Common.Node.newBuilder();
+		node.setHost(host);			
+		node.setPort(port);
+		node.setNodeId(node_id);
+		req.setClient(node.build());
+
+		req.setRrb(rrb.build());
+		Header.Builder header = Header.newBuilder();
+		header.setNodeId(clientId);
+		header.setDestination(node_id);
+		header.setTime(System.currentTimeMillis());
+		command.setReq(req);
+		command.setHeader(header);
+		return command.build();
+	} 
+		catch (Exception e) {
+			System.out.println(" Sending individual read requests failed :");
+			e.printStackTrace();
+			return command.build();
+		}
+		
+	}
+
+	
+	
 	// public void writeFile(String filename, ByteString chunkData, int
 	// noOfChunks, int chunkId) {
 	//
@@ -319,6 +384,7 @@ public class MessageClient {
 	//
 	// }
 
+	
 	/*
 	 * public void release() { CommConnection.getInstance().release(); }
 	 */

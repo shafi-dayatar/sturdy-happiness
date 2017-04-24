@@ -46,8 +46,13 @@ public class CommHandler extends SimpleChannelInboundHandler<CommandMessage> {
 	protected static Logger logger = LoggerFactory.getLogger("connect");
 	protected ConcurrentMap<String, CommListener> listeners = new ConcurrentHashMap<String, CommListener>();
 	//private volatile Channel channel;
-
+	
+	private String host;
+	private int port;
+	//private  MessageClient mc = new MessageClient(host,port);
+	private MessageClient mc = new MessageClient();
 	public CommHandler() {
+		//this.mc =mc;
 	}
 
 	/**
@@ -60,6 +65,10 @@ public class CommHandler extends SimpleChannelInboundHandler<CommandMessage> {
 	 * 
 	 * @param listener
 	 */
+//	public void take(String host, int port){
+//		this.host =host;
+//		this.port = port;
+//	}
 	public void addListener(CommListener listener) {
 		if (listener == null)
 			return;
@@ -90,15 +99,17 @@ public class CommHandler extends SimpleChannelInboundHandler<CommandMessage> {
 //		}
 		System.out.println("im in");
 	//logger.info("Request received at server : " + msg.toString());
-		if(msg.hasReq()){
+		if(msg.hasResp()){
 			
-			switch(msg.getReq().getRequestType()){
+			switch(msg.getResp().getResponseType()){
 		
 		
 		    case RESPONSEREADFILE:
+		    	//System.out.println("I'm here");
 		    	ReadResponse readRes = msg.getResp().getReadResponse();
-		    	System.out.println(readRes.getChunkLocationCount()+"  "+readRes.getChunkLocationList().toString()+"");
-		    	//int missingChunk = serverState.getRaftState().writeFile(writeReq);
+		    	System.out.println(readRes.getNumOfChunks());
+		    	mc.sendfileReadRequests(msg);
+		    	//System.out.println("chunkloccount"+readRes.getChunkLocationCount()+" loc list "+readRes.getChunkLocationList().toString()+"");
 		    	break;
 		    case REQUESTREADFILE:
 		    	ReadBody readReq = msg.getReq().getRrb();

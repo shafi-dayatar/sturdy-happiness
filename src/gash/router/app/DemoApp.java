@@ -27,6 +27,7 @@ import com.google.protobuf.ByteString;
 
 import gash.router.client.CommConnection;
 import gash.router.client.CommListener;
+import gash.router.client.*;
 import gash.router.client.MessageClient;
 import gash.router.server.messages.Message;
 import routing.Pipe;
@@ -103,6 +104,8 @@ public class DemoApp implements CommListener {
 			}
 			MessageClient mc = new MessageClient(args[0], Integer.parseInt(args[1]));
 			DemoApp da = new DemoApp(mc);
+//			CommHandler ch = new CommHandler();
+//			ch.take(args[0], Integer.parseInt(args[1]));
 			if(args.length == 2){
 				da.mc.ping();
 			}
