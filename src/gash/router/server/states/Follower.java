@@ -39,6 +39,7 @@ import pipe.work.Work.WorkMessage;
 import pipe.work.Work.WorkMessage.MessageType;
 import routing.*;
 import routing.Pipe;
+import routing.Pipe.CommandMessage;
 import routing.Pipe.ReadBody;
 import routing.Pipe.ReadResponse;
 import routing.Pipe.Response;
@@ -343,11 +344,6 @@ public class Follower implements RaftServerState {
 
 	}
 
-	@Override
-	public WorkMessage getWork() {
-		//TODO : Add logic to check if the work message can be handled by the requested node id
-		return state.getInBoundMessageQueue().getQueuedMessage();
-	}
 
 	public void startElection() {
 		// TODO Auto-generated method stub	
@@ -381,6 +377,12 @@ public class Follower implements RaftServerState {
 	public Status writeFile(WriteBody writeBody) {
 		// TODO Auto-generated method stub
 		return Status.NOLEADER;
+	}
+
+	@Override
+	public CommandMessage getWork(int node_id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

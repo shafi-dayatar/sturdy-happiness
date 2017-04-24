@@ -19,6 +19,7 @@ import gash.router.server.states.Follower;
 import gash.router.server.states.Leader;
 import gash.router.server.tasks.TaskList;
 import pipe.common.Common.Node;
+import routing.Pipe;
 
 public class ServerState {
 	private RaftServerState raftState;
@@ -226,7 +227,7 @@ public class ServerState {
 		String filename = msg.getReq().getRrb().getFilename();
 		ChunkRow chunkRow = getDb().getChunkRowById(msg.getReq().getRrb().getChunkId());
 		logger.info(" checking for " + chunkRow.getLocation_at() + " message req filename  " + filename);
-		if(chunkRow!= null){
+		if(chunkRow != null){
 
 			if(chunkRow.getLocation_at().contains(Integer.toString(this.nodeId))) {
 				logger.info(" node_id " + this.nodeId + " will steal for " + filename + " of type " + msg.getReq().getRequestType());
@@ -238,7 +239,6 @@ public class ServerState {
 			}
 
 		}
-
 		return false;
 	}
 
