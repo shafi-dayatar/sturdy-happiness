@@ -29,14 +29,14 @@ public class LogInfo implements LogOperations {
 	private Integer commitIndex; // change it to atomic integer
 	private Integer lastApplied;// change it to atomic integer 
 
-	private int thresholdSize = 500;
+	private int thresholdSize = 100;
 	private String logStoreDir = "./resources/files";
 	
 	public LogInfo() {
 		log = new Hashtable<Integer, LogEntry>();
 		commitIndex = (int) 0;
 		lastApplied = (int) 0;
-		//restoreLogSegment();
+		restoreLogSegment();
 	}
 	
 	/**
@@ -82,27 +82,22 @@ public class LogInfo implements LogOperations {
 		
 		IOUtility.insertLogEntry(la.getLogId(), fileId, filename, fileExt, chunkId, locatedAt, totalChunks);
 		this.commitIndex = commitIndex;
-		/*if (commitIndex % thresholdSize == 0){
+		if (commitIndex % thresholdSize == 0){
 			storeLogSegment();
-		}*/
+		}
 	}
 	
 	public void storeLogSegment() {
-		// lastEntry = log.get(lastIndex());
 
 		long lastIndex = lastIndex();
 		long commitIndex = getCommitIndex();
 		String fileName = "Raft.log";
 
 		try {
-			log.remove(lastIndex());
-
 			File file = new File(logStoreDir,fileName);
-
 			if(!file.exists()) {
 				file.createNewFile(); 
 			}
-
 			ObjectOutputStream o = new ObjectOutputStream(new FileOutputStream(file));
 			o.writeLong(lastIndex);
 			o.writeLong(commitIndex);
@@ -115,8 +110,6 @@ public class LogInfo implements LogOperations {
 	
 	@SuppressWarnings("unchecked")
 	public void restoreLogSegment() {
-		// lastEntry = log.get(lastIndex());
-
 
 		String fileName = "Raft.log";
 
