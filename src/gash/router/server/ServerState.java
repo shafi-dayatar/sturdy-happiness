@@ -257,7 +257,7 @@ public class ServerState {
 	private int[] filterOutLeader(int[] locations){
 		List<Integer> result = new ArrayList<Integer>();
 		for (int i : locations){
-			if(this.leaderNodeId != i){
+			if(this.getNodeId() != i){
 				result.add(i);
 			}
 		}
