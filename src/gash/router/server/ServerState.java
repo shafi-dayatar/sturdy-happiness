@@ -257,9 +257,9 @@ public class ServerState {
 		return arr[rnd];
 	}
 	public int getRandomNodeWithChunk(int chunkid){
-
+		logger.info(" Getting node location for chunnk id :" + chunkid);
 		ChunkRow chunkRow = getDb().getChunkRowById(chunkid);
-		logger.info(" checking for " + chunkRow.getLocation_at() + " message req");
+
 		if(chunkRow!= null){
 			int[] locations = transformLocationAt(chunkRow.getLocation_at());
 			// now randomly pick a location and reroute the message to them
@@ -268,6 +268,7 @@ public class ServerState {
 
 			return getRandom(locations);
 		}
+		logger.info(" chunk id not found ");
 		return -1;
 
 	}
