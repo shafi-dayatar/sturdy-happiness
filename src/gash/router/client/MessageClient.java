@@ -158,7 +158,7 @@ public class MessageClient {
 			if (file_name == null) {
 				return;
 			}
-			createFileChunks(file);
+			//createFileChunks(file);
 			ArrayList<ByteString> chunks = chunkFile(file);
 			if (chunks == null) {
 				return;

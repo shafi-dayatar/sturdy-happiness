@@ -1,5 +1,6 @@
 package gash.router.server;
 
+import gash.router.server.db.ChunkRow;
 import gash.router.server.states.Candidate;
 import gash.router.server.states.RaftServerState;
 
@@ -15,6 +16,10 @@ import gash.router.server.states.Follower;
 import gash.router.server.states.Leader;
 import gash.router.server.tasks.TaskList;
 import pipe.common.Common.Node;
+import pipe.work.Work;
+import routing.Pipe;
+
+import java.util.Map;
 
 public class ServerState {
 	private RaftServerState raftState;
@@ -206,4 +211,28 @@ public class ServerState {
 		this.db = db;
 	}
 
+	public boolean assertServability(Pipe.CommandMessage msg){
+		String filename = msg.getReq().getRrb().getFilename();
+		ChunkRow chunkRow = getDb().getChunkRowById(msg.getReq().getRrb().getChunkId());
+		logger.info(" checking for " + chunkRow.getLocation_at() + " message req filename  " + filename);
+		if(chunkRow!= null){
+
+			if(chunkRow.getLocation_at().contains(Integer.toString(this.nodeId))) {
+				logger.info(" node_id " + this.nodeId + " will steal for " + filename + " of type " + msg.getReq().getRequestType());
+				//yes the node can steal this task now
+				return true;
+			} else {
+
+				return false;
+			}
+
+		}
+
+		return false;
+	}
+
+	public void identiyRouteForMessage(){
+
+
+	}
 }

@@ -43,4 +43,10 @@ public class IOUtility {
 
 	}
 
+	public ChunkRow getChunkRowById(int id) {
+		// TODO Auto-generated method stub
+		return sqlClient.getChunkRowById(id);
+
+	}
+
 }

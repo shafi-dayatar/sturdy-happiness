@@ -3270,17 +3270,17 @@ public final class Work {
     FileChunkDataOrBuilder getChunkDataOrBuilder();
 
     /**
-     * <code>optional .WorkMessage stolenWork = 16;</code>
+     * <code>optional .CommandMessage stolenWork = 16;</code>
      */
     boolean hasStolenWork();
     /**
-     * <code>optional .WorkMessage stolenWork = 16;</code>
+     * <code>optional .CommandMessage stolenWork = 16;</code>
      */
-    WorkMessage getStolenWork();
+    routing.Pipe.CommandMessage getStolenWork();
     /**
-     * <code>optional .WorkMessage stolenWork = 16;</code>
+     * <code>optional .CommandMessage stolenWork = 16;</code>
      */
-    WorkMessageOrBuilder getStolenWorkOrBuilder();
+    routing.Pipe.CommandMessageOrBuilder getStolenWorkOrBuilder();
   }
   /**
    * Protobuf type {@code WorkMessage}
@@ -3516,13 +3516,13 @@ public final class Work {
               break;
             }
             case 130: {
-              Builder subBuilder = null;
+              routing.Pipe.CommandMessage.Builder subBuilder = null;
               if (payloadCase_ == 16) {
-                subBuilder = ((WorkMessage) payload_).toBuilder();
+                subBuilder = ((routing.Pipe.CommandMessage) payload_).toBuilder();
               }
-              payload_ = input.readMessage(WorkMessage.PARSER, extensionRegistry);
+              payload_ = input.readMessage(routing.Pipe.CommandMessage.PARSER, extensionRegistry);
               if (subBuilder != null) {
-                subBuilder.mergeFrom((WorkMessage) payload_);
+                subBuilder.mergeFrom((routing.Pipe.CommandMessage) payload_);
                 payload_ = subBuilder.buildPartial();
               }
               payloadCase_ = 16;
@@ -4259,28 +4259,28 @@ public final class Work {
 
     public static final int STOLENWORK_FIELD_NUMBER = 16;
     /**
-     * <code>optional .WorkMessage stolenWork = 16;</code>
+     * <code>optional .CommandMessage stolenWork = 16;</code>
      */
     public boolean hasStolenWork() {
       return payloadCase_ == 16;
     }
     /**
-     * <code>optional .WorkMessage stolenWork = 16;</code>
+     * <code>optional .CommandMessage stolenWork = 16;</code>
      */
-    public WorkMessage getStolenWork() {
+    public routing.Pipe.CommandMessage getStolenWork() {
       if (payloadCase_ == 16) {
-         return (WorkMessage) payload_;
+         return (routing.Pipe.CommandMessage) payload_;
       }
-      return WorkMessage.getDefaultInstance();
+      return routing.Pipe.CommandMessage.getDefaultInstance();
     }
     /**
-     * <code>optional .WorkMessage stolenWork = 16;</code>
+     * <code>optional .CommandMessage stolenWork = 16;</code>
      */
-    public WorkMessageOrBuilder getStolenWorkOrBuilder() {
+    public routing.Pipe.CommandMessageOrBuilder getStolenWorkOrBuilder() {
       if (payloadCase_ == 16) {
-         return (WorkMessage) payload_;
+         return (routing.Pipe.CommandMessage) payload_;
       }
-      return WorkMessage.getDefaultInstance();
+      return routing.Pipe.CommandMessage.getDefaultInstance();
     }
 
     private void initFields() {
@@ -4436,7 +4436,7 @@ public final class Work {
         output.writeMessage(15, (FileChunkData) payload_);
       }
       if (payloadCase_ == 16) {
-        output.writeMessage(16, (WorkMessage) payload_);
+        output.writeMessage(16, (routing.Pipe.CommandMessage) payload_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -4510,7 +4510,7 @@ public final class Work {
       }
       if (payloadCase_ == 16) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(16, (WorkMessage) payload_);
+          .computeMessageSize(16, (routing.Pipe.CommandMessage) payload_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -6783,33 +6783,33 @@ public final class Work {
       }
 
       private com.google.protobuf.SingleFieldBuilder<
-          WorkMessage, Builder, WorkMessageOrBuilder> stolenWorkBuilder_;
+          routing.Pipe.CommandMessage, routing.Pipe.CommandMessage.Builder, routing.Pipe.CommandMessageOrBuilder> stolenWorkBuilder_;
       /**
-       * <code>optional .WorkMessage stolenWork = 16;</code>
+       * <code>optional .CommandMessage stolenWork = 16;</code>
        */
       public boolean hasStolenWork() {
         return payloadCase_ == 16;
       }
       /**
-       * <code>optional .WorkMessage stolenWork = 16;</code>
+       * <code>optional .CommandMessage stolenWork = 16;</code>
        */
-      public WorkMessage getStolenWork() {
+      public routing.Pipe.CommandMessage getStolenWork() {
         if (stolenWorkBuilder_ == null) {
           if (payloadCase_ == 16) {
-            return (WorkMessage) payload_;
+            return (routing.Pipe.CommandMessage) payload_;
           }
-          return WorkMessage.getDefaultInstance();
+          return routing.Pipe.CommandMessage.getDefaultInstance();
         } else {
           if (payloadCase_ == 16) {
             return stolenWorkBuilder_.getMessage();
           }
-          return WorkMessage.getDefaultInstance();
+          return routing.Pipe.CommandMessage.getDefaultInstance();
         }
       }
       /**
-       * <code>optional .WorkMessage stolenWork = 16;</code>
+       * <code>optional .CommandMessage stolenWork = 16;</code>
        */
-      public Builder setStolenWork(WorkMessage value) {
+      public Builder setStolenWork(routing.Pipe.CommandMessage value) {
         if (stolenWorkBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -6823,10 +6823,10 @@ public final class Work {
         return this;
       }
       /**
-       * <code>optional .WorkMessage stolenWork = 16;</code>
+       * <code>optional .CommandMessage stolenWork = 16;</code>
        */
       public Builder setStolenWork(
-          Builder builderForValue) {
+          routing.Pipe.CommandMessage.Builder builderForValue) {
         if (stolenWorkBuilder_ == null) {
           payload_ = builderForValue.build();
           onChanged();
@@ -6837,13 +6837,13 @@ public final class Work {
         return this;
       }
       /**
-       * <code>optional .WorkMessage stolenWork = 16;</code>
+       * <code>optional .CommandMessage stolenWork = 16;</code>
        */
-      public Builder mergeStolenWork(WorkMessage value) {
+      public Builder mergeStolenWork(routing.Pipe.CommandMessage value) {
         if (stolenWorkBuilder_ == null) {
           if (payloadCase_ == 16 &&
-              payload_ != WorkMessage.getDefaultInstance()) {
-            payload_ = WorkMessage.newBuilder((WorkMessage) payload_)
+              payload_ != routing.Pipe.CommandMessage.getDefaultInstance()) {
+            payload_ = routing.Pipe.CommandMessage.newBuilder((routing.Pipe.CommandMessage) payload_)
                 .mergeFrom(value).buildPartial();
           } else {
             payload_ = value;
@@ -6859,7 +6859,7 @@ public final class Work {
         return this;
       }
       /**
-       * <code>optional .WorkMessage stolenWork = 16;</code>
+       * <code>optional .CommandMessage stolenWork = 16;</code>
        */
       public Builder clearStolenWork() {
         if (stolenWorkBuilder_ == null) {
@@ -6878,37 +6878,37 @@ public final class Work {
         return this;
       }
       /**
-       * <code>optional .WorkMessage stolenWork = 16;</code>
+       * <code>optional .CommandMessage stolenWork = 16;</code>
        */
-      public Builder getStolenWorkBuilder() {
+      public routing.Pipe.CommandMessage.Builder getStolenWorkBuilder() {
         return getStolenWorkFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .WorkMessage stolenWork = 16;</code>
+       * <code>optional .CommandMessage stolenWork = 16;</code>
        */
-      public WorkMessageOrBuilder getStolenWorkOrBuilder() {
+      public routing.Pipe.CommandMessageOrBuilder getStolenWorkOrBuilder() {
         if ((payloadCase_ == 16) && (stolenWorkBuilder_ != null)) {
           return stolenWorkBuilder_.getMessageOrBuilder();
         } else {
           if (payloadCase_ == 16) {
-            return (WorkMessage) payload_;
+            return (routing.Pipe.CommandMessage) payload_;
           }
-          return WorkMessage.getDefaultInstance();
+          return routing.Pipe.CommandMessage.getDefaultInstance();
         }
       }
       /**
-       * <code>optional .WorkMessage stolenWork = 16;</code>
+       * <code>optional .CommandMessage stolenWork = 16;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
-          WorkMessage, Builder, WorkMessageOrBuilder>
+          routing.Pipe.CommandMessage, routing.Pipe.CommandMessage.Builder, routing.Pipe.CommandMessageOrBuilder> 
           getStolenWorkFieldBuilder() {
         if (stolenWorkBuilder_ == null) {
           if (!(payloadCase_ == 16)) {
-            payload_ = WorkMessage.getDefaultInstance();
+            payload_ = routing.Pipe.CommandMessage.getDefaultInstance();
           }
           stolenWorkBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-              WorkMessage, Builder, WorkMessageOrBuilder>(
-                  (WorkMessage) payload_,
+              routing.Pipe.CommandMessage, routing.Pipe.CommandMessage.Builder, routing.Pipe.CommandMessageOrBuilder>(
+                  (routing.Pipe.CommandMessage) payload_,
                   getParentForChildren(),
                   isClean());
           payload_ = null;
@@ -12318,7 +12318,7 @@ public final class Work {
       "es_id\030\001 \002(\003\022\016\n\006seq_id\030\002 \002(\005\022\034\n\003msg\030\003 \001(\013" +
       "2\017.CommandMessage\"U\n\tDiscovery\022\034\n\rroutin" +
       "g_table\030\001 \003(\0132\005.Node\022\023\n\004node\030\002 \001(\0132\005.Nod" +
-      "e\022\025\n\006leader\030\003 \001(\0132\005.Node\"\350\007\n\013WorkMessage" +
+      "e\022\025\n\006leader\030\003 \001(\0132\005.Node\"\353\007\n\013WorkMessage" +
       "\022\027\n\006header\030\001 \002(\0132\007.Header\022\016\n\006secret\030\002 \002(" +
       "\003\022&\n\004type\030\003 \002(\0162\030.WorkMessage.MessageTyp",
       "e\022\027\n\003err\030\004 \001(\0132\010.FailureH\000\022\016\n\004ping\030\005 \001(\010" +
@@ -12331,39 +12331,39 @@ public final class Work {
       "lectionResponseH\000\022-\n\022log_append_entries\030" +
       "\r \001(\0132\017.LogAppendEntryH\000\022/\n\021logAppendRes" +
       "ponse\030\016 \001(\0132\022.LogAppendResponseH\000\022$\n\nchu",
-      "nk_data\030\017 \001(\0132\016.FileChunkDataH\000\022\"\n\nstole" +
-      "nWork\030\020 \001(\0132\014.WorkMessageH\000\"\252\003\n\013MessageT" +
-      "ype\022\020\n\014DISCOVERNODE\020\001\022\025\n\021DISCOVERNODEREP" +
-      "LY\020\002\022\022\n\016LEADERELECTION\020\003\022\027\n\023LEADERELECTI" +
-      "ONREPLY\020\004\022\020\n\014LEADERSTATUS\020\005\022\025\n\021LEADERSTA" +
-      "TUSREPLY\020\006\022\r\n\tHEARTBEAT\020\007\022\010\n\004PING\020\010\022\r\n\tP" +
-      "INGREPLY\020\t\022\013\n\007FAILURE\020\n\022\r\n\tWORKSTATE\020\013\022\022" +
-      "\n\016WORKSTATEREPLY\020\014\022\022\n\016LOGAPPENDENTRY\020\r\022\025" +
-      "\n\021LOGAPPENDRESPONSE\020\016\022\025\n\021CHUNKFILEDATARE" +
-      "AD\020\017\022\026\n\022CHUNKFILEDATAWRITE\020\020\022\035\n\031CHUNKFIL",
-      "EDATAREADRESPONSE\020\021\022\036\n\032CHUNKFILEDATAWRIT" +
-      "ERESPONSE\020\022\022\024\n\020WORKSTEALREQUEST\020\023\022\025\n\021WOR" +
-      "KSTEALRESPONSE\020\024B\t\n\007payload\"8\n\007Command\022\013" +
-      "\n\003key\030\001 \002(\t\022\r\n\005value\030\002 \002(\t\022\021\n\tclient_id\030" +
-      "\003 \002(\005\"\213\001\n\010LogEntry\022$\n\006action\030\001 \002(\0162\024.Log" +
-      "Entry.DataAction\022\026\n\004data\030\002 \003(\0132\010.Command" +
-      "\022\014\n\004term\030\003 \002(\005\022\r\n\005logId\030\004 \002(\005\"$\n\nDataAct" +
-      "ion\022\n\n\006INSERT\020\001\022\n\n\006UPDATE\020\002\"(\n\014LogEntryL" +
-      "ist\022\030\n\005entry\030\001 \003(\0132\t.LogEntry\"\323\001\n\016LogApp" +
-      "endEntry\022\025\n\relection_term\030\001 \002(\005\022\026\n\016leade",
-      "r_node_id\030\002 \001(\005\022\026\n\016prev_log_index\030\003 \001(\005\022" +
-      "\025\n\rprev_log_term\030\004 \001(\005\022\033\n\023leader_commit_" +
-      "index\030\005 \001(\005\022 \n\tentrylist\030\006 \001(\0132\r.LogEntr" +
-      "yList\022\017\n\007success\030\007 \001(\010\022\023\n\013isHeartBeat\030\010 " +
-      "\001(\010\"\267\001\n\021LogAppendResponse\022\025\n\relection_te" +
-      "rm\030\001 \002(\005\022\024\n\014from_node_id\030\002 \001(\005\022\026\n\016prev_l" +
-      "og_index\030\003 \001(\005\022\025\n\rprev_log_term\030\004 \001(\005\022\033\n" +
-      "\023leader_commit_index\030\005 \001(\005\022\024\n\014responseFl" +
-      "ag\030\007 \002(\010\022\023\n\013isHeartBeat\030\010 \001(\010\"|\n\rFileChu" +
-      "nkData\022\020\n\010reply_to\030\005 \001(\005\022\017\n\007file_id\030\001 \002(",
-      "\005\022\021\n\tfile_name\030\002 \002(\t\022\020\n\010chunk_id\030\003 \002(\005\022\022" +
-      "\n\nchunk_data\030\004 \001(\014\022\017\n\007success\030\006 \001(\010B\r\n\tp" +
-      "ipe.workH\001"
+      "nk_data\030\017 \001(\0132\016.FileChunkDataH\000\022%\n\nstole" +
+      "nWork\030\020 \001(\0132\017.CommandMessageH\000\"\252\003\n\013Messa" +
+      "geType\022\020\n\014DISCOVERNODE\020\001\022\025\n\021DISCOVERNODE" +
+      "REPLY\020\002\022\022\n\016LEADERELECTION\020\003\022\027\n\023LEADERELE" +
+      "CTIONREPLY\020\004\022\020\n\014LEADERSTATUS\020\005\022\025\n\021LEADER" +
+      "STATUSREPLY\020\006\022\r\n\tHEARTBEAT\020\007\022\010\n\004PING\020\010\022\r" +
+      "\n\tPINGREPLY\020\t\022\013\n\007FAILURE\020\n\022\r\n\tWORKSTATE\020" +
+      "\013\022\022\n\016WORKSTATEREPLY\020\014\022\022\n\016LOGAPPENDENTRY\020" +
+      "\r\022\025\n\021LOGAPPENDRESPONSE\020\016\022\025\n\021CHUNKFILEDAT" +
+      "AREAD\020\017\022\026\n\022CHUNKFILEDATAWRITE\020\020\022\035\n\031CHUNK",
+      "FILEDATAREADRESPONSE\020\021\022\036\n\032CHUNKFILEDATAW" +
+      "RITERESPONSE\020\022\022\024\n\020WORKSTEALREQUEST\020\023\022\025\n\021" +
+      "WORKSTEALRESPONSE\020\024B\t\n\007payload\"8\n\007Comman" +
+      "d\022\013\n\003key\030\001 \002(\t\022\r\n\005value\030\002 \002(\t\022\021\n\tclient_" +
+      "id\030\003 \002(\005\"\213\001\n\010LogEntry\022$\n\006action\030\001 \002(\0162\024." +
+      "LogEntry.DataAction\022\026\n\004data\030\002 \003(\0132\010.Comm" +
+      "and\022\014\n\004term\030\003 \002(\005\022\r\n\005logId\030\004 \002(\005\"$\n\nData" +
+      "Action\022\n\n\006INSERT\020\001\022\n\n\006UPDATE\020\002\"(\n\014LogEnt" +
+      "ryList\022\030\n\005entry\030\001 \003(\0132\t.LogEntry\"\323\001\n\016Log" +
+      "AppendEntry\022\025\n\relection_term\030\001 \002(\005\022\026\n\016le",
+      "ader_node_id\030\002 \001(\005\022\026\n\016prev_log_index\030\003 \001" +
+      "(\005\022\025\n\rprev_log_term\030\004 \001(\005\022\033\n\023leader_comm" +
+      "it_index\030\005 \001(\005\022 \n\tentrylist\030\006 \001(\0132\r.LogE" +
+      "ntryList\022\017\n\007success\030\007 \001(\010\022\023\n\013isHeartBeat" +
+      "\030\010 \001(\010\"\267\001\n\021LogAppendResponse\022\025\n\relection" +
+      "_term\030\001 \002(\005\022\024\n\014from_node_id\030\002 \001(\005\022\026\n\016pre" +
+      "v_log_index\030\003 \001(\005\022\025\n\rprev_log_term\030\004 \001(\005" +
+      "\022\033\n\023leader_commit_index\030\005 \001(\005\022\024\n\014respons" +
+      "eFlag\030\007 \002(\010\022\023\n\013isHeartBeat\030\010 \001(\010\"|\n\rFile" +
+      "ChunkData\022\020\n\010reply_to\030\005 \001(\005\022\017\n\007file_id\030\001",
+      " \002(\005\022\021\n\tfile_name\030\002 \002(\t\022\020\n\010chunk_id\030\003 \002(" +
+      "\005\022\022\n\nchunk_data\030\004 \001(\014\022\017\n\007success\030\006 \001(\010B\r" +
+      "\n\tpipe.workH\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
