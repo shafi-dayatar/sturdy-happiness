@@ -16,7 +16,7 @@ public class SqlClient{
     File conf;
     //  Database credentials
     String USER = "root";
-    String PASSWORD = "root";
+    String PASSWORD = "password";
 
     Connection connection = null;
     Statement stmt = null;
@@ -303,7 +303,7 @@ public class SqlClient{
 			if (fileId == -1){
 				PreparedStatement fileQuery = connection.prepareStatement("select name, total_chunks "
 						+ "from files where name = ? and file_ext = ?");
-				String [] str  = filename.split(".");
+				String [] str = filename.split(".");
 				fileQuery.setString(1, str[0]);
 				fileQuery.setString(2, str[1]);
 				ResultSet rs = fileQuery.executeQuery();
