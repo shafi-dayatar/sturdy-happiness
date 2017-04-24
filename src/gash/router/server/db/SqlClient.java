@@ -254,6 +254,7 @@ public class SqlClient{
     
 	public Integer[][] getChunks(String fileName) {
 		// TODO Auto-generated method stub
+		System.out.println("Filename" + fileName);
 		Integer[][] data = null;
 		try {
 			PreparedStatement fileQuery = connection.prepareStatement("select id, name, total_chunks "
@@ -262,15 +263,18 @@ public class SqlClient{
 			fileQuery.setString(1, str[0]);
 			fileQuery.setString(2, str[1]);
 			ResultSet rs = fileQuery.executeQuery();
+			
 			if (rs.next()){
-				int total_chunks = rs.getInt(3); 
+				System.out.println("1st"+rs.getInt(1)+"2nd"+rs.getString(2)+"3rd"+rs.getInt(3));
+				int total_chunks = rs.getInt(3);
+				System.out.println("total chunks"+total_chunks);
 				data = new Integer [total_chunks][4];
 				PreparedStatement chunksQuery = connection.prepareStatement("select file_id, chunk_id, chunk_size, location_at "
 					+ "from chunks where file_id = ?");		
 				chunksQuery.setInt(1, rs.getInt(1));
 				rs = chunksQuery.executeQuery();
 				 
-				int i = 1;
+				int i = 0;
 				while(rs.next()){
 					data[i][0] = rs.getInt(1);
 					data[i][1] = rs.getInt(2);
