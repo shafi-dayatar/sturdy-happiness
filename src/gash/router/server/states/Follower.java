@@ -323,16 +323,17 @@ public class Follower implements RaftServerState {
 		//Follower can steal work
 		try
 		{
-			for(Common.Node node : this.state.getEmon().getOutBoundRouteTable()){
+			if(state.isLeaderKnown()){
 				WorkMessage.Builder msgBuilder = WorkMessage.newBuilder();
 				msgBuilder.setSecret(9999999);
 				msgBuilder.setType(MessageType.WORKSTEALREQUEST);
 				Header.Builder hd = Header.newBuilder();
-				hd.setDestination(node.getNodeId());
+				hd.setDestination(state.getLeaderId());
 				hd.setNodeId(state.getNodeId());
 				hd.setTime(System.currentTimeMillis());
 				msgBuilder.setHeader(hd);
 				state.getOutBoundMessageQueue().addMessage(msgBuilder.build());
+
 			}
 
 		} catch (Exception e) {
@@ -344,9 +345,10 @@ public class Follower implements RaftServerState {
 	}
 
 	@Override
-	public WorkMessage getWork() {
+	public Pipe.CommandMessage getWork() {
 		//TODO : Add logic to check if the work message can be handled by the requested node id
-		return state.getInBoundMessageQueue().getQueuedMessage();
+		//return state.getInBoundMessageQueue().getQueuedMessage().getStolenWork();
+		return null;
 	}
 
 	public void startElection() {

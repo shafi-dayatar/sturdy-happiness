@@ -30,7 +30,7 @@ public class WorkStealMessage extends Message {
         switch(msg.getType()){
             case WORKSTEALREQUEST:
                 //check if it has any in its queue and respond
-               Pipe.CommandMessage stolenCmdMessage = state.getRaftState().getWork(msg.getHeader().getNodeId());
+               Pipe.CommandMessage stolenCmdMessage = state.getRaftState().getWork();
                 if(stolenCmdMessage != null){
                     WorkMessage.Builder wmsgBuilder = WorkMessage.newBuilder();
                     wmsgBuilder.setSecret(9999999);
@@ -48,7 +48,7 @@ public class WorkStealMessage extends Message {
                 break;
             case WORKSTEALRESPONSE:
                 Pipe.CommandMessage stolenMessage = msg.getStolenWork();
-                if(state.assertServability(stolenMessage)){
+                if(state.assertServability(msg)){
                     stolenMessage.getReq().getRrb();
                     Work.FileChunkData.Builder data = Work.FileChunkData.newBuilder();
                     data.setChunkId(stolenMessage.getReq().getRrb().getChunkId());

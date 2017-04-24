@@ -18,6 +18,7 @@ import pipe.common.Common.Header;
 import pipe.common.Common.Node;
 import pipe.election.Election;
 import pipe.election.Election.LeaderElection;
+import pipe.work.Work;
 import pipe.work.Work.Command;
 import pipe.work.Work.FileChunkData;
 import pipe.work.Work.LogAppendEntry;
@@ -377,7 +378,7 @@ public class Leader implements RaftServerState, Runnable {
 	}
 
 	@Override
-	public CommandMessage getWork(int node_id) {
+	public CommandMessage getWork() {
 		Work.Task task = state.getTasks().dequeue();
 		return task == null ? null : task.getMsg();
 	}

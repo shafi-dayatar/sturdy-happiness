@@ -211,7 +211,7 @@ public class Candidate implements RaftServerState {
 	}
 
 	@Override
-	public WorkMessage getWork() {
+	public Pipe.CommandMessage getWork() {
 		return null;
 	}
 
