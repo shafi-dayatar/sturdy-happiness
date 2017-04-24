@@ -12,6 +12,9 @@ import pipe.common.Common.Header;
 import pipe.work.Work.FileChunkData;
 import pipe.work.Work.WorkMessage;
 import pipe.work.Work.WorkMessage.MessageType;
+import routing.Pipe;
+
+import java.nio.channels.Channel;
 
 public class FileChunk extends Message {
 	
@@ -39,7 +42,7 @@ protected static Logger logger = LoggerFactory.getLogger("LogAppendEntry Message
     		serverState.writeChunkData(chunk);
     		break;
     	case CHUNKFILEDATAREADRESPONSE:
-    		//serverState.readChunkDataResponse(chunk);
+			sendReadResponse(state);
     		break;
     	case CHUNKFILEDATAWRITERESPONSE:
     		//serverState.writeChunkDataResponse(chunk);
@@ -54,7 +57,19 @@ protected static Logger logger = LoggerFactory.getLogger("LogAppendEntry Message
     	} 
         return;
     }
-    
+    private void sendReadResponse(ServerState state){
+		io.netty.channel.Channel channel = state.connectionManager.getConnection(chunk.getReplyTo());
+		Pipe.Response.Builder respBuilder = Pipe.Response.newBuilder();
+		respBuilder.setResponseType(Pipe.TaskType.RESPONSEREADFILE);
+		Pipe.ReadResponse.Builder readRespBuilder = Pipe.ReadResponse.newBuilder();
+		readRespBuilder.setFilename(chunk.getFileName());
+		Pipe.Chunk.Builder chunkBuilder = Pipe.Chunk.newBuilder();
+		chunkBuilder.setChunkId(chunk.getChunkId());
+		chunkBuilder.setChunkData(chunk.getChunkData());
+		readRespBuilder.setChunk(chunkBuilder.build());
+		respBuilder.setReadResponse(readRespBuilder.build());
+		state.sendReadResponse(channel, respBuilder.build(), chunk.getReplyTo());
+	}
 	public static WorkMessage createFileWriteMessage(int source, int dest, int fileId, int chunkId, String FileName,
 			ByteString chunkData) {
 		WorkMessage.Builder msgBuilder = WorkMessage.newBuilder();

@@ -6,6 +6,7 @@ import gash.router.server.states.RaftServerState;
 
 import gash.router.server.states.ElectionTimer;
 import gash.router.server.tasks.ReadTaskQueue;
+import io.netty.channel.Channel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -312,6 +313,18 @@ public class ServerState {
 
 	public void setReadTaskQueue(ReadTaskQueue readTaskQueue) {
 		this.readTaskQueue = readTaskQueue;
+	}
+
+	public void sendReadResponse(Channel channel, Pipe.Response rsp, int clientNodeId){
+		logger.info("Preparing to send read response for nodeid: "+ clientNodeId );
+		Pipe.CommandMessage.Builder cmdMsg = Pipe.CommandMessage.newBuilder();
+		Common.Header.Builder hd = Common.Header.newBuilder();
+		hd.setNodeId(this.getNodeId());
+		hd.setTime(System.currentTimeMillis());
+		hd.setDestination(clientNodeId);
+		cmdMsg.setResp(rsp);
+		cmdMsg.setHeader(hd);
+		channel.writeAndFlush(cmdMsg.build());
 	}
 
 }

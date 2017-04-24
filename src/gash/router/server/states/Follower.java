@@ -253,7 +253,7 @@ public class Follower implements RaftServerState {
 	    	msgBuilder.setSecret(9999999);
 	    	msgBuilder.setType(MessageType.CHUNKFILEDATAREADRESPONSE);
 	    	Header.Builder hd = Header.newBuilder();
-	    	hd.setDestination(chunk.getReplyTo());
+	    	hd.setDestination(state.getLeaderId());
 	    	hd.setNodeId(state.getNodeId());
 	    	hd.setTime(System.currentTimeMillis());
 	    	
@@ -262,6 +262,7 @@ public class Follower implements RaftServerState {
 	    	data.setChunkId(chunk.getChunkId());
 	    	data.setFileName(chunk.getFileName());
 	    	data.setChunkData(ByteString.copyFrom(fileData));
+			data.setReplyTo(chunk.getReplyTo());
 	    	data.setSuccess(true);
 	    	
 	    	msgBuilder.setHeader(hd);
