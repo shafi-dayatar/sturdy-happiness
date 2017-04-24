@@ -58,6 +58,8 @@ protected static Logger logger = LoggerFactory.getLogger("LogAppendEntry Message
         return;
     }
     private void sendReadResponse(ServerState state){
+    	System.out.println( " Chunk at sendReadRespone ");
+    	System.out.println( " chunkid " + chunk.getChunkId() + " fileid:  " + chunk.getFileId() + " fname:  " + chunk.getFileName());
 		io.netty.channel.Channel channel = state.connectionManager.getConnection(chunk.getReplyTo());
 		Pipe.Response.Builder respBuilder = Pipe.Response.newBuilder();
 		respBuilder.setResponseType(Pipe.TaskType.RESPONSEREADFILE);
