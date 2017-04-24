@@ -30,9 +30,9 @@ public class WriteFileTest {
 	  public void testMultiply() throws NullPointerException, Exception {
 	    File file = new File("/Users/shafidayatar/Desktop/Gash-EnterpriseApp-275/sturdy-happiness/build_pb_shafi.sh");
 	    ArrayList<ByteString> chunks = mc.chunkFile(file);
-	    for(int i = 1;i <= 1000;i++){
+	    for(int i = 1;i <= 1000;i++)
 	    	
-	    CommConnection.getInstance().enqueue(mc.buildWCommandMessage("build_pb_shafi_"+i, chunks));}
+	   // CommConnection.getInstance().enqueue(mc.buildWCommandMessage("build_pb_shafi_"+i, chunks));
 	    Thread.sleep(10000);
 	  }
 }

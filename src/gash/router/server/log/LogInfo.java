@@ -29,14 +29,14 @@ public class LogInfo implements LogOperations {
 	private Integer commitIndex; // change it to atomic integer
 	private Integer lastApplied;// change it to atomic integer 
 
-	private int thresholdSize = 100;
+	private int thresholdSize = 500;
 	private String logStoreDir = "./resources/files";
 	
 	public LogInfo() {
 		log = new Hashtable<Integer, LogEntry>();
 		commitIndex = (int) 0;
 		lastApplied = (int) 0;
-		restoreLogSegment();
+		//restoreLogSegment();
 	}
 	
 	/**
@@ -82,9 +82,9 @@ public class LogInfo implements LogOperations {
 		
 		IOUtility.insertLogEntry(la.getLogId(), fileId, filename, fileExt, chunkId, locatedAt, totalChunks);
 		this.commitIndex = commitIndex;
-		if (commitIndex % thresholdSize == 0){
+		/*if (commitIndex % thresholdSize == 0){
 			storeLogSegment();
-		}
+		}*/
 	}
 	
 	public void storeLogSegment() {
@@ -124,21 +124,19 @@ public class LogInfo implements LogOperations {
 			log.remove(lastIndex());
 
 			File file = new File(logStoreDir,fileName);
+			if(file.exists()){
 
-			if(!file.exists()) {
-				file.createNewFile(); 
+				ObjectInputStream o = new ObjectInputStream(new FileInputStream(file));
+				this.lastApplied = (int) o.readLong();
+				this.commitIndex = (int) o.readLong();
+				try {
+					this.log = (Hashtable<Integer, LogEntry>) o.readObject();
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				o.close();
 			}
-
-			ObjectInputStream o = new ObjectInputStream(new FileInputStream(file));
-			this.lastApplied = (int) o.readLong();
-			this.commitIndex = (int) o.readLong();
-			try {
-				this.log = (Hashtable<Integer, LogEntry>) o.readObject();
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			o.close();
 		} catch(IOException e) {
 			logger.error(e.getMessage());
 		}
@@ -252,11 +250,6 @@ public class LogInfo implements LogOperations {
 		}
 		for(long i = startIndex; i <= lastIndex(); i++)
 			log.remove(i);		
-	}
-
-	public int getLogIndex() {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 	
 }
