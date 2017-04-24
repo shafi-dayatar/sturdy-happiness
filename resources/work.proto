@@ -84,7 +84,7 @@ message WorkMessage {
       LogAppendEntry log_append_entries = 13;
       LogAppendResponse logAppendResponse = 14;
       FileChunkData chunk_data = 15;
-      CommandMessage stolenWork = 16;
+      CommandMessage readCmdMessage = 16;
    }
    
 }

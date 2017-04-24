@@ -21,10 +21,5 @@ public class InBoundWorkMessageQueue implements MessageQueue {
     public void addMessage(WorkMessage wm) {
     	exeService.execute(new InBoundMessageTask(wm, state));
     }
-    
-    public WorkMessage getQueuedMessage(){
-        InBoundMessageTask task = (InBoundMessageTask)blockingQueue.poll();
-        return task.getWorkMessage();
-    }
 
 }

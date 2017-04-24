@@ -18,8 +18,12 @@ import gash.router.server.queue.MessageQueue;
 import gash.router.server.states.Follower;
 import gash.router.server.states.Leader;
 import gash.router.server.tasks.TaskList;
+import pipe.common.Common;
 import pipe.common.Common.Node;
+import pipe.work.Work;
 import routing.Pipe;
+
+import java.util.Random;
 
 public class ServerState {
 	private RaftServerState raftState;
@@ -185,6 +189,10 @@ public class ServerState {
 		// TODO Auto-generated method stub
 		this.leaderNodeId = leaderNodeId;
 	}
+	public int getLeaderId() {
+		// TODO Auto-generated method stub
+		return this.leaderNodeId;
+	}
 
 	public boolean isLeaderKnown() {
 		return isLeaderKnown;
@@ -223,22 +231,58 @@ public class ServerState {
 		this.redis = redis;
 	}
 
-	public boolean assertServability(Pipe.CommandMessage msg){
+	private int[] transformLocationAt(String location_at){
+
+		String[] items = location_at.replaceAll("\\[", "").replaceAll("\\]", "").replaceAll("\\s", "").split(",");
+
+		int[] locations = new int[items.length];
+		for (int i = 0; i < items.length; i++) {
+			try {
+				locations[i] = Integer.parseInt(items[i]);
+			} catch (NumberFormatException nfe) {
+				//NOTE: write something here if you need to recover from formatting errors
+				logger.error(" Exception while asserting servability. Location at may have been in invalid format ");
+
+			}
+		}
+		return locations;
+	}
+
+	private int getRandom(int[] arr){
+		int rnd = new Random().nextInt(arr.length);
+		return arr[rnd];
+	}
+	public boolean assertServability(Work.WorkMessage wmsg){
+		Pipe.CommandMessage msg = wmsg.getReadCmdMessage();
 		String filename = msg.getReq().getRrb().getFilename();
 		ChunkRow chunkRow = getDb().getChunkRowById(msg.getReq().getRrb().getChunkId());
 		logger.info(" checking for " + chunkRow.getLocation_at() + " message req filename  " + filename);
-		if(chunkRow != null){
+		if(chunkRow!= null){
 
 			if(chunkRow.getLocation_at().contains(Integer.toString(this.nodeId))) {
 				logger.info(" node_id " + this.nodeId + " will steal for " + filename + " of type " + msg.getReq().getRequestType());
 				//yes the node can steal this task now
 				return true;
 			} else {
+				//
+				// REROUTE TO A NODE WHICH CAN SERVE THE READ REQUEST
+				//
 
+				int[] locations = transformLocationAt(chunkRow.getLocation_at());
+				// now randomly pick a location and reroute the message to them
+
+				int randomNode = getRandom(locations);
+				Work.WorkMessage.Builder wm = Work.WorkMessage.newBuilder(wmsg);
+
+				Common.Header.Builder header = Common.Header.newBuilder(wmsg.getHeader());
+				header.setDestination(randomNode);
+				wm.setHeader(header.build());
+				this.getOutBoundMessageQueue().addMessage(wm.build());
 				return false;
 			}
 
 		}
+
 		return false;
 	}
 

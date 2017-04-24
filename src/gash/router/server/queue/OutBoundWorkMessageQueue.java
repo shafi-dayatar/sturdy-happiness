@@ -21,8 +21,4 @@ public class OutBoundWorkMessageQueue implements MessageQueue{
     	exeService.execute(new OutBoundMessageTask(wm, state));
     }
 
-    @Override
-    public WorkMessage getQueuedMessage() {
-        return null;
-    }
 }

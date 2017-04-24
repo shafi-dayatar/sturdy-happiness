@@ -205,6 +205,7 @@ public class Candidate implements RaftServerState {
 
 	}
 
+
 	@Override
 	public void stealWork() {
 		//Candidate doesnt steal work
@@ -223,7 +224,7 @@ public class Candidate implements RaftServerState {
 	}
 
 	@Override
-	public CommandMessage getWork(int node_id) {
+	public CommandMessage getWork() {
 		// TODO Auto-generated method stub
 		return null;
 	}

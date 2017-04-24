@@ -378,7 +378,7 @@ public class Leader implements RaftServerState, Runnable {
 	}
 
 	@Override
-	public CommandMessage getWork(int node_id) {
+	public CommandMessage getWork() {
 		Work.Task task = state.getTasks().dequeue();
 		return task == null ? null : task.getMsg();
 	}
