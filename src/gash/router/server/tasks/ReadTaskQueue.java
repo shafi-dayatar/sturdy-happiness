@@ -36,9 +36,9 @@ public class ReadTaskQueue {
 
         Work.FileChunkData.Builder chBuilder = Work.FileChunkData.newBuilder();
         chBuilder.setFileName(cmdMsg.getReq().getRrb().getFilename());
-        int chunk_id = (int)cmdMsg.getReq().getRrb().getFileId();
-        chBuilder.setFileId(chunk_id);
-        chBuilder.setChunkId(cmdMsg.getReq().getRrb().getChunkId());
+        int chunk_id = cmdMsg.getReq().getRrb().getChunkId();
+        chBuilder.setChunkId(chunk_id);
+        chBuilder.setFileId((int)cmdMsg.getReq().getRrb().getFileId());
         chBuilder.setReplyTo(cmdMsg.getHeader().getNodeId());
 
         msgBuilder.setChunkData(chBuilder.build());
