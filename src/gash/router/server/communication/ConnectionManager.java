@@ -12,12 +12,13 @@ public class ConnectionManager {
 	
 	
 	public void setConnection(int clientId, Channel ch){
-		if(!client_channel.contains(clientId))
+		if(!client_channel.containsKey(clientId))
 		    client_channel.put(clientId, ch);
+		System.out.println(client_channel.toString());
 	}
 	
 	public Channel getConnection(int clientId){
-		if(client_channel.contains(clientId))
+		if(client_channel.containsKey(clientId))
 			return client_channel.get(clientId);
 		return null;
 	}

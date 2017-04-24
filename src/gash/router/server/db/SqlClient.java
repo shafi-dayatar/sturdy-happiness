@@ -201,7 +201,7 @@ public class SqlClient{
 	public int getFileId(String fileName) {
 		int file_id = -1; 
     	try{
-    		String[]str  = fileName.split(".");
+    		String[]str  = fileName.split("\\.");
     		getFileId.setString(1, str[0]);
     		getFileId.setString(2, str[1]);
     		ResultSet rs = getFileId.executeQuery();
@@ -215,6 +215,7 @@ public class SqlClient{
     	}
 		return file_id;
 	}
+	
 	public ChunkRow getChunkRowById(int chunk_id){
         ChunkRow data = null;
         try {
@@ -287,7 +288,7 @@ public class SqlClient{
 			ResultSet rs = fileQuery.executeQuery();
 			
 			if (rs.next()){
-				System.out.println("1st"+rs.getInt(1)+"2nd"+rs.getString(2)+"3rd"+rs.getInt(3));
+				System.out.println("1st" + rs.getInt(1) + "2nd" + rs.getString(2) + "3rd" + rs.getInt(3));
 				int total_chunks = rs.getInt(3);
 				System.out.println("total chunks"+total_chunks);
 				data = new Integer [total_chunks][4];
