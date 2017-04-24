@@ -9,8 +9,10 @@ import org.slf4j.LoggerFactory;
 
 import gash.router.container.RoutingConf;
 import gash.router.server.communication.ConnectionManager;
+import gash.router.server.db.RedisGSDN;
 import gash.router.server.edges.EdgeMonitor;
 import gash.router.server.log.LogInfo;
+import gash.router.server.messages.DiscoverMessage;
 import gash.router.server.queue.MessageQueue;
 import gash.router.server.states.Follower;
 import gash.router.server.states.Leader;
@@ -29,6 +31,7 @@ public class ServerState {
 	private int currentTerm = 0;
 	private int leaderNodeId;
 	private boolean isLeaderKnown = false;
+	private RedisGSDN redis;
 
 	private RoutingConf conf;
 	private int nodeId;
@@ -122,6 +125,8 @@ public class ServerState {
 		logger.info("Becoming leader for election term : " + currentTerm);
 		raftState = leader;
 		if (!leader.isLeader()) {
+			redis.updateLeader(getConf().getClusterId(), 
+					DiscoverMessage.getCurrentIp() + ":" + getConf().getCommandPort());
 			leader.setLeader(true);
 			leader.setNextAndMatchIndex();
 			if (leaderThread == null)
@@ -206,6 +211,14 @@ public class ServerState {
 
 	public void setDb(IOUtility db) {
 		this.db = db;
+	}
+
+	public RedisGSDN getRedis() {
+		return redis;
+	}
+
+	public void setRedis(RedisGSDN redis) {
+		this.redis = redis;
 	}
 
 }
