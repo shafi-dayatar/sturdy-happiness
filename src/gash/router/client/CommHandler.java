@@ -15,6 +15,11 @@
  */
 package gash.router.client;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -28,10 +33,8 @@ import routing.Pipe.CommandMessage;
 import routing.Pipe.ReadBody;
 import routing.Pipe.ReadResponse;
 import routing.Pipe.Response;
-
+import com.google.protobuf.ByteString;
 import javax.xml.bind.Unmarshaller;
-
-
 
 /**
  * A client-side netty pipeline send/receive.
@@ -45,14 +48,16 @@ import javax.xml.bind.Unmarshaller;
 public class CommHandler extends SimpleChannelInboundHandler<CommandMessage> {
 	protected static Logger logger = LoggerFactory.getLogger("connect");
 	protected ConcurrentMap<String, CommListener> listeners = new ConcurrentHashMap<String, CommListener>();
-	//private volatile Channel channel;
-	
+	// private volatile Channel channel;
+
 	private String host;
 	private int port;
-	//private  MessageClient mc = new MessageClient(host,port);
+	// private MessageClient mc = new MessageClient(host,port);
 	private MessageClient mc = new MessageClient();
+	private TreeMap<Integer, ByteString> chunkDataList = new TreeMap<Integer, ByteString>();
+
 	public CommHandler() {
-		//this.mc =mc;
+		// this.mc =mc;
 	}
 
 	/**
@@ -65,10 +70,10 @@ public class CommHandler extends SimpleChannelInboundHandler<CommandMessage> {
 	 * 
 	 * @param listener
 	 */
-//	public void take(String host, int port){
-//		this.host =host;
-//		this.port = port;
-//	}
+	// public void take(String host, int port){
+	// this.host =host;
+	// this.port = port;
+	// }
 	public void addListener(CommListener listener) {
 		if (listener == null)
 			return;
@@ -85,8 +90,9 @@ public class CommHandler extends SimpleChannelInboundHandler<CommandMessage> {
 	 *            The channel the message was received from
 	 * @param msg
 	 *            The message
+	 * @throws IOException 
 	 */
-	public void handleMessage(CommandMessage msg, Channel channel) {
+	public void handleMessage(CommandMessage msg, Channel channel) throws IOException {
 		if (msg == null) {
 			// TODO add logging
 			System.out.println("ERROR: Unexpected content - " + msg);
@@ -106,20 +112,36 @@ public class CommHandler extends SimpleChannelInboundHandler<CommandMessage> {
 		
 		    case RESPONSEREADFILE:
 		    	//System.out.println("I'm here");
+		    	if(msg.getResp().getReadResponse().getChunkLocationCount()!=0){
 		    	ReadResponse readRes = msg.getResp().getReadResponse();
 		    	System.out.println(readRes.getNumOfChunks());
 		    	mc.sendfileReadRequests(msg);
 		    	//System.out.println("chunkloccount"+readRes.getChunkLocationCount()+" loc list "+readRes.getChunkLocationList().toString()+"");
-		    	break;
-		    case REQUESTREADFILE:
-		    	ReadBody readReq = msg.getReq().getRrb();
-		    	Response res = null;
-		    	if(readReq.hasChunkId()){
-		    		
-		    	}else{
-		    		//res = serverState.getRaftState().getFileChunkLocation(readReq);
 		    	}
-		    	//sendReadResponse(channel, res, msg.getHeader().getNodeId());
+		    	else{
+		    		ReadResponse readRes = msg.getResp().getReadResponse();
+		    		chunkDataList.put(readRes.getChunk().getChunkId(),readRes.getChunk().getChunkData());
+		    		if(chunkDataList.size()==readRes.getNumOfChunks()){
+		    			for(int i=0;i<chunkDataList.size();i++){
+		    				byte[] eachChunk = new byte[1024];
+				    		eachChunk = chunkDataList.get(i).toByteArray();
+				    		FileOutputStream fos = null;
+							try {
+							fos = new FileOutputStream("/Users/prabhutej/Documents/Gossamer/sturdy-happiness/resources/filesreceived/"+readRes.getFilename());
+							fos.write(eachChunk);
+				    		fos.close();
+							}
+							catch (FileNotFoundException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+		    			}
+		    		}
+		    		
+		    		 
+		    		
+		    	}
+		    	break;
 		    default:
 		    	break;
 			}
@@ -134,16 +156,15 @@ public class CommHandler extends SimpleChannelInboundHandler<CommandMessage> {
 	@Override
 	protected void channelRead0(ChannelHandlerContext ctx, CommandMessage msg) throws Exception {
 		System.out.println(" got response ! ");
-		handleMessage(msg,ctx.channel());
-		/*System.out.println("--> got incoming message");
-		for (String id : listeners.keySet()) {
-			CommListener cl = listeners.get(id);
-			// TODO this may need to be delegated to a thread pool to allow
-			// async processing of replies
-			cl.onMessage(msg);
-		}*/
+		handleMessage(msg, ctx.channel());
+		/*
+		 * System.out.println("--> got incoming message"); for (String id :
+		 * listeners.keySet()) { CommListener cl = listeners.get(id); // TODO
+		 * this may need to be delegated to a thread pool to allow // async
+		 * processing of replies cl.onMessage(msg); }
+		 */
 	}
-	
+
 	@Override
 	public void userEventTriggered(ChannelHandlerContext ctx, Object evt) {
 		System.out.println("--> user event: " + evt.toString());
