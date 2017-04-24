@@ -119,13 +119,10 @@ public class CommHandler extends SimpleChannelInboundHandler<CommandMessage> {
 					//System.out.println("chunkloccount"+readRes.getChunkLocationCount()+" loc list "+readRes.getChunkLocationList().toString()+"")
 		    	}
 		    	else{
-<<<<<<< HEAD
 		    		System.out.println("chunk received");
-=======
 		    		//++chunkCounter;
 		    		System.out.println(" Counter " + chunkCounter);
 		    		System.out.println(" Size " + chunkDataList.size());
->>>>>>> branch 'master' of https://github.com/shafi-dayatar/sturdy-happiness
 		    		ReadResponse readRes = msg.getResp().getReadResponse();
 		    		chunkDataList.put(readRes.getChunk().getChunkId(),readRes.getChunk().getChunkData());
 		    		if(chunkDataList.size()==chunkCounter){

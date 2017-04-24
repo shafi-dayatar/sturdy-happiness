@@ -342,6 +342,16 @@ public class MessageClient {
 		}
 		
 	}
+		public void makeFileList(String action, File folder) {
+			// TODO Auto-generated method stub
+			for (final File fileEntry : folder.listFiles()) {
+		        if (fileEntry.isDirectory()) {
+		            makeFileList(action,fileEntry);
+		        } else {
+		            fileOperation(action,folder.toString(),fileEntry.getName());
+		        }
+		    }
+		}
 
 	
 	

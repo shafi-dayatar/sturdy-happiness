@@ -15,6 +15,7 @@
  */
 package gash.router.app;
 
+import java.io.File;
 import java.util.Scanner;
 
 import gash.router.client.CommListener;
@@ -59,11 +60,21 @@ public class DemoApp implements CommListener {
 	
 	private void uploadFolder(Scanner scan) {
 		// TODO Auto-generated method stub
+		System.out.print("Enter Folder Path : ");
+		final File folder = new File(scan.nextLine().trim());
+		mc.makeFileList("post", folder);
 		
 	}
 
 	private void uploadMultipleFiles(Scanner scan) {
 		// TODO Auto-generated method stub
+		while(true){
+		System.out.print("Enter File Path : ");
+		String filePath = scan.nextLine().trim();
+		System.out.print("Enter File Name : ");
+		String fileName = scan.nextLine().trim();
+		mc.fileOperation("post", filePath, fileName);
+		}
 		
 	}
 
@@ -132,10 +143,9 @@ public class DemoApp implements CommListener {
 				System.out.println("2. Upload multiple files");
 				System.out.println("3. upload all files from a directory");
 				System.out.println("4: Read a File");
-				System.out.println("5. Read Multiple files");
-				System.out.println("6. Ping Node");
-				System.out.println("7. Restart");
-				System.out.println("8. Exit");
+				System.out.println("5. Ping Node");
+				System.out.println("6. Restart");
+				System.out.println("7. Exit");
 				System.out.println("\n===============================================");
 				System.out.print("Enter Command no. :");
 				int option = Integer.parseInt(scan.nextLine());
@@ -155,13 +165,11 @@ public class DemoApp implements CommListener {
 					da.readFile(scan);
 					break;
 				case 5:
-					break;
-				case 6:
 					da.ping(scan);
 					break;
-				case 7:
+				case 6:
 					break loop1;
-				case 8:
+				case 7:
 					break loop;
 				default :
 					break;
