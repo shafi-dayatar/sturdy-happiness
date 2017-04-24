@@ -202,7 +202,7 @@ public class MessageClient {
 			while (len > 0) {
 				bis.read(buffer);
 				if (len < sizeOfChunk) {
-					byte[] leftData = new byte[(int) sizeOfChunk];
+					byte[] leftData = new byte[(int) len];
 					chunkedFile.add(ByteString.copyFrom(leftData));
 					len = 0;
 				} else {

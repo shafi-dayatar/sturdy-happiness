@@ -19,10 +19,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import gash.router.container.RoutingConf;
+import gash.router.server.communication.CommConnection;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import pipe.common.Common;
+import pipe.common.Common.Node;
 import routing.Pipe;
 import routing.Pipe.CommandMessage;
 import routing.Pipe.ReadBody;
@@ -85,6 +87,7 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 		    	Status status = serverState.getRaftState().writeFile(writeReq);	
 		    	sendWriteResponse(channel, msg, status);
 		    	break;
+		    	
 		    case REQUESTREADFILE:
 		    	ReadBody readReq = msg.getReq().getRrb();
 		    	Response res = null;
@@ -95,6 +98,22 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 		    		res = serverState.getRaftState().getFileChunkLocation(readReq);
 					serverState.sendReadResponse(channel, res, msg.getHeader().getNodeId());
 		    	}
+		    	break;
+		    case PING:
+		    	int clusterId = msg.getHeader().getDestination();
+		    	if (clusterId == serverState.getConf().getClusterId()){
+		    		sendPingResponse(channel);
+		    	}else{
+		    		Channel ch = serverState.connectionManager.getConnection(clusterId);
+		    		if (ch == null){
+		    			Node node = serverState.getRedis().getLeader(clusterId);
+		    			CommConnection cc = new CommConnection(node.getHost(), node.getPort());
+		    			ch = cc.connect();
+		    			serverState.connectionManager.setConnection(clusterId, ch);
+		    		}
+		    		ch.write(msg);
+		    	}
+		    	break;
 
 		    default:
 		    	break;
@@ -105,6 +124,10 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 			logger.info("Unsupport msg received from client  msg detail is : " + msg.toString());
 		}
 
+	}
+		private void sendPingResponse(Channel channel) {
+		// TODO Auto-generated method stub
+		
 	}
 		//try {
 			// TODO How can you implement this without if-else statements?
