@@ -101,6 +101,7 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 		    	}
 		    	break;
 		    case PING:
+		    	logger.info(" Got ping !");
 		    	int clusterId = msg.getHeader().getDestination();
 		    	if (clusterId == serverState.getConf().getClusterId()){
 		    		sendPingResponse(channel);
@@ -120,6 +121,7 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 		    	break;
 			}
 		}else if(msg.hasPing()){
+			logger.info(" has ping ? Got ping !");
 			
 		}else{
 			logger.info("Unsupport msg received from client  msg detail is : " + msg.toString());
