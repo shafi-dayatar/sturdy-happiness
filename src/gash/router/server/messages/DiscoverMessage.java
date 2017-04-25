@@ -1,3 +1,4 @@
+package gash.router.server.messages;
 
 
 import java.net.Inet4Address;
@@ -147,8 +148,7 @@ public class DiscoverMessage extends Message {
                 Enumeration<InetAddress> nias = ni.getInetAddresses();
                 while(nias.hasMoreElements()) {
                     InetAddress ia= (InetAddress) nias.nextElement();
-                    if ( 
-                      !ia.isLoopbackAddress()
+                    if (!ia.isLoopbackAddress()
                      && ia instanceof Inet4Address) {
                         return ia.getHostAddress();
                     }
