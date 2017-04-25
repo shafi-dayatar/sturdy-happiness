@@ -40,9 +40,9 @@ public class DemoApp implements CommListener {
 	private void ping(Scanner scan) {
 		// test round-trip overhead (note overhead for initial connection)
 		System.out.println("Enter Destination NodeId : ");
-		int dest = scan.nextInt();
+		int dest = Integer.parseInt(scan.nextLine());
 		System.out.println("Enter number of pings : ");
-		int N = scan.nextInt();
+		int N = Integer.parseInt(scan.nextLine());
 		long[] dt = new long[N];
 		long st = System.currentTimeMillis(), ft = 0;
 		for (int n = 0; n < N; n++) {
