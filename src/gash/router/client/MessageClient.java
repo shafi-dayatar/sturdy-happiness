@@ -201,13 +201,14 @@ public class MessageClient {
 
 		try {
 			BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
-			while (len > 0) {
-				bis.read(buffer);
+			while (len > 0) {	
 				if (len < sizeOfChunk) {
 					byte[] leftData = new byte[(int) len];
+					bis.read(leftData);
 					chunkedFile.add(ByteString.copyFrom(leftData));
 					len = 0;
 				} else {
+					bis.read(buffer);
 					len = len - sizeOfChunk;
 					logger.info("chunk" + len);
 					chunkedFile.add(ByteString.copyFrom(buffer));
