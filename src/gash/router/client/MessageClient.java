@@ -53,7 +53,7 @@ public class MessageClient {
 	private int messageId = 1;
 	private static int fileId = 0;
 	private static int chunkId = 0;
-	private int clientId=1;
+	private int clientId=1000;
 	protected static Logger logger = LoggerFactory.getLogger("Client");
 
 	public MessageClient(int clusterId, String host, int port) {
@@ -74,9 +74,9 @@ public class MessageClient {
 	public void ping(int destinationId) {
 		// construct the message to send
 		Header.Builder hb = Header.newBuilder();
-		hb.setNodeId(destinationId);
+		hb.setNodeId(clientId);
 		hb.setTime(System.currentTimeMillis());
-		hb.setDestination(-1);
+		hb.setDestination(destinationId);
 
 		CommandMessage.Builder rb = CommandMessage.newBuilder();
 		rb.setHeader(hb);
