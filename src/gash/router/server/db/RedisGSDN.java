@@ -11,8 +11,9 @@ public class RedisGSDN {
 	protected Logger logger = LoggerFactory.getLogger("Redis GSDN");
 
 	private Jedis dbConnection;
-	
+
 	public RedisGSDN(ServerState state){
+		logger.info(" Host : " + state.getConf().getRedisHost() + "   Port: " + state.getConf().getRedisPort());
 		dbConnection = new Jedis(state.getConf().getRedisHost(), 
 				state.getConf().getRedisPort());
 	}

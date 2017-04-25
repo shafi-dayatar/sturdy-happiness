@@ -12,6 +12,7 @@ public class RedisGSDN {
 	private Jedis dbConnection;
 	
 	public RedisGSDN(String host, int port){
+		logger.info(" CLIENT !! _ Host : " + host + "   Port: " + port);
 		dbConnection = new Jedis(host, 
 				port);
 	}

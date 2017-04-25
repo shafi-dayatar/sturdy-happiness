@@ -130,7 +130,7 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 	    		Channel ch = serverState.connectionManager.getConnection(2);
 	    		if (ch == null){
 	    			Node node = serverState.getRedis().getLeader(2);
-	    			CommConnection cc = new CommConnection(node.getHost(), node.getPort());
+	    			CommConnection cc = new CommConnection("169.254.33.194", 4368);
 	    			ch = cc.connect();
 	    			serverState.connectionManager.setConnection(2, ch);
 	    		}
