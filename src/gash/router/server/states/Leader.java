@@ -112,6 +112,15 @@ public class Leader implements RaftServerState, Runnable {
 		if (logEntry.getSuccess()) {
 			updateNextAndMatchIndex(nodeId, logEntry.getPrevLogIndex());
 		} 
+		logger.info("nextIndex.get(nodeId) = " + nextIndex.get(nodeId));
+		logger.info("state.getLog().lastIndex() " + state.getLog().lastIndex());
+		logger.info(" logEntry.getPrevLogIndex()" + logEntry.getPrevLogIndex());
+		logger.info("condition : nextIndex.get(nodeId) <= state.getLog().lastIndex() " + 
+				"&& logEntry.getPrevLogIndex() < state.getLog().lastIndex()" + 
+				(nextIndex.get(nodeId) <= state.getLog().lastIndex()
+				&& logEntry.getPrevLogIndex() < state.getLog().lastIndex()) );
+		logger.info("nextIndex = " + nextIndex.toString());
+		logger.info("MatchIndex = " + matchIndex.toString());
 			
 		if (nextIndex.get(nodeId) <= state.getLog().lastIndex()
 				&& logEntry.getPrevLogIndex() < state.getLog().lastIndex()) {
