@@ -151,6 +151,12 @@ public class CommHandler extends SimpleChannelInboundHandler<CommandMessage> {
 
 					}
 					break;
+				case PING:
+					System.out.println(msg);
+					break;
+				case PINGRESPONSE:
+					System.out.println(msg);
+					break;
 				default:
 					break;
 			}
