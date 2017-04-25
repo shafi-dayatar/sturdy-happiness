@@ -105,12 +105,12 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 		    	if (clusterId == serverState.getConf().getClusterId()){
 		    		sendPingResponse(channel);
 		    	}else{
-		    		Channel ch = serverState.connectionManager.getConnection(clusterId);
+		    		Channel ch = serverState.connectionManager.getConnection(5);
 		    		if (ch == null){
-		    			Node node = serverState.getRedis().getLeader(clusterId);
+		    			Node node = serverState.getRedis().getLeader(5);
 		    			CommConnection cc = new CommConnection(node.getHost(), node.getPort());
 		    			ch = cc.connect();
-		    			serverState.connectionManager.setConnection(clusterId, ch);
+		    			serverState.connectionManager.setConnection(5, ch);
 		    		}
 		    		ch.write(msg);
 		    	}

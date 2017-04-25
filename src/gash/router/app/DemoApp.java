@@ -122,7 +122,7 @@ public class DemoApp implements CommListener {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		RedisGSDN redis = new RedisGSDN("192.168.1.4", 6379);
+		RedisGSDN redis = new RedisGSDN("169.254.214.175", 6379);
 
 		 loop: while(true){
 
