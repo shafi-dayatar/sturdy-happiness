@@ -101,7 +101,7 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 		    	}
 		    	break;
 		    case PING:
-		    	logger.info(" Got ping !");
+		    	logger.info("got a ping message:" + msg.toString());
 		    	int clusterId = msg.getHeader().getDestination();
 		    	if (clusterId == serverState.getConf().getClusterId()){
 		    		sendPingResponse(channel);
@@ -121,8 +121,20 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 		    	break;
 			}
 		}else if(msg.hasPing()){
-			logger.info(" has ping ? Got ping !");
-			
+			logger.info("got a ping message:" + msg.toString());
+	    	int clusterId = msg.getHeader().getDestination();
+	    	if (clusterId == serverState.getConf().getClusterId()){
+	    		sendPingResponse(channel);
+	    	}else{
+	    		Channel ch = serverState.connectionManager.getConnection(5);
+	    		if (ch == null){
+	    			Node node = serverState.getRedis().getLeader(5);
+	    			CommConnection cc = new CommConnection(node.getHost(), node.getPort());
+	    			ch = cc.connect();
+	    			serverState.connectionManager.setConnection(5, ch);
+	    		}
+	    		ch.write(msg);
+	    	}
 		}else{
 			logger.info("Unsupport msg received from client  msg detail is : " + msg.toString());
 		}

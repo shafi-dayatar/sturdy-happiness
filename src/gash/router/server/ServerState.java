@@ -139,7 +139,7 @@ public class ServerState {
 		if (!leader.isLeader()) {
 			setLeaderKnown(true);
 			redis.updateLeader( getConf().getClusterId(),
-					getNodeId() + ":" +  DiscoverMessage.getCurrentIp() + ":" + getConf().getCommandPort());
+					 DiscoverMessage.getCurrentIp() + ":" + getConf().getCommandPort());
 			leader.setLeader(true);
 			leader.setNextAndMatchIndex();
 			if (leaderThread == null)

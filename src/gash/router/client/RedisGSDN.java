@@ -23,9 +23,9 @@ public class RedisGSDN {
 			String value = dbConnection.get(Integer.toString(clusterId));// use this to set leader on redis,
 			String [] arr = value.split(":");
 			Node.Builder nb = Node.newBuilder();
-			nb.setNodeId(Integer.parseInt(arr[0]));
-			nb.setHost(arr[1]);
-			nb.setPort(Integer.parseInt(arr[2]));
+			nb.setNodeId(5);
+			nb.setHost(arr[0]);
+			nb.setPort(Integer.parseInt(arr[1]));
 			node = nb.build();
 			logger.info("getting leader for cluster : " + clusterId);
 		}catch(Exception e){
