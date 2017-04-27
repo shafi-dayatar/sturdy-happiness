@@ -84,8 +84,9 @@ message Response{
          INCOMPLETE = 41;
     }
     oneof payload{
-    WriteResponse writeResponse = 4;
-    ReadResponse readResponse = 5;
+        WriteResponse writeResponse = 4;
+        ReadResponse readResponse = 5;
+    }
 }
 
 message WriteResponse {

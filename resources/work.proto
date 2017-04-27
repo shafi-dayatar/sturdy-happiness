@@ -4,6 +4,7 @@ option java_package = "pipe.work";
 
 import "common.proto";
 import "election.proto";
+import "pipe.proto";
 
 
 message WorkState {
