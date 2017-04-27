@@ -25,6 +25,7 @@ public class ConnectionManager {
 	}
 	
 	public Channel getConnection(int clientId){
+		logger.info("finding connection for client :" +clientId);
 		if(client_channel.containsKey(clientId))
 			return client_channel.get(clientId);
 		return null;

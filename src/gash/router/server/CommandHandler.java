@@ -76,7 +76,7 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 			System.out.println("ERROR: Unexpected content - " + msg);
 			return;
 		}
-	//logger.info("Request received at server : " + msg.toString());
+	    logger.info("Request received at server : " + msg.toString());
 		if(msg.hasReq()){
 			
 			switch(msg.getReq().getRequestType()){
@@ -127,12 +127,17 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 	    		//sendPingResponse(channel);
 	    		logger.info("Discarding ping...........channel...............");
 	    	}else{
-	    		Channel ch = serverState.connectionManager.getConnection(2);
+	    		logger.info("getting ping, trying to forward it to next cluster ..................................\n\n\n");
+	    		Channel ch = serverState.connectionManager.getConnection(1);
 	    		if (ch == null){
+
 	    			Node node = serverState.getRedis().getLeader(2);
-	    			CommConnection cc = new CommConnection("169.254.33.194", 4368);
+	    			logger.info("Sending ping message to  :  "  + node.toString());//+ node.toString()) ;
+	    			CommConnection cc = new CommConnection("169.254.214.175", 4568);
+
 	    			ch = cc.connect();
 	    			serverState.connectionManager.setConnection(2, ch);
+	    			
 	    		}
 	    		ch.write(msg);
 	    	}

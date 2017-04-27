@@ -30,8 +30,8 @@ import com.google.protobuf.ByteString;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import pipe.common.Common.ReadResponse;
 import routing.Pipe.CommandMessage;
-import routing.Pipe.ReadResponse;
 
 /**
  * A client-side netty pipeline send/receive.

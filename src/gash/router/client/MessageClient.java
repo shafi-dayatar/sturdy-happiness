@@ -30,15 +30,15 @@ import com.google.protobuf.ByteString;
 
 import pipe.common.Common;
 import pipe.common.Common.Header;
-import routing.Pipe.Chunk;
-import routing.Pipe.ChunkLocation;
+import pipe.common.Common.Chunk;
+import pipe.common.Common.ChunkLocation;
 import routing.Pipe.CommandMessage;
-import routing.Pipe.ReadBody;
-import routing.Pipe.ReadResponse;
+import pipe.common.Common.ReadBody;
+import pipe.common.Common.ReadResponse;
 //import routing.Pipe.CommandMessage.MessageType;
-import routing.Pipe.Request;
-import routing.Pipe.TaskType;
-import routing.Pipe.WriteBody;
+import pipe.common.Common.Request;
+import pipe.common.Common.TaskType;
+import pipe.common.Common.WriteBody;
 //import routing.Pipe.WriteRequest;
 
 /**
@@ -53,7 +53,7 @@ public class MessageClient {
 	private int messageId = 1;
 	private static int fileId = 0;
 	private static int chunkId = 0;
-	private int clientId=1000;
+	private int clientId=100;
 	protected static Logger logger = LoggerFactory.getLogger("Client");
 
 	public MessageClient(int clusterId, String host, int port) {
@@ -297,7 +297,7 @@ public class MessageClient {
 		try {
 			int listSize = list.size();
 			for(int j =0;j<listSize;j++){
-				int node_id = list.get(j).getNode(0).getNodeId();
+				int node_id = list.get(j).get
 				String host = list.get(j).getNode(0).getHost();
 				int port = list.get(j).getNode(0).getPort();
 				String file_name = readRes.getFilename();
