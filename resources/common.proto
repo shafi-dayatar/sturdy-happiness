@@ -81,7 +81,7 @@ message Response{
          UNREACHABLE = 6; //cluster to cluster communication stops working, broken link.
          SERVICEDOWN = 7; //what if it has less number of nodes alive in cluster.
          ERROR = 8; //similar to failure messages.
-         INCOMPLETE = 41;
+         INCOMPLETEFILE = 41;
     }
     oneof payload{
         WriteResponse writeResponse = 4;

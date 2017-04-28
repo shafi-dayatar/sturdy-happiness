@@ -247,7 +247,7 @@ public class MessageClient {
 			Header.Builder header = Header.newBuilder();
 			header.setNodeId(1);
 			header.setTime(System.currentTimeMillis());
-			command.setReq(req);
+			command.setRequest(req);
 			command.setHeader(header);
 			return command.build();
 		} catch (Exception e) {
@@ -280,7 +280,7 @@ public class MessageClient {
 			Header.Builder header = Header.newBuilder();
 			header.setNodeId(1);
 			header.setTime(System.currentTimeMillis());
-			command.setReq(req);
+			command.setRequest(req);
 			command.setHeader(header);
 			System.out.println(chunkId);
 			return command.build();
@@ -292,16 +292,16 @@ public class MessageClient {
 	}
 	public void sendfileReadRequests(CommandMessage msg) {
 		// TODO Auto-generated method stub
-		ReadResponse readRes = msg.getResp().getReadResponse();
+		ReadResponse readRes = msg.getResponse().getReadResponse();
 		List<ChunkLocation> list = new ArrayList<>(readRes.getChunkLocationList());
 		try {
 			int listSize = list.size();
 			for(int j =0;j<listSize;j++){
-				int node_id = list.get(j).get
-				String host = list.get(j).getNode(0).getHost();
-				int port = list.get(j).getNode(0).getPort();
+				int node_id = list.get(j).getNode().getNodeId();
+				String host = list.get(j).getNode().getHost();
+				int port = list.get(j).getNode().getPort();
 				String file_name = readRes.getFilename();
-				int chunkId = list.get(j).getChunkid();
+				int chunkId = list.get(j).getChunkId();
 				CommandMessage commandMessage = buildRCommandMessage(file_name, node_id, host, port, chunkId);
 				CommConnection.getInstance().enqueue(commandMessage);
 				System.out.println("Sent Read Request .....");
@@ -322,19 +322,13 @@ public class MessageClient {
 		ReadBody.Builder rrb = ReadBody.newBuilder();
 		rrb.setFilename(file_name);
 		rrb.setChunkId(chunkId);
-		
-		Common.Node.Builder node = Common.Node.newBuilder();
-		node.setHost(host);			
-		node.setPort(port);
-		node.setNodeId(node_id);
-		req.setClient(node.build());
 
 		req.setRrb(rrb.build());
 		Header.Builder header = Header.newBuilder();
 		header.setNodeId(clientId);
 		header.setDestination(node_id);
 		header.setTime(System.currentTimeMillis());
-		command.setReq(req);
+		command.setRequest(req);
 		command.setHeader(header);
 		return command.build();
 	} 

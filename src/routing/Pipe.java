@@ -49,6 +49,20 @@ public final class Pipe {
     boolean getPing();
 
     /**
+     * <code>optional string message = 4;</code>
+     */
+    boolean hasMessage();
+    /**
+     * <code>optional string message = 4;</code>
+     */
+    java.lang.String getMessage();
+    /**
+     * <code>optional string message = 4;</code>
+     */
+    com.google.protobuf.ByteString
+        getMessageBytes();
+
+    /**
      * <code>optional .Failure err = 5;</code>
      */
     boolean hasErr();
@@ -149,6 +163,12 @@ public final class Pipe {
               payload_ = input.readBool();
               break;
             }
+            case 34: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              payloadCase_ = 4;
+              payload_ = bs;
+              break;
+            }
             case 42: {
               pipe.common.Common.Failure.Builder subBuilder = null;
               if (payloadCase_ == 5) {
@@ -221,6 +241,7 @@ public final class Pipe {
     public enum PayloadCase
         implements com.google.protobuf.Internal.EnumLite {
       PING(3),
+      MESSAGE(4),
       ERR(5),
       REQUEST(6),
       RESPONSE(7),
@@ -240,6 +261,7 @@ public final class Pipe {
       public static PayloadCase forNumber(int value) {
         switch (value) {
           case 3: return PING;
+          case 4: return MESSAGE;
           case 5: return ERR;
           case 6: return REQUEST;
           case 7: return RESPONSE;
@@ -302,6 +324,55 @@ public final class Pipe {
         return (java.lang.Boolean) payload_;
       }
       return false;
+    }
+
+    public static final int MESSAGE_FIELD_NUMBER = 4;
+    /**
+     * <code>optional string message = 4;</code>
+     */
+    public boolean hasMessage() {
+      return payloadCase_ == 4;
+    }
+    /**
+     * <code>optional string message = 4;</code>
+     */
+    public java.lang.String getMessage() {
+      java.lang.Object ref = "";
+      if (payloadCase_ == 4) {
+        ref = payload_;
+      }
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8() && (payloadCase_ == 4)) {
+          payload_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string message = 4;</code>
+     */
+    public com.google.protobuf.ByteString
+        getMessageBytes() {
+      java.lang.Object ref = "";
+      if (payloadCase_ == 4) {
+        ref = payload_;
+      }
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        if (payloadCase_ == 4) {
+          payload_ = b;
+        }
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
     public static final int ERR_FIELD_NUMBER = 5;
@@ -427,6 +498,9 @@ public final class Pipe {
         output.writeBool(
             3, (boolean)((java.lang.Boolean) payload_));
       }
+      if (payloadCase_ == 4) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, payload_);
+      }
       if (payloadCase_ == 5) {
         output.writeMessage(5, (pipe.common.Common.Failure) payload_);
       }
@@ -452,6 +526,9 @@ public final class Pipe {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(
               3, (boolean)((java.lang.Boolean) payload_));
+      }
+      if (payloadCase_ == 4) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, payload_);
       }
       if (payloadCase_ == 5) {
         size += com.google.protobuf.CodedOutputStream
@@ -495,6 +572,10 @@ public final class Pipe {
           result = result && (getPing()
               == other.getPing());
           break;
+        case 4:
+          result = result && getMessage()
+              .equals(other.getMessage());
+          break;
         case 5:
           result = result && getErr()
               .equals(other.getErr());
@@ -530,6 +611,10 @@ public final class Pipe {
           hash = (37 * hash) + PING_FIELD_NUMBER;
           hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
               getPing());
+          break;
+        case 4:
+          hash = (37 * hash) + MESSAGE_FIELD_NUMBER;
+          hash = (53 * hash) + getMessage().hashCode();
           break;
         case 5:
           hash = (37 * hash) + ERR_FIELD_NUMBER;
@@ -708,6 +793,9 @@ public final class Pipe {
         if (payloadCase_ == 3) {
           result.payload_ = payload_;
         }
+        if (payloadCase_ == 4) {
+          result.payload_ = payload_;
+        }
         if (payloadCase_ == 5) {
           if (errBuilder_ == null) {
             result.payload_ = payload_;
@@ -778,6 +866,12 @@ public final class Pipe {
         switch (other.getPayloadCase()) {
           case PING: {
             setPing(other.getPing());
+            break;
+          }
+          case MESSAGE: {
+            payloadCase_ = 4;
+            payload_ = other.payload_;
+            onChanged();
             break;
           }
           case ERR: {
@@ -1027,6 +1121,93 @@ public final class Pipe {
           payload_ = null;
           onChanged();
         }
+        return this;
+      }
+
+      /**
+       * <code>optional string message = 4;</code>
+       */
+      public boolean hasMessage() {
+        return payloadCase_ == 4;
+      }
+      /**
+       * <code>optional string message = 4;</code>
+       */
+      public java.lang.String getMessage() {
+        java.lang.Object ref = "";
+        if (payloadCase_ == 4) {
+          ref = payload_;
+        }
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (payloadCase_ == 4) {
+            if (bs.isValidUtf8()) {
+              payload_ = s;
+            }
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string message = 4;</code>
+       */
+      public com.google.protobuf.ByteString
+          getMessageBytes() {
+        java.lang.Object ref = "";
+        if (payloadCase_ == 4) {
+          ref = payload_;
+        }
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          if (payloadCase_ == 4) {
+            payload_ = b;
+          }
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string message = 4;</code>
+       */
+      public Builder setMessage(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  payloadCase_ = 4;
+        payload_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string message = 4;</code>
+       */
+      public Builder clearMessage() {
+        if (payloadCase_ == 4) {
+          payloadCase_ = 0;
+          payload_ = null;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <code>optional string message = 4;</code>
+       */
+      public Builder setMessageBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  payloadCase_ = 4;
+        payload_ = value;
+        onChanged();
         return this;
       }
 
@@ -1500,11 +1681,12 @@ public final class Pipe {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\npipe.proto\032\014common.proto\"\231\001\n\016CommandMe" +
+      "\n\npipe.proto\032\014common.proto\"\254\001\n\016CommandMe" +
       "ssage\022\027\n\006header\030\001 \002(\0132\007.Header\022\016\n\004ping\030\003" +
-      " \001(\010H\000\022\027\n\003err\030\005 \001(\0132\010.FailureH\000\022\033\n\007reque" +
-      "st\030\006 \001(\0132\010.RequestH\000\022\035\n\010response\030\007 \001(\0132\t" +
-      ".ResponseH\000B\t\n\007payloadB\013\n\007routingH\001"
+      " \001(\010H\000\022\021\n\007message\030\004 \001(\tH\000\022\027\n\003err\030\005 \001(\0132\010" +
+      ".FailureH\000\022\033\n\007request\030\006 \001(\0132\010.RequestH\000\022" +
+      "\035\n\010response\030\007 \001(\0132\t.ResponseH\000B\t\n\007payloa" +
+      "dB\013\n\007routingH\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -1524,7 +1706,7 @@ public final class Pipe {
     internal_static_CommandMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_CommandMessage_descriptor,
-        new java.lang.String[] { "Header", "Ping", "Err", "Request", "Response", "Payload", });
+        new java.lang.String[] { "Header", "Ping", "Message", "Err", "Request", "Response", "Payload", });
     pipe.common.Common.getDescriptor();
   }
 

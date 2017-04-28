@@ -26,6 +26,7 @@ import gash.router.server.tasks.TaskList;
 import io.netty.channel.Channel;
 import pipe.common.Common;
 import pipe.common.Common.Node;
+import pipe.common.Common.Response;
 import pipe.work.Work;
 import routing.Pipe;
 
@@ -294,7 +295,7 @@ public class ServerState {
 	}
 	public boolean assertServability(Work.WorkMessage wmsg){
 		Pipe.CommandMessage msg = wmsg.getReadCmdMessage();
-		String filename = msg.getReq().getRrb().getFilename();
+		String filename = msg.getRequest().getRrb().getFilename();
 		/*ChunkRow chunkRow = getDb().getChunkRowById(msg.getReq().getRrb().getChunkId(), );
 		logger.info(" checking for " + chunkRow.getLocation_at() + " message req filename  " + filename);
 		if(chunkRow!= null){
@@ -334,14 +335,14 @@ public class ServerState {
 		this.readTaskQueue = readTaskQueue;
 	}
 
-	public void sendReadResponse(Channel channel, Pipe.Response rsp, int clientNodeId){
+	public void sendReadResponse(Channel channel, Response rsp, int clientNodeId){
 		logger.info("Preparing to send read response for nodeid: "+ clientNodeId );
 		Pipe.CommandMessage.Builder cmdMsg = Pipe.CommandMessage.newBuilder();
 		Common.Header.Builder hd = Common.Header.newBuilder();
 		hd.setNodeId(this.getNodeId());
 		hd.setTime(System.currentTimeMillis());
 		hd.setDestination(clientNodeId);
-		cmdMsg.setResp(rsp);
+		cmdMsg.setResponse(rsp);
 		cmdMsg.setHeader(hd);
 		channel.writeAndFlush(cmdMsg.build());
 		logger.info(" Sent read response to "  + cmdMsg.getHeader().getDestination());

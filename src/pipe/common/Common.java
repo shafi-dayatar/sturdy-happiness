@@ -6558,9 +6558,9 @@ public final class Common {
        */
       ERROR(8),
       /**
-       * <code>INCOMPLETE = 41;</code>
+       * <code>INCOMPLETEFILE = 41;</code>
        */
-      INCOMPLETE(41),
+      INCOMPLETEFILE(41),
       ;
 
       /**
@@ -6624,9 +6624,9 @@ public final class Common {
        */
       public static final int ERROR_VALUE = 8;
       /**
-       * <code>INCOMPLETE = 41;</code>
+       * <code>INCOMPLETEFILE = 41;</code>
        */
-      public static final int INCOMPLETE_VALUE = 41;
+      public static final int INCOMPLETEFILE_VALUE = 41;
 
 
       public final int getNumber() {
@@ -6651,7 +6651,7 @@ public final class Common {
           case 6: return UNREACHABLE;
           case 7: return SERVICEDOWN;
           case 8: return ERROR;
-          case 41: return INCOMPLETE;
+          case 41: return INCOMPLETEFILE;
           default: return null;
         }
       }
@@ -10876,26 +10876,26 @@ public final class Common {
       "_ext\030\002 \001(\t\022\025\n\005chunk\030\003 \001(\0132\006.Chunk\022\017\n\007fil" +
       "e_id\030\004 \001(\t\022\025\n\rnum_of_chunks\030\005 \001(\005\"S\n\010Rea" +
       "dBody\022\020\n\010filename\030\001 \001(\t\022\017\n\007file_id\030\002 \001(\t" +
-      "\022\020\n\010chunk_id\030\003 \001(\005\022\022\n\nchunk_size\030\004 \001(\005\"\323" +
+      "\022\020\n\010chunk_id\030\003 \001(\005\022\022\n\nchunk_size\030\004 \001(\005\"\327" +
       "\002\n\010Response\022\037\n\014responseType\030\001 \002(\0162\t.Task" +
       "Type\022\020\n\010filename\030\002 \001(\t\022 \n\006status\030\003 \001(\0162\020" +
       ".Response.Status\022\'\n\rwriteResponse\030\004 \001(\0132" +
       "\016.WriteResponseH\000\022%\n\014readResponse\030\005 \001(\0132" +
-      "\r.ReadResponseH\000\"\226\001\n\006Status\022\013\n\007SUCCESS\020\001",
+      "\r.ReadResponseH\000\"\232\001\n\006Status\022\013\n\007SUCCESS\020\001",
       "\022\021\n\rSERVERTIMEOUT\020\002\022\017\n\013REDIRECTION\020\003\022\020\n\014" +
       "FILENOTFOUND\020\004\022\014\n\010NOLEADER\020\005\022\017\n\013UNREACHA" +
-      "BLE\020\006\022\017\n\013SERVICEDOWN\020\007\022\t\n\005ERROR\020\010\022\016\n\nINC" +
-      "OMPLETE\020)B\t\n\007payload\"2\n\rWriteResponse\022\017\n" +
-      "\007ChunkId\030\001 \003(\005\022\020\n\010filename\030\002 \001(\t\"\231\001\n\014Rea" +
-      "dResponse\022\020\n\010filename\030\001 \002(\t\022\017\n\007file_id\030\003" +
-      " \001(\t\022\020\n\010file_ext\030\002 \001(\t\022\025\n\rnum_of_chunks\030" +
-      "\004 \001(\005\022&\n\016chunk_location\030\005 \003(\0132\016.ChunkLoc" +
-      "ation\022\025\n\005chunk\030\006 \001(\0132\006.Chunk\"6\n\rChunkLoc" +
-      "ation\022\020\n\010chunk_id\030\001 \001(\005\022\023\n\004node\030\002 \001(\0132\005.",
-      "Node*b\n\010TaskType\022\023\n\017REQUESTREADFILE\020\001\022\024\n" +
-      "\020REQUESTWRITEFILE\020\002\022\024\n\020RESPONSEREADFILE\020" +
-      "\003\022\025\n\021RESPONSEWRITEFILE\020\004B\017\n\013pipe.commonH" +
-      "\001"
+      "BLE\020\006\022\017\n\013SERVICEDOWN\020\007\022\t\n\005ERROR\020\010\022\022\n\016INC" +
+      "OMPLETEFILE\020)B\t\n\007payload\"2\n\rWriteRespons" +
+      "e\022\017\n\007ChunkId\030\001 \003(\005\022\020\n\010filename\030\002 \001(\t\"\231\001\n" +
+      "\014ReadResponse\022\020\n\010filename\030\001 \002(\t\022\017\n\007file_" +
+      "id\030\003 \001(\t\022\020\n\010file_ext\030\002 \001(\t\022\025\n\rnum_of_chu" +
+      "nks\030\004 \001(\005\022&\n\016chunk_location\030\005 \003(\0132\016.Chun" +
+      "kLocation\022\025\n\005chunk\030\006 \001(\0132\006.Chunk\"6\n\rChun" +
+      "kLocation\022\020\n\010chunk_id\030\001 \001(\005\022\023\n\004node\030\002 \001(",
+      "\0132\005.Node*b\n\010TaskType\022\023\n\017REQUESTREADFILE\020" +
+      "\001\022\024\n\020REQUESTWRITEFILE\020\002\022\024\n\020RESPONSEREADF" +
+      "ILE\020\003\022\025\n\021RESPONSEWRITEFILE\020\004B\017\n\013pipe.com" +
+      "monH\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

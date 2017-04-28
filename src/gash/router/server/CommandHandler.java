@@ -27,11 +27,12 @@ import pipe.common.Common;
 import pipe.common.Common.Node;
 import routing.Pipe;
 import routing.Pipe.CommandMessage;
-import routing.Pipe.ReadBody;
-import routing.Pipe.Response;
-import routing.Pipe.Response.Status;
-import routing.Pipe.TaskType;
-import routing.Pipe.WriteBody;
+import pipe.common.Common.ReadBody;
+import pipe.common.Common.Response;
+import pipe.common.Common.Response.Status;
+import pipe.common.Common.TaskType;
+import pipe.common.Common.WriteBody;
+import pipe.common.Common.WriteResponse;
 
 
 /**
@@ -77,19 +78,19 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 			return;
 		}
 	    logger.info("Request received at server : " + msg.toString());
-		if(msg.hasReq()){
+		if(msg.hasRequest()){
 			
-			switch(msg.getReq().getRequestType()){
+			switch(msg.getRequest().getRequestType()){
 		
 		
 		    case REQUESTWRITEFILE:
-		    	WriteBody writeReq = msg.getReq().getRwb();
+		    	WriteBody writeReq = msg.getRequest().getRwb();
 		    	Status status = serverState.getRaftState().writeFile(writeReq);	
 		    	sendWriteResponse(channel, msg, status);
 		    	break;
 		    	
 		    case REQUESTREADFILE:
-		    	ReadBody readReq = msg.getReq().getRrb();
+		    	ReadBody readReq = msg.getRequest().getRrb();
 		    	Response res = null;
 		    	if(readReq.hasChunkId()){
 		    		serverState.connectionManager.setConnection(msg.getHeader().getNodeId(), channel);
@@ -100,24 +101,8 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 					serverState.sendReadResponse(channel, res, msg.getHeader().getNodeId());
 		    	}
 		    	break;
-		    case PING:
-		    	logger.info("got a ping message:" + msg.toString());
-		    	int clusterId = msg.getHeader().getDestination();
-		    	if (clusterId == serverState.getConf().getClusterId()){
-		    		sendPingResponse(channel);
-		    	}else{
-		    		Channel ch = serverState.connectionManager.getConnection(5);
-		    		if (ch == null){
-		    			Node node = serverState.getRedis().getLeader(5);
-		    			CommConnection cc = new CommConnection(node.getHost(), node.getPort());
-		    			ch = cc.connect();
-		    			serverState.connectionManager.setConnection(5, ch);
-		    		}
-		    		ch.write(msg);
-		    	}
-		    	break;
-
 		    default:
+		    	logger.info(">>>>> unhandled request at server, just loggin the request, " + msg.toString());
 		    	break;
 			}
 		}else if(msg.hasPing()){
@@ -219,8 +204,8 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 		response.setResponseType(TaskType.RESPONSEWRITEFILE);
 		response.setStatus(status);
 		
-		Pipe.WriteResponse.Builder writeRespBuilder = Pipe.WriteResponse.newBuilder();
-		writeRespBuilder.addChunkId(cmdMessage.getReq().getRwb().getChunk().getChunkId());
+		WriteResponse.Builder writeRespBuilder = WriteResponse.newBuilder();
+		writeRespBuilder.addChunkId(cmdMessage.getRequest().getRwb().getChunk().getChunkId());
 		response.setWriteResponse(writeRespBuilder.build());
 		cmdMsg.setHeader(hd);
 		channel.writeAndFlush(cmdMsg.build());

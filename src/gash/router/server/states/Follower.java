@@ -28,10 +28,10 @@ import pipe.work.Work.LogEntryList;
 import pipe.work.Work.WorkMessage;
 import pipe.work.Work.WorkMessage.MessageType;
 import routing.Pipe;
-import routing.Pipe.ReadBody;
-import routing.Pipe.Response;
-import routing.Pipe.Response.Status;
-import routing.Pipe.WriteBody;
+import pipe.common.Common.ReadBody;
+import pipe.common.Common.Response;
+import pipe.common.Common.Response.Status;
+import pipe.common.Common.WriteBody;
 
 /**
  * TO DO:

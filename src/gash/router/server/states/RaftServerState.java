@@ -2,15 +2,16 @@ package gash.router.server.states;
 
 import java.util.ArrayList;
 
+import pipe.common.Common.Response;
+import pipe.common.Common.ReadBody;
+import pipe.common.Common.WriteBody;
+import pipe.common.Common.Response.Status;
 import pipe.election.Election.LeaderElection;
 import pipe.election.Election.LeaderElectionResponse;
 import pipe.work.Work.FileChunkData;
 import pipe.work.Work.LogAppendEntry;
 import pipe.work.Work.LogEntry;
 import routing.Pipe;
-import routing.Pipe.ReadBody;
-import routing.Pipe.Response.Status;
-import routing.Pipe.WriteBody;
 
 /**
  *  Parent state class that defines every node - Leader Candidate Follower
@@ -34,7 +35,7 @@ public interface RaftServerState {
 	public void writeChunkData(FileChunkData chunk);
 	public void readChunkDataResponse(FileChunkData chunk);
 	public void writeChunkDataResponse(FileChunkData chunk);
-	routing.Pipe.Response getFileChunkLocation(ReadBody request);
+	Response getFileChunkLocation(ReadBody request);
 	Status writeFile(WriteBody writeBody);
 
 	public void stealWork();

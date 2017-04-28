@@ -27,10 +27,10 @@ public class ReadTask implements Runnable{
 	        msgBuilder.setType(Work.WorkMessage.MessageType.CHUNKFILEDATAREAD);
 
 	        Work.FileChunkData.Builder chBuilder = Work.FileChunkData.newBuilder();
-	        chBuilder.setFileName(cmdMsg.getReq().getRrb().getFilename());
-	        int chunk_id = cmdMsg.getReq().getRrb().getChunkId();
+	        chBuilder.setFileName(cmdMsg.getRequest().getRrb().getFilename());
+	        int chunk_id = cmdMsg.getRequest().getRrb().getChunkId();
 	        chBuilder.setChunkId(chunk_id);
-	        int fileId = state.getDb().getFileId(cmdMsg.getReq().getRrb().getFilename());
+	        int fileId = state.getDb().getFileId(cmdMsg.getRequest().getRrb().getFilename());
 	        chBuilder.setFileId(fileId);
 	        chBuilder.setReplyTo(cmdMsg.getHeader().getNodeId());
 
