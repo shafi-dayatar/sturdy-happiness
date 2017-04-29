@@ -6,17 +6,38 @@ option java_package = "pipe.common";
  * the accompanying information for all messages. Provides origination,
  * security, authentication, and tracking information
  */
-message Header {  
-    required int32 node_id = 1;
-    required int64 time = 2;
-    optional int32 message_id =3;
-   
-    // if the message is for a specific node, this will be set
-    optional int32 destination = 8;
-    // This factor limits the distance that a msg travels from the originating 
-    // node. Default (-1) is the whole network (not restricted).
-    optional int32 max_hops = 10 [default = -1];
+/*
+ *message Header {
+ *   required int32 node_id = 1;
+ *   required int64 time = 2;
+ *   optional int32 message_id =3;
+ *
+ *   // if the message is for a specific node, this will be set
+ *   optional int32 destination = 8;
+ *   // This factor limits the distance that a msg travels from the originating
+ *   // node. Default (-1) is the whole network (not restricted).
+ *   optional int32 max_hops = 10 [default = -1];
+ *}
+*/
+message Header {
+
+  // As we need to identify message from different network, message_id would help with that.
+   // in addition with node_id, it will remain unique every time.
+   optional int32 message_id = 1;  //New field Added
+   required int32 node_id = 2;
+   optional int64 time = 3;
+   optional bool election=4;
+   optional bool steal=5;
+
+   // if the message is for a specific node, this will be set
+   optional int32 destination = 8;
+
+   // This factor limits the distance that a msg travels from the originating
+   // node. Default (-1) is the whole network (not restricted).
+   optional int32 max_hops = 10 [default = -1];
+
 }
+
 
 message Failure {
     required int32 id = 1;

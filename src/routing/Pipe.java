@@ -101,7 +101,7 @@ public final class Pipe {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return routing.Pipe.getDescriptor().getEnumTypes().get(0);
+      return Pipe.getDescriptor().getEnumTypes().get(0);
     }
 
     private static final TaskType[] VALUES = values();
@@ -109,7 +109,7 @@ public final class Pipe {
     public static TaskType valueOf(
         com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
       if (desc.getType() != getDescriptor()) {
-        throw new java.lang.IllegalArgumentException(
+        throw new IllegalArgumentException(
           "EnumValueDescriptor is not for this type.");
       }
       return VALUES[desc.getIndex()];
@@ -181,7 +181,7 @@ public final class Pipe {
     }
 
     private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
+    @Override
     public final com.google.protobuf.UnknownFieldSet
         getUnknownFields() {
       return this.unknownFields;
@@ -238,14 +238,14 @@ public final class Pipe {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return routing.Pipe.internal_static_Chunk_descriptor;
+      return Pipe.internal_static_Chunk_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return routing.Pipe.internal_static_Chunk_fieldAccessorTable
+      return Pipe.internal_static_Chunk_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              routing.Pipe.Chunk.class, routing.Pipe.Chunk.Builder.class);
+              Chunk.class, Builder.class);
     }
 
     public static com.google.protobuf.Parser<Chunk> PARSER =
@@ -258,7 +258,7 @@ public final class Pipe {
       }
     };
 
-    @java.lang.Override
+    @Override
     public com.google.protobuf.Parser<Chunk> getParserForType() {
       return PARSER;
     }
@@ -371,59 +371,59 @@ public final class Pipe {
     }
 
     private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
+    @Override
+    protected Object writeReplace()
         throws java.io.ObjectStreamException {
       return super.writeReplace();
     }
 
-    public static routing.Pipe.Chunk parseFrom(
+    public static Chunk parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static routing.Pipe.Chunk parseFrom(
+    public static Chunk parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static routing.Pipe.Chunk parseFrom(byte[] data)
+    public static Chunk parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static routing.Pipe.Chunk parseFrom(
+    public static Chunk parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static routing.Pipe.Chunk parseFrom(java.io.InputStream input)
+    public static Chunk parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static routing.Pipe.Chunk parseFrom(
+    public static Chunk parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseFrom(input, extensionRegistry);
     }
-    public static routing.Pipe.Chunk parseDelimitedFrom(java.io.InputStream input)
+    public static Chunk parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input);
     }
-    public static routing.Pipe.Chunk parseDelimitedFrom(
+    public static Chunk parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input, extensionRegistry);
     }
-    public static routing.Pipe.Chunk parseFrom(
+    public static Chunk parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static routing.Pipe.Chunk parseFrom(
+    public static Chunk parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -432,12 +432,12 @@ public final class Pipe {
 
     public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(routing.Pipe.Chunk prototype) {
+    public static Builder newBuilder(Chunk prototype) {
       return newBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() { return newBuilder(this); }
 
-    @java.lang.Override
+    @Override
     protected Builder newBuilderForType(
         com.google.protobuf.GeneratedMessage.BuilderParent parent) {
       Builder builder = new Builder(parent);
@@ -449,17 +449,17 @@ public final class Pipe {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder> implements
         // @@protoc_insertion_point(builder_implements:Chunk)
-        routing.Pipe.ChunkOrBuilder {
+        ChunkOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return routing.Pipe.internal_static_Chunk_descriptor;
+        return Pipe.internal_static_Chunk_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return routing.Pipe.internal_static_Chunk_fieldAccessorTable
+        return Pipe.internal_static_Chunk_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                routing.Pipe.Chunk.class, routing.Pipe.Chunk.Builder.class);
+                Chunk.class, Builder.class);
       }
 
       // Construct using routing.Pipe.Chunk.newBuilder()
@@ -497,23 +497,23 @@ public final class Pipe {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return routing.Pipe.internal_static_Chunk_descriptor;
+        return Pipe.internal_static_Chunk_descriptor;
       }
 
-      public routing.Pipe.Chunk getDefaultInstanceForType() {
-        return routing.Pipe.Chunk.getDefaultInstance();
+      public Chunk getDefaultInstanceForType() {
+        return Chunk.getDefaultInstance();
       }
 
-      public routing.Pipe.Chunk build() {
-        routing.Pipe.Chunk result = buildPartial();
+      public Chunk build() {
+        Chunk result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public routing.Pipe.Chunk buildPartial() {
-        routing.Pipe.Chunk result = new routing.Pipe.Chunk(this);
+      public Chunk buildPartial() {
+        Chunk result = new Chunk(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
@@ -534,16 +534,16 @@ public final class Pipe {
       }
 
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof routing.Pipe.Chunk) {
-          return mergeFrom((routing.Pipe.Chunk)other);
+        if (other instanceof Chunk) {
+          return mergeFrom((Chunk)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(routing.Pipe.Chunk other) {
-        if (other == routing.Pipe.Chunk.getDefaultInstance()) return this;
+      public Builder mergeFrom(Chunk other) {
+        if (other == Chunk.getDefaultInstance()) return this;
         if (other.hasChunkId()) {
           setChunkId(other.getChunkId());
         }
@@ -573,11 +573,11 @@ public final class Pipe {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        routing.Pipe.Chunk parsedMessage = null;
+        Chunk parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (routing.Pipe.Chunk) e.getUnfinishedMessage();
+          parsedMessage = (Chunk) e.getUnfinishedMessage();
           throw e;
         } finally {
           if (parsedMessage != null) {
@@ -733,7 +733,7 @@ public final class Pipe {
      * <code>repeated .Node node = 2;</code>
      */
     pipe.common.Common.NodeOrBuilder getNodeOrBuilder(
-        int index);
+            int index);
   }
   /**
    * Protobuf type {@code ChunkLocation}
@@ -759,7 +759,7 @@ public final class Pipe {
     }
 
     private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
+    @Override
     public final com.google.protobuf.UnknownFieldSet
         getUnknownFields() {
       return this.unknownFields;
@@ -817,14 +817,14 @@ public final class Pipe {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return routing.Pipe.internal_static_ChunkLocation_descriptor;
+      return Pipe.internal_static_ChunkLocation_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return routing.Pipe.internal_static_ChunkLocation_fieldAccessorTable
+      return Pipe.internal_static_ChunkLocation_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              routing.Pipe.ChunkLocation.class, routing.Pipe.ChunkLocation.Builder.class);
+              ChunkLocation.class, Builder.class);
     }
 
     public static com.google.protobuf.Parser<ChunkLocation> PARSER =
@@ -837,7 +837,7 @@ public final class Pipe {
       }
     };
 
-    @java.lang.Override
+    @Override
     public com.google.protobuf.Parser<ChunkLocation> getParserForType() {
       return PARSER;
     }
@@ -945,59 +945,59 @@ public final class Pipe {
     }
 
     private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
+    @Override
+    protected Object writeReplace()
         throws java.io.ObjectStreamException {
       return super.writeReplace();
     }
 
-    public static routing.Pipe.ChunkLocation parseFrom(
+    public static ChunkLocation parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static routing.Pipe.ChunkLocation parseFrom(
+    public static ChunkLocation parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static routing.Pipe.ChunkLocation parseFrom(byte[] data)
+    public static ChunkLocation parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static routing.Pipe.ChunkLocation parseFrom(
+    public static ChunkLocation parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static routing.Pipe.ChunkLocation parseFrom(java.io.InputStream input)
+    public static ChunkLocation parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static routing.Pipe.ChunkLocation parseFrom(
+    public static ChunkLocation parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseFrom(input, extensionRegistry);
     }
-    public static routing.Pipe.ChunkLocation parseDelimitedFrom(java.io.InputStream input)
+    public static ChunkLocation parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input);
     }
-    public static routing.Pipe.ChunkLocation parseDelimitedFrom(
+    public static ChunkLocation parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input, extensionRegistry);
     }
-    public static routing.Pipe.ChunkLocation parseFrom(
+    public static ChunkLocation parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static routing.Pipe.ChunkLocation parseFrom(
+    public static ChunkLocation parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -1006,12 +1006,12 @@ public final class Pipe {
 
     public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(routing.Pipe.ChunkLocation prototype) {
+    public static Builder newBuilder(ChunkLocation prototype) {
       return newBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() { return newBuilder(this); }
 
-    @java.lang.Override
+    @Override
     protected Builder newBuilderForType(
         com.google.protobuf.GeneratedMessage.BuilderParent parent) {
       Builder builder = new Builder(parent);
@@ -1023,17 +1023,17 @@ public final class Pipe {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder> implements
         // @@protoc_insertion_point(builder_implements:ChunkLocation)
-        routing.Pipe.ChunkLocationOrBuilder {
+        ChunkLocationOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return routing.Pipe.internal_static_ChunkLocation_descriptor;
+        return Pipe.internal_static_ChunkLocation_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return routing.Pipe.internal_static_ChunkLocation_fieldAccessorTable
+        return Pipe.internal_static_ChunkLocation_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                routing.Pipe.ChunkLocation.class, routing.Pipe.ChunkLocation.Builder.class);
+                ChunkLocation.class, Builder.class);
       }
 
       // Construct using routing.Pipe.ChunkLocation.newBuilder()
@@ -1074,23 +1074,23 @@ public final class Pipe {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return routing.Pipe.internal_static_ChunkLocation_descriptor;
+        return Pipe.internal_static_ChunkLocation_descriptor;
       }
 
-      public routing.Pipe.ChunkLocation getDefaultInstanceForType() {
-        return routing.Pipe.ChunkLocation.getDefaultInstance();
+      public ChunkLocation getDefaultInstanceForType() {
+        return ChunkLocation.getDefaultInstance();
       }
 
-      public routing.Pipe.ChunkLocation build() {
-        routing.Pipe.ChunkLocation result = buildPartial();
+      public ChunkLocation build() {
+        ChunkLocation result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public routing.Pipe.ChunkLocation buildPartial() {
-        routing.Pipe.ChunkLocation result = new routing.Pipe.ChunkLocation(this);
+      public ChunkLocation buildPartial() {
+        ChunkLocation result = new ChunkLocation(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
@@ -1112,16 +1112,16 @@ public final class Pipe {
       }
 
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof routing.Pipe.ChunkLocation) {
-          return mergeFrom((routing.Pipe.ChunkLocation)other);
+        if (other instanceof ChunkLocation) {
+          return mergeFrom((ChunkLocation)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(routing.Pipe.ChunkLocation other) {
-        if (other == routing.Pipe.ChunkLocation.getDefaultInstance()) return this;
+      public Builder mergeFrom(ChunkLocation other) {
+        if (other == ChunkLocation.getDefaultInstance()) return this;
         if (other.hasChunkid()) {
           setChunkid(other.getChunkid());
         }
@@ -1169,11 +1169,11 @@ public final class Pipe {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        routing.Pipe.ChunkLocation parsedMessage = null;
+        ChunkLocation parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (routing.Pipe.ChunkLocation) e.getUnfinishedMessage();
+          parsedMessage = (ChunkLocation) e.getUnfinishedMessage();
           throw e;
         } finally {
           if (parsedMessage != null) {
@@ -1354,7 +1354,7 @@ public final class Pipe {
        * <code>repeated .Node node = 2;</code>
        */
       public Builder addAllNode(
-          java.lang.Iterable<? extends pipe.common.Common.Node> values) {
+          Iterable<? extends pipe.common.Common.Node> values) {
         if (nodeBuilder_ == null) {
           ensureNodeIsMutable();
           com.google.protobuf.AbstractMessageLite.Builder.addAll(
@@ -1508,7 +1508,7 @@ public final class Pipe {
     /**
      * <code>optional string message = 4;</code>
      */
-    java.lang.String getMessage();
+    String getMessage();
     /**
      * <code>optional string message = 4;</code>
      */
@@ -1535,11 +1535,11 @@ public final class Pipe {
     /**
      * <code>optional .Request req = 6;</code>
      */
-    routing.Pipe.Request getReq();
+    Request getReq();
     /**
      * <code>optional .Request req = 6;</code>
      */
-    routing.Pipe.RequestOrBuilder getReqOrBuilder();
+    RequestOrBuilder getReqOrBuilder();
 
     /**
      * <code>optional .Response resp = 7;</code>
@@ -1548,11 +1548,11 @@ public final class Pipe {
     /**
      * <code>optional .Response resp = 7;</code>
      */
-    routing.Pipe.Response getResp();
+    Response getResp();
     /**
      * <code>optional .Response resp = 7;</code>
      */
-    routing.Pipe.ResponseOrBuilder getRespOrBuilder();
+    ResponseOrBuilder getRespOrBuilder();
   }
   /**
    * Protobuf type {@code CommandMessage}
@@ -1578,7 +1578,7 @@ public final class Pipe {
     }
 
     private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
+    @Override
     public final com.google.protobuf.UnknownFieldSet
         getUnknownFields() {
       return this.unknownFields;
@@ -1644,26 +1644,26 @@ public final class Pipe {
               break;
             }
             case 50: {
-              routing.Pipe.Request.Builder subBuilder = null;
+              Request.Builder subBuilder = null;
               if (payloadCase_ == 6) {
-                subBuilder = ((routing.Pipe.Request) payload_).toBuilder();
+                subBuilder = ((Request) payload_).toBuilder();
               }
-              payload_ = input.readMessage(routing.Pipe.Request.PARSER, extensionRegistry);
+              payload_ = input.readMessage(Request.PARSER, extensionRegistry);
               if (subBuilder != null) {
-                subBuilder.mergeFrom((routing.Pipe.Request) payload_);
+                subBuilder.mergeFrom((Request) payload_);
                 payload_ = subBuilder.buildPartial();
               }
               payloadCase_ = 6;
               break;
             }
             case 58: {
-              routing.Pipe.Response.Builder subBuilder = null;
+              Response.Builder subBuilder = null;
               if (payloadCase_ == 7) {
-                subBuilder = ((routing.Pipe.Response) payload_).toBuilder();
+                subBuilder = ((Response) payload_).toBuilder();
               }
-              payload_ = input.readMessage(routing.Pipe.Response.PARSER, extensionRegistry);
+              payload_ = input.readMessage(Response.PARSER, extensionRegistry);
               if (subBuilder != null) {
-                subBuilder.mergeFrom((routing.Pipe.Response) payload_);
+                subBuilder.mergeFrom((Response) payload_);
                 payload_ = subBuilder.buildPartial();
               }
               payloadCase_ = 7;
@@ -1683,14 +1683,14 @@ public final class Pipe {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return routing.Pipe.internal_static_CommandMessage_descriptor;
+      return Pipe.internal_static_CommandMessage_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return routing.Pipe.internal_static_CommandMessage_fieldAccessorTable
+      return Pipe.internal_static_CommandMessage_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              routing.Pipe.CommandMessage.class, routing.Pipe.CommandMessage.Builder.class);
+              CommandMessage.class, Builder.class);
     }
 
     public static com.google.protobuf.Parser<CommandMessage> PARSER =
@@ -1703,14 +1703,14 @@ public final class Pipe {
       }
     };
 
-    @java.lang.Override
+    @Override
     public com.google.protobuf.Parser<CommandMessage> getParserForType() {
       return PARSER;
     }
 
     private int bitField0_;
     private int payloadCase_ = 0;
-    private java.lang.Object payload_;
+    private Object payload_;
     public enum PayloadCase
         implements com.google.protobuf.Internal.EnumLite {
       PING(3),
@@ -1731,7 +1731,7 @@ public final class Pipe {
           case 6: return REQ;
           case 7: return RESP;
           case 0: return PAYLOAD_NOT_SET;
-          default: throw new java.lang.IllegalArgumentException(
+          default: throw new IllegalArgumentException(
             "Value is undefined for this oneof enum.");
         }
       }
@@ -1787,7 +1787,7 @@ public final class Pipe {
      */
     public boolean getPing() {
       if (payloadCase_ == 3) {
-        return (java.lang.Boolean) payload_;
+        return (Boolean) payload_;
       }
       return false;
     }
@@ -1802,17 +1802,17 @@ public final class Pipe {
     /**
      * <code>optional string message = 4;</code>
      */
-    public java.lang.String getMessage() {
-      java.lang.Object ref = "";
+    public String getMessage() {
+      Object ref = "";
       if (payloadCase_ == 4) {
         ref = payload_;
       }
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
+      if (ref instanceof String) {
+        return (String) ref;
       } else {
         com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
+        String s = bs.toStringUtf8();
         if (bs.isValidUtf8() && (payloadCase_ == 4)) {
           payload_ = s;
         }
@@ -1824,14 +1824,14 @@ public final class Pipe {
      */
     public com.google.protobuf.ByteString
         getMessageBytes() {
-      java.lang.Object ref = "";
+      Object ref = "";
       if (payloadCase_ == 4) {
         ref = payload_;
       }
-      if (ref instanceof java.lang.String) {
+      if (ref instanceof String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
+                (String) ref);
         if (payloadCase_ == 4) {
           payload_ = b;
         }
@@ -1877,20 +1877,20 @@ public final class Pipe {
     /**
      * <code>optional .Request req = 6;</code>
      */
-    public routing.Pipe.Request getReq() {
+    public Request getReq() {
       if (payloadCase_ == 6) {
-         return (routing.Pipe.Request) payload_;
+         return (Request) payload_;
       }
-      return routing.Pipe.Request.getDefaultInstance();
+      return Request.getDefaultInstance();
     }
     /**
      * <code>optional .Request req = 6;</code>
      */
-    public routing.Pipe.RequestOrBuilder getReqOrBuilder() {
+    public RequestOrBuilder getReqOrBuilder() {
       if (payloadCase_ == 6) {
-         return (routing.Pipe.Request) payload_;
+         return (Request) payload_;
       }
-      return routing.Pipe.Request.getDefaultInstance();
+      return Request.getDefaultInstance();
     }
 
     public static final int RESP_FIELD_NUMBER = 7;
@@ -1903,20 +1903,20 @@ public final class Pipe {
     /**
      * <code>optional .Response resp = 7;</code>
      */
-    public routing.Pipe.Response getResp() {
+    public Response getResp() {
       if (payloadCase_ == 7) {
-         return (routing.Pipe.Response) payload_;
+         return (Response) payload_;
       }
-      return routing.Pipe.Response.getDefaultInstance();
+      return Response.getDefaultInstance();
     }
     /**
      * <code>optional .Response resp = 7;</code>
      */
-    public routing.Pipe.ResponseOrBuilder getRespOrBuilder() {
+    public ResponseOrBuilder getRespOrBuilder() {
       if (payloadCase_ == 7) {
-         return (routing.Pipe.Response) payload_;
+         return (Response) payload_;
       }
-      return routing.Pipe.Response.getDefaultInstance();
+      return Response.getDefaultInstance();
     }
 
     private void initFields() {
@@ -1966,7 +1966,7 @@ public final class Pipe {
       }
       if (payloadCase_ == 3) {
         output.writeBool(
-            3, (boolean)((java.lang.Boolean) payload_));
+            3, (boolean)((Boolean) payload_));
       }
       if (payloadCase_ == 4) {
         output.writeBytes(4, getMessageBytes());
@@ -1975,10 +1975,10 @@ public final class Pipe {
         output.writeMessage(5, (pipe.common.Common.Failure) payload_);
       }
       if (payloadCase_ == 6) {
-        output.writeMessage(6, (routing.Pipe.Request) payload_);
+        output.writeMessage(6, (Request) payload_);
       }
       if (payloadCase_ == 7) {
-        output.writeMessage(7, (routing.Pipe.Response) payload_);
+        output.writeMessage(7, (Response) payload_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -1996,7 +1996,7 @@ public final class Pipe {
       if (payloadCase_ == 3) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(
-              3, (boolean)((java.lang.Boolean) payload_));
+              3, (boolean)((Boolean) payload_));
       }
       if (payloadCase_ == 4) {
         size += com.google.protobuf.CodedOutputStream
@@ -2008,11 +2008,11 @@ public final class Pipe {
       }
       if (payloadCase_ == 6) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(6, (routing.Pipe.Request) payload_);
+          .computeMessageSize(6, (Request) payload_);
       }
       if (payloadCase_ == 7) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(7, (routing.Pipe.Response) payload_);
+          .computeMessageSize(7, (Response) payload_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2020,59 +2020,59 @@ public final class Pipe {
     }
 
     private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
+    @Override
+    protected Object writeReplace()
         throws java.io.ObjectStreamException {
       return super.writeReplace();
     }
 
-    public static routing.Pipe.CommandMessage parseFrom(
+    public static CommandMessage parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static routing.Pipe.CommandMessage parseFrom(
+    public static CommandMessage parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static routing.Pipe.CommandMessage parseFrom(byte[] data)
+    public static CommandMessage parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static routing.Pipe.CommandMessage parseFrom(
+    public static CommandMessage parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static routing.Pipe.CommandMessage parseFrom(java.io.InputStream input)
+    public static CommandMessage parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static routing.Pipe.CommandMessage parseFrom(
+    public static CommandMessage parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseFrom(input, extensionRegistry);
     }
-    public static routing.Pipe.CommandMessage parseDelimitedFrom(java.io.InputStream input)
+    public static CommandMessage parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input);
     }
-    public static routing.Pipe.CommandMessage parseDelimitedFrom(
+    public static CommandMessage parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input, extensionRegistry);
     }
-    public static routing.Pipe.CommandMessage parseFrom(
+    public static CommandMessage parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static routing.Pipe.CommandMessage parseFrom(
+    public static CommandMessage parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -2081,12 +2081,12 @@ public final class Pipe {
 
     public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(routing.Pipe.CommandMessage prototype) {
+    public static Builder newBuilder(CommandMessage prototype) {
       return newBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() { return newBuilder(this); }
 
-    @java.lang.Override
+    @Override
     protected Builder newBuilderForType(
         com.google.protobuf.GeneratedMessage.BuilderParent parent) {
       Builder builder = new Builder(parent);
@@ -2098,17 +2098,17 @@ public final class Pipe {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder> implements
         // @@protoc_insertion_point(builder_implements:CommandMessage)
-        routing.Pipe.CommandMessageOrBuilder {
+        CommandMessageOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return routing.Pipe.internal_static_CommandMessage_descriptor;
+        return Pipe.internal_static_CommandMessage_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return routing.Pipe.internal_static_CommandMessage_fieldAccessorTable
+        return Pipe.internal_static_CommandMessage_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                routing.Pipe.CommandMessage.class, routing.Pipe.CommandMessage.Builder.class);
+                CommandMessage.class, Builder.class);
       }
 
       // Construct using routing.Pipe.CommandMessage.newBuilder()
@@ -2149,23 +2149,23 @@ public final class Pipe {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return routing.Pipe.internal_static_CommandMessage_descriptor;
+        return Pipe.internal_static_CommandMessage_descriptor;
       }
 
-      public routing.Pipe.CommandMessage getDefaultInstanceForType() {
-        return routing.Pipe.CommandMessage.getDefaultInstance();
+      public CommandMessage getDefaultInstanceForType() {
+        return CommandMessage.getDefaultInstance();
       }
 
-      public routing.Pipe.CommandMessage build() {
-        routing.Pipe.CommandMessage result = buildPartial();
+      public CommandMessage build() {
+        CommandMessage result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public routing.Pipe.CommandMessage buildPartial() {
-        routing.Pipe.CommandMessage result = new routing.Pipe.CommandMessage(this);
+      public CommandMessage buildPartial() {
+        CommandMessage result = new CommandMessage(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
@@ -2210,16 +2210,16 @@ public final class Pipe {
       }
 
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof routing.Pipe.CommandMessage) {
-          return mergeFrom((routing.Pipe.CommandMessage)other);
+        if (other instanceof CommandMessage) {
+          return mergeFrom((CommandMessage)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(routing.Pipe.CommandMessage other) {
-        if (other == routing.Pipe.CommandMessage.getDefaultInstance()) return this;
+      public Builder mergeFrom(CommandMessage other) {
+        if (other == CommandMessage.getDefaultInstance()) return this;
         if (other.hasHeader()) {
           mergeHeader(other.getHeader());
         }
@@ -2288,11 +2288,11 @@ public final class Pipe {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        routing.Pipe.CommandMessage parsedMessage = null;
+        CommandMessage parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (routing.Pipe.CommandMessage) e.getUnfinishedMessage();
+          parsedMessage = (CommandMessage) e.getUnfinishedMessage();
           throw e;
         } finally {
           if (parsedMessage != null) {
@@ -2302,7 +2302,7 @@ public final class Pipe {
         return this;
       }
       private int payloadCase_ = 0;
-      private java.lang.Object payload_;
+      private Object payload_;
       public PayloadCase
           getPayloadCase() {
         return PayloadCase.valueOf(
@@ -2453,7 +2453,7 @@ public final class Pipe {
        */
       public boolean getPing() {
         if (payloadCase_ == 3) {
-          return (java.lang.Boolean) payload_;
+          return (Boolean) payload_;
         }
         return false;
       }
@@ -2495,15 +2495,15 @@ public final class Pipe {
       /**
        * <code>optional string message = 4;</code>
        */
-      public java.lang.String getMessage() {
-        java.lang.Object ref = "";
+      public String getMessage() {
+        Object ref = "";
         if (payloadCase_ == 4) {
           ref = payload_;
         }
-        if (!(ref instanceof java.lang.String)) {
+        if (!(ref instanceof String)) {
           com.google.protobuf.ByteString bs =
               (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
+          String s = bs.toStringUtf8();
           if (payloadCase_ == 4) {
             if (bs.isValidUtf8()) {
               payload_ = s;
@@ -2511,7 +2511,7 @@ public final class Pipe {
           }
           return s;
         } else {
-          return (java.lang.String) ref;
+          return (String) ref;
         }
       }
       /**
@@ -2519,14 +2519,14 @@ public final class Pipe {
        */
       public com.google.protobuf.ByteString
           getMessageBytes() {
-        java.lang.Object ref = "";
+        Object ref = "";
         if (payloadCase_ == 4) {
           ref = payload_;
         }
         if (ref instanceof String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
+                  (String) ref);
           if (payloadCase_ == 4) {
             payload_ = b;
           }
@@ -2539,7 +2539,7 @@ public final class Pipe {
        * <code>optional string message = 4;</code>
        */
       public Builder setMessage(
-          java.lang.String value) {
+          String value) {
         if (value == null) {
     throw new NullPointerException();
   }
@@ -2709,7 +2709,7 @@ public final class Pipe {
       }
 
       private com.google.protobuf.SingleFieldBuilder<
-          routing.Pipe.Request, routing.Pipe.Request.Builder, routing.Pipe.RequestOrBuilder> reqBuilder_;
+          Request, Request.Builder, RequestOrBuilder> reqBuilder_;
       /**
        * <code>optional .Request req = 6;</code>
        */
@@ -2719,23 +2719,23 @@ public final class Pipe {
       /**
        * <code>optional .Request req = 6;</code>
        */
-      public routing.Pipe.Request getReq() {
+      public Request getReq() {
         if (reqBuilder_ == null) {
           if (payloadCase_ == 6) {
-            return (routing.Pipe.Request) payload_;
+            return (Request) payload_;
           }
-          return routing.Pipe.Request.getDefaultInstance();
+          return Request.getDefaultInstance();
         } else {
           if (payloadCase_ == 6) {
             return reqBuilder_.getMessage();
           }
-          return routing.Pipe.Request.getDefaultInstance();
+          return Request.getDefaultInstance();
         }
       }
       /**
        * <code>optional .Request req = 6;</code>
        */
-      public Builder setReq(routing.Pipe.Request value) {
+      public Builder setReq(Request value) {
         if (reqBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -2752,7 +2752,7 @@ public final class Pipe {
        * <code>optional .Request req = 6;</code>
        */
       public Builder setReq(
-          routing.Pipe.Request.Builder builderForValue) {
+          Request.Builder builderForValue) {
         if (reqBuilder_ == null) {
           payload_ = builderForValue.build();
           onChanged();
@@ -2765,11 +2765,11 @@ public final class Pipe {
       /**
        * <code>optional .Request req = 6;</code>
        */
-      public Builder mergeReq(routing.Pipe.Request value) {
+      public Builder mergeReq(Request value) {
         if (reqBuilder_ == null) {
           if (payloadCase_ == 6 &&
-              payload_ != routing.Pipe.Request.getDefaultInstance()) {
-            payload_ = routing.Pipe.Request.newBuilder((routing.Pipe.Request) payload_)
+              payload_ != Request.getDefaultInstance()) {
+            payload_ = Request.newBuilder((Request) payload_)
                 .mergeFrom(value).buildPartial();
           } else {
             payload_ = value;
@@ -2806,35 +2806,35 @@ public final class Pipe {
       /**
        * <code>optional .Request req = 6;</code>
        */
-      public routing.Pipe.Request.Builder getReqBuilder() {
+      public Request.Builder getReqBuilder() {
         return getReqFieldBuilder().getBuilder();
       }
       /**
        * <code>optional .Request req = 6;</code>
        */
-      public routing.Pipe.RequestOrBuilder getReqOrBuilder() {
+      public RequestOrBuilder getReqOrBuilder() {
         if ((payloadCase_ == 6) && (reqBuilder_ != null)) {
           return reqBuilder_.getMessageOrBuilder();
         } else {
           if (payloadCase_ == 6) {
-            return (routing.Pipe.Request) payload_;
+            return (Request) payload_;
           }
-          return routing.Pipe.Request.getDefaultInstance();
+          return Request.getDefaultInstance();
         }
       }
       /**
        * <code>optional .Request req = 6;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
-          routing.Pipe.Request, routing.Pipe.Request.Builder, routing.Pipe.RequestOrBuilder> 
+          Request, Request.Builder, RequestOrBuilder>
           getReqFieldBuilder() {
         if (reqBuilder_ == null) {
           if (!(payloadCase_ == 6)) {
-            payload_ = routing.Pipe.Request.getDefaultInstance();
+            payload_ = Request.getDefaultInstance();
           }
           reqBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-              routing.Pipe.Request, routing.Pipe.Request.Builder, routing.Pipe.RequestOrBuilder>(
-                  (routing.Pipe.Request) payload_,
+              Request, Request.Builder, RequestOrBuilder>(
+                  (Request) payload_,
                   getParentForChildren(),
                   isClean());
           payload_ = null;
@@ -2844,7 +2844,7 @@ public final class Pipe {
       }
 
       private com.google.protobuf.SingleFieldBuilder<
-          routing.Pipe.Response, routing.Pipe.Response.Builder, routing.Pipe.ResponseOrBuilder> respBuilder_;
+          Response, Response.Builder, ResponseOrBuilder> respBuilder_;
       /**
        * <code>optional .Response resp = 7;</code>
        */
@@ -2854,23 +2854,23 @@ public final class Pipe {
       /**
        * <code>optional .Response resp = 7;</code>
        */
-      public routing.Pipe.Response getResp() {
+      public Response getResp() {
         if (respBuilder_ == null) {
           if (payloadCase_ == 7) {
-            return (routing.Pipe.Response) payload_;
+            return (Response) payload_;
           }
-          return routing.Pipe.Response.getDefaultInstance();
+          return Response.getDefaultInstance();
         } else {
           if (payloadCase_ == 7) {
             return respBuilder_.getMessage();
           }
-          return routing.Pipe.Response.getDefaultInstance();
+          return Response.getDefaultInstance();
         }
       }
       /**
        * <code>optional .Response resp = 7;</code>
        */
-      public Builder setResp(routing.Pipe.Response value) {
+      public Builder setResp(Response value) {
         if (respBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -2887,7 +2887,7 @@ public final class Pipe {
        * <code>optional .Response resp = 7;</code>
        */
       public Builder setResp(
-          routing.Pipe.Response.Builder builderForValue) {
+          Response.Builder builderForValue) {
         if (respBuilder_ == null) {
           payload_ = builderForValue.build();
           onChanged();
@@ -2900,11 +2900,11 @@ public final class Pipe {
       /**
        * <code>optional .Response resp = 7;</code>
        */
-      public Builder mergeResp(routing.Pipe.Response value) {
+      public Builder mergeResp(Response value) {
         if (respBuilder_ == null) {
           if (payloadCase_ == 7 &&
-              payload_ != routing.Pipe.Response.getDefaultInstance()) {
-            payload_ = routing.Pipe.Response.newBuilder((routing.Pipe.Response) payload_)
+              payload_ != Response.getDefaultInstance()) {
+            payload_ = Response.newBuilder((Response) payload_)
                 .mergeFrom(value).buildPartial();
           } else {
             payload_ = value;
@@ -2941,35 +2941,35 @@ public final class Pipe {
       /**
        * <code>optional .Response resp = 7;</code>
        */
-      public routing.Pipe.Response.Builder getRespBuilder() {
+      public Response.Builder getRespBuilder() {
         return getRespFieldBuilder().getBuilder();
       }
       /**
        * <code>optional .Response resp = 7;</code>
        */
-      public routing.Pipe.ResponseOrBuilder getRespOrBuilder() {
+      public ResponseOrBuilder getRespOrBuilder() {
         if ((payloadCase_ == 7) && (respBuilder_ != null)) {
           return respBuilder_.getMessageOrBuilder();
         } else {
           if (payloadCase_ == 7) {
-            return (routing.Pipe.Response) payload_;
+            return (Response) payload_;
           }
-          return routing.Pipe.Response.getDefaultInstance();
+          return Response.getDefaultInstance();
         }
       }
       /**
        * <code>optional .Response resp = 7;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
-          routing.Pipe.Response, routing.Pipe.Response.Builder, routing.Pipe.ResponseOrBuilder> 
+          Response, Response.Builder, ResponseOrBuilder>
           getRespFieldBuilder() {
         if (respBuilder_ == null) {
           if (!(payloadCase_ == 7)) {
-            payload_ = routing.Pipe.Response.getDefaultInstance();
+            payload_ = Response.getDefaultInstance();
           }
           respBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-              routing.Pipe.Response, routing.Pipe.Response.Builder, routing.Pipe.ResponseOrBuilder>(
-                  (routing.Pipe.Response) payload_,
+              Response, Response.Builder, ResponseOrBuilder>(
+                  (Response) payload_,
                   getParentForChildren(),
                   isClean());
           payload_ = null;
@@ -3013,7 +3013,7 @@ public final class Pipe {
     /**
      * <code>required .TaskType requestType = 3;</code>
      */
-    routing.Pipe.TaskType getRequestType();
+    TaskType getRequestType();
 
     /**
      * <code>optional .WriteBody rwb = 4;</code>
@@ -3022,11 +3022,11 @@ public final class Pipe {
     /**
      * <code>optional .WriteBody rwb = 4;</code>
      */
-    routing.Pipe.WriteBody getRwb();
+    WriteBody getRwb();
     /**
      * <code>optional .WriteBody rwb = 4;</code>
      */
-    routing.Pipe.WriteBodyOrBuilder getRwbOrBuilder();
+    WriteBodyOrBuilder getRwbOrBuilder();
 
     /**
      * <code>optional .ReadBody rrb = 5;</code>
@@ -3035,11 +3035,11 @@ public final class Pipe {
     /**
      * <code>optional .ReadBody rrb = 5;</code>
      */
-    routing.Pipe.ReadBody getRrb();
+    ReadBody getRrb();
     /**
      * <code>optional .ReadBody rrb = 5;</code>
      */
-    routing.Pipe.ReadBodyOrBuilder getRrbOrBuilder();
+    ReadBodyOrBuilder getRrbOrBuilder();
   }
   /**
    * Protobuf type {@code Request}
@@ -3069,7 +3069,7 @@ public final class Pipe {
     }
 
     private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
+    @Override
     public final com.google.protobuf.UnknownFieldSet
         getUnknownFields() {
       return this.unknownFields;
@@ -3112,7 +3112,7 @@ public final class Pipe {
             }
             case 24: {
               int rawValue = input.readEnum();
-              routing.Pipe.TaskType value = routing.Pipe.TaskType.valueOf(rawValue);
+              TaskType value = TaskType.valueOf(rawValue);
               if (value == null) {
                 unknownFields.mergeVarintField(3, rawValue);
               } else {
@@ -3122,26 +3122,26 @@ public final class Pipe {
               break;
             }
             case 34: {
-              routing.Pipe.WriteBody.Builder subBuilder = null;
+              WriteBody.Builder subBuilder = null;
               if (payloadCase_ == 4) {
-                subBuilder = ((routing.Pipe.WriteBody) payload_).toBuilder();
+                subBuilder = ((WriteBody) payload_).toBuilder();
               }
-              payload_ = input.readMessage(routing.Pipe.WriteBody.PARSER, extensionRegistry);
+              payload_ = input.readMessage(WriteBody.PARSER, extensionRegistry);
               if (subBuilder != null) {
-                subBuilder.mergeFrom((routing.Pipe.WriteBody) payload_);
+                subBuilder.mergeFrom((WriteBody) payload_);
                 payload_ = subBuilder.buildPartial();
               }
               payloadCase_ = 4;
               break;
             }
             case 42: {
-              routing.Pipe.ReadBody.Builder subBuilder = null;
+              ReadBody.Builder subBuilder = null;
               if (payloadCase_ == 5) {
-                subBuilder = ((routing.Pipe.ReadBody) payload_).toBuilder();
+                subBuilder = ((ReadBody) payload_).toBuilder();
               }
-              payload_ = input.readMessage(routing.Pipe.ReadBody.PARSER, extensionRegistry);
+              payload_ = input.readMessage(ReadBody.PARSER, extensionRegistry);
               if (subBuilder != null) {
-                subBuilder.mergeFrom((routing.Pipe.ReadBody) payload_);
+                subBuilder.mergeFrom((ReadBody) payload_);
                 payload_ = subBuilder.buildPartial();
               }
               payloadCase_ = 5;
@@ -3161,14 +3161,14 @@ public final class Pipe {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return routing.Pipe.internal_static_Request_descriptor;
+      return Pipe.internal_static_Request_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return routing.Pipe.internal_static_Request_fieldAccessorTable
+      return Pipe.internal_static_Request_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              routing.Pipe.Request.class, routing.Pipe.Request.Builder.class);
+              Request.class, Builder.class);
     }
 
     public static com.google.protobuf.Parser<Request> PARSER =
@@ -3181,14 +3181,14 @@ public final class Pipe {
       }
     };
 
-    @java.lang.Override
+    @Override
     public com.google.protobuf.Parser<Request> getParserForType() {
       return PARSER;
     }
 
     private int bitField0_;
     private int payloadCase_ = 0;
-    private java.lang.Object payload_;
+    private Object payload_;
     public enum PayloadCase
         implements com.google.protobuf.Internal.EnumLite {
       RWB(4),
@@ -3203,7 +3203,7 @@ public final class Pipe {
           case 4: return RWB;
           case 5: return RRB;
           case 0: return PAYLOAD_NOT_SET;
-          default: throw new java.lang.IllegalArgumentException(
+          default: throw new IllegalArgumentException(
             "Value is undefined for this oneof enum.");
         }
       }
@@ -3240,7 +3240,7 @@ public final class Pipe {
     }
 
     public static final int REQUESTTYPE_FIELD_NUMBER = 3;
-    private routing.Pipe.TaskType requestType_;
+    private TaskType requestType_;
     /**
      * <code>required .TaskType requestType = 3;</code>
      */
@@ -3250,7 +3250,7 @@ public final class Pipe {
     /**
      * <code>required .TaskType requestType = 3;</code>
      */
-    public routing.Pipe.TaskType getRequestType() {
+    public TaskType getRequestType() {
       return requestType_;
     }
 
@@ -3264,20 +3264,20 @@ public final class Pipe {
     /**
      * <code>optional .WriteBody rwb = 4;</code>
      */
-    public routing.Pipe.WriteBody getRwb() {
+    public WriteBody getRwb() {
       if (payloadCase_ == 4) {
-         return (routing.Pipe.WriteBody) payload_;
+         return (WriteBody) payload_;
       }
-      return routing.Pipe.WriteBody.getDefaultInstance();
+      return WriteBody.getDefaultInstance();
     }
     /**
      * <code>optional .WriteBody rwb = 4;</code>
      */
-    public routing.Pipe.WriteBodyOrBuilder getRwbOrBuilder() {
+    public WriteBodyOrBuilder getRwbOrBuilder() {
       if (payloadCase_ == 4) {
-         return (routing.Pipe.WriteBody) payload_;
+         return (WriteBody) payload_;
       }
-      return routing.Pipe.WriteBody.getDefaultInstance();
+      return WriteBody.getDefaultInstance();
     }
 
     public static final int RRB_FIELD_NUMBER = 5;
@@ -3290,25 +3290,25 @@ public final class Pipe {
     /**
      * <code>optional .ReadBody rrb = 5;</code>
      */
-    public routing.Pipe.ReadBody getRrb() {
+    public ReadBody getRrb() {
       if (payloadCase_ == 5) {
-         return (routing.Pipe.ReadBody) payload_;
+         return (ReadBody) payload_;
       }
-      return routing.Pipe.ReadBody.getDefaultInstance();
+      return ReadBody.getDefaultInstance();
     }
     /**
      * <code>optional .ReadBody rrb = 5;</code>
      */
-    public routing.Pipe.ReadBodyOrBuilder getRrbOrBuilder() {
+    public ReadBodyOrBuilder getRrbOrBuilder() {
       if (payloadCase_ == 5) {
-         return (routing.Pipe.ReadBody) payload_;
+         return (ReadBody) payload_;
       }
-      return routing.Pipe.ReadBody.getDefaultInstance();
+      return ReadBody.getDefaultInstance();
     }
 
     private void initFields() {
       client_ = pipe.common.Common.Node.getDefaultInstance();
-      requestType_ = routing.Pipe.TaskType.PING;
+      requestType_ = TaskType.PING;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -3346,10 +3346,10 @@ public final class Pipe {
         output.writeEnum(3, requestType_.getNumber());
       }
       if (payloadCase_ == 4) {
-        output.writeMessage(4, (routing.Pipe.WriteBody) payload_);
+        output.writeMessage(4, (WriteBody) payload_);
       }
       if (payloadCase_ == 5) {
-        output.writeMessage(5, (routing.Pipe.ReadBody) payload_);
+        output.writeMessage(5, (ReadBody) payload_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -3370,11 +3370,11 @@ public final class Pipe {
       }
       if (payloadCase_ == 4) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(4, (routing.Pipe.WriteBody) payload_);
+          .computeMessageSize(4, (WriteBody) payload_);
       }
       if (payloadCase_ == 5) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(5, (routing.Pipe.ReadBody) payload_);
+          .computeMessageSize(5, (ReadBody) payload_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -3382,59 +3382,59 @@ public final class Pipe {
     }
 
     private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
+    @Override
+    protected Object writeReplace()
         throws java.io.ObjectStreamException {
       return super.writeReplace();
     }
 
-    public static routing.Pipe.Request parseFrom(
+    public static Request parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static routing.Pipe.Request parseFrom(
+    public static Request parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static routing.Pipe.Request parseFrom(byte[] data)
+    public static Request parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static routing.Pipe.Request parseFrom(
+    public static Request parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static routing.Pipe.Request parseFrom(java.io.InputStream input)
+    public static Request parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static routing.Pipe.Request parseFrom(
+    public static Request parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseFrom(input, extensionRegistry);
     }
-    public static routing.Pipe.Request parseDelimitedFrom(java.io.InputStream input)
+    public static Request parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input);
     }
-    public static routing.Pipe.Request parseDelimitedFrom(
+    public static Request parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input, extensionRegistry);
     }
-    public static routing.Pipe.Request parseFrom(
+    public static Request parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static routing.Pipe.Request parseFrom(
+    public static Request parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -3443,12 +3443,12 @@ public final class Pipe {
 
     public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(routing.Pipe.Request prototype) {
+    public static Builder newBuilder(Request prototype) {
       return newBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() { return newBuilder(this); }
 
-    @java.lang.Override
+    @Override
     protected Builder newBuilderForType(
         com.google.protobuf.GeneratedMessage.BuilderParent parent) {
       Builder builder = new Builder(parent);
@@ -3464,17 +3464,17 @@ public final class Pipe {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder> implements
         // @@protoc_insertion_point(builder_implements:Request)
-        routing.Pipe.RequestOrBuilder {
+        RequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return routing.Pipe.internal_static_Request_descriptor;
+        return Pipe.internal_static_Request_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return routing.Pipe.internal_static_Request_fieldAccessorTable
+        return Pipe.internal_static_Request_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                routing.Pipe.Request.class, routing.Pipe.Request.Builder.class);
+                Request.class, Builder.class);
       }
 
       // Construct using routing.Pipe.Request.newBuilder()
@@ -3504,7 +3504,7 @@ public final class Pipe {
           clientBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000001);
-        requestType_ = routing.Pipe.TaskType.PING;
+        requestType_ = TaskType.PING;
         bitField0_ = (bitField0_ & ~0x00000002);
         payloadCase_ = 0;
         payload_ = null;
@@ -3517,23 +3517,23 @@ public final class Pipe {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return routing.Pipe.internal_static_Request_descriptor;
+        return Pipe.internal_static_Request_descriptor;
       }
 
-      public routing.Pipe.Request getDefaultInstanceForType() {
-        return routing.Pipe.Request.getDefaultInstance();
+      public Request getDefaultInstanceForType() {
+        return Request.getDefaultInstance();
       }
 
-      public routing.Pipe.Request build() {
-        routing.Pipe.Request result = buildPartial();
+      public Request build() {
+        Request result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public routing.Pipe.Request buildPartial() {
-        routing.Pipe.Request result = new routing.Pipe.Request(this);
+      public Request buildPartial() {
+        Request result = new Request(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
@@ -3569,16 +3569,16 @@ public final class Pipe {
       }
 
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof routing.Pipe.Request) {
-          return mergeFrom((routing.Pipe.Request)other);
+        if (other instanceof Request) {
+          return mergeFrom((Request)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(routing.Pipe.Request other) {
-        if (other == routing.Pipe.Request.getDefaultInstance()) return this;
+      public Builder mergeFrom(Request other) {
+        if (other == Request.getDefaultInstance()) return this;
         if (other.hasClient()) {
           mergeClient(other.getClient());
         }
@@ -3626,11 +3626,11 @@ public final class Pipe {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        routing.Pipe.Request parsedMessage = null;
+        Request parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (routing.Pipe.Request) e.getUnfinishedMessage();
+          parsedMessage = (Request) e.getUnfinishedMessage();
           throw e;
         } finally {
           if (parsedMessage != null) {
@@ -3640,7 +3640,7 @@ public final class Pipe {
         return this;
       }
       private int payloadCase_ = 0;
-      private java.lang.Object payload_;
+      private Object payload_;
       public PayloadCase
           getPayloadCase() {
         return PayloadCase.valueOf(
@@ -3772,7 +3772,7 @@ public final class Pipe {
         return clientBuilder_;
       }
 
-      private routing.Pipe.TaskType requestType_ = routing.Pipe.TaskType.PING;
+      private TaskType requestType_ = TaskType.PING;
       /**
        * <code>required .TaskType requestType = 3;</code>
        */
@@ -3782,13 +3782,13 @@ public final class Pipe {
       /**
        * <code>required .TaskType requestType = 3;</code>
        */
-      public routing.Pipe.TaskType getRequestType() {
+      public TaskType getRequestType() {
         return requestType_;
       }
       /**
        * <code>required .TaskType requestType = 3;</code>
        */
-      public Builder setRequestType(routing.Pipe.TaskType value) {
+      public Builder setRequestType(TaskType value) {
         if (value == null) {
           throw new NullPointerException();
         }
@@ -3802,13 +3802,13 @@ public final class Pipe {
        */
       public Builder clearRequestType() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        requestType_ = routing.Pipe.TaskType.PING;
+        requestType_ = TaskType.PING;
         onChanged();
         return this;
       }
 
       private com.google.protobuf.SingleFieldBuilder<
-          routing.Pipe.WriteBody, routing.Pipe.WriteBody.Builder, routing.Pipe.WriteBodyOrBuilder> rwbBuilder_;
+          WriteBody, WriteBody.Builder, WriteBodyOrBuilder> rwbBuilder_;
       /**
        * <code>optional .WriteBody rwb = 4;</code>
        */
@@ -3818,23 +3818,23 @@ public final class Pipe {
       /**
        * <code>optional .WriteBody rwb = 4;</code>
        */
-      public routing.Pipe.WriteBody getRwb() {
+      public WriteBody getRwb() {
         if (rwbBuilder_ == null) {
           if (payloadCase_ == 4) {
-            return (routing.Pipe.WriteBody) payload_;
+            return (WriteBody) payload_;
           }
-          return routing.Pipe.WriteBody.getDefaultInstance();
+          return WriteBody.getDefaultInstance();
         } else {
           if (payloadCase_ == 4) {
             return rwbBuilder_.getMessage();
           }
-          return routing.Pipe.WriteBody.getDefaultInstance();
+          return WriteBody.getDefaultInstance();
         }
       }
       /**
        * <code>optional .WriteBody rwb = 4;</code>
        */
-      public Builder setRwb(routing.Pipe.WriteBody value) {
+      public Builder setRwb(WriteBody value) {
         if (rwbBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -3851,7 +3851,7 @@ public final class Pipe {
        * <code>optional .WriteBody rwb = 4;</code>
        */
       public Builder setRwb(
-          routing.Pipe.WriteBody.Builder builderForValue) {
+          WriteBody.Builder builderForValue) {
         if (rwbBuilder_ == null) {
           payload_ = builderForValue.build();
           onChanged();
@@ -3864,11 +3864,11 @@ public final class Pipe {
       /**
        * <code>optional .WriteBody rwb = 4;</code>
        */
-      public Builder mergeRwb(routing.Pipe.WriteBody value) {
+      public Builder mergeRwb(WriteBody value) {
         if (rwbBuilder_ == null) {
           if (payloadCase_ == 4 &&
-              payload_ != routing.Pipe.WriteBody.getDefaultInstance()) {
-            payload_ = routing.Pipe.WriteBody.newBuilder((routing.Pipe.WriteBody) payload_)
+              payload_ != WriteBody.getDefaultInstance()) {
+            payload_ = WriteBody.newBuilder((WriteBody) payload_)
                 .mergeFrom(value).buildPartial();
           } else {
             payload_ = value;
@@ -3905,35 +3905,35 @@ public final class Pipe {
       /**
        * <code>optional .WriteBody rwb = 4;</code>
        */
-      public routing.Pipe.WriteBody.Builder getRwbBuilder() {
+      public WriteBody.Builder getRwbBuilder() {
         return getRwbFieldBuilder().getBuilder();
       }
       /**
        * <code>optional .WriteBody rwb = 4;</code>
        */
-      public routing.Pipe.WriteBodyOrBuilder getRwbOrBuilder() {
+      public WriteBodyOrBuilder getRwbOrBuilder() {
         if ((payloadCase_ == 4) && (rwbBuilder_ != null)) {
           return rwbBuilder_.getMessageOrBuilder();
         } else {
           if (payloadCase_ == 4) {
-            return (routing.Pipe.WriteBody) payload_;
+            return (WriteBody) payload_;
           }
-          return routing.Pipe.WriteBody.getDefaultInstance();
+          return WriteBody.getDefaultInstance();
         }
       }
       /**
        * <code>optional .WriteBody rwb = 4;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
-          routing.Pipe.WriteBody, routing.Pipe.WriteBody.Builder, routing.Pipe.WriteBodyOrBuilder> 
+          WriteBody, WriteBody.Builder, WriteBodyOrBuilder>
           getRwbFieldBuilder() {
         if (rwbBuilder_ == null) {
           if (!(payloadCase_ == 4)) {
-            payload_ = routing.Pipe.WriteBody.getDefaultInstance();
+            payload_ = WriteBody.getDefaultInstance();
           }
           rwbBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-              routing.Pipe.WriteBody, routing.Pipe.WriteBody.Builder, routing.Pipe.WriteBodyOrBuilder>(
-                  (routing.Pipe.WriteBody) payload_,
+              WriteBody, WriteBody.Builder, WriteBodyOrBuilder>(
+                  (WriteBody) payload_,
                   getParentForChildren(),
                   isClean());
           payload_ = null;
@@ -3943,7 +3943,7 @@ public final class Pipe {
       }
 
       private com.google.protobuf.SingleFieldBuilder<
-          routing.Pipe.ReadBody, routing.Pipe.ReadBody.Builder, routing.Pipe.ReadBodyOrBuilder> rrbBuilder_;
+          ReadBody, ReadBody.Builder, ReadBodyOrBuilder> rrbBuilder_;
       /**
        * <code>optional .ReadBody rrb = 5;</code>
        */
@@ -3953,23 +3953,23 @@ public final class Pipe {
       /**
        * <code>optional .ReadBody rrb = 5;</code>
        */
-      public routing.Pipe.ReadBody getRrb() {
+      public ReadBody getRrb() {
         if (rrbBuilder_ == null) {
           if (payloadCase_ == 5) {
-            return (routing.Pipe.ReadBody) payload_;
+            return (ReadBody) payload_;
           }
-          return routing.Pipe.ReadBody.getDefaultInstance();
+          return ReadBody.getDefaultInstance();
         } else {
           if (payloadCase_ == 5) {
             return rrbBuilder_.getMessage();
           }
-          return routing.Pipe.ReadBody.getDefaultInstance();
+          return ReadBody.getDefaultInstance();
         }
       }
       /**
        * <code>optional .ReadBody rrb = 5;</code>
        */
-      public Builder setRrb(routing.Pipe.ReadBody value) {
+      public Builder setRrb(ReadBody value) {
         if (rrbBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -3986,7 +3986,7 @@ public final class Pipe {
        * <code>optional .ReadBody rrb = 5;</code>
        */
       public Builder setRrb(
-          routing.Pipe.ReadBody.Builder builderForValue) {
+          ReadBody.Builder builderForValue) {
         if (rrbBuilder_ == null) {
           payload_ = builderForValue.build();
           onChanged();
@@ -3999,11 +3999,11 @@ public final class Pipe {
       /**
        * <code>optional .ReadBody rrb = 5;</code>
        */
-      public Builder mergeRrb(routing.Pipe.ReadBody value) {
+      public Builder mergeRrb(ReadBody value) {
         if (rrbBuilder_ == null) {
           if (payloadCase_ == 5 &&
-              payload_ != routing.Pipe.ReadBody.getDefaultInstance()) {
-            payload_ = routing.Pipe.ReadBody.newBuilder((routing.Pipe.ReadBody) payload_)
+              payload_ != ReadBody.getDefaultInstance()) {
+            payload_ = ReadBody.newBuilder((ReadBody) payload_)
                 .mergeFrom(value).buildPartial();
           } else {
             payload_ = value;
@@ -4040,35 +4040,35 @@ public final class Pipe {
       /**
        * <code>optional .ReadBody rrb = 5;</code>
        */
-      public routing.Pipe.ReadBody.Builder getRrbBuilder() {
+      public ReadBody.Builder getRrbBuilder() {
         return getRrbFieldBuilder().getBuilder();
       }
       /**
        * <code>optional .ReadBody rrb = 5;</code>
        */
-      public routing.Pipe.ReadBodyOrBuilder getRrbOrBuilder() {
+      public ReadBodyOrBuilder getRrbOrBuilder() {
         if ((payloadCase_ == 5) && (rrbBuilder_ != null)) {
           return rrbBuilder_.getMessageOrBuilder();
         } else {
           if (payloadCase_ == 5) {
-            return (routing.Pipe.ReadBody) payload_;
+            return (ReadBody) payload_;
           }
-          return routing.Pipe.ReadBody.getDefaultInstance();
+          return ReadBody.getDefaultInstance();
         }
       }
       /**
        * <code>optional .ReadBody rrb = 5;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
-          routing.Pipe.ReadBody, routing.Pipe.ReadBody.Builder, routing.Pipe.ReadBodyOrBuilder> 
+          ReadBody, ReadBody.Builder, ReadBodyOrBuilder>
           getRrbFieldBuilder() {
         if (rrbBuilder_ == null) {
           if (!(payloadCase_ == 5)) {
-            payload_ = routing.Pipe.ReadBody.getDefaultInstance();
+            payload_ = ReadBody.getDefaultInstance();
           }
           rrbBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-              routing.Pipe.ReadBody, routing.Pipe.ReadBody.Builder, routing.Pipe.ReadBodyOrBuilder>(
-                  (routing.Pipe.ReadBody) payload_,
+              ReadBody, ReadBody.Builder, ReadBodyOrBuilder>(
+                  (ReadBody) payload_,
                   getParentForChildren(),
                   isClean());
           payload_ = null;
@@ -4108,7 +4108,7 @@ public final class Pipe {
     /**
      * <code>required string filename = 2;</code>
      */
-    java.lang.String getFilename();
+    String getFilename();
     /**
      * <code>required string filename = 2;</code>
      */
@@ -4122,7 +4122,7 @@ public final class Pipe {
     /**
      * <code>optional string file_ext = 3;</code>
      */
-    java.lang.String getFileExt();
+    String getFileExt();
     /**
      * <code>optional string file_ext = 3;</code>
      */
@@ -4136,11 +4136,11 @@ public final class Pipe {
     /**
      * <code>optional .Chunk chunk = 4;</code>
      */
-    routing.Pipe.Chunk getChunk();
+    Chunk getChunk();
     /**
      * <code>optional .Chunk chunk = 4;</code>
      */
-    routing.Pipe.ChunkOrBuilder getChunkOrBuilder();
+    ChunkOrBuilder getChunkOrBuilder();
 
     /**
      * <code>optional int32 num_of_chunks = 5;</code>
@@ -4175,7 +4175,7 @@ public final class Pipe {
     }
 
     private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
+    @Override
     public final com.google.protobuf.UnknownFieldSet
         getUnknownFields() {
       return this.unknownFields;
@@ -4221,11 +4221,11 @@ public final class Pipe {
               break;
             }
             case 34: {
-              routing.Pipe.Chunk.Builder subBuilder = null;
+              Chunk.Builder subBuilder = null;
               if (((bitField0_ & 0x00000008) == 0x00000008)) {
                 subBuilder = chunk_.toBuilder();
               }
-              chunk_ = input.readMessage(routing.Pipe.Chunk.PARSER, extensionRegistry);
+              chunk_ = input.readMessage(Chunk.PARSER, extensionRegistry);
               if (subBuilder != null) {
                 subBuilder.mergeFrom(chunk_);
                 chunk_ = subBuilder.buildPartial();
@@ -4252,14 +4252,14 @@ public final class Pipe {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return routing.Pipe.internal_static_WriteBody_descriptor;
+      return Pipe.internal_static_WriteBody_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return routing.Pipe.internal_static_WriteBody_fieldAccessorTable
+      return Pipe.internal_static_WriteBody_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              routing.Pipe.WriteBody.class, routing.Pipe.WriteBody.Builder.class);
+              WriteBody.class, Builder.class);
     }
 
     public static com.google.protobuf.Parser<WriteBody> PARSER =
@@ -4272,7 +4272,7 @@ public final class Pipe {
       }
     };
 
-    @java.lang.Override
+    @Override
     public com.google.protobuf.Parser<WriteBody> getParserForType() {
       return PARSER;
     }
@@ -4294,7 +4294,7 @@ public final class Pipe {
     }
 
     public static final int FILENAME_FIELD_NUMBER = 2;
-    private java.lang.Object filename_;
+    private Object filename_;
     /**
      * <code>required string filename = 2;</code>
      */
@@ -4304,14 +4304,14 @@ public final class Pipe {
     /**
      * <code>required string filename = 2;</code>
      */
-    public java.lang.String getFilename() {
-      java.lang.Object ref = filename_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
+    public String getFilename() {
+      Object ref = filename_;
+      if (ref instanceof String) {
+        return (String) ref;
       } else {
         com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
+        String s = bs.toStringUtf8();
         if (bs.isValidUtf8()) {
           filename_ = s;
         }
@@ -4323,11 +4323,11 @@ public final class Pipe {
      */
     public com.google.protobuf.ByteString
         getFilenameBytes() {
-      java.lang.Object ref = filename_;
-      if (ref instanceof java.lang.String) {
+      Object ref = filename_;
+      if (ref instanceof String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
+                (String) ref);
         filename_ = b;
         return b;
       } else {
@@ -4336,7 +4336,7 @@ public final class Pipe {
     }
 
     public static final int FILE_EXT_FIELD_NUMBER = 3;
-    private java.lang.Object fileExt_;
+    private Object fileExt_;
     /**
      * <code>optional string file_ext = 3;</code>
      */
@@ -4346,14 +4346,14 @@ public final class Pipe {
     /**
      * <code>optional string file_ext = 3;</code>
      */
-    public java.lang.String getFileExt() {
-      java.lang.Object ref = fileExt_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
+    public String getFileExt() {
+      Object ref = fileExt_;
+      if (ref instanceof String) {
+        return (String) ref;
       } else {
         com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
+        String s = bs.toStringUtf8();
         if (bs.isValidUtf8()) {
           fileExt_ = s;
         }
@@ -4365,11 +4365,11 @@ public final class Pipe {
      */
     public com.google.protobuf.ByteString
         getFileExtBytes() {
-      java.lang.Object ref = fileExt_;
-      if (ref instanceof java.lang.String) {
+      Object ref = fileExt_;
+      if (ref instanceof String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
+                (String) ref);
         fileExt_ = b;
         return b;
       } else {
@@ -4378,7 +4378,7 @@ public final class Pipe {
     }
 
     public static final int CHUNK_FIELD_NUMBER = 4;
-    private routing.Pipe.Chunk chunk_;
+    private Chunk chunk_;
     /**
      * <code>optional .Chunk chunk = 4;</code>
      */
@@ -4388,13 +4388,13 @@ public final class Pipe {
     /**
      * <code>optional .Chunk chunk = 4;</code>
      */
-    public routing.Pipe.Chunk getChunk() {
+    public Chunk getChunk() {
       return chunk_;
     }
     /**
      * <code>optional .Chunk chunk = 4;</code>
      */
-    public routing.Pipe.ChunkOrBuilder getChunkOrBuilder() {
+    public ChunkOrBuilder getChunkOrBuilder() {
       return chunk_;
     }
 
@@ -4417,7 +4417,7 @@ public final class Pipe {
       fileId_ = 0L;
       filename_ = "";
       fileExt_ = "";
-      chunk_ = routing.Pipe.Chunk.getDefaultInstance();
+      chunk_ = Chunk.getDefaultInstance();
       numOfChunks_ = 0;
     }
     private byte memoizedIsInitialized = -1;
@@ -4493,59 +4493,59 @@ public final class Pipe {
     }
 
     private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
+    @Override
+    protected Object writeReplace()
         throws java.io.ObjectStreamException {
       return super.writeReplace();
     }
 
-    public static routing.Pipe.WriteBody parseFrom(
+    public static WriteBody parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static routing.Pipe.WriteBody parseFrom(
+    public static WriteBody parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static routing.Pipe.WriteBody parseFrom(byte[] data)
+    public static WriteBody parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static routing.Pipe.WriteBody parseFrom(
+    public static WriteBody parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static routing.Pipe.WriteBody parseFrom(java.io.InputStream input)
+    public static WriteBody parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static routing.Pipe.WriteBody parseFrom(
+    public static WriteBody parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseFrom(input, extensionRegistry);
     }
-    public static routing.Pipe.WriteBody parseDelimitedFrom(java.io.InputStream input)
+    public static WriteBody parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input);
     }
-    public static routing.Pipe.WriteBody parseDelimitedFrom(
+    public static WriteBody parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input, extensionRegistry);
     }
-    public static routing.Pipe.WriteBody parseFrom(
+    public static WriteBody parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static routing.Pipe.WriteBody parseFrom(
+    public static WriteBody parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -4554,12 +4554,12 @@ public final class Pipe {
 
     public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(routing.Pipe.WriteBody prototype) {
+    public static Builder newBuilder(WriteBody prototype) {
       return newBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() { return newBuilder(this); }
 
-    @java.lang.Override
+    @Override
     protected Builder newBuilderForType(
         com.google.protobuf.GeneratedMessage.BuilderParent parent) {
       Builder builder = new Builder(parent);
@@ -4571,17 +4571,17 @@ public final class Pipe {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder> implements
         // @@protoc_insertion_point(builder_implements:WriteBody)
-        routing.Pipe.WriteBodyOrBuilder {
+        WriteBodyOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return routing.Pipe.internal_static_WriteBody_descriptor;
+        return Pipe.internal_static_WriteBody_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return routing.Pipe.internal_static_WriteBody_fieldAccessorTable
+        return Pipe.internal_static_WriteBody_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                routing.Pipe.WriteBody.class, routing.Pipe.WriteBody.Builder.class);
+                WriteBody.class, Builder.class);
       }
 
       // Construct using routing.Pipe.WriteBody.newBuilder()
@@ -4612,7 +4612,7 @@ public final class Pipe {
         fileExt_ = "";
         bitField0_ = (bitField0_ & ~0x00000004);
         if (chunkBuilder_ == null) {
-          chunk_ = routing.Pipe.Chunk.getDefaultInstance();
+          chunk_ = Chunk.getDefaultInstance();
         } else {
           chunkBuilder_.clear();
         }
@@ -4628,23 +4628,23 @@ public final class Pipe {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return routing.Pipe.internal_static_WriteBody_descriptor;
+        return Pipe.internal_static_WriteBody_descriptor;
       }
 
-      public routing.Pipe.WriteBody getDefaultInstanceForType() {
-        return routing.Pipe.WriteBody.getDefaultInstance();
+      public WriteBody getDefaultInstanceForType() {
+        return WriteBody.getDefaultInstance();
       }
 
-      public routing.Pipe.WriteBody build() {
-        routing.Pipe.WriteBody result = buildPartial();
+      public WriteBody build() {
+        WriteBody result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public routing.Pipe.WriteBody buildPartial() {
-        routing.Pipe.WriteBody result = new routing.Pipe.WriteBody(this);
+      public WriteBody buildPartial() {
+        WriteBody result = new WriteBody(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
@@ -4677,16 +4677,16 @@ public final class Pipe {
       }
 
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof routing.Pipe.WriteBody) {
-          return mergeFrom((routing.Pipe.WriteBody)other);
+        if (other instanceof WriteBody) {
+          return mergeFrom((WriteBody)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(routing.Pipe.WriteBody other) {
-        if (other == routing.Pipe.WriteBody.getDefaultInstance()) return this;
+      public Builder mergeFrom(WriteBody other) {
+        if (other == WriteBody.getDefaultInstance()) return this;
         if (other.hasFileId()) {
           setFileId(other.getFileId());
         }
@@ -4728,11 +4728,11 @@ public final class Pipe {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        routing.Pipe.WriteBody parsedMessage = null;
+        WriteBody parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (routing.Pipe.WriteBody) e.getUnfinishedMessage();
+          parsedMessage = (WriteBody) e.getUnfinishedMessage();
           throw e;
         } finally {
           if (parsedMessage != null) {
@@ -4775,7 +4775,7 @@ public final class Pipe {
         return this;
       }
 
-      private java.lang.Object filename_ = "";
+      private Object filename_ = "";
       /**
        * <code>required string filename = 2;</code>
        */
@@ -4785,18 +4785,18 @@ public final class Pipe {
       /**
        * <code>required string filename = 2;</code>
        */
-      public java.lang.String getFilename() {
-        java.lang.Object ref = filename_;
-        if (!(ref instanceof java.lang.String)) {
+      public String getFilename() {
+        Object ref = filename_;
+        if (!(ref instanceof String)) {
           com.google.protobuf.ByteString bs =
               (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
+          String s = bs.toStringUtf8();
           if (bs.isValidUtf8()) {
             filename_ = s;
           }
           return s;
         } else {
-          return (java.lang.String) ref;
+          return (String) ref;
         }
       }
       /**
@@ -4804,11 +4804,11 @@ public final class Pipe {
        */
       public com.google.protobuf.ByteString
           getFilenameBytes() {
-        java.lang.Object ref = filename_;
+        Object ref = filename_;
         if (ref instanceof String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
+                  (String) ref);
           filename_ = b;
           return b;
         } else {
@@ -4819,7 +4819,7 @@ public final class Pipe {
        * <code>required string filename = 2;</code>
        */
       public Builder setFilename(
-          java.lang.String value) {
+          String value) {
         if (value == null) {
     throw new NullPointerException();
   }
@@ -4851,7 +4851,7 @@ public final class Pipe {
         return this;
       }
 
-      private java.lang.Object fileExt_ = "";
+      private Object fileExt_ = "";
       /**
        * <code>optional string file_ext = 3;</code>
        */
@@ -4861,18 +4861,18 @@ public final class Pipe {
       /**
        * <code>optional string file_ext = 3;</code>
        */
-      public java.lang.String getFileExt() {
-        java.lang.Object ref = fileExt_;
-        if (!(ref instanceof java.lang.String)) {
+      public String getFileExt() {
+        Object ref = fileExt_;
+        if (!(ref instanceof String)) {
           com.google.protobuf.ByteString bs =
               (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
+          String s = bs.toStringUtf8();
           if (bs.isValidUtf8()) {
             fileExt_ = s;
           }
           return s;
         } else {
-          return (java.lang.String) ref;
+          return (String) ref;
         }
       }
       /**
@@ -4880,11 +4880,11 @@ public final class Pipe {
        */
       public com.google.protobuf.ByteString
           getFileExtBytes() {
-        java.lang.Object ref = fileExt_;
+        Object ref = fileExt_;
         if (ref instanceof String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
+                  (String) ref);
           fileExt_ = b;
           return b;
         } else {
@@ -4895,7 +4895,7 @@ public final class Pipe {
        * <code>optional string file_ext = 3;</code>
        */
       public Builder setFileExt(
-          java.lang.String value) {
+          String value) {
         if (value == null) {
     throw new NullPointerException();
   }
@@ -4927,9 +4927,9 @@ public final class Pipe {
         return this;
       }
 
-      private routing.Pipe.Chunk chunk_ = routing.Pipe.Chunk.getDefaultInstance();
+      private Chunk chunk_ = Chunk.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
-          routing.Pipe.Chunk, routing.Pipe.Chunk.Builder, routing.Pipe.ChunkOrBuilder> chunkBuilder_;
+          Chunk, Chunk.Builder, ChunkOrBuilder> chunkBuilder_;
       /**
        * <code>optional .Chunk chunk = 4;</code>
        */
@@ -4939,7 +4939,7 @@ public final class Pipe {
       /**
        * <code>optional .Chunk chunk = 4;</code>
        */
-      public routing.Pipe.Chunk getChunk() {
+      public Chunk getChunk() {
         if (chunkBuilder_ == null) {
           return chunk_;
         } else {
@@ -4949,7 +4949,7 @@ public final class Pipe {
       /**
        * <code>optional .Chunk chunk = 4;</code>
        */
-      public Builder setChunk(routing.Pipe.Chunk value) {
+      public Builder setChunk(Chunk value) {
         if (chunkBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -4966,7 +4966,7 @@ public final class Pipe {
        * <code>optional .Chunk chunk = 4;</code>
        */
       public Builder setChunk(
-          routing.Pipe.Chunk.Builder builderForValue) {
+          Chunk.Builder builderForValue) {
         if (chunkBuilder_ == null) {
           chunk_ = builderForValue.build();
           onChanged();
@@ -4979,12 +4979,12 @@ public final class Pipe {
       /**
        * <code>optional .Chunk chunk = 4;</code>
        */
-      public Builder mergeChunk(routing.Pipe.Chunk value) {
+      public Builder mergeChunk(Chunk value) {
         if (chunkBuilder_ == null) {
           if (((bitField0_ & 0x00000008) == 0x00000008) &&
-              chunk_ != routing.Pipe.Chunk.getDefaultInstance()) {
+              chunk_ != Chunk.getDefaultInstance()) {
             chunk_ =
-              routing.Pipe.Chunk.newBuilder(chunk_).mergeFrom(value).buildPartial();
+              Chunk.newBuilder(chunk_).mergeFrom(value).buildPartial();
           } else {
             chunk_ = value;
           }
@@ -5000,7 +5000,7 @@ public final class Pipe {
        */
       public Builder clearChunk() {
         if (chunkBuilder_ == null) {
-          chunk_ = routing.Pipe.Chunk.getDefaultInstance();
+          chunk_ = Chunk.getDefaultInstance();
           onChanged();
         } else {
           chunkBuilder_.clear();
@@ -5011,7 +5011,7 @@ public final class Pipe {
       /**
        * <code>optional .Chunk chunk = 4;</code>
        */
-      public routing.Pipe.Chunk.Builder getChunkBuilder() {
+      public Chunk.Builder getChunkBuilder() {
         bitField0_ |= 0x00000008;
         onChanged();
         return getChunkFieldBuilder().getBuilder();
@@ -5019,7 +5019,7 @@ public final class Pipe {
       /**
        * <code>optional .Chunk chunk = 4;</code>
        */
-      public routing.Pipe.ChunkOrBuilder getChunkOrBuilder() {
+      public ChunkOrBuilder getChunkOrBuilder() {
         if (chunkBuilder_ != null) {
           return chunkBuilder_.getMessageOrBuilder();
         } else {
@@ -5030,11 +5030,11 @@ public final class Pipe {
        * <code>optional .Chunk chunk = 4;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
-          routing.Pipe.Chunk, routing.Pipe.Chunk.Builder, routing.Pipe.ChunkOrBuilder> 
+          Chunk, Chunk.Builder, ChunkOrBuilder>
           getChunkFieldBuilder() {
         if (chunkBuilder_ == null) {
           chunkBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-              routing.Pipe.Chunk, routing.Pipe.Chunk.Builder, routing.Pipe.ChunkOrBuilder>(
+              Chunk, Chunk.Builder, ChunkOrBuilder>(
                   getChunk(),
                   getParentForChildren(),
                   isClean());
@@ -5105,7 +5105,7 @@ public final class Pipe {
      * to get all use * wildcard
      * </pre>
      */
-    java.lang.String getFilename();
+    String getFilename();
     /**
      * <code>optional string filename = 1;</code>
      *
@@ -5167,7 +5167,7 @@ public final class Pipe {
     }
 
     private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
+    @Override
     public final com.google.protobuf.UnknownFieldSet
         getUnknownFields() {
       return this.unknownFields;
@@ -5230,14 +5230,14 @@ public final class Pipe {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return routing.Pipe.internal_static_ReadBody_descriptor;
+      return Pipe.internal_static_ReadBody_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return routing.Pipe.internal_static_ReadBody_fieldAccessorTable
+      return Pipe.internal_static_ReadBody_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              routing.Pipe.ReadBody.class, routing.Pipe.ReadBody.Builder.class);
+              ReadBody.class, Builder.class);
     }
 
     public static com.google.protobuf.Parser<ReadBody> PARSER =
@@ -5250,14 +5250,14 @@ public final class Pipe {
       }
     };
 
-    @java.lang.Override
+    @Override
     public com.google.protobuf.Parser<ReadBody> getParserForType() {
       return PARSER;
     }
 
     private int bitField0_;
     public static final int FILENAME_FIELD_NUMBER = 1;
-    private java.lang.Object filename_;
+    private Object filename_;
     /**
      * <code>optional string filename = 1;</code>
      *
@@ -5275,14 +5275,14 @@ public final class Pipe {
      * to get all use * wildcard
      * </pre>
      */
-    public java.lang.String getFilename() {
-      java.lang.Object ref = filename_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
+    public String getFilename() {
+      Object ref = filename_;
+      if (ref instanceof String) {
+        return (String) ref;
       } else {
         com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
+        String s = bs.toStringUtf8();
         if (bs.isValidUtf8()) {
           filename_ = s;
         }
@@ -5298,11 +5298,11 @@ public final class Pipe {
      */
     public com.google.protobuf.ByteString
         getFilenameBytes() {
-      java.lang.Object ref = filename_;
-      if (ref instanceof java.lang.String) {
+      Object ref = filename_;
+      if (ref instanceof String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
+                (String) ref);
         filename_ = b;
         return b;
       } else {
@@ -5417,59 +5417,59 @@ public final class Pipe {
     }
 
     private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
+    @Override
+    protected Object writeReplace()
         throws java.io.ObjectStreamException {
       return super.writeReplace();
     }
 
-    public static routing.Pipe.ReadBody parseFrom(
+    public static ReadBody parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static routing.Pipe.ReadBody parseFrom(
+    public static ReadBody parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static routing.Pipe.ReadBody parseFrom(byte[] data)
+    public static ReadBody parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static routing.Pipe.ReadBody parseFrom(
+    public static ReadBody parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static routing.Pipe.ReadBody parseFrom(java.io.InputStream input)
+    public static ReadBody parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static routing.Pipe.ReadBody parseFrom(
+    public static ReadBody parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseFrom(input, extensionRegistry);
     }
-    public static routing.Pipe.ReadBody parseDelimitedFrom(java.io.InputStream input)
+    public static ReadBody parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input);
     }
-    public static routing.Pipe.ReadBody parseDelimitedFrom(
+    public static ReadBody parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input, extensionRegistry);
     }
-    public static routing.Pipe.ReadBody parseFrom(
+    public static ReadBody parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static routing.Pipe.ReadBody parseFrom(
+    public static ReadBody parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -5478,12 +5478,12 @@ public final class Pipe {
 
     public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(routing.Pipe.ReadBody prototype) {
+    public static Builder newBuilder(ReadBody prototype) {
       return newBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() { return newBuilder(this); }
 
-    @java.lang.Override
+    @Override
     protected Builder newBuilderForType(
         com.google.protobuf.GeneratedMessage.BuilderParent parent) {
       Builder builder = new Builder(parent);
@@ -5495,17 +5495,17 @@ public final class Pipe {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder> implements
         // @@protoc_insertion_point(builder_implements:ReadBody)
-        routing.Pipe.ReadBodyOrBuilder {
+        ReadBodyOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return routing.Pipe.internal_static_ReadBody_descriptor;
+        return Pipe.internal_static_ReadBody_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return routing.Pipe.internal_static_ReadBody_fieldAccessorTable
+        return Pipe.internal_static_ReadBody_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                routing.Pipe.ReadBody.class, routing.Pipe.ReadBody.Builder.class);
+                ReadBody.class, Builder.class);
       }
 
       // Construct using routing.Pipe.ReadBody.newBuilder()
@@ -5545,23 +5545,23 @@ public final class Pipe {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return routing.Pipe.internal_static_ReadBody_descriptor;
+        return Pipe.internal_static_ReadBody_descriptor;
       }
 
-      public routing.Pipe.ReadBody getDefaultInstanceForType() {
-        return routing.Pipe.ReadBody.getDefaultInstance();
+      public ReadBody getDefaultInstanceForType() {
+        return ReadBody.getDefaultInstance();
       }
 
-      public routing.Pipe.ReadBody build() {
-        routing.Pipe.ReadBody result = buildPartial();
+      public ReadBody build() {
+        ReadBody result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public routing.Pipe.ReadBody buildPartial() {
-        routing.Pipe.ReadBody result = new routing.Pipe.ReadBody(this);
+      public ReadBody buildPartial() {
+        ReadBody result = new ReadBody(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
@@ -5586,16 +5586,16 @@ public final class Pipe {
       }
 
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof routing.Pipe.ReadBody) {
-          return mergeFrom((routing.Pipe.ReadBody)other);
+        if (other instanceof ReadBody) {
+          return mergeFrom((ReadBody)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(routing.Pipe.ReadBody other) {
-        if (other == routing.Pipe.ReadBody.getDefaultInstance()) return this;
+      public Builder mergeFrom(ReadBody other) {
+        if (other == ReadBody.getDefaultInstance()) return this;
         if (other.hasFilename()) {
           bitField0_ |= 0x00000001;
           filename_ = other.filename_;
@@ -5622,11 +5622,11 @@ public final class Pipe {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        routing.Pipe.ReadBody parsedMessage = null;
+        ReadBody parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (routing.Pipe.ReadBody) e.getUnfinishedMessage();
+          parsedMessage = (ReadBody) e.getUnfinishedMessage();
           throw e;
         } finally {
           if (parsedMessage != null) {
@@ -5637,7 +5637,7 @@ public final class Pipe {
       }
       private int bitField0_;
 
-      private java.lang.Object filename_ = "";
+      private Object filename_ = "";
       /**
        * <code>optional string filename = 1;</code>
        *
@@ -5655,18 +5655,18 @@ public final class Pipe {
        * to get all use * wildcard
        * </pre>
        */
-      public java.lang.String getFilename() {
-        java.lang.Object ref = filename_;
-        if (!(ref instanceof java.lang.String)) {
+      public String getFilename() {
+        Object ref = filename_;
+        if (!(ref instanceof String)) {
           com.google.protobuf.ByteString bs =
               (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
+          String s = bs.toStringUtf8();
           if (bs.isValidUtf8()) {
             filename_ = s;
           }
           return s;
         } else {
-          return (java.lang.String) ref;
+          return (String) ref;
         }
       }
       /**
@@ -5678,11 +5678,11 @@ public final class Pipe {
        */
       public com.google.protobuf.ByteString
           getFilenameBytes() {
-        java.lang.Object ref = filename_;
+        Object ref = filename_;
         if (ref instanceof String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
+                  (String) ref);
           filename_ = b;
           return b;
         } else {
@@ -5697,7 +5697,7 @@ public final class Pipe {
        * </pre>
        */
       public Builder setFilename(
-          java.lang.String value) {
+          String value) {
         if (value == null) {
     throw new NullPointerException();
   }
@@ -5855,7 +5855,7 @@ public final class Pipe {
     /**
      * <code>required .TaskType responseType = 1;</code>
      */
-    routing.Pipe.TaskType getResponseType();
+    TaskType getResponseType();
 
     /**
      * <code>optional string filename = 3;</code>
@@ -5864,7 +5864,7 @@ public final class Pipe {
     /**
      * <code>optional string filename = 3;</code>
      */
-    java.lang.String getFilename();
+    String getFilename();
     /**
      * <code>optional string filename = 3;</code>
      */
@@ -5886,7 +5886,7 @@ public final class Pipe {
      * Status should be part of Response
      * </pre>
      */
-    routing.Pipe.Response.Status getStatus();
+    Response.Status getStatus();
 
     /**
      * <code>optional .WriteResponse writeResponse = 4;</code>
@@ -5895,11 +5895,11 @@ public final class Pipe {
     /**
      * <code>optional .WriteResponse writeResponse = 4;</code>
      */
-    routing.Pipe.WriteResponse getWriteResponse();
+    WriteResponse getWriteResponse();
     /**
      * <code>optional .WriteResponse writeResponse = 4;</code>
      */
-    routing.Pipe.WriteResponseOrBuilder getWriteResponseOrBuilder();
+    WriteResponseOrBuilder getWriteResponseOrBuilder();
 
     /**
      * <code>optional .ReadResponse readResponse = 5;</code>
@@ -5908,11 +5908,11 @@ public final class Pipe {
     /**
      * <code>optional .ReadResponse readResponse = 5;</code>
      */
-    routing.Pipe.ReadResponse getReadResponse();
+    ReadResponse getReadResponse();
     /**
      * <code>optional .ReadResponse readResponse = 5;</code>
      */
-    routing.Pipe.ReadResponseOrBuilder getReadResponseOrBuilder();
+    ReadResponseOrBuilder getReadResponseOrBuilder();
   }
   /**
    * Protobuf type {@code Response}
@@ -5942,7 +5942,7 @@ public final class Pipe {
     }
 
     private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
+    @Override
     public final com.google.protobuf.UnknownFieldSet
         getUnknownFields() {
       return this.unknownFields;
@@ -5972,7 +5972,7 @@ public final class Pipe {
             }
             case 8: {
               int rawValue = input.readEnum();
-              routing.Pipe.TaskType value = routing.Pipe.TaskType.valueOf(rawValue);
+              TaskType value = TaskType.valueOf(rawValue);
               if (value == null) {
                 unknownFields.mergeVarintField(1, rawValue);
               } else {
@@ -5988,26 +5988,26 @@ public final class Pipe {
               break;
             }
             case 34: {
-              routing.Pipe.WriteResponse.Builder subBuilder = null;
+              WriteResponse.Builder subBuilder = null;
               if (payloadCase_ == 4) {
-                subBuilder = ((routing.Pipe.WriteResponse) payload_).toBuilder();
+                subBuilder = ((WriteResponse) payload_).toBuilder();
               }
-              payload_ = input.readMessage(routing.Pipe.WriteResponse.PARSER, extensionRegistry);
+              payload_ = input.readMessage(WriteResponse.PARSER, extensionRegistry);
               if (subBuilder != null) {
-                subBuilder.mergeFrom((routing.Pipe.WriteResponse) payload_);
+                subBuilder.mergeFrom((WriteResponse) payload_);
                 payload_ = subBuilder.buildPartial();
               }
               payloadCase_ = 4;
               break;
             }
             case 42: {
-              routing.Pipe.ReadResponse.Builder subBuilder = null;
+              ReadResponse.Builder subBuilder = null;
               if (payloadCase_ == 5) {
-                subBuilder = ((routing.Pipe.ReadResponse) payload_).toBuilder();
+                subBuilder = ((ReadResponse) payload_).toBuilder();
               }
-              payload_ = input.readMessage(routing.Pipe.ReadResponse.PARSER, extensionRegistry);
+              payload_ = input.readMessage(ReadResponse.PARSER, extensionRegistry);
               if (subBuilder != null) {
-                subBuilder.mergeFrom((routing.Pipe.ReadResponse) payload_);
+                subBuilder.mergeFrom((ReadResponse) payload_);
                 payload_ = subBuilder.buildPartial();
               }
               payloadCase_ = 5;
@@ -6015,7 +6015,7 @@ public final class Pipe {
             }
             case 80: {
               int rawValue = input.readEnum();
-              routing.Pipe.Response.Status value = routing.Pipe.Response.Status.valueOf(rawValue);
+              Status value = Status.valueOf(rawValue);
               if (value == null) {
                 unknownFields.mergeVarintField(10, rawValue);
               } else {
@@ -6038,14 +6038,14 @@ public final class Pipe {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return routing.Pipe.internal_static_Response_descriptor;
+      return Pipe.internal_static_Response_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return routing.Pipe.internal_static_Response_fieldAccessorTable
+      return Pipe.internal_static_Response_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              routing.Pipe.Response.class, routing.Pipe.Response.Builder.class);
+              Response.class, Builder.class);
     }
 
     public static com.google.protobuf.Parser<Response> PARSER =
@@ -6058,7 +6058,7 @@ public final class Pipe {
       }
     };
 
-    @java.lang.Override
+    @Override
     public com.google.protobuf.Parser<Response> getParserForType() {
       return PARSER;
     }
@@ -6247,7 +6247,7 @@ public final class Pipe {
       }
       public static final com.google.protobuf.Descriptors.EnumDescriptor
           getDescriptor() {
-        return routing.Pipe.Response.getDescriptor().getEnumTypes().get(0);
+        return Response.getDescriptor().getEnumTypes().get(0);
       }
 
       private static final Status[] VALUES = values();
@@ -6255,7 +6255,7 @@ public final class Pipe {
       public static Status valueOf(
           com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
         if (desc.getType() != getDescriptor()) {
-          throw new java.lang.IllegalArgumentException(
+          throw new IllegalArgumentException(
             "EnumValueDescriptor is not for this type.");
         }
         return VALUES[desc.getIndex()];
@@ -6274,7 +6274,7 @@ public final class Pipe {
 
     private int bitField0_;
     private int payloadCase_ = 0;
-    private java.lang.Object payload_;
+    private Object payload_;
     public enum PayloadCase
         implements com.google.protobuf.Internal.EnumLite {
       WRITERESPONSE(4),
@@ -6289,7 +6289,7 @@ public final class Pipe {
           case 4: return WRITERESPONSE;
           case 5: return READRESPONSE;
           case 0: return PAYLOAD_NOT_SET;
-          default: throw new java.lang.IllegalArgumentException(
+          default: throw new IllegalArgumentException(
             "Value is undefined for this oneof enum.");
         }
       }
@@ -6305,7 +6305,7 @@ public final class Pipe {
     }
 
     public static final int RESPONSETYPE_FIELD_NUMBER = 1;
-    private routing.Pipe.TaskType responseType_;
+    private TaskType responseType_;
     /**
      * <code>required .TaskType responseType = 1;</code>
      */
@@ -6315,12 +6315,12 @@ public final class Pipe {
     /**
      * <code>required .TaskType responseType = 1;</code>
      */
-    public routing.Pipe.TaskType getResponseType() {
+    public TaskType getResponseType() {
       return responseType_;
     }
 
     public static final int FILENAME_FIELD_NUMBER = 3;
-    private java.lang.Object filename_;
+    private Object filename_;
     /**
      * <code>optional string filename = 3;</code>
      */
@@ -6330,14 +6330,14 @@ public final class Pipe {
     /**
      * <code>optional string filename = 3;</code>
      */
-    public java.lang.String getFilename() {
-      java.lang.Object ref = filename_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
+    public String getFilename() {
+      Object ref = filename_;
+      if (ref instanceof String) {
+        return (String) ref;
       } else {
         com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
+        String s = bs.toStringUtf8();
         if (bs.isValidUtf8()) {
           filename_ = s;
         }
@@ -6349,11 +6349,11 @@ public final class Pipe {
      */
     public com.google.protobuf.ByteString
         getFilenameBytes() {
-      java.lang.Object ref = filename_;
-      if (ref instanceof java.lang.String) {
+      Object ref = filename_;
+      if (ref instanceof String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
+                (String) ref);
         filename_ = b;
         return b;
       } else {
@@ -6362,7 +6362,7 @@ public final class Pipe {
     }
 
     public static final int STATUS_FIELD_NUMBER = 10;
-    private routing.Pipe.Response.Status status_;
+    private Status status_;
     /**
      * <code>optional .Response.Status status = 10;</code>
      *
@@ -6380,7 +6380,7 @@ public final class Pipe {
      * Status should be part of Response
      * </pre>
      */
-    public routing.Pipe.Response.Status getStatus() {
+    public Status getStatus() {
       return status_;
     }
 
@@ -6394,20 +6394,20 @@ public final class Pipe {
     /**
      * <code>optional .WriteResponse writeResponse = 4;</code>
      */
-    public routing.Pipe.WriteResponse getWriteResponse() {
+    public WriteResponse getWriteResponse() {
       if (payloadCase_ == 4) {
-         return (routing.Pipe.WriteResponse) payload_;
+         return (WriteResponse) payload_;
       }
-      return routing.Pipe.WriteResponse.getDefaultInstance();
+      return WriteResponse.getDefaultInstance();
     }
     /**
      * <code>optional .WriteResponse writeResponse = 4;</code>
      */
-    public routing.Pipe.WriteResponseOrBuilder getWriteResponseOrBuilder() {
+    public WriteResponseOrBuilder getWriteResponseOrBuilder() {
       if (payloadCase_ == 4) {
-         return (routing.Pipe.WriteResponse) payload_;
+         return (WriteResponse) payload_;
       }
-      return routing.Pipe.WriteResponse.getDefaultInstance();
+      return WriteResponse.getDefaultInstance();
     }
 
     public static final int READRESPONSE_FIELD_NUMBER = 5;
@@ -6420,26 +6420,26 @@ public final class Pipe {
     /**
      * <code>optional .ReadResponse readResponse = 5;</code>
      */
-    public routing.Pipe.ReadResponse getReadResponse() {
+    public ReadResponse getReadResponse() {
       if (payloadCase_ == 5) {
-         return (routing.Pipe.ReadResponse) payload_;
+         return (ReadResponse) payload_;
       }
-      return routing.Pipe.ReadResponse.getDefaultInstance();
+      return ReadResponse.getDefaultInstance();
     }
     /**
      * <code>optional .ReadResponse readResponse = 5;</code>
      */
-    public routing.Pipe.ReadResponseOrBuilder getReadResponseOrBuilder() {
+    public ReadResponseOrBuilder getReadResponseOrBuilder() {
       if (payloadCase_ == 5) {
-         return (routing.Pipe.ReadResponse) payload_;
+         return (ReadResponse) payload_;
       }
-      return routing.Pipe.ReadResponse.getDefaultInstance();
+      return ReadResponse.getDefaultInstance();
     }
 
     private void initFields() {
-      responseType_ = routing.Pipe.TaskType.PING;
+      responseType_ = TaskType.PING;
       filename_ = "";
-      status_ = routing.Pipe.Response.Status.SUCCESS;
+      status_ = Status.SUCCESS;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -6471,10 +6471,10 @@ public final class Pipe {
         output.writeBytes(3, getFilenameBytes());
       }
       if (payloadCase_ == 4) {
-        output.writeMessage(4, (routing.Pipe.WriteResponse) payload_);
+        output.writeMessage(4, (WriteResponse) payload_);
       }
       if (payloadCase_ == 5) {
-        output.writeMessage(5, (routing.Pipe.ReadResponse) payload_);
+        output.writeMessage(5, (ReadResponse) payload_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeEnum(10, status_.getNumber());
@@ -6498,11 +6498,11 @@ public final class Pipe {
       }
       if (payloadCase_ == 4) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(4, (routing.Pipe.WriteResponse) payload_);
+          .computeMessageSize(4, (WriteResponse) payload_);
       }
       if (payloadCase_ == 5) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(5, (routing.Pipe.ReadResponse) payload_);
+          .computeMessageSize(5, (ReadResponse) payload_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
@@ -6514,59 +6514,59 @@ public final class Pipe {
     }
 
     private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
+    @Override
+    protected Object writeReplace()
         throws java.io.ObjectStreamException {
       return super.writeReplace();
     }
 
-    public static routing.Pipe.Response parseFrom(
+    public static Response parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static routing.Pipe.Response parseFrom(
+    public static Response parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static routing.Pipe.Response parseFrom(byte[] data)
+    public static Response parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static routing.Pipe.Response parseFrom(
+    public static Response parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static routing.Pipe.Response parseFrom(java.io.InputStream input)
+    public static Response parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static routing.Pipe.Response parseFrom(
+    public static Response parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseFrom(input, extensionRegistry);
     }
-    public static routing.Pipe.Response parseDelimitedFrom(java.io.InputStream input)
+    public static Response parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input);
     }
-    public static routing.Pipe.Response parseDelimitedFrom(
+    public static Response parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input, extensionRegistry);
     }
-    public static routing.Pipe.Response parseFrom(
+    public static Response parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static routing.Pipe.Response parseFrom(
+    public static Response parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -6575,12 +6575,12 @@ public final class Pipe {
 
     public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(routing.Pipe.Response prototype) {
+    public static Builder newBuilder(Response prototype) {
       return newBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() { return newBuilder(this); }
 
-    @java.lang.Override
+    @Override
     protected Builder newBuilderForType(
         com.google.protobuf.GeneratedMessage.BuilderParent parent) {
       Builder builder = new Builder(parent);
@@ -6596,17 +6596,17 @@ public final class Pipe {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder> implements
         // @@protoc_insertion_point(builder_implements:Response)
-        routing.Pipe.ResponseOrBuilder {
+        ResponseOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return routing.Pipe.internal_static_Response_descriptor;
+        return Pipe.internal_static_Response_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return routing.Pipe.internal_static_Response_fieldAccessorTable
+        return Pipe.internal_static_Response_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                routing.Pipe.Response.class, routing.Pipe.Response.Builder.class);
+                Response.class, Builder.class);
       }
 
       // Construct using routing.Pipe.Response.newBuilder()
@@ -6629,11 +6629,11 @@ public final class Pipe {
 
       public Builder clear() {
         super.clear();
-        responseType_ = routing.Pipe.TaskType.PING;
+        responseType_ = TaskType.PING;
         bitField0_ = (bitField0_ & ~0x00000001);
         filename_ = "";
         bitField0_ = (bitField0_ & ~0x00000002);
-        status_ = routing.Pipe.Response.Status.SUCCESS;
+        status_ = Status.SUCCESS;
         bitField0_ = (bitField0_ & ~0x00000004);
         payloadCase_ = 0;
         payload_ = null;
@@ -6646,23 +6646,23 @@ public final class Pipe {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return routing.Pipe.internal_static_Response_descriptor;
+        return Pipe.internal_static_Response_descriptor;
       }
 
-      public routing.Pipe.Response getDefaultInstanceForType() {
-        return routing.Pipe.Response.getDefaultInstance();
+      public Response getDefaultInstanceForType() {
+        return Response.getDefaultInstance();
       }
 
-      public routing.Pipe.Response build() {
-        routing.Pipe.Response result = buildPartial();
+      public Response build() {
+        Response result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public routing.Pipe.Response buildPartial() {
-        routing.Pipe.Response result = new routing.Pipe.Response(this);
+      public Response buildPartial() {
+        Response result = new Response(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
@@ -6698,16 +6698,16 @@ public final class Pipe {
       }
 
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof routing.Pipe.Response) {
-          return mergeFrom((routing.Pipe.Response)other);
+        if (other instanceof Response) {
+          return mergeFrom((Response)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(routing.Pipe.Response other) {
-        if (other == routing.Pipe.Response.getDefaultInstance()) return this;
+      public Builder mergeFrom(Response other) {
+        if (other == Response.getDefaultInstance()) return this;
         if (other.hasResponseType()) {
           setResponseType(other.getResponseType());
         }
@@ -6754,11 +6754,11 @@ public final class Pipe {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        routing.Pipe.Response parsedMessage = null;
+        Response parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (routing.Pipe.Response) e.getUnfinishedMessage();
+          parsedMessage = (Response) e.getUnfinishedMessage();
           throw e;
         } finally {
           if (parsedMessage != null) {
@@ -6768,7 +6768,7 @@ public final class Pipe {
         return this;
       }
       private int payloadCase_ = 0;
-      private java.lang.Object payload_;
+      private Object payload_;
       public PayloadCase
           getPayloadCase() {
         return PayloadCase.valueOf(
@@ -6784,7 +6784,7 @@ public final class Pipe {
 
       private int bitField0_;
 
-      private routing.Pipe.TaskType responseType_ = routing.Pipe.TaskType.PING;
+      private TaskType responseType_ = TaskType.PING;
       /**
        * <code>required .TaskType responseType = 1;</code>
        */
@@ -6794,13 +6794,13 @@ public final class Pipe {
       /**
        * <code>required .TaskType responseType = 1;</code>
        */
-      public routing.Pipe.TaskType getResponseType() {
+      public TaskType getResponseType() {
         return responseType_;
       }
       /**
        * <code>required .TaskType responseType = 1;</code>
        */
-      public Builder setResponseType(routing.Pipe.TaskType value) {
+      public Builder setResponseType(TaskType value) {
         if (value == null) {
           throw new NullPointerException();
         }
@@ -6814,12 +6814,12 @@ public final class Pipe {
        */
       public Builder clearResponseType() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        responseType_ = routing.Pipe.TaskType.PING;
+        responseType_ = TaskType.PING;
         onChanged();
         return this;
       }
 
-      private java.lang.Object filename_ = "";
+      private Object filename_ = "";
       /**
        * <code>optional string filename = 3;</code>
        */
@@ -6829,18 +6829,18 @@ public final class Pipe {
       /**
        * <code>optional string filename = 3;</code>
        */
-      public java.lang.String getFilename() {
-        java.lang.Object ref = filename_;
-        if (!(ref instanceof java.lang.String)) {
+      public String getFilename() {
+        Object ref = filename_;
+        if (!(ref instanceof String)) {
           com.google.protobuf.ByteString bs =
               (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
+          String s = bs.toStringUtf8();
           if (bs.isValidUtf8()) {
             filename_ = s;
           }
           return s;
         } else {
-          return (java.lang.String) ref;
+          return (String) ref;
         }
       }
       /**
@@ -6848,11 +6848,11 @@ public final class Pipe {
        */
       public com.google.protobuf.ByteString
           getFilenameBytes() {
-        java.lang.Object ref = filename_;
+        Object ref = filename_;
         if (ref instanceof String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
+                  (String) ref);
           filename_ = b;
           return b;
         } else {
@@ -6863,7 +6863,7 @@ public final class Pipe {
        * <code>optional string filename = 3;</code>
        */
       public Builder setFilename(
-          java.lang.String value) {
+          String value) {
         if (value == null) {
     throw new NullPointerException();
   }
@@ -6895,7 +6895,7 @@ public final class Pipe {
         return this;
       }
 
-      private routing.Pipe.Response.Status status_ = routing.Pipe.Response.Status.SUCCESS;
+      private Status status_ = Status.SUCCESS;
       /**
        * <code>optional .Response.Status status = 10;</code>
        *
@@ -6913,7 +6913,7 @@ public final class Pipe {
        * Status should be part of Response
        * </pre>
        */
-      public routing.Pipe.Response.Status getStatus() {
+      public Status getStatus() {
         return status_;
       }
       /**
@@ -6923,7 +6923,7 @@ public final class Pipe {
        * Status should be part of Response
        * </pre>
        */
-      public Builder setStatus(routing.Pipe.Response.Status value) {
+      public Builder setStatus(Status value) {
         if (value == null) {
           throw new NullPointerException();
         }
@@ -6941,13 +6941,13 @@ public final class Pipe {
        */
       public Builder clearStatus() {
         bitField0_ = (bitField0_ & ~0x00000004);
-        status_ = routing.Pipe.Response.Status.SUCCESS;
+        status_ = Status.SUCCESS;
         onChanged();
         return this;
       }
 
       private com.google.protobuf.SingleFieldBuilder<
-          routing.Pipe.WriteResponse, routing.Pipe.WriteResponse.Builder, routing.Pipe.WriteResponseOrBuilder> writeResponseBuilder_;
+          WriteResponse, WriteResponse.Builder, WriteResponseOrBuilder> writeResponseBuilder_;
       /**
        * <code>optional .WriteResponse writeResponse = 4;</code>
        */
@@ -6957,23 +6957,23 @@ public final class Pipe {
       /**
        * <code>optional .WriteResponse writeResponse = 4;</code>
        */
-      public routing.Pipe.WriteResponse getWriteResponse() {
+      public WriteResponse getWriteResponse() {
         if (writeResponseBuilder_ == null) {
           if (payloadCase_ == 4) {
-            return (routing.Pipe.WriteResponse) payload_;
+            return (WriteResponse) payload_;
           }
-          return routing.Pipe.WriteResponse.getDefaultInstance();
+          return WriteResponse.getDefaultInstance();
         } else {
           if (payloadCase_ == 4) {
             return writeResponseBuilder_.getMessage();
           }
-          return routing.Pipe.WriteResponse.getDefaultInstance();
+          return WriteResponse.getDefaultInstance();
         }
       }
       /**
        * <code>optional .WriteResponse writeResponse = 4;</code>
        */
-      public Builder setWriteResponse(routing.Pipe.WriteResponse value) {
+      public Builder setWriteResponse(WriteResponse value) {
         if (writeResponseBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -6990,7 +6990,7 @@ public final class Pipe {
        * <code>optional .WriteResponse writeResponse = 4;</code>
        */
       public Builder setWriteResponse(
-          routing.Pipe.WriteResponse.Builder builderForValue) {
+          WriteResponse.Builder builderForValue) {
         if (writeResponseBuilder_ == null) {
           payload_ = builderForValue.build();
           onChanged();
@@ -7003,11 +7003,11 @@ public final class Pipe {
       /**
        * <code>optional .WriteResponse writeResponse = 4;</code>
        */
-      public Builder mergeWriteResponse(routing.Pipe.WriteResponse value) {
+      public Builder mergeWriteResponse(WriteResponse value) {
         if (writeResponseBuilder_ == null) {
           if (payloadCase_ == 4 &&
-              payload_ != routing.Pipe.WriteResponse.getDefaultInstance()) {
-            payload_ = routing.Pipe.WriteResponse.newBuilder((routing.Pipe.WriteResponse) payload_)
+              payload_ != WriteResponse.getDefaultInstance()) {
+            payload_ = WriteResponse.newBuilder((WriteResponse) payload_)
                 .mergeFrom(value).buildPartial();
           } else {
             payload_ = value;
@@ -7044,35 +7044,35 @@ public final class Pipe {
       /**
        * <code>optional .WriteResponse writeResponse = 4;</code>
        */
-      public routing.Pipe.WriteResponse.Builder getWriteResponseBuilder() {
+      public WriteResponse.Builder getWriteResponseBuilder() {
         return getWriteResponseFieldBuilder().getBuilder();
       }
       /**
        * <code>optional .WriteResponse writeResponse = 4;</code>
        */
-      public routing.Pipe.WriteResponseOrBuilder getWriteResponseOrBuilder() {
+      public WriteResponseOrBuilder getWriteResponseOrBuilder() {
         if ((payloadCase_ == 4) && (writeResponseBuilder_ != null)) {
           return writeResponseBuilder_.getMessageOrBuilder();
         } else {
           if (payloadCase_ == 4) {
-            return (routing.Pipe.WriteResponse) payload_;
+            return (WriteResponse) payload_;
           }
-          return routing.Pipe.WriteResponse.getDefaultInstance();
+          return WriteResponse.getDefaultInstance();
         }
       }
       /**
        * <code>optional .WriteResponse writeResponse = 4;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
-          routing.Pipe.WriteResponse, routing.Pipe.WriteResponse.Builder, routing.Pipe.WriteResponseOrBuilder> 
+          WriteResponse, WriteResponse.Builder, WriteResponseOrBuilder>
           getWriteResponseFieldBuilder() {
         if (writeResponseBuilder_ == null) {
           if (!(payloadCase_ == 4)) {
-            payload_ = routing.Pipe.WriteResponse.getDefaultInstance();
+            payload_ = WriteResponse.getDefaultInstance();
           }
           writeResponseBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-              routing.Pipe.WriteResponse, routing.Pipe.WriteResponse.Builder, routing.Pipe.WriteResponseOrBuilder>(
-                  (routing.Pipe.WriteResponse) payload_,
+              WriteResponse, WriteResponse.Builder, WriteResponseOrBuilder>(
+                  (WriteResponse) payload_,
                   getParentForChildren(),
                   isClean());
           payload_ = null;
@@ -7082,7 +7082,7 @@ public final class Pipe {
       }
 
       private com.google.protobuf.SingleFieldBuilder<
-          routing.Pipe.ReadResponse, routing.Pipe.ReadResponse.Builder, routing.Pipe.ReadResponseOrBuilder> readResponseBuilder_;
+          ReadResponse, ReadResponse.Builder, ReadResponseOrBuilder> readResponseBuilder_;
       /**
        * <code>optional .ReadResponse readResponse = 5;</code>
        */
@@ -7092,23 +7092,23 @@ public final class Pipe {
       /**
        * <code>optional .ReadResponse readResponse = 5;</code>
        */
-      public routing.Pipe.ReadResponse getReadResponse() {
+      public ReadResponse getReadResponse() {
         if (readResponseBuilder_ == null) {
           if (payloadCase_ == 5) {
-            return (routing.Pipe.ReadResponse) payload_;
+            return (ReadResponse) payload_;
           }
-          return routing.Pipe.ReadResponse.getDefaultInstance();
+          return ReadResponse.getDefaultInstance();
         } else {
           if (payloadCase_ == 5) {
             return readResponseBuilder_.getMessage();
           }
-          return routing.Pipe.ReadResponse.getDefaultInstance();
+          return ReadResponse.getDefaultInstance();
         }
       }
       /**
        * <code>optional .ReadResponse readResponse = 5;</code>
        */
-      public Builder setReadResponse(routing.Pipe.ReadResponse value) {
+      public Builder setReadResponse(ReadResponse value) {
         if (readResponseBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -7125,7 +7125,7 @@ public final class Pipe {
        * <code>optional .ReadResponse readResponse = 5;</code>
        */
       public Builder setReadResponse(
-          routing.Pipe.ReadResponse.Builder builderForValue) {
+          ReadResponse.Builder builderForValue) {
         if (readResponseBuilder_ == null) {
           payload_ = builderForValue.build();
           onChanged();
@@ -7138,11 +7138,11 @@ public final class Pipe {
       /**
        * <code>optional .ReadResponse readResponse = 5;</code>
        */
-      public Builder mergeReadResponse(routing.Pipe.ReadResponse value) {
+      public Builder mergeReadResponse(ReadResponse value) {
         if (readResponseBuilder_ == null) {
           if (payloadCase_ == 5 &&
-              payload_ != routing.Pipe.ReadResponse.getDefaultInstance()) {
-            payload_ = routing.Pipe.ReadResponse.newBuilder((routing.Pipe.ReadResponse) payload_)
+              payload_ != ReadResponse.getDefaultInstance()) {
+            payload_ = ReadResponse.newBuilder((ReadResponse) payload_)
                 .mergeFrom(value).buildPartial();
           } else {
             payload_ = value;
@@ -7179,35 +7179,35 @@ public final class Pipe {
       /**
        * <code>optional .ReadResponse readResponse = 5;</code>
        */
-      public routing.Pipe.ReadResponse.Builder getReadResponseBuilder() {
+      public ReadResponse.Builder getReadResponseBuilder() {
         return getReadResponseFieldBuilder().getBuilder();
       }
       /**
        * <code>optional .ReadResponse readResponse = 5;</code>
        */
-      public routing.Pipe.ReadResponseOrBuilder getReadResponseOrBuilder() {
+      public ReadResponseOrBuilder getReadResponseOrBuilder() {
         if ((payloadCase_ == 5) && (readResponseBuilder_ != null)) {
           return readResponseBuilder_.getMessageOrBuilder();
         } else {
           if (payloadCase_ == 5) {
-            return (routing.Pipe.ReadResponse) payload_;
+            return (ReadResponse) payload_;
           }
-          return routing.Pipe.ReadResponse.getDefaultInstance();
+          return ReadResponse.getDefaultInstance();
         }
       }
       /**
        * <code>optional .ReadResponse readResponse = 5;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
-          routing.Pipe.ReadResponse, routing.Pipe.ReadResponse.Builder, routing.Pipe.ReadResponseOrBuilder> 
+          ReadResponse, ReadResponse.Builder, ReadResponseOrBuilder>
           getReadResponseFieldBuilder() {
         if (readResponseBuilder_ == null) {
           if (!(payloadCase_ == 5)) {
-            payload_ = routing.Pipe.ReadResponse.getDefaultInstance();
+            payload_ = ReadResponse.getDefaultInstance();
           }
           readResponseBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-              routing.Pipe.ReadResponse, routing.Pipe.ReadResponse.Builder, routing.Pipe.ReadResponseOrBuilder>(
-                  (routing.Pipe.ReadResponse) payload_,
+              ReadResponse, ReadResponse.Builder, ReadResponseOrBuilder>(
+                  (ReadResponse) payload_,
                   getParentForChildren(),
                   isClean());
           payload_ = null;
@@ -7234,7 +7234,7 @@ public final class Pipe {
     /**
      * <code>repeated int32 ChunkId = 1;</code>
      */
-    java.util.List<java.lang.Integer> getChunkIdList();
+    java.util.List<Integer> getChunkIdList();
     /**
      * <code>repeated int32 ChunkId = 1;</code>
      */
@@ -7251,7 +7251,7 @@ public final class Pipe {
     /**
      * <code>optional string filename = 2;</code>
      */
-    java.lang.String getFilename();
+    String getFilename();
     /**
      * <code>optional string filename = 2;</code>
      */
@@ -7287,7 +7287,7 @@ public final class Pipe {
     }
 
     private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
+    @Override
     public final com.google.protobuf.UnknownFieldSet
         getUnknownFields() {
       return this.unknownFields;
@@ -7317,7 +7317,7 @@ public final class Pipe {
             }
             case 8: {
               if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-                chunkId_ = new java.util.ArrayList<java.lang.Integer>();
+                chunkId_ = new java.util.ArrayList<Integer>();
                 mutable_bitField0_ |= 0x00000001;
               }
               chunkId_.add(input.readInt32());
@@ -7327,7 +7327,7 @@ public final class Pipe {
               int length = input.readRawVarint32();
               int limit = input.pushLimit(length);
               if (!((mutable_bitField0_ & 0x00000001) == 0x00000001) && input.getBytesUntilLimit() > 0) {
-                chunkId_ = new java.util.ArrayList<java.lang.Integer>();
+                chunkId_ = new java.util.ArrayList<Integer>();
                 mutable_bitField0_ |= 0x00000001;
               }
               while (input.getBytesUntilLimit() > 0) {
@@ -7359,14 +7359,14 @@ public final class Pipe {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return routing.Pipe.internal_static_WriteResponse_descriptor;
+      return Pipe.internal_static_WriteResponse_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return routing.Pipe.internal_static_WriteResponse_fieldAccessorTable
+      return Pipe.internal_static_WriteResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              routing.Pipe.WriteResponse.class, routing.Pipe.WriteResponse.Builder.class);
+              WriteResponse.class, Builder.class);
     }
 
     public static com.google.protobuf.Parser<WriteResponse> PARSER =
@@ -7379,18 +7379,18 @@ public final class Pipe {
       }
     };
 
-    @java.lang.Override
+    @Override
     public com.google.protobuf.Parser<WriteResponse> getParserForType() {
       return PARSER;
     }
 
     private int bitField0_;
     public static final int CHUNKID_FIELD_NUMBER = 1;
-    private java.util.List<java.lang.Integer> chunkId_;
+    private java.util.List<Integer> chunkId_;
     /**
      * <code>repeated int32 ChunkId = 1;</code>
      */
-    public java.util.List<java.lang.Integer>
+    public java.util.List<Integer>
         getChunkIdList() {
       return chunkId_;
     }
@@ -7408,7 +7408,7 @@ public final class Pipe {
     }
 
     public static final int FILENAME_FIELD_NUMBER = 2;
-    private java.lang.Object filename_;
+    private Object filename_;
     /**
      * <code>optional string filename = 2;</code>
      */
@@ -7418,14 +7418,14 @@ public final class Pipe {
     /**
      * <code>optional string filename = 2;</code>
      */
-    public java.lang.String getFilename() {
-      java.lang.Object ref = filename_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
+    public String getFilename() {
+      Object ref = filename_;
+      if (ref instanceof String) {
+        return (String) ref;
       } else {
         com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
+        String s = bs.toStringUtf8();
         if (bs.isValidUtf8()) {
           filename_ = s;
         }
@@ -7437,11 +7437,11 @@ public final class Pipe {
      */
     public com.google.protobuf.ByteString
         getFilenameBytes() {
-      java.lang.Object ref = filename_;
-      if (ref instanceof java.lang.String) {
+      Object ref = filename_;
+      if (ref instanceof String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
+                (String) ref);
         filename_ = b;
         return b;
       } else {
@@ -7500,59 +7500,59 @@ public final class Pipe {
     }
 
     private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
+    @Override
+    protected Object writeReplace()
         throws java.io.ObjectStreamException {
       return super.writeReplace();
     }
 
-    public static routing.Pipe.WriteResponse parseFrom(
+    public static WriteResponse parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static routing.Pipe.WriteResponse parseFrom(
+    public static WriteResponse parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static routing.Pipe.WriteResponse parseFrom(byte[] data)
+    public static WriteResponse parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static routing.Pipe.WriteResponse parseFrom(
+    public static WriteResponse parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static routing.Pipe.WriteResponse parseFrom(java.io.InputStream input)
+    public static WriteResponse parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static routing.Pipe.WriteResponse parseFrom(
+    public static WriteResponse parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseFrom(input, extensionRegistry);
     }
-    public static routing.Pipe.WriteResponse parseDelimitedFrom(java.io.InputStream input)
+    public static WriteResponse parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input);
     }
-    public static routing.Pipe.WriteResponse parseDelimitedFrom(
+    public static WriteResponse parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input, extensionRegistry);
     }
-    public static routing.Pipe.WriteResponse parseFrom(
+    public static WriteResponse parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static routing.Pipe.WriteResponse parseFrom(
+    public static WriteResponse parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -7561,12 +7561,12 @@ public final class Pipe {
 
     public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(routing.Pipe.WriteResponse prototype) {
+    public static Builder newBuilder(WriteResponse prototype) {
       return newBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() { return newBuilder(this); }
 
-    @java.lang.Override
+    @Override
     protected Builder newBuilderForType(
         com.google.protobuf.GeneratedMessage.BuilderParent parent) {
       Builder builder = new Builder(parent);
@@ -7583,17 +7583,17 @@ public final class Pipe {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder> implements
         // @@protoc_insertion_point(builder_implements:WriteResponse)
-        routing.Pipe.WriteResponseOrBuilder {
+        WriteResponseOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return routing.Pipe.internal_static_WriteResponse_descriptor;
+        return Pipe.internal_static_WriteResponse_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return routing.Pipe.internal_static_WriteResponse_fieldAccessorTable
+        return Pipe.internal_static_WriteResponse_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                routing.Pipe.WriteResponse.class, routing.Pipe.WriteResponse.Builder.class);
+                WriteResponse.class, Builder.class);
       }
 
       // Construct using routing.Pipe.WriteResponse.newBuilder()
@@ -7629,23 +7629,23 @@ public final class Pipe {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return routing.Pipe.internal_static_WriteResponse_descriptor;
+        return Pipe.internal_static_WriteResponse_descriptor;
       }
 
-      public routing.Pipe.WriteResponse getDefaultInstanceForType() {
-        return routing.Pipe.WriteResponse.getDefaultInstance();
+      public WriteResponse getDefaultInstanceForType() {
+        return WriteResponse.getDefaultInstance();
       }
 
-      public routing.Pipe.WriteResponse build() {
-        routing.Pipe.WriteResponse result = buildPartial();
+      public WriteResponse build() {
+        WriteResponse result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public routing.Pipe.WriteResponse buildPartial() {
-        routing.Pipe.WriteResponse result = new routing.Pipe.WriteResponse(this);
+      public WriteResponse buildPartial() {
+        WriteResponse result = new WriteResponse(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((bitField0_ & 0x00000001) == 0x00000001)) {
@@ -7663,16 +7663,16 @@ public final class Pipe {
       }
 
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof routing.Pipe.WriteResponse) {
-          return mergeFrom((routing.Pipe.WriteResponse)other);
+        if (other instanceof WriteResponse) {
+          return mergeFrom((WriteResponse)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(routing.Pipe.WriteResponse other) {
-        if (other == routing.Pipe.WriteResponse.getDefaultInstance()) return this;
+      public Builder mergeFrom(WriteResponse other) {
+        if (other == WriteResponse.getDefaultInstance()) return this;
         if (!other.chunkId_.isEmpty()) {
           if (chunkId_.isEmpty()) {
             chunkId_ = other.chunkId_;
@@ -7700,11 +7700,11 @@ public final class Pipe {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        routing.Pipe.WriteResponse parsedMessage = null;
+        WriteResponse parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (routing.Pipe.WriteResponse) e.getUnfinishedMessage();
+          parsedMessage = (WriteResponse) e.getUnfinishedMessage();
           throw e;
         } finally {
           if (parsedMessage != null) {
@@ -7715,17 +7715,17 @@ public final class Pipe {
       }
       private int bitField0_;
 
-      private java.util.List<java.lang.Integer> chunkId_ = java.util.Collections.emptyList();
+      private java.util.List<Integer> chunkId_ = java.util.Collections.emptyList();
       private void ensureChunkIdIsMutable() {
         if (!((bitField0_ & 0x00000001) == 0x00000001)) {
-          chunkId_ = new java.util.ArrayList<java.lang.Integer>(chunkId_);
+          chunkId_ = new java.util.ArrayList<Integer>(chunkId_);
           bitField0_ |= 0x00000001;
          }
       }
       /**
        * <code>repeated int32 ChunkId = 1;</code>
        */
-      public java.util.List<java.lang.Integer>
+      public java.util.List<Integer>
           getChunkIdList() {
         return java.util.Collections.unmodifiableList(chunkId_);
       }
@@ -7764,7 +7764,7 @@ public final class Pipe {
        * <code>repeated int32 ChunkId = 1;</code>
        */
       public Builder addAllChunkId(
-          java.lang.Iterable<? extends java.lang.Integer> values) {
+          Iterable<? extends Integer> values) {
         ensureChunkIdIsMutable();
         com.google.protobuf.AbstractMessageLite.Builder.addAll(
             values, chunkId_);
@@ -7781,7 +7781,7 @@ public final class Pipe {
         return this;
       }
 
-      private java.lang.Object filename_ = "";
+      private Object filename_ = "";
       /**
        * <code>optional string filename = 2;</code>
        */
@@ -7791,18 +7791,18 @@ public final class Pipe {
       /**
        * <code>optional string filename = 2;</code>
        */
-      public java.lang.String getFilename() {
-        java.lang.Object ref = filename_;
-        if (!(ref instanceof java.lang.String)) {
+      public String getFilename() {
+        Object ref = filename_;
+        if (!(ref instanceof String)) {
           com.google.protobuf.ByteString bs =
               (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
+          String s = bs.toStringUtf8();
           if (bs.isValidUtf8()) {
             filename_ = s;
           }
           return s;
         } else {
-          return (java.lang.String) ref;
+          return (String) ref;
         }
       }
       /**
@@ -7810,11 +7810,11 @@ public final class Pipe {
        */
       public com.google.protobuf.ByteString
           getFilenameBytes() {
-        java.lang.Object ref = filename_;
+        Object ref = filename_;
         if (ref instanceof String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
+                  (String) ref);
           filename_ = b;
           return b;
         } else {
@@ -7825,7 +7825,7 @@ public final class Pipe {
        * <code>optional string filename = 2;</code>
        */
       public Builder setFilename(
-          java.lang.String value) {
+          String value) {
         if (value == null) {
     throw new NullPointerException();
   }
@@ -7888,7 +7888,7 @@ public final class Pipe {
     /**
      * <code>required string filename = 2;</code>
      */
-    java.lang.String getFilename();
+    String getFilename();
     /**
      * <code>required string filename = 2;</code>
      */
@@ -7902,7 +7902,7 @@ public final class Pipe {
     /**
      * <code>optional string file_ext = 3;</code>
      */
-    java.lang.String getFileExt();
+    String getFileExt();
     /**
      * <code>optional string file_ext = 3;</code>
      */
@@ -7921,12 +7921,12 @@ public final class Pipe {
     /**
      * <code>repeated .ChunkLocation chunk_location = 5;</code>
      */
-    java.util.List<routing.Pipe.ChunkLocation> 
+    java.util.List<ChunkLocation>
         getChunkLocationList();
     /**
      * <code>repeated .ChunkLocation chunk_location = 5;</code>
      */
-    routing.Pipe.ChunkLocation getChunkLocation(int index);
+    ChunkLocation getChunkLocation(int index);
     /**
      * <code>repeated .ChunkLocation chunk_location = 5;</code>
      */
@@ -7934,13 +7934,13 @@ public final class Pipe {
     /**
      * <code>repeated .ChunkLocation chunk_location = 5;</code>
      */
-    java.util.List<? extends routing.Pipe.ChunkLocationOrBuilder> 
+    java.util.List<? extends ChunkLocationOrBuilder>
         getChunkLocationOrBuilderList();
     /**
      * <code>repeated .ChunkLocation chunk_location = 5;</code>
      */
-    routing.Pipe.ChunkLocationOrBuilder getChunkLocationOrBuilder(
-        int index);
+    ChunkLocationOrBuilder getChunkLocationOrBuilder(
+            int index);
 
     /**
      * <code>optional .Chunk chunk = 6;</code>
@@ -7949,11 +7949,11 @@ public final class Pipe {
     /**
      * <code>optional .Chunk chunk = 6;</code>
      */
-    routing.Pipe.Chunk getChunk();
+    Chunk getChunk();
     /**
      * <code>optional .Chunk chunk = 6;</code>
      */
-    routing.Pipe.ChunkOrBuilder getChunkOrBuilder();
+    ChunkOrBuilder getChunkOrBuilder();
   }
   /**
    * Protobuf type {@code ReadResponse}
@@ -7979,7 +7979,7 @@ public final class Pipe {
     }
 
     private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
+    @Override
     public final com.google.protobuf.UnknownFieldSet
         getUnknownFields() {
       return this.unknownFields;
@@ -8031,18 +8031,18 @@ public final class Pipe {
             }
             case 42: {
               if (!((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
-                chunkLocation_ = new java.util.ArrayList<routing.Pipe.ChunkLocation>();
+                chunkLocation_ = new java.util.ArrayList<ChunkLocation>();
                 mutable_bitField0_ |= 0x00000010;
               }
-              chunkLocation_.add(input.readMessage(routing.Pipe.ChunkLocation.PARSER, extensionRegistry));
+              chunkLocation_.add(input.readMessage(ChunkLocation.PARSER, extensionRegistry));
               break;
             }
             case 50: {
-              routing.Pipe.Chunk.Builder subBuilder = null;
+              Chunk.Builder subBuilder = null;
               if (((bitField0_ & 0x00000010) == 0x00000010)) {
                 subBuilder = chunk_.toBuilder();
               }
-              chunk_ = input.readMessage(routing.Pipe.Chunk.PARSER, extensionRegistry);
+              chunk_ = input.readMessage(Chunk.PARSER, extensionRegistry);
               if (subBuilder != null) {
                 subBuilder.mergeFrom(chunk_);
                 chunk_ = subBuilder.buildPartial();
@@ -8067,14 +8067,14 @@ public final class Pipe {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return routing.Pipe.internal_static_ReadResponse_descriptor;
+      return Pipe.internal_static_ReadResponse_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return routing.Pipe.internal_static_ReadResponse_fieldAccessorTable
+      return Pipe.internal_static_ReadResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              routing.Pipe.ReadResponse.class, routing.Pipe.ReadResponse.Builder.class);
+              ReadResponse.class, Builder.class);
     }
 
     public static com.google.protobuf.Parser<ReadResponse> PARSER =
@@ -8087,7 +8087,7 @@ public final class Pipe {
       }
     };
 
-    @java.lang.Override
+    @Override
     public com.google.protobuf.Parser<ReadResponse> getParserForType() {
       return PARSER;
     }
@@ -8109,7 +8109,7 @@ public final class Pipe {
     }
 
     public static final int FILENAME_FIELD_NUMBER = 2;
-    private java.lang.Object filename_;
+    private Object filename_;
     /**
      * <code>required string filename = 2;</code>
      */
@@ -8119,14 +8119,14 @@ public final class Pipe {
     /**
      * <code>required string filename = 2;</code>
      */
-    public java.lang.String getFilename() {
-      java.lang.Object ref = filename_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
+    public String getFilename() {
+      Object ref = filename_;
+      if (ref instanceof String) {
+        return (String) ref;
       } else {
         com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
+        String s = bs.toStringUtf8();
         if (bs.isValidUtf8()) {
           filename_ = s;
         }
@@ -8138,11 +8138,11 @@ public final class Pipe {
      */
     public com.google.protobuf.ByteString
         getFilenameBytes() {
-      java.lang.Object ref = filename_;
-      if (ref instanceof java.lang.String) {
+      Object ref = filename_;
+      if (ref instanceof String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
+                (String) ref);
         filename_ = b;
         return b;
       } else {
@@ -8151,7 +8151,7 @@ public final class Pipe {
     }
 
     public static final int FILE_EXT_FIELD_NUMBER = 3;
-    private java.lang.Object fileExt_;
+    private Object fileExt_;
     /**
      * <code>optional string file_ext = 3;</code>
      */
@@ -8161,14 +8161,14 @@ public final class Pipe {
     /**
      * <code>optional string file_ext = 3;</code>
      */
-    public java.lang.String getFileExt() {
-      java.lang.Object ref = fileExt_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
+    public String getFileExt() {
+      Object ref = fileExt_;
+      if (ref instanceof String) {
+        return (String) ref;
       } else {
         com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
+        String s = bs.toStringUtf8();
         if (bs.isValidUtf8()) {
           fileExt_ = s;
         }
@@ -8180,11 +8180,11 @@ public final class Pipe {
      */
     public com.google.protobuf.ByteString
         getFileExtBytes() {
-      java.lang.Object ref = fileExt_;
-      if (ref instanceof java.lang.String) {
+      Object ref = fileExt_;
+      if (ref instanceof String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
+                (String) ref);
         fileExt_ = b;
         return b;
       } else {
@@ -8208,17 +8208,17 @@ public final class Pipe {
     }
 
     public static final int CHUNK_LOCATION_FIELD_NUMBER = 5;
-    private java.util.List<routing.Pipe.ChunkLocation> chunkLocation_;
+    private java.util.List<ChunkLocation> chunkLocation_;
     /**
      * <code>repeated .ChunkLocation chunk_location = 5;</code>
      */
-    public java.util.List<routing.Pipe.ChunkLocation> getChunkLocationList() {
+    public java.util.List<ChunkLocation> getChunkLocationList() {
       return chunkLocation_;
     }
     /**
      * <code>repeated .ChunkLocation chunk_location = 5;</code>
      */
-    public java.util.List<? extends routing.Pipe.ChunkLocationOrBuilder> 
+    public java.util.List<? extends ChunkLocationOrBuilder>
         getChunkLocationOrBuilderList() {
       return chunkLocation_;
     }
@@ -8231,19 +8231,19 @@ public final class Pipe {
     /**
      * <code>repeated .ChunkLocation chunk_location = 5;</code>
      */
-    public routing.Pipe.ChunkLocation getChunkLocation(int index) {
+    public ChunkLocation getChunkLocation(int index) {
       return chunkLocation_.get(index);
     }
     /**
      * <code>repeated .ChunkLocation chunk_location = 5;</code>
      */
-    public routing.Pipe.ChunkLocationOrBuilder getChunkLocationOrBuilder(
+    public ChunkLocationOrBuilder getChunkLocationOrBuilder(
         int index) {
       return chunkLocation_.get(index);
     }
 
     public static final int CHUNK_FIELD_NUMBER = 6;
-    private routing.Pipe.Chunk chunk_;
+    private Chunk chunk_;
     /**
      * <code>optional .Chunk chunk = 6;</code>
      */
@@ -8253,13 +8253,13 @@ public final class Pipe {
     /**
      * <code>optional .Chunk chunk = 6;</code>
      */
-    public routing.Pipe.Chunk getChunk() {
+    public Chunk getChunk() {
       return chunk_;
     }
     /**
      * <code>optional .Chunk chunk = 6;</code>
      */
-    public routing.Pipe.ChunkOrBuilder getChunkOrBuilder() {
+    public ChunkOrBuilder getChunkOrBuilder() {
       return chunk_;
     }
 
@@ -8269,7 +8269,7 @@ public final class Pipe {
       fileExt_ = "";
       numOfChunks_ = 0;
       chunkLocation_ = java.util.Collections.emptyList();
-      chunk_ = routing.Pipe.Chunk.getDefaultInstance();
+      chunk_ = Chunk.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -8357,59 +8357,59 @@ public final class Pipe {
     }
 
     private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
+    @Override
+    protected Object writeReplace()
         throws java.io.ObjectStreamException {
       return super.writeReplace();
     }
 
-    public static routing.Pipe.ReadResponse parseFrom(
+    public static ReadResponse parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static routing.Pipe.ReadResponse parseFrom(
+    public static ReadResponse parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static routing.Pipe.ReadResponse parseFrom(byte[] data)
+    public static ReadResponse parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static routing.Pipe.ReadResponse parseFrom(
+    public static ReadResponse parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static routing.Pipe.ReadResponse parseFrom(java.io.InputStream input)
+    public static ReadResponse parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static routing.Pipe.ReadResponse parseFrom(
+    public static ReadResponse parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseFrom(input, extensionRegistry);
     }
-    public static routing.Pipe.ReadResponse parseDelimitedFrom(java.io.InputStream input)
+    public static ReadResponse parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input);
     }
-    public static routing.Pipe.ReadResponse parseDelimitedFrom(
+    public static ReadResponse parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input, extensionRegistry);
     }
-    public static routing.Pipe.ReadResponse parseFrom(
+    public static ReadResponse parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static routing.Pipe.ReadResponse parseFrom(
+    public static ReadResponse parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -8418,12 +8418,12 @@ public final class Pipe {
 
     public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(routing.Pipe.ReadResponse prototype) {
+    public static Builder newBuilder(ReadResponse prototype) {
       return newBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() { return newBuilder(this); }
 
-    @java.lang.Override
+    @Override
     protected Builder newBuilderForType(
         com.google.protobuf.GeneratedMessage.BuilderParent parent) {
       Builder builder = new Builder(parent);
@@ -8435,17 +8435,17 @@ public final class Pipe {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder> implements
         // @@protoc_insertion_point(builder_implements:ReadResponse)
-        routing.Pipe.ReadResponseOrBuilder {
+        ReadResponseOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return routing.Pipe.internal_static_ReadResponse_descriptor;
+        return Pipe.internal_static_ReadResponse_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return routing.Pipe.internal_static_ReadResponse_fieldAccessorTable
+        return Pipe.internal_static_ReadResponse_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                routing.Pipe.ReadResponse.class, routing.Pipe.ReadResponse.Builder.class);
+                ReadResponse.class, Builder.class);
       }
 
       // Construct using routing.Pipe.ReadResponse.newBuilder()
@@ -8485,7 +8485,7 @@ public final class Pipe {
           chunkLocationBuilder_.clear();
         }
         if (chunkBuilder_ == null) {
-          chunk_ = routing.Pipe.Chunk.getDefaultInstance();
+          chunk_ = Chunk.getDefaultInstance();
         } else {
           chunkBuilder_.clear();
         }
@@ -8499,23 +8499,23 @@ public final class Pipe {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return routing.Pipe.internal_static_ReadResponse_descriptor;
+        return Pipe.internal_static_ReadResponse_descriptor;
       }
 
-      public routing.Pipe.ReadResponse getDefaultInstanceForType() {
-        return routing.Pipe.ReadResponse.getDefaultInstance();
+      public ReadResponse getDefaultInstanceForType() {
+        return ReadResponse.getDefaultInstance();
       }
 
-      public routing.Pipe.ReadResponse build() {
-        routing.Pipe.ReadResponse result = buildPartial();
+      public ReadResponse build() {
+        ReadResponse result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public routing.Pipe.ReadResponse buildPartial() {
-        routing.Pipe.ReadResponse result = new routing.Pipe.ReadResponse(this);
+      public ReadResponse buildPartial() {
+        ReadResponse result = new ReadResponse(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
@@ -8557,16 +8557,16 @@ public final class Pipe {
       }
 
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof routing.Pipe.ReadResponse) {
-          return mergeFrom((routing.Pipe.ReadResponse)other);
+        if (other instanceof ReadResponse) {
+          return mergeFrom((ReadResponse)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(routing.Pipe.ReadResponse other) {
-        if (other == routing.Pipe.ReadResponse.getDefaultInstance()) return this;
+      public Builder mergeFrom(ReadResponse other) {
+        if (other == ReadResponse.getDefaultInstance()) return this;
         if (other.hasFileId()) {
           setFileId(other.getFileId());
         }
@@ -8640,11 +8640,11 @@ public final class Pipe {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        routing.Pipe.ReadResponse parsedMessage = null;
+        ReadResponse parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (routing.Pipe.ReadResponse) e.getUnfinishedMessage();
+          parsedMessage = (ReadResponse) e.getUnfinishedMessage();
           throw e;
         } finally {
           if (parsedMessage != null) {
@@ -8687,7 +8687,7 @@ public final class Pipe {
         return this;
       }
 
-      private java.lang.Object filename_ = "";
+      private Object filename_ = "";
       /**
        * <code>required string filename = 2;</code>
        */
@@ -8697,18 +8697,18 @@ public final class Pipe {
       /**
        * <code>required string filename = 2;</code>
        */
-      public java.lang.String getFilename() {
-        java.lang.Object ref = filename_;
-        if (!(ref instanceof java.lang.String)) {
+      public String getFilename() {
+        Object ref = filename_;
+        if (!(ref instanceof String)) {
           com.google.protobuf.ByteString bs =
               (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
+          String s = bs.toStringUtf8();
           if (bs.isValidUtf8()) {
             filename_ = s;
           }
           return s;
         } else {
-          return (java.lang.String) ref;
+          return (String) ref;
         }
       }
       /**
@@ -8716,11 +8716,11 @@ public final class Pipe {
        */
       public com.google.protobuf.ByteString
           getFilenameBytes() {
-        java.lang.Object ref = filename_;
+        Object ref = filename_;
         if (ref instanceof String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
+                  (String) ref);
           filename_ = b;
           return b;
         } else {
@@ -8731,7 +8731,7 @@ public final class Pipe {
        * <code>required string filename = 2;</code>
        */
       public Builder setFilename(
-          java.lang.String value) {
+          String value) {
         if (value == null) {
     throw new NullPointerException();
   }
@@ -8763,7 +8763,7 @@ public final class Pipe {
         return this;
       }
 
-      private java.lang.Object fileExt_ = "";
+      private Object fileExt_ = "";
       /**
        * <code>optional string file_ext = 3;</code>
        */
@@ -8773,18 +8773,18 @@ public final class Pipe {
       /**
        * <code>optional string file_ext = 3;</code>
        */
-      public java.lang.String getFileExt() {
-        java.lang.Object ref = fileExt_;
-        if (!(ref instanceof java.lang.String)) {
+      public String getFileExt() {
+        Object ref = fileExt_;
+        if (!(ref instanceof String)) {
           com.google.protobuf.ByteString bs =
               (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
+          String s = bs.toStringUtf8();
           if (bs.isValidUtf8()) {
             fileExt_ = s;
           }
           return s;
         } else {
-          return (java.lang.String) ref;
+          return (String) ref;
         }
       }
       /**
@@ -8792,11 +8792,11 @@ public final class Pipe {
        */
       public com.google.protobuf.ByteString
           getFileExtBytes() {
-        java.lang.Object ref = fileExt_;
+        Object ref = fileExt_;
         if (ref instanceof String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
+                  (String) ref);
           fileExt_ = b;
           return b;
         } else {
@@ -8807,7 +8807,7 @@ public final class Pipe {
        * <code>optional string file_ext = 3;</code>
        */
       public Builder setFileExt(
-          java.lang.String value) {
+          String value) {
         if (value == null) {
     throw new NullPointerException();
   }
@@ -8871,22 +8871,22 @@ public final class Pipe {
         return this;
       }
 
-      private java.util.List<routing.Pipe.ChunkLocation> chunkLocation_ =
+      private java.util.List<ChunkLocation> chunkLocation_ =
         java.util.Collections.emptyList();
       private void ensureChunkLocationIsMutable() {
         if (!((bitField0_ & 0x00000010) == 0x00000010)) {
-          chunkLocation_ = new java.util.ArrayList<routing.Pipe.ChunkLocation>(chunkLocation_);
+          chunkLocation_ = new java.util.ArrayList<ChunkLocation>(chunkLocation_);
           bitField0_ |= 0x00000010;
          }
       }
 
       private com.google.protobuf.RepeatedFieldBuilder<
-          routing.Pipe.ChunkLocation, routing.Pipe.ChunkLocation.Builder, routing.Pipe.ChunkLocationOrBuilder> chunkLocationBuilder_;
+          ChunkLocation, ChunkLocation.Builder, ChunkLocationOrBuilder> chunkLocationBuilder_;
 
       /**
        * <code>repeated .ChunkLocation chunk_location = 5;</code>
        */
-      public java.util.List<routing.Pipe.ChunkLocation> getChunkLocationList() {
+      public java.util.List<ChunkLocation> getChunkLocationList() {
         if (chunkLocationBuilder_ == null) {
           return java.util.Collections.unmodifiableList(chunkLocation_);
         } else {
@@ -8906,7 +8906,7 @@ public final class Pipe {
       /**
        * <code>repeated .ChunkLocation chunk_location = 5;</code>
        */
-      public routing.Pipe.ChunkLocation getChunkLocation(int index) {
+      public ChunkLocation getChunkLocation(int index) {
         if (chunkLocationBuilder_ == null) {
           return chunkLocation_.get(index);
         } else {
@@ -8917,7 +8917,7 @@ public final class Pipe {
        * <code>repeated .ChunkLocation chunk_location = 5;</code>
        */
       public Builder setChunkLocation(
-          int index, routing.Pipe.ChunkLocation value) {
+          int index, ChunkLocation value) {
         if (chunkLocationBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -8934,7 +8934,7 @@ public final class Pipe {
        * <code>repeated .ChunkLocation chunk_location = 5;</code>
        */
       public Builder setChunkLocation(
-          int index, routing.Pipe.ChunkLocation.Builder builderForValue) {
+          int index, ChunkLocation.Builder builderForValue) {
         if (chunkLocationBuilder_ == null) {
           ensureChunkLocationIsMutable();
           chunkLocation_.set(index, builderForValue.build());
@@ -8947,7 +8947,7 @@ public final class Pipe {
       /**
        * <code>repeated .ChunkLocation chunk_location = 5;</code>
        */
-      public Builder addChunkLocation(routing.Pipe.ChunkLocation value) {
+      public Builder addChunkLocation(ChunkLocation value) {
         if (chunkLocationBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -8964,7 +8964,7 @@ public final class Pipe {
        * <code>repeated .ChunkLocation chunk_location = 5;</code>
        */
       public Builder addChunkLocation(
-          int index, routing.Pipe.ChunkLocation value) {
+          int index, ChunkLocation value) {
         if (chunkLocationBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -8981,7 +8981,7 @@ public final class Pipe {
        * <code>repeated .ChunkLocation chunk_location = 5;</code>
        */
       public Builder addChunkLocation(
-          routing.Pipe.ChunkLocation.Builder builderForValue) {
+          ChunkLocation.Builder builderForValue) {
         if (chunkLocationBuilder_ == null) {
           ensureChunkLocationIsMutable();
           chunkLocation_.add(builderForValue.build());
@@ -8995,7 +8995,7 @@ public final class Pipe {
        * <code>repeated .ChunkLocation chunk_location = 5;</code>
        */
       public Builder addChunkLocation(
-          int index, routing.Pipe.ChunkLocation.Builder builderForValue) {
+          int index, ChunkLocation.Builder builderForValue) {
         if (chunkLocationBuilder_ == null) {
           ensureChunkLocationIsMutable();
           chunkLocation_.add(index, builderForValue.build());
@@ -9009,7 +9009,7 @@ public final class Pipe {
        * <code>repeated .ChunkLocation chunk_location = 5;</code>
        */
       public Builder addAllChunkLocation(
-          java.lang.Iterable<? extends routing.Pipe.ChunkLocation> values) {
+          Iterable<? extends ChunkLocation> values) {
         if (chunkLocationBuilder_ == null) {
           ensureChunkLocationIsMutable();
           com.google.protobuf.AbstractMessageLite.Builder.addAll(
@@ -9049,14 +9049,14 @@ public final class Pipe {
       /**
        * <code>repeated .ChunkLocation chunk_location = 5;</code>
        */
-      public routing.Pipe.ChunkLocation.Builder getChunkLocationBuilder(
+      public ChunkLocation.Builder getChunkLocationBuilder(
           int index) {
         return getChunkLocationFieldBuilder().getBuilder(index);
       }
       /**
        * <code>repeated .ChunkLocation chunk_location = 5;</code>
        */
-      public routing.Pipe.ChunkLocationOrBuilder getChunkLocationOrBuilder(
+      public ChunkLocationOrBuilder getChunkLocationOrBuilder(
           int index) {
         if (chunkLocationBuilder_ == null) {
           return chunkLocation_.get(index);  } else {
@@ -9066,7 +9066,7 @@ public final class Pipe {
       /**
        * <code>repeated .ChunkLocation chunk_location = 5;</code>
        */
-      public java.util.List<? extends routing.Pipe.ChunkLocationOrBuilder> 
+      public java.util.List<? extends ChunkLocationOrBuilder>
            getChunkLocationOrBuilderList() {
         if (chunkLocationBuilder_ != null) {
           return chunkLocationBuilder_.getMessageOrBuilderList();
@@ -9077,31 +9077,31 @@ public final class Pipe {
       /**
        * <code>repeated .ChunkLocation chunk_location = 5;</code>
        */
-      public routing.Pipe.ChunkLocation.Builder addChunkLocationBuilder() {
+      public ChunkLocation.Builder addChunkLocationBuilder() {
         return getChunkLocationFieldBuilder().addBuilder(
-            routing.Pipe.ChunkLocation.getDefaultInstance());
+            ChunkLocation.getDefaultInstance());
       }
       /**
        * <code>repeated .ChunkLocation chunk_location = 5;</code>
        */
-      public routing.Pipe.ChunkLocation.Builder addChunkLocationBuilder(
+      public ChunkLocation.Builder addChunkLocationBuilder(
           int index) {
         return getChunkLocationFieldBuilder().addBuilder(
-            index, routing.Pipe.ChunkLocation.getDefaultInstance());
+            index, ChunkLocation.getDefaultInstance());
       }
       /**
        * <code>repeated .ChunkLocation chunk_location = 5;</code>
        */
-      public java.util.List<routing.Pipe.ChunkLocation.Builder> 
+      public java.util.List<ChunkLocation.Builder>
            getChunkLocationBuilderList() {
         return getChunkLocationFieldBuilder().getBuilderList();
       }
       private com.google.protobuf.RepeatedFieldBuilder<
-          routing.Pipe.ChunkLocation, routing.Pipe.ChunkLocation.Builder, routing.Pipe.ChunkLocationOrBuilder> 
+          ChunkLocation, ChunkLocation.Builder, ChunkLocationOrBuilder>
           getChunkLocationFieldBuilder() {
         if (chunkLocationBuilder_ == null) {
           chunkLocationBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-              routing.Pipe.ChunkLocation, routing.Pipe.ChunkLocation.Builder, routing.Pipe.ChunkLocationOrBuilder>(
+              ChunkLocation, ChunkLocation.Builder, ChunkLocationOrBuilder>(
                   chunkLocation_,
                   ((bitField0_ & 0x00000010) == 0x00000010),
                   getParentForChildren(),
@@ -9111,9 +9111,9 @@ public final class Pipe {
         return chunkLocationBuilder_;
       }
 
-      private routing.Pipe.Chunk chunk_ = routing.Pipe.Chunk.getDefaultInstance();
+      private Chunk chunk_ = Chunk.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
-          routing.Pipe.Chunk, routing.Pipe.Chunk.Builder, routing.Pipe.ChunkOrBuilder> chunkBuilder_;
+          Chunk, Chunk.Builder, ChunkOrBuilder> chunkBuilder_;
       /**
        * <code>optional .Chunk chunk = 6;</code>
        */
@@ -9123,7 +9123,7 @@ public final class Pipe {
       /**
        * <code>optional .Chunk chunk = 6;</code>
        */
-      public routing.Pipe.Chunk getChunk() {
+      public Chunk getChunk() {
         if (chunkBuilder_ == null) {
           return chunk_;
         } else {
@@ -9133,7 +9133,7 @@ public final class Pipe {
       /**
        * <code>optional .Chunk chunk = 6;</code>
        */
-      public Builder setChunk(routing.Pipe.Chunk value) {
+      public Builder setChunk(Chunk value) {
         if (chunkBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -9150,7 +9150,7 @@ public final class Pipe {
        * <code>optional .Chunk chunk = 6;</code>
        */
       public Builder setChunk(
-          routing.Pipe.Chunk.Builder builderForValue) {
+          Chunk.Builder builderForValue) {
         if (chunkBuilder_ == null) {
           chunk_ = builderForValue.build();
           onChanged();
@@ -9163,12 +9163,12 @@ public final class Pipe {
       /**
        * <code>optional .Chunk chunk = 6;</code>
        */
-      public Builder mergeChunk(routing.Pipe.Chunk value) {
+      public Builder mergeChunk(Chunk value) {
         if (chunkBuilder_ == null) {
           if (((bitField0_ & 0x00000020) == 0x00000020) &&
-              chunk_ != routing.Pipe.Chunk.getDefaultInstance()) {
+              chunk_ != Chunk.getDefaultInstance()) {
             chunk_ =
-              routing.Pipe.Chunk.newBuilder(chunk_).mergeFrom(value).buildPartial();
+              Chunk.newBuilder(chunk_).mergeFrom(value).buildPartial();
           } else {
             chunk_ = value;
           }
@@ -9184,7 +9184,7 @@ public final class Pipe {
        */
       public Builder clearChunk() {
         if (chunkBuilder_ == null) {
-          chunk_ = routing.Pipe.Chunk.getDefaultInstance();
+          chunk_ = Chunk.getDefaultInstance();
           onChanged();
         } else {
           chunkBuilder_.clear();
@@ -9195,7 +9195,7 @@ public final class Pipe {
       /**
        * <code>optional .Chunk chunk = 6;</code>
        */
-      public routing.Pipe.Chunk.Builder getChunkBuilder() {
+      public Chunk.Builder getChunkBuilder() {
         bitField0_ |= 0x00000020;
         onChanged();
         return getChunkFieldBuilder().getBuilder();
@@ -9203,7 +9203,7 @@ public final class Pipe {
       /**
        * <code>optional .Chunk chunk = 6;</code>
        */
-      public routing.Pipe.ChunkOrBuilder getChunkOrBuilder() {
+      public ChunkOrBuilder getChunkOrBuilder() {
         if (chunkBuilder_ != null) {
           return chunkBuilder_.getMessageOrBuilder();
         } else {
@@ -9214,11 +9214,11 @@ public final class Pipe {
        * <code>optional .Chunk chunk = 6;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
-          routing.Pipe.Chunk, routing.Pipe.Chunk.Builder, routing.Pipe.ChunkOrBuilder> 
+          Chunk, Chunk.Builder, ChunkOrBuilder>
           getChunkFieldBuilder() {
         if (chunkBuilder_ == null) {
           chunkBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-              routing.Pipe.Chunk, routing.Pipe.Chunk.Builder, routing.Pipe.ChunkOrBuilder>(
+              Chunk, Chunk.Builder, ChunkOrBuilder>(
                   getChunk(),
                   getParentForChildren(),
                   isClean());
@@ -9291,7 +9291,7 @@ public final class Pipe {
   private static com.google.protobuf.Descriptors.FileDescriptor
       descriptor;
   static {
-    java.lang.String[] descriptorData = {
+    String[] descriptorData = {
       "\n\npipe.proto\032\014common.proto\"A\n\005Chunk\022\020\n\010c" +
       "hunk_id\030\001 \002(\005\022\022\n\nchunk_data\030\006 \002(\014\022\022\n\nchu" +
       "nk_size\030\t \001(\005\"5\n\rChunkLocation\022\017\n\007chunki" +
@@ -9345,55 +9345,55 @@ public final class Pipe {
     internal_static_Chunk_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_Chunk_descriptor,
-        new java.lang.String[] { "ChunkId", "ChunkData", "ChunkSize", });
+        new String[] { "ChunkId", "ChunkData", "ChunkSize", });
     internal_static_ChunkLocation_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_ChunkLocation_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ChunkLocation_descriptor,
-        new java.lang.String[] { "Chunkid", "Node", });
+        new String[] { "Chunkid", "Node", });
     internal_static_CommandMessage_descriptor =
       getDescriptor().getMessageTypes().get(2);
     internal_static_CommandMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_CommandMessage_descriptor,
-        new java.lang.String[] { "Header", "Ping", "Message", "Err", "Req", "Resp", "Payload", });
+        new String[] { "Header", "Ping", "Message", "Err", "Req", "Resp", "Payload", });
     internal_static_Request_descriptor =
       getDescriptor().getMessageTypes().get(3);
     internal_static_Request_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_Request_descriptor,
-        new java.lang.String[] { "Client", "RequestType", "Rwb", "Rrb", "Payload", });
+        new String[] { "Client", "RequestType", "Rwb", "Rrb", "Payload", });
     internal_static_WriteBody_descriptor =
       getDescriptor().getMessageTypes().get(4);
     internal_static_WriteBody_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_WriteBody_descriptor,
-        new java.lang.String[] { "FileId", "Filename", "FileExt", "Chunk", "NumOfChunks", });
+        new String[] { "FileId", "Filename", "FileExt", "Chunk", "NumOfChunks", });
     internal_static_ReadBody_descriptor =
       getDescriptor().getMessageTypes().get(5);
     internal_static_ReadBody_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ReadBody_descriptor,
-        new java.lang.String[] { "Filename", "FileId", "ChunkId", "ChunkSize", });
+        new String[] { "Filename", "FileId", "ChunkId", "ChunkSize", });
     internal_static_Response_descriptor =
       getDescriptor().getMessageTypes().get(6);
     internal_static_Response_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_Response_descriptor,
-        new java.lang.String[] { "ResponseType", "Filename", "Status", "WriteResponse", "ReadResponse", "Payload", });
+        new String[] { "ResponseType", "Filename", "Status", "WriteResponse", "ReadResponse", "Payload", });
     internal_static_WriteResponse_descriptor =
       getDescriptor().getMessageTypes().get(7);
     internal_static_WriteResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_WriteResponse_descriptor,
-        new java.lang.String[] { "ChunkId", "Filename", });
+        new String[] { "ChunkId", "Filename", });
     internal_static_ReadResponse_descriptor =
       getDescriptor().getMessageTypes().get(8);
     internal_static_ReadResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ReadResponse_descriptor,
-        new java.lang.String[] { "FileId", "Filename", "FileExt", "NumOfChunks", "ChunkLocation", "Chunk", });
+        new String[] { "FileId", "Filename", "FileExt", "NumOfChunks", "ChunkLocation", "Chunk", });
     pipe.common.Common.getDescriptor();
   }
 
