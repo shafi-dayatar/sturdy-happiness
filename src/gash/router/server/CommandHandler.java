@@ -48,7 +48,7 @@ import pipe.common.Common.WriteResponse;
 public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> {
 	protected static Logger logger = LoggerFactory.getLogger("cmd");
 	protected RoutingConf conf;
-	
+
 	ServerState serverState;
 
 	public CommandHandler(RoutingConf conf) {
@@ -62,8 +62,8 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 		}
 		this.serverState = serverState;
 	}
-	
-	
+
+
 
 	/**
 	 * override this method to provide processing behavior. This implementation
@@ -79,139 +79,136 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 			System.out.println("ERROR: Unexpected content - " + msg);
 			return;
 		}
-	    logger.info("Request received at server : " + msg.toString());
+		logger.info("Request received at command server : " + msg.toString());
 		if(msg.hasRequest()){	
 			switch(msg.getRequest().getRequestType()){
-		    case REQUESTWRITEFILE:
-		    	WriteBody writeReq = msg.getRequest().getRwb();
-		    	Status status = serverState.getRaftState().writeFile(writeReq);	
-		    	sendWriteResponse(channel, msg, status);
-		    	//forwardWriteRequest();
-		    	break;	
-		    case REQUESTREADFILE:
-		    	ReadBody readReq = msg.getRequest().getRrb();
-		    	Response res = null;
-		    	if(readReq.hasChunkId()){
-		    		serverState.connectionManager.setConnection(msg.getHeader().getNodeId(), channel);
-		    		logger.info("Request from client is : " + msg.toString());
-		    		serverState.getReadTaskQueue().addMessage(msg);
-		    	}else{
-		    		res = serverState.getRaftState().getFileChunkLocation(readReq);
+			case REQUESTWRITEFILE:
+				WriteBody writeReq = msg.getRequest().getRwb();
+				Status status = serverState.getRaftState().writeFile(writeReq);	
+				sendWriteResponse(channel, msg, status);
+				//forwardWriteRequest();
+				break;	
+			case REQUESTREADFILE:
+				ReadBody readReq = msg.getRequest().getRrb();
+				Response res = null;
+				if(readReq.hasChunkId()){
+					serverState.connectionManager.setConnection(msg.getHeader().getNodeId(), channel);
+					logger.info("Request from client is : " + msg.toString());
+					serverState.getReadTaskQueue().addMessage(msg);
+				}else{
+					res = serverState.getRaftState().getFileChunkLocation(readReq);
 					serverState.sendReadResponse(channel, res, msg.getHeader().getNodeId());
-		    	}
-		    	break;
-		    default:
-		    	logger.info(">>>>> unhandled request at server, just loggin the request, " + msg.toString());
-		    	break;
+				}
+				break;
+			default:
+				logger.info(">>>>> unhandled request at server, just loggin the request, " + msg.toString());
+				break;
 			}
 		}else if(msg.hasPing()){
-			logger.info("got a ping message:" + msg.toString());
-	    	int destinationId = msg.getHeader().getDestination();
-	    	if (destinationId == serverState.getConf().getClusterId() || destinationId == 44){
-	    		//sendPingResponse(msg, channel);
-	    		logger.info("Discarding ping...........channel...............");
-	    	}else{
-	    		int nextClusterId = serverState.getConf().getNextClusterId();
-	    		logger.info("Forwarding to cluster id : " + nextClusterId);
-	    		Channel ch = serverState.connectionManager.getConnection(nextClusterId);
-	    		if (ch == null){
-	    			Node node = serverState.getRedis().getLeader(nextClusterId);
-	    			logger.info("creating new channgel for  :  "  + node.toString());//+ node.toString()) ;
-	    			CommConnection cc = new CommConnection(node.getHost(), node.getPort());
-	    			ch = cc.connect();
-	    			serverState.connectionManager.setConnection(nextClusterId, ch);  			
-	    		}
-	    		//forwardPingMessage(msg, ch);
-	    		if(ch != null){
-	    			logger.info("Channel info :  " + ch.toString() );
-	    			forwardPingMessage(msg, ch);
-	    		    logger.info("forward Msg compeleted");
-	    		}
-	    	
-	    	}	
+			handlePing(msg, channel);
 		}else{
 			logger.info(">>>>>Unsupport msg received from client  msg detail is : " + msg.toString());
 		}
 
 	}
-		
+	
+	
+	private void handlePing(CommandMessage msg, Channel channel){
+		logger.info("----------got a ping message------------:" + msg.toString());
+		int destinationId = msg.getHeader().getDestination();
+		int clusterClientId = serverState.getConf().getClusterClientId();
+		int nextClusterId = serverState.getConf().getNextClusterId();
+		if (destinationId == serverState.getConf().getClusterId()){
+			if(msg.getHeader().getNodeId() == clusterClientId){
+				sendPingResponse(msg, channel);
+				logger.info("Client Pings own cluster, respond directly to client");
+			}else{
+				Channel ch = serverState.connectionManager.getConnection(nextClusterId);
+				if(ch != null){
+					sendPingResponse(msg, ch);
+					logger.info("Other cluster is trying to ping, sending response, forwarding to next Cluster");
+				}
+			}		
+		}else if(destinationId == clusterClientId){
+			Channel ch = serverState.connectionManager.getConnection(destinationId);
+			if(ch != null){
+				forwardPingMessage(msg, ch);
+				logger.info("Forwarding ping respone to client");
+			}else{
+				logger.info("Cannot forward ping to client, no connection available");
+			}
+		}else{
+			logger.info("Forwarding to cluster id : " + nextClusterId);
+			Channel ch = serverState.connectionManager.getConnection(nextClusterId);
+			if (ch == null){
+				Node node = serverState.getRedis().getLeader(nextClusterId);
+				logger.debug("creating new channgel for  :  "  + node.toString());//+ node.toString()) ;
+				try{
+					CommConnection cc = new CommConnection(node.getHost(), node.getPort());
+					ch = cc.connect();
+					serverState.connectionManager.setConnection(nextClusterId, ch); 
+				}
+				catch(Exception e){
+					logger.error("Cannot make connection to next Cluster");
+				}
+			}
+			if(ch != null){
+				logger.debug("forwording on Channel:  " + ch.toString() );
+				forwardPingMessage(msg, ch);
+				logger.info("forward Msg compeleted");
+			}else{
+				logger.info("No channel available for clusterId:" + nextClusterId);
+			}
+
+		}	
+	}
+
 	private void forwardPingMessage(CommandMessage msg, Channel ch) {
 		CommandMessage.Builder cmdMsg = CommandMessage.newBuilder(msg);
 		Header.Builder hdb = Header.newBuilder(msg.getHeader());
 		int maxHops = msg.getHeader().getMaxHops();
+		if (maxHops == 0){
+			logger.info("MaxHops has reached zero, grounding this message: " + msg.toString());
+			return;
+		}
 		if( maxHops > 0 ){
 			hdb.setMaxHops(maxHops - 1);
 		}
 		cmdMsg.setHeader(hdb);
+		cmdMsg.setPing(true);
 		ch.writeAndFlush(cmdMsg.build());
 	}
-	
-	private void forwardToNextCluster(CommandMessage msg) {
+
+	private void forwardToNextCluster(CommandMessage msg, Channel ch) {
 		// TODO Auto-generated method stub
-		
+		CommandMessage.Builder cmdMsg = CommandMessage.newBuilder(msg);
+		Header.Builder hdb = Header.newBuilder(msg.getHeader());
+		int maxHops = msg.getHeader().getMaxHops();
+		if (maxHops == 0){
+			logger.info("MaxHops has reached zero, grounding this message: " + msg.toString());
+			return;
+		}
+		if( maxHops > 0 ){
+			hdb.setMaxHops(maxHops - 1);
+		}
+		cmdMsg.setHeader(hdb);
+		cmdMsg.setPing(true);
+		ch.writeAndFlush(cmdMsg.build());
+
 	}
-	
-	private void sendPingResponse(CommandMessage msg, Channel channel) {
+
+	private void sendPingResponse(CommandMessage msg, Channel ch) {
 		// TODO Auto-generated method stub
 		CommandMessage.Builder cmdMsg = CommandMessage.newBuilder();
-	
-		
+		Header.Builder hdb = Header.newBuilder(msg.getHeader());
+		hdb.setDestination(msg.getHeader().getNodeId());
+		hdb.setNodeId(msg.getHeader().getDestination());
+		hdb.setMaxHops(10);
+		cmdMsg.setHeader(hdb);
+		cmdMsg.setPing(true);
+		ch.writeAndFlush(cmdMsg.build());
 	}
-		//try {
-			// TODO How can you implement this without if-else statements?
-			/*if (msg.hasReq()){
-				switch (msg.getReq().getRequestType()){
-					case READFILE:
-						if(msg.getReq().hasRrb()){
-							byte[] chunkContent = serverState.getRaftState().readFile(msg.getReq().getRrb());
-							sendReadResponse(channel, msg, chunkContent);
 
-							logger.info(" end of READFILE");
-						}
-						break;
-					case WRITEFILE:
-						if(msg.getReq().hasRwb()){
-							int missingChunk = serverState.getRaftState().writeFile(msg.getReq().getRwb());
-							sendWriteResponse(channel, msg, missingChunk);
-							logger.info(" end of WRITEFILE");
-						}
-						break;
-					case UPDATEFILE:
-
-						//same as write no difference
-						if(msg.getReq().hasRwb()){
-							int missingChunk = serverState.getRaftState().writeFile(msg.getReq().getRwb());
-							sendWriteResponse(channel, msg, missingChunk);
-						}
-
-						break;
-					case DELETEFILE:
-						if(msg.getReq().hasRwb()){
-							serverState.getRaftState().deleteFile(msg.getReq().getRrb());
-						}
-						break;
-
-				}
-			}
-
-		} catch (Exception e) {
-			// TODO add logging
-			logger.info("error stack trace in handleMessage - CommandHanler: ");
-			e.printStackTrace();
-			Failure.Builder eb = Failure.newBuilder();
-			eb.setId(conf.getNodeId());
-			eb.setRefId(msg.getHeader().getNodeId());
-			eb.setMessage(e.getMessage());
-			CommandMessage.Builder rb = CommandMessage.newBuilder(msg);
-			rb.setErr(eb);
-			channel.write(rb.build());
-		}
-		logger.info(" flushing . . . .. ");
-		System.out.flush();
-	}*/
-
-
-    
 	private void sendWriteResponse(Channel channel, CommandMessage cmdMessage, Status status){
 		logger.info("Preparing to send write response for nodeid: "+ cmdMessage.getHeader().getNodeId() );
 		CommandMessage.Builder cmdMsg = CommandMessage.newBuilder(cmdMessage);
@@ -219,18 +216,18 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 		hd.setNodeId(serverState.getNodeId());
 		hd.setTime(System.currentTimeMillis());
 		hd.setDestination(cmdMessage.getHeader().getNodeId());
-		
+
 		Response.Builder response = Response.newBuilder();
 		response.setResponseType(TaskType.RESPONSEWRITEFILE);
 		response.setStatus(status);
-		
+
 		WriteResponse.Builder writeRespBuilder = WriteResponse.newBuilder();
 		writeRespBuilder.addChunkId(cmdMessage.getRequest().getRwb().getChunk().getChunkId());
 		response.setWriteResponse(writeRespBuilder.build());
 		cmdMsg.setHeader(hd);
 		channel.writeAndFlush(cmdMsg.build());
 	}
-    /*
+	/*
 	private Pipe.Response.Builder buildReadResponse(Pipe.Request request, byte[] chunkContent){
 		logger.info("Building read response for request chunk content length: " + chunkContent.length);
 		Pipe.Response.Builder response = Pipe.Response.newBuilder();
