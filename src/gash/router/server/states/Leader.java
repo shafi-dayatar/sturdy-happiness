@@ -408,7 +408,7 @@ public class Leader implements RaftServerState, Runnable {
 		int chunk_id = cmdMsg.getRequest().getRrb().getChunkId();
 		int file_id = state.getDb().getFileId(cmdMsg.getRequest().getRrb().getFilename());
 		int client_id = cmdMsg.getHeader().getNodeId();
-		Common.Header.Builder hd = Common.Header.newBuilder();
+		Header.Builder hd = Header.newBuilder();
 		//set to whichever node it may set it to
 		int[] destinations = state.getNodeLocations(chunk_id, file_id);
 		int dest = state.getRandom(destinations);

@@ -21,17 +21,20 @@ import org.slf4j.LoggerFactory;
 import gash.router.container.RoutingConf;
 import gash.router.server.communication.CommConnection;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import pipe.common.Common;
+import pipe.common.Common.Header;
 import pipe.common.Common.Node;
 import routing.Pipe;
 import routing.Pipe.CommandMessage;
-import routing.Pipe.ReadBody;
-import routing.Pipe.Response;
-import routing.Pipe.Response.Status;
-import routing.Pipe.TaskType;
-import routing.Pipe.WriteBody;
+import pipe.common.Common.ReadBody;
+import pipe.common.Common.Response;
+import pipe.common.Common.Response.Status;
+import pipe.common.Common.TaskType;
+import pipe.common.Common.WriteBody;
+import pipe.common.Common.WriteResponse;
 
 
 /**

@@ -29,6 +29,7 @@ public class InBoundReadTask implements Runnable{
     	state.getRaftState().processReadRequest(cmd);
     }
 
+    /*
 	public void processRead(ServerState state, CommandMessage cmdMsg){
 	       Work.WorkMessage.Builder msgBuilder = Work.WorkMessage.newBuilder();
 	        msgBuilder.setSecret(9999999);
@@ -60,5 +61,5 @@ public class InBoundReadTask implements Runnable{
 	            //invalid chunk id
 	            System.out.println(" Invalid chunk id recived while adding to InBoundReadTaskQueue");
 	        }
-	}
+	}*/
 }

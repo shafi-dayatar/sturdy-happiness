@@ -107,12 +107,14 @@ public class TaskList {
 		Task task = null;
 		while (taskIterator.hasNext()){
 			task = taskIterator.next();
-			String filename = task.getMsg().getReq().getRrb().getFilename();
+			String filename = task.getMsg().getRequest().getRrb().getFilename();
 			ChunkRow[] arr = state.getDb().getChunkRows(filename);
 			for(ChunkRow r : arr){
 				logger.info(" checkinbg for " + r.getLocation_at() + " message req filename  " + filename);
 				if(r.getLocation_at().contains(Integer.toString(node_id))){
-					logger.info(" node_id " + node_id + " will steal for "+ filename + " of type " + task.getMsg().getReq().getRequestType());
+					logger.info(" node_id " + node_id + " will steal for "+ filename + " of type " + task.getMsg()
+							.getRequest()
+							.getRequestType());
 					//yes the node can steal this task now
 
 					//remove task from queue
