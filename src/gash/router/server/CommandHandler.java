@@ -21,9 +21,11 @@ import org.slf4j.LoggerFactory;
 import gash.router.container.RoutingConf;
 import gash.router.server.communication.CommConnection;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import pipe.common.Common;
+import pipe.common.Common.Header;
 import pipe.common.Common.Node;
 import routing.Pipe;
 import routing.Pipe.CommandMessage;
@@ -78,17 +80,14 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 			return;
 		}
 	    logger.info("Request received at server : " + msg.toString());
-		if(msg.hasRequest()){
-			
+		if(msg.hasRequest()){	
 			switch(msg.getRequest().getRequestType()){
-		
-		
 		    case REQUESTWRITEFILE:
 		    	WriteBody writeReq = msg.getRequest().getRwb();
 		    	Status status = serverState.getRaftState().writeFile(writeReq);	
 		    	sendWriteResponse(channel, msg, status);
-		    	break;
-		    	
+		    	//forwardWriteRequest();
+		    	break;	
 		    case REQUESTREADFILE:
 		    	ReadBody readReq = msg.getRequest().getRrb();
 		    	Response res = null;
@@ -107,34 +106,55 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 			}
 		}else if(msg.hasPing()){
 			logger.info("got a ping message:" + msg.toString());
-	    	int clusterId = msg.getHeader().getNodeId();
-	    	if (clusterId == serverState.getConf().getClusterId() || clusterId == 1000){
-	    		//sendPingResponse(channel);
+	    	int destinationId = msg.getHeader().getDestination();
+	    	if (destinationId == serverState.getConf().getClusterId() || destinationId == 44){
+	    		//sendPingResponse(msg, channel);
 	    		logger.info("Discarding ping...........channel...............");
 	    	}else{
-	    		logger.info("getting ping, trying to forward it to next cluster ..................................\n\n\n");
-	    		Channel ch = serverState.connectionManager.getConnection(1);
+	    		int nextClusterId = serverState.getConf().getNextClusterId();
+	    		logger.info("Forwarding to cluster id : " + nextClusterId);
+	    		Channel ch = serverState.connectionManager.getConnection(nextClusterId);
 	    		if (ch == null){
-
-	    			Node node = serverState.getRedis().getLeader(2);
-	    			logger.info("Sending ping message to  :  "  + node.toString());//+ node.toString()) ;
-	    			CommConnection cc = new CommConnection("169.254.214.175", 4568);
-
+	    			Node node = serverState.getRedis().getLeader(nextClusterId);
+	    			logger.info("creating new channgel for  :  "  + node.toString());//+ node.toString()) ;
+	    			CommConnection cc = new CommConnection(node.getHost(), node.getPort());
 	    			ch = cc.connect();
-	    			serverState.connectionManager.setConnection(2, ch);
-	    			
+	    			serverState.connectionManager.setConnection(nextClusterId, ch);  			
 	    		}
-	    		ch.write(msg);
-	    	}
+	    		//forwardPingMessage(msg, ch);
+	    		if(ch != null){
+	    			logger.info("Channel info :  " + ch.toString() );
+	    			forwardPingMessage(msg, ch);
+	    		    logger.info("forward Msg compeleted");
+	    		}
 	    	
-	    	
+	    	}	
 		}else{
-			logger.info("Unsupport msg received from client  msg detail is : " + msg.toString());
+			logger.info(">>>>>Unsupport msg received from client  msg detail is : " + msg.toString());
 		}
 
 	}
-		private void sendPingResponse(Channel channel) {
+		
+	private void forwardPingMessage(CommandMessage msg, Channel ch) {
+		CommandMessage.Builder cmdMsg = CommandMessage.newBuilder(msg);
+		Header.Builder hdb = Header.newBuilder(msg.getHeader());
+		int maxHops = msg.getHeader().getMaxHops();
+		if( maxHops > 0 ){
+			hdb.setMaxHops(maxHops - 1);
+		}
+		cmdMsg.setHeader(hdb);
+		ch.writeAndFlush(cmdMsg.build());
+	}
+	
+	private void forwardToNextCluster(CommandMessage msg) {
 		// TODO Auto-generated method stub
+		
+	}
+	
+	private void sendPingResponse(CommandMessage msg, Channel channel) {
+		// TODO Auto-generated method stub
+		CommandMessage.Builder cmdMsg = CommandMessage.newBuilder();
+	
 		
 	}
 		//try {

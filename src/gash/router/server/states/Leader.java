@@ -61,9 +61,9 @@ public class Leader implements RaftServerState, Runnable {
 
 	@Override
 	public void declareLeader() {
-		logger.info("Sending heartbeat Messages to followers");
+		logger.debug("Sending heartbeat Messages to followers");
 		WorkMessage hearbeat = createHeartBeatMessage();
-		logger.info("Heartbeat message for followers is : " + hearbeat.toString());
+		logger.debug("Heartbeat message for followers is : " + hearbeat.toString());
 		state.getOutBoundMessageQueue().addMessage(hearbeat);
 	}
 
@@ -300,7 +300,7 @@ public class Leader implements RaftServerState, Runnable {
 			int i ;
 			for( i= 0; i < chunks.length; i++){
 				ChunkLocation.Builder chunkloc = ChunkLocation.newBuilder();
-				chunkloc.setNode(node);
+				chunkloc.addNode(node);
 				chunkloc.setChunkId(chunks[i][1]);
 				rr.addChunkLocation(chunkloc);
 			}

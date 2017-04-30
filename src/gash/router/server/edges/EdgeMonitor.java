@@ -93,7 +93,7 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 	public void run() {
 		while (forever) {
 			try {
-				logger.info("Routing table is : ");
+				logger.debug("Routing table is : ");
 				for (EdgeInfo ei : this.outboundEdges.map.values()) {
 					if (ei.getChannel() == null){
 						onAdd(ei);
@@ -106,13 +106,13 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 						// TODO create a client to the node
 						logger.info("trying to connect to node " + ei.getRef());
 					}
-					logger.info(ei.toString());
+					logger.debug(ei.toString());
 					
 				}
 				Thread.sleep(dt);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
-				logger.info("Thread Interupted while type to update routing table ");
+				logger.error("Thread Interupted while type to update routing table ");
 				e.printStackTrace();
 			}
 		}

@@ -53,7 +53,7 @@ public class MessageClient {
 	private int messageId = 1;
 	private static int fileId = 0;
 	private static int chunkId = 0;
-	private int clientId=100;
+	private int clientId=44;
 	protected static Logger logger = LoggerFactory.getLogger("Client");
 
 	public MessageClient(int clusterId, String host, int port) {
@@ -297,9 +297,9 @@ public class MessageClient {
 		try {
 			int listSize = list.size();
 			for(int j =0;j<listSize;j++){
-				int node_id = list.get(j).getNode().getNodeId();
-				String host = list.get(j).getNode().getHost();
-				int port = list.get(j).getNode().getPort();
+				int node_id = list.get(j).getNode(0).getNodeId();
+				String host = list.get(j).getNode(0).getHost();
+				int port = list.get(j).getNode(0).getPort();
 				String file_name = readRes.getFilename();
 				int chunkId = list.get(j).getChunkId();
 				CommandMessage commandMessage = buildRCommandMessage(file_name, node_id, host, port, chunkId);
