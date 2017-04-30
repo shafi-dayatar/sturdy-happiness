@@ -52,11 +52,13 @@ protected static Logger logger = LoggerFactory.getLogger("LogAppendEntry Message
 
 
     	}
+    	/*
     	if (type == MessageType.CHUNKFILEDATAREAD){ 
     		serverState.readChunkData(chunk);
     	}else if (type == MessageType.CHUNKFILEDATAWRITE){
     		serverState.writeChunkData(chunk);
-    	} 
+    	}
+    	*/
         return;
     }
     private void sendReadResponse(ServerState state){

@@ -6,7 +6,6 @@ import "common.proto";
 import "election.proto";
 import "pipe.proto";
 
-
 message WorkState {
    required int32 enqueued = 1;
    required int32 processed = 2;

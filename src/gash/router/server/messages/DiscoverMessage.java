@@ -52,7 +52,7 @@ public class DiscoverMessage extends Message {
         		
         		Node newNode = discovery.getNode();
         		state.getEmon().addNewEdgeInfo(newNode.getNodeId(), newNode.getHost(),
-        				newNode.getPort());
+        				newNode.getPort(), newNode.getCmdPort());
         		//Send routing table to requestor;
         		Discovery.Builder dsb = Discovery.newBuilder(); 
         		List<Node> nodes = state.getEmon().getOutBoundRouteTable();
@@ -78,10 +78,10 @@ public class DiscoverMessage extends Message {
         		for (Node n : nodes){
         			if (n.getNodeId() != state.getNodeId()){
         				boolean newEdge = state.getEmon().addNewEdgeInfo(n.getNodeId(), n.getHost(), 
-        						n.getPort());
+        						n.getPort(), n.getCmdPort());
         				if(newEdge){
         					WorkMessage wm = discoverMessage(state.getNodeId(), 
-        							n.getNodeId(), state.getConf().getWorkPort());
+        							n.getNodeId(), state.getConf().getWorkPort(), state.getConf().getCommandPort());
         					logger.info("Found new node sending discoverreply " + wm.toString());
         					state.getOutBoundMessageQueue().addMessage(wm);
 
@@ -93,11 +93,11 @@ public class DiscoverMessage extends Message {
         }
     }
 	
-	public static WorkMessage discoverMessage(int sourceId, int destId, int sourcePort  ){
+	public static WorkMessage discoverMessage(int sourceId, int destId, int sourcePort, int commandPort  ){
 		//todo should read all entries
 		
 		logger.info("Creating Node Discovery Message for DestId : " + destId);
-        ipAddress = (ipAddress == null ? "localost" : ipAddress );
+        ipAddress = (ipAddress == null ? "locahost" : ipAddress );
 		WorkMessage.Builder wmb = WorkMessage.newBuilder();
 		wmb.setType(MessageType.DISCOVERNODE);
 		wmb.setSecret(1111);
@@ -113,6 +113,7 @@ public class DiscoverMessage extends Message {
 		node.setNodeId(sourceId);
 		node.setHost(ipAddress);
 		node.setPort(sourcePort);
+		node.setCmdPort(commandPort);
 		discovery.setNode(node.build());
 
 		wmb.setDiscovery(discovery);

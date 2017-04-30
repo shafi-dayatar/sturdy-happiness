@@ -14,6 +14,7 @@ import gash.router.server.db.SqlClient;
 import gash.router.server.messages.DiscoverMessage;
 import gash.router.server.messages.FileChunk;
 import gash.router.server.messages.LogAppend;
+import pipe.common.Common;
 import pipe.common.Common.Header;
 import pipe.common.Common.Node;
 import pipe.election.Election;
@@ -27,15 +28,15 @@ import pipe.work.Work.LogEntry.Builder;
 import pipe.work.Work.LogEntry.DataAction;
 import pipe.work.Work.WorkMessage;
 import pipe.work.Work.WorkMessage.MessageType;
-import pipe.common.Common.Chunk;
-import pipe.common.Common.ChunkLocation;
+import routing.Pipe.Chunk;
+import routing.Pipe.ChunkLocation;
 import routing.Pipe.CommandMessage;
-import pipe.common.Common.ReadBody;
-import pipe.common.Common.ReadResponse;
-import pipe.common.Common.Response;
-import pipe.common.Common.Response.Status;
-import pipe.common.Common.TaskType;
-import pipe.common.Common.WriteBody;
+import routing.Pipe.ReadBody;
+import routing.Pipe.ReadResponse;
+import routing.Pipe.Response;
+import routing.Pipe.Response.Status;
+import routing.Pipe.TaskType;
+import routing.Pipe.WriteBody;
 
 
 /**
@@ -269,11 +270,11 @@ public class Leader implements RaftServerState, Runnable {
 	}
 
 	@Override
-	public Response getFileChunkLocation(ReadBody request) {
+	public routing.Pipe.Response getFileChunkLocation(ReadBody request) {
 		String fileName = request.getFilename();
 		Integer [][] chunks = state.getDb().getChunks(fileName);
 		
-		Response.Builder res = Response.newBuilder();
+		routing.Pipe.Response.Builder res = Response.newBuilder();
 		res.setFilename(fileName);
 		res.setResponseType(TaskType.RESPONSEREADFILE);
 		
@@ -300,8 +301,8 @@ public class Leader implements RaftServerState, Runnable {
 			int i ;
 			for( i= 0; i < chunks.length; i++){
 				ChunkLocation.Builder chunkloc = ChunkLocation.newBuilder();
-				chunkloc.setNode(node);
-				chunkloc.setChunkId(chunks[i][1]);
+				chunkloc.addNode(node);
+				chunkloc.setChunkid(chunks[i][1]);
 				rr.addChunkLocation(chunkloc);
 			}
 			rr.setNumOfChunks(i);
@@ -397,9 +398,38 @@ public class Leader implements RaftServerState, Runnable {
 	}
 
 	@Override
-	public CommandMessage getWork() {
-		Work.Task task = state.getTasks().dequeue();
-		return task == null ? null : task.getMsg();
+	public CommandMessage getWork(int node_id) {
+		return null;
+	}
+	// leader doesnt server read requests
+	// routes it to a random available node
+	@Override
+	public void processReadRequest(CommandMessage cmdMsg) {
+
+		int chunk_id = cmdMsg.getRequest().getRrb().getChunkId();
+		int file_id = state.getDb().getFileId(cmdMsg.getRequest().getRrb().getFilename());
+		int client_id = cmdMsg.getHeader().getNodeId();
+		Common.Header.Builder hd = Common.Header.newBuilder();
+		//set to whichever node it may set it to
+		int[] destinations = state.getNodeLocations(chunk_id, file_id);
+		int dest = state.getRandom(destinations);
+		if(dest > 0 ){
+			//chunk exists
+			hd.setDestination(dest);
+			hd.setNodeId(state.getNodeId());
+			hd.setTime(System.currentTimeMillis());
+			hd.setMessageId(client_id);
+			//msgBuilder.setHeader(hd);
+			CommandMessage.Builder cmdBuilder = CommandMessage.newBuilder();
+			cmdBuilder.setHeader(hd.build());
+			cmdBuilder.setMessage(state.ArrayToString(destinations));
+			cmdBuilder.setRequest(cmdMsg.getRequest());
+			state.getOutBoundReadTaskQueue().addMessage(cmdBuilder.build());
+		}
+		else{
+			//invalid chunk id
+			System.out.println(" Invalid chunk id recived while adding to InBoundReadTaskQueue");
+		}
 	}
 
 	@Override

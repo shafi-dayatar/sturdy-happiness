@@ -26,21 +26,21 @@ public class EdgeList {
 	public EdgeList() {
 	}
 
-	public EdgeInfo createIfNew(int ref, String host, int port) {
+	public EdgeInfo createIfNew(int ref, String host, int port, int cmdPort) {
 		if (hasNode(ref))
 			return getNode(ref);
 		else
-			return addNode(ref, host, port);
+			return addNode(ref, host, port, cmdPort);
 	}
 
-	public synchronized EdgeInfo addNode(int ref, String host, int port) {
+	public synchronized EdgeInfo addNode(int ref, String host, int port, int cmdPort) {
 		if (!verify(ref, host, port)) {
 			// TODO log error
 			throw new RuntimeException("Invalid node info");
 		}
 
 		if (!hasNode(ref)) {
-			EdgeInfo ei = new EdgeInfo(ref, host, port);
+			EdgeInfo ei = new EdgeInfo(ref, host, port, cmdPort);
 			map.put(ref, ei);
 			return ei;
 		} else
@@ -78,6 +78,7 @@ public class EdgeList {
 			node.setNodeId(ei.getRef());
 			node.setHost(ei.getHost());
 			node.setPort(ei.getPort());
+			node.setCmdPort(ei.getCmdPort());
 			nodes.add(node.build());
 		}
 		return nodes;

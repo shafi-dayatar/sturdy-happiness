@@ -15,7 +15,7 @@ public class ExtendedExecutor extends ThreadPoolExecutor {
         super(i, i1, l, timeUnit, blockingQueue);
         this.state = state;
     }
-    /*protected void afterExecute(Runnable r, Throwable t) {
+    protected void afterExecute(Runnable r, Throwable t) {
         super.afterExecute(r, t);
         if (t == null) {
             try {
@@ -30,5 +30,5 @@ public class ExtendedExecutor extends ThreadPoolExecutor {
         }
         if (t != null)
             System.out.println(t);
-    }*/
+    }
 }

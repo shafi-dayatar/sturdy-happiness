@@ -1,23 +1,19 @@
 package gash.router.server.queue;
 
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 import gash.router.server.ServerState;
 import gash.router.server.customexecutor.ExtendedExecutor;
 import pipe.work.Work.WorkMessage;
 
 public class InBoundWorkMessageQueue implements MessageQueue {
-	
-	ThreadPoolExecutor exeService;
+
+    ExecutorService exeService;
     ServerState state;
-    LinkedBlockingQueue blockingQueue;
     
     public InBoundWorkMessageQueue(ServerState state, int threadCount){
 	    this.state = state;
-	    this.blockingQueue= new LinkedBlockingQueue();
-    	exeService = new ExtendedExecutor(threadCount, threadCount, 0L, TimeUnit.MILLISECONDS, this.blockingQueue, state);
+        exeService = Executors.newFixedThreadPool(threadCount);
     }
     
     public void addMessage(WorkMessage wm) {

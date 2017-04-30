@@ -50,7 +50,7 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 
 		if (state.getConf().getRouting() != null) {
 			for (RoutingEntry e : state.getConf().getRouting()) {
-				EdgeInfo ei = outboundEdges.addNode(e.getId(), e.getHost(), e.getPort());
+				EdgeInfo ei = outboundEdges.addNode(e.getId(), e.getHost(), e.getPort(), e.getCmdPort());
 				onAdd(ei); //try to connect thru creating channel.
 			}
 		}
@@ -60,8 +60,8 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 			this.dt = state.getConf().getHeartbeatDt();
 	}
 
-	public void createInboundIfNew(int ref, String host, int port) {
-		inboundEdges.createIfNew(ref, host, port);
+	public void createInboundIfNew(int ref, String host, int port, int cmdPort) {
+		inboundEdges.createIfNew(ref, host, port, cmdPort);
 	}
 
 	private WorkMessage createHB(EdgeInfo ei) {
@@ -118,6 +118,19 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 		}
 	}
 
+	private CommConnection makeCmdChannel(EdgeInfo ei){
+		try {
+			if(ei.getCmdPort() != 0){
+				logger.info("making cmd connection with : " + ei.getHost() + " on cmd port : " + ei.getCmdPort()  );
+				return new CommConnection(ei.getHost(), ei.getCmdPort());
+			}
+		}catch (Exception e){
+			logger.error("Command Port connetion failed !!!!! Server is down!! nodeid =  " + ei.getRef()+" reason: " + e );
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	@Override
 	public synchronized void onAdd(final EdgeInfo ei) {
 		// TODO check connection
@@ -125,6 +138,12 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 			if (ei != null && ei.getChannel() == null){
 				logger.info("making connection with : " + ei.getHost() + " on port : " + ei.getPort()  );
 				CommConnection cc = new CommConnection(ei.getHost(), ei.getPort());
+
+				CommConnection cmdCC = makeCmdChannel(ei);
+				if(cmdCC != null){
+					ei.setCmdChannel(cmdCC.connect());
+
+				}
 				ei.setChannel(cc.connect());
 				ei.setActive(true);
 				ChannelFuture closeFuture = ei.getChannel().closeFuture();
@@ -135,15 +154,24 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 				           onRemove(ei);
 				        }
 				    });
+				ChannelFuture cmdCloseFuture = ei.getChannel().closeFuture();
+
+				cmdCloseFuture.addListener(new ChannelFutureListener() {
+					@Override
+					public void operationComplete(ChannelFuture future) throws Exception {
+						onRemove(ei);
+					}
+				});
 				long startTime = System.currentTimeMillis();   
 				WorkMessage wm  = DiscoverMessage.discoverMessage(state.getNodeId(), ei.getRef(),
-						state.getConf().getWorkPort());
+						state.getConf().getWorkPort(), state.getConf().getCommandPort());
 				logger.info("Time Taken to create Initial discovery Message : " + (System.currentTimeMillis() - startTime));
 				state.getOutBoundMessageQueue().addMessage(wm);
 			}
 		}
 		catch(Exception e){
 			logger.error("Cannot connect to host!! Server is down!! nodeid =  " + ei.getRef()+" reason: " + e );
+			logger.error(" or maybe it failed as it tried to connect to cmd port ?");
 			e.printStackTrace();
 		}
 	}
@@ -185,7 +213,7 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 		return outboundEdges.map.size() + 1;//including self	
 	}
 	
-	public boolean addNewEdgeInfo(int ref, String host, int port){
+	public boolean addNewEdgeInfo(int ref, String host, int port, int cmdPort){
 		logger.info("Got a new connection from  nodeid : " + ref + " ip :" + host +  " port : " + port  );
 		if (outboundEdges.hasNode(ref)){
 			EdgeInfo ei = outboundEdges.getNode(ref);
@@ -194,7 +222,7 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 			return false;
 		}
 			
-		EdgeInfo ei = outboundEdges.createIfNew(ref, host, port);
+		EdgeInfo ei = outboundEdges.createIfNew(ref, host, port, cmdPort);
 		if (!ei.isActive()) {
 			logger.info("Trying to make reverse connection");
 		    onAdd(ei);

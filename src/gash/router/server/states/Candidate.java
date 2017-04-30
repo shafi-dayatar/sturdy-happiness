@@ -11,10 +11,12 @@ import gash.router.server.ServerState;
 import gash.router.server.messages.ElectionMessage;
 import pipe.election.Election.LeaderElection;
 import pipe.election.Election.LeaderElectionResponse;
+import pipe.work.Work;
 import pipe.work.Work.FileChunkData;
 import pipe.work.Work.LogAppendEntry;
 import pipe.work.Work.LogEntry.Builder;
 import pipe.work.Work.WorkMessage;
+import routing.Pipe;
 import routing.Pipe.CommandMessage;
 import pipe.common.Common.ReadBody;
 import pipe.common.Common.Response;
@@ -205,6 +207,12 @@ public class Candidate implements RaftServerState {
 		//Candidate doesnt steal work
 	}
 
+
+	@Override
+	public void processReadRequest(CommandMessage commandMessage) {
+
+	}
+
 	@Override
 	public Response getFileChunkLocation(ReadBody request) {
 		// TODO Auto-generated method stub
@@ -218,9 +226,8 @@ public class Candidate implements RaftServerState {
 	}
 
 	@Override
-	public CommandMessage getWork() {
-		// TODO Auto-generated method stub
-		return null;
+	public CommandMessage getWork(int node_id) {
+		return state.getInBoundReadTaskQueue().getQueuedMessage(Integer.toString(node_id));
 	}
 
 }

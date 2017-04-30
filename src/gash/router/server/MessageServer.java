@@ -236,8 +236,12 @@ public class MessageServer {
 			state.setOutBoundMessageQueue(outbound);
 
 			logger.info("Starting read task Queue and Worker Thread pool");
-			ReadTaskQueue readTaskQueue = new ReadTaskQueue(state, 5);
-			state.setReadTaskQueue(readTaskQueue);
+			InBoundReadTaskQueue inBoundReadTaskQueue = new InBoundReadTaskQueue(state, 5);
+			state.setInBoundReadTaskQueue(inBoundReadTaskQueue);
+
+			logger.info("Starting outbound read task Queue");
+			OutBoundReadTaskQueue outBoundReadTaskQueue = new OutBoundReadTaskQueue(state, 5);
+			state.setOutBoundReadTaskQueue(outBoundReadTaskQueue);
 
 
 			EdgeMonitor emon = new EdgeMonitor(state);

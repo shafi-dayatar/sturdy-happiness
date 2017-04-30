@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
+import gash.router.server.messages.FileChunk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,10 +29,10 @@ import pipe.work.Work.LogEntryList;
 import pipe.work.Work.WorkMessage;
 import pipe.work.Work.WorkMessage.MessageType;
 import routing.Pipe;
-import pipe.common.Common.ReadBody;
-import pipe.common.Common.Response;
-import pipe.common.Common.Response.Status;
-import pipe.common.Common.WriteBody;
+import routing.Pipe.ReadBody;
+import routing.Pipe.Response;
+import routing.Pipe.Response.Status;
+import routing.Pipe.WriteBody;
 
 /**
  * TO DO:
@@ -328,11 +329,23 @@ public class Follower implements RaftServerState {
 	}
 
 	@Override
-	public Pipe.CommandMessage getWork() {
+	public Pipe.CommandMessage getWork(int node_id) {
 		//TODO : Add logic to check if the work message can be handled by the requested node id
-		//return state.getInBoundMessageQueue().getQueuedMessage().getStolenWork();
-		return null;
+		return state.getInBoundReadTaskQueue().getQueuedMessage(Integer.toString(node_id));
 	}
+
+	@Override
+	public void processReadRequest(Pipe.CommandMessage cmdMsg) {
+		Work.FileChunkData.Builder chBuilder = Work.FileChunkData.newBuilder();
+		chBuilder.setFileName(cmdMsg.getRequest().getRrb().getFilename());
+		int chunk_id = cmdMsg.getRequest().getRrb().getChunkId();
+		chBuilder.setChunkId(chunk_id);
+		int fileId = state.getDb().getFileId(cmdMsg.getRequest().getRrb().getFilename());
+		chBuilder.setFileId(fileId);
+		chBuilder.setReplyTo(cmdMsg.getHeader().getMessageId());
+		this.readChunkData(chBuilder.build());
+	}
+
 
 	public void startElection() {
 		// TODO Auto-generated method stub	

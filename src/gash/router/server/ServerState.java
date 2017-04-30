@@ -16,7 +16,6 @@ import gash.router.server.edges.EdgeMonitor;
 import gash.router.server.log.LogInfo;
 import gash.router.server.messages.DiscoverMessage;
 import gash.router.server.queue.MessageQueue;
-import gash.router.server.queue.ReadTaskQueue;
 import gash.router.server.states.Candidate;
 import gash.router.server.states.ElectionTimer;
 import gash.router.server.states.Follower;
@@ -50,7 +49,8 @@ public class ServerState {
 	private TaskList tasks;
 	private MessageQueue obmQueue;
 	private MessageQueue ibmQueue;
-	private ReadTaskQueue readTaskQueue;
+	private InBoundReadTaskQueue inBoundReadTaskQueue;
+	private OutBoundReadTaskQueue outBoundReadTaskQueue;
 	public ConnectionManager connectionManager = new ConnectionManager();
 
 	private IOUtility db; //= new IOUtility();
@@ -271,26 +271,39 @@ public class ServerState {
 		}
 		return locs;
 	}
-	private int getRandom(int[] arr){
+	public String ArrayToString(int[] array){
+		StringBuilder builder = new StringBuilder();
+		for (int i : array) {
+			builder.append(i);
+			builder.append(" ");
+		}
+		return builder.toString();
+	}
+	public int getRandom(int[] arr){
 		int rnd = new Random().nextInt(arr.length);
 		return arr[rnd];
 	}
-	public int getRandomNodeWithChunk(int chunkid, int file_id){
-		logger.info(" Getting node location for chunnk id :" + chunkid);
-		ChunkRow chunkRow = getDb().getChunkRowById(chunkid, file_id);
+	public int[] getNodeLocations(int chunk_id, int file_id){
+		int[] locations = new int[0];
+		logger.info(" getNodeLocations ---- node location for chunnk id :" + chunk_id);
+		ChunkRow chunkRow = getDb().getChunkRowById(chunk_id, file_id);
 
 		if(chunkRow!= null){
-			int[] locations = transformLocationAt(chunkRow.getLocation_at());
-			// now randomly pick a location and reroute the message to them
-
+			locations = transformLocationAt(chunkRow.getLocation_at());
 			locations = filterOutLeader(locations);
-			if(locations.length == 0)
-				return -1;
-
-			return getRandom(locations);
+		} else{
+			logger.info(" chunk id not found ");
 		}
-		logger.info(" chunk id not found ");
-		return -1;
+
+		return locations;
+	}
+	public int getRandomNodeWithChunk(int chunkid, int file_id){
+		logger.info(" Getting node location for chunnk id :" + chunkid);
+		int[] locations = getNodeLocations(chunkid, file_id);
+		if(locations.length == 0)
+			return -1;
+
+		return getRandom(locations);
 
 	}
 	public boolean assertServability(Work.WorkMessage wmsg){
@@ -327,12 +340,12 @@ public class ServerState {
 		return false;
 	}
 
-	public ReadTaskQueue getReadTaskQueue() {
-		return readTaskQueue;
+	public InBoundReadTaskQueue getInBoundReadTaskQueue() {
+		return inBoundReadTaskQueue;
 	}
 
-	public void setReadTaskQueue(ReadTaskQueue readTaskQueue) {
-		this.readTaskQueue = readTaskQueue;
+	public void setInBoundReadTaskQueue(InBoundReadTaskQueue inBoundReadTaskQueue) {
+		this.inBoundReadTaskQueue = inBoundReadTaskQueue;
 	}
 
 	public void sendReadResponse(Channel channel, Response rsp, int clientNodeId){
@@ -348,4 +361,11 @@ public class ServerState {
 		logger.info(" Sent read response to "  + cmdMsg.getHeader().getDestination());
 	}
 
+	public OutBoundReadTaskQueue getOutBoundReadTaskQueue() {
+		return outBoundReadTaskQueue;
+	}
+
+	public void setOutBoundReadTaskQueue(OutBoundReadTaskQueue outBoundReadTaskQueue) {
+		this.outBoundReadTaskQueue = outBoundReadTaskQueue;
+	}
 }

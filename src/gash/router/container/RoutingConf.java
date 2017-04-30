@@ -176,6 +176,7 @@ public class RoutingConf {
 		private String host;
 		private int port;
 		private int id;
+		private int cmdPort;
 
 		public RoutingEntry() {
 		}
@@ -184,6 +185,7 @@ public class RoutingConf {
 			this.id = id;
 			this.host = host;
 			this.port = port;
+			this.cmdPort = cmdPort;
 		}
 
 		public String getHost() {
@@ -210,5 +212,12 @@ public class RoutingConf {
 			this.id = id;
 		}
 
+		public int getCmdPort() {
+			return cmdPort;
+		}
+
+		public void setCmdPort(int cmdPort) {
+			this.cmdPort = cmdPort;
+		}
 	}
 }

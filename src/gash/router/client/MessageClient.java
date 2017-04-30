@@ -30,15 +30,15 @@ import com.google.protobuf.ByteString;
 
 import pipe.common.Common;
 import pipe.common.Common.Header;
-import pipe.common.Common.Chunk;
-import pipe.common.Common.ChunkLocation;
+import routing.Pipe.Chunk;
+import routing.Pipe.ChunkLocation;
 import routing.Pipe.CommandMessage;
-import pipe.common.Common.ReadBody;
-import pipe.common.Common.ReadResponse;
+import routing.Pipe.ReadBody;
+import routing.Pipe.ReadResponse;
 //import routing.Pipe.CommandMessage.MessageType;
-import pipe.common.Common.Request;
-import pipe.common.Common.TaskType;
-import pipe.common.Common.WriteBody;
+import routing.Pipe.Request;
+import routing.Pipe.TaskType;
+import routing.Pipe.WriteBody;
 //import routing.Pipe.WriteRequest;
 
 /**
@@ -53,7 +53,7 @@ public class MessageClient {
 	private int messageId = 1;
 	private static int fileId = 0;
 	private static int chunkId = 0;
-	private int clientId=100;
+	private int clientId=1000;
 	protected static Logger logger = LoggerFactory.getLogger("Client");
 
 	public MessageClient(int clusterId, String host, int port) {
@@ -247,7 +247,7 @@ public class MessageClient {
 			Header.Builder header = Header.newBuilder();
 			header.setNodeId(1);
 			header.setTime(System.currentTimeMillis());
-			command.setRequest(req);
+			command.setReq(req);
 			command.setHeader(header);
 			return command.build();
 		} catch (Exception e) {

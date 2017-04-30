@@ -21,14 +21,17 @@ public class EdgeInfo {
 	private int ref;
 	private String host;
 	private int port;
+	private int cmdPort;
 	private long lastHeartbeat = -1;
 	private boolean active = false;
 	private Channel channel;
+	private Channel cmdChannel;
 
-	public EdgeInfo(int ref, String host, int port) {
+	public EdgeInfo(int ref, String host, int port, int cmdPort) {
 		this.ref = ref;
 		this.host = host;
 		this.port = port;
+		this.cmdPort = cmdPort;
 	}
 
 	public int getRef() {
@@ -80,7 +83,22 @@ public class EdgeInfo {
 	}
 	
 	public String toString(){
-		return "Node id = " + getRef() + ", Host ip address : " + getHost() + ", Port number : " + getPort() ;
+		return "Node id = " + getRef() + ", Host ip address : " + getHost() + ", Port number : " + getPort() + ", Cmd Port : " + getCmdPort() ;
 	}
 
+	public int getCmdPort() {
+		return cmdPort;
+	}
+
+	public void setCmdPort(int cmdPort) {
+		this.cmdPort = cmdPort;
+	}
+
+	public Channel getCmdChannel() {
+		return cmdChannel;
+	}
+
+	public void setCmdChannel(Channel cmdChannel) {
+		this.cmdChannel = cmdChannel;
+	}
 }

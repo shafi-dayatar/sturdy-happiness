@@ -27,12 +27,11 @@ import pipe.common.Common;
 import pipe.common.Common.Node;
 import routing.Pipe;
 import routing.Pipe.CommandMessage;
-import pipe.common.Common.ReadBody;
-import pipe.common.Common.Response;
-import pipe.common.Common.Response.Status;
-import pipe.common.Common.TaskType;
-import pipe.common.Common.WriteBody;
-import pipe.common.Common.WriteResponse;
+import routing.Pipe.ReadBody;
+import routing.Pipe.Response;
+import routing.Pipe.Response.Status;
+import routing.Pipe.TaskType;
+import routing.Pipe.WriteBody;
 
 
 /**
@@ -77,30 +76,47 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 			System.out.println("ERROR: Unexpected content - " + msg);
 			return;
 		}
-	    logger.info("Request received at server : " + msg.toString());
-		if(msg.hasRequest()){
+	//logger.info("Request received at server : " + msg.toString());
+		if(msg.hasReq()){
 			
-			switch(msg.getRequest().getRequestType()){
+			switch(msg.getReq().getRequestType()){
 		
 		
 		    case REQUESTWRITEFILE:
-		    	WriteBody writeReq = msg.getRequest().getRwb();
+		    	WriteBody writeReq = msg.getReq().getRwb();
 		    	Status status = serverState.getRaftState().writeFile(writeReq);	
 		    	sendWriteResponse(channel, msg, status);
 		    	break;
 		    	
 		    case REQUESTREADFILE:
-		    	ReadBody readReq = msg.getRequest().getRrb();
+		    	ReadBody readReq = msg.getReq().getRrb();
 		    	Response res = null;
 		    	if(readReq.hasChunkId()){
 		    		serverState.connectionManager.setConnection(msg.getHeader().getNodeId(), channel);
 		    		logger.info("Request from client is : " + msg.toString());
-		    		serverState.getReadTaskQueue().addMessage(msg);
+		    		serverState.getInBoundReadTaskQueue().addMessage(msg);
 		    	}else{
 		    		res = serverState.getRaftState().getFileChunkLocation(readReq);
 					serverState.sendReadResponse(channel, res, msg.getHeader().getNodeId());
 		    	}
 		    	break;
+		    case PING:
+		    	logger.info("got a ping message:" + msg.toString());
+		    	int clusterId = msg.getHeader().getDestination();
+		    	if (clusterId == serverState.getConf().getClusterId()){
+		    		sendPingResponse(channel);
+		    	}else{
+		    		Channel ch = serverState.connectionManager.getConnection(5);
+		    		if (ch == null){
+		    			Node node = serverState.getRedis().getLeader(5);
+		    			CommConnection cc = new CommConnection(node.getHost(), node.getPort());
+		    			ch = cc.connect();
+		    			serverState.connectionManager.setConnection(5, ch);
+		    		}
+		    		ch.write(msg);
+		    	}
+		    	break;
+
 		    default:
 		    	logger.info(">>>>> unhandled request at server, just loggin the request, " + msg.toString());
 		    	break;
@@ -112,17 +128,12 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 	    		//sendPingResponse(channel);
 	    		logger.info("Discarding ping...........channel...............");
 	    	}else{
-	    		logger.info("getting ping, trying to forward it to next cluster ..................................\n\n\n");
-	    		Channel ch = serverState.connectionManager.getConnection(1);
+	    		Channel ch = serverState.connectionManager.getConnection(2);
 	    		if (ch == null){
-
 	    			Node node = serverState.getRedis().getLeader(2);
-	    			logger.info("Sending ping message to  :  "  + node.toString());//+ node.toString()) ;
-	    			CommConnection cc = new CommConnection("169.254.214.175", 4568);
-
+	    			CommConnection cc = new CommConnection("169.254.33.194", 4368);
 	    			ch = cc.connect();
 	    			serverState.connectionManager.setConnection(2, ch);
-	    			
 	    		}
 	    		ch.write(msg);
 	    	}
@@ -204,8 +215,8 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 		response.setResponseType(TaskType.RESPONSEWRITEFILE);
 		response.setStatus(status);
 		
-		WriteResponse.Builder writeRespBuilder = WriteResponse.newBuilder();
-		writeRespBuilder.addChunkId(cmdMessage.getRequest().getRwb().getChunk().getChunkId());
+		Pipe.WriteResponse.Builder writeRespBuilder = Pipe.WriteResponse.newBuilder();
+		writeRespBuilder.addChunkId(cmdMessage.getReq().getRwb().getChunk().getChunkId());
 		response.setWriteResponse(writeRespBuilder.build());
 		cmdMsg.setHeader(hd);
 		channel.writeAndFlush(cmdMsg.build());
