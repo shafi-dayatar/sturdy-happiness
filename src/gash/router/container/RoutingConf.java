@@ -40,6 +40,8 @@ public class RoutingConf {
 	private String mysqlUserName;
 	private String mysqlPassword;
 	private String redisHost;
+	private int nextClusterId;
+	private int clusterClientId; 
 	private int redisPort;
 	private int clusterId;
 	private boolean internalNode = true;
@@ -168,6 +170,22 @@ public class RoutingConf {
 
 	public void setRedisHost(String redisHost) {
 		this.redisHost = redisHost;
+	}
+
+	public int getNextClusterId() {
+		return nextClusterId;
+	}
+
+	public void setNextClusterId(int nextClusterId) {
+		this.nextClusterId = nextClusterId;
+	}
+
+	public int getClusterClientId() {
+		return clusterClientId;
+	}
+
+	public void setClusterClientId(int clusterClientId) {
+		this.clusterClientId = clusterClientId;
 	}
 
 	@XmlRootElement(name = "entry")

@@ -15,12 +15,13 @@ public class RedisGSDN {
 		logger.info(" CLIENT !! _ Host : " + host + "   Port: " + port);
 		dbConnection = new Jedis(host, 
 				port);
+		dbConnection.select(0);
 	}
 	
 	public Node getLeader(int clusterId){
 		Node node = null;
 		try{
-			dbConnection.select(0);// uses default database 
+			// uses default database 
 			String value = dbConnection.get(Integer.toString(clusterId));// use this to set leader on redis,
 			String [] arr = value.split(":");
 			Node.Builder nb = Node.newBuilder();
