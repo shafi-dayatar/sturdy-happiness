@@ -16,10 +16,10 @@ import pipe.work.Work.LogAppendEntry;
 import pipe.work.Work.LogEntry.Builder;
 import pipe.work.Work.WorkMessage;
 import routing.Pipe.CommandMessage;
-import routing.Pipe.ReadBody;
-import routing.Pipe.Response;
-import routing.Pipe.Response.Status;
-import routing.Pipe.WriteBody;
+import pipe.common.Common.ReadBody;
+import pipe.common.Common.Response;
+import pipe.common.Common.Response.Status;
+import pipe.common.Common.WriteBody;
 
 /**
  * Created by rentala on 4/11/17.

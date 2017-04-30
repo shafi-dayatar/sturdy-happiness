@@ -30,8 +30,8 @@ import com.google.protobuf.ByteString;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import pipe.common.Common.ReadResponse;
 import routing.Pipe.CommandMessage;
-import routing.Pipe.ReadResponse;
 
 /**
  * A client-side netty pipeline send/receive.
@@ -104,15 +104,15 @@ public class CommHandler extends SimpleChannelInboundHandler<CommandMessage> {
 //		}
 		//System.out.println("im in");
 		//logger.info("Request received at server : " + msg.toString());
-		if(msg.hasResp()){
+		if(msg.hasResponse()){
 
-			switch(msg.getResp().getResponseType()){
+			switch(msg.getResponse().getResponseType()){
 
 
 				case RESPONSEREADFILE:
 					//System.out.println("I'm here");
-					if(msg.getResp().getReadResponse().getChunkLocationCount()!=0){
-						ReadResponse readRes = msg.getResp().getReadResponse();
+					if(msg.getResponse().getReadResponse().getChunkLocationCount()!=0){
+						ReadResponse readRes = msg.getResponse().getReadResponse();
 						System.out.println(readRes.getNumOfChunks());
 						chunkCounter = readRes.getNumOfChunks();
 						mc.sendfileReadRequests(msg);
@@ -120,7 +120,7 @@ public class CommHandler extends SimpleChannelInboundHandler<CommandMessage> {
 					}
 					else{
 						//++chunkCounter;
-						ReadResponse readRes = msg.getResp().getReadResponse();
+						ReadResponse readRes = msg.getResponse().getReadResponse();
 						if(readRes.getChunk().getChunkData() == null){
 							System.out.println(" Got chunk data as null");
 						}
@@ -151,17 +151,12 @@ public class CommHandler extends SimpleChannelInboundHandler<CommandMessage> {
 
 					}
 					break;
-				case PING:
-					System.out.println(msg);
-					break;
-				case PINGRESPONSE:
-					System.out.println(msg);
-					break;
 				default:
+					logger.info("Got Unhandled Response - " + msg);
 					break;
 			}
 		}else if(msg.hasPing()){
-
+			System.out.println(msg);
 		}else{
 			logger.info("Unsupport msg received from client  msg detail is : " + msg.toString());
 		}

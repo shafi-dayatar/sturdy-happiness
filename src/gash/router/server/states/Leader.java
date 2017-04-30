@@ -27,15 +27,15 @@ import pipe.work.Work.LogEntry.Builder;
 import pipe.work.Work.LogEntry.DataAction;
 import pipe.work.Work.WorkMessage;
 import pipe.work.Work.WorkMessage.MessageType;
-import routing.Pipe.Chunk;
-import routing.Pipe.ChunkLocation;
+import pipe.common.Common.Chunk;
+import pipe.common.Common.ChunkLocation;
 import routing.Pipe.CommandMessage;
-import routing.Pipe.ReadBody;
-import routing.Pipe.ReadResponse;
-import routing.Pipe.Response;
-import routing.Pipe.Response.Status;
-import routing.Pipe.TaskType;
-import routing.Pipe.WriteBody;
+import pipe.common.Common.ReadBody;
+import pipe.common.Common.ReadResponse;
+import pipe.common.Common.Response;
+import pipe.common.Common.Response.Status;
+import pipe.common.Common.TaskType;
+import pipe.common.Common.WriteBody;
 
 
 /**
@@ -269,11 +269,11 @@ public class Leader implements RaftServerState, Runnable {
 	}
 
 	@Override
-	public routing.Pipe.Response getFileChunkLocation(ReadBody request) {
+	public Response getFileChunkLocation(ReadBody request) {
 		String fileName = request.getFilename();
 		Integer [][] chunks = state.getDb().getChunks(fileName);
 		
-		routing.Pipe.Response.Builder res = Response.newBuilder();
+		Response.Builder res = Response.newBuilder();
 		res.setFilename(fileName);
 		res.setResponseType(TaskType.RESPONSEREADFILE);
 		
@@ -300,8 +300,8 @@ public class Leader implements RaftServerState, Runnable {
 			int i ;
 			for( i= 0; i < chunks.length; i++){
 				ChunkLocation.Builder chunkloc = ChunkLocation.newBuilder();
-				chunkloc.addNode(node);
-				chunkloc.setChunkid(chunks[i][1]);
+				chunkloc.setNode(node);
+				chunkloc.setChunkId(chunks[i][1]);
 				rr.addChunkLocation(chunkloc);
 			}
 			rr.setNumOfChunks(i);

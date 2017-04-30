@@ -50,12 +50,12 @@ public class WorkStealMessage extends Message {
             case WORKSTEALRESPONSE:
                 Pipe.CommandMessage stolenMessage = msg.getReadCmdMessage();
                 if(state.assertServability(msg)){
-                    stolenMessage.getReq().getRrb();
+                    stolenMessage.getRequest().getRrb();
                     Work.FileChunkData.Builder data = Work.FileChunkData.newBuilder();
-                    data.setChunkId(stolenMessage.getReq().getRrb().getChunkId());
-                    data.setFileId((int)stolenMessage.getReq().getRrb().getFileId());
+                    data.setChunkId(stolenMessage.getRequest().getRrb().getChunkId());
+                    //data.setFileId(stolenMessage.getRequest().getRrb().getFileId());
                     data.setReplyTo(stolenMessage.getHeader().getNodeId());
-                    data.setFileName(stolenMessage.getReq().getRrb().getFilename());
+                    data.setFileName(stolenMessage.getRequest().getRrb().getFilename());
 
                     WorkMessage.Builder wm = WorkMessage.newBuilder();
                     wm.setHeader(stolenMessage.getHeader());

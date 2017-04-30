@@ -8,7 +8,11 @@ import com.google.protobuf.ByteString;
 
 import gash.router.server.ServerState;
 import gash.router.server.states.RaftServerState;
+import pipe.common.Common.Chunk;
 import pipe.common.Common.Header;
+import pipe.common.Common.ReadResponse;
+import pipe.common.Common.Response;
+import pipe.common.Common.TaskType;
 import pipe.work.Work.FileChunkData;
 import pipe.work.Work.WorkMessage;
 import pipe.work.Work.WorkMessage.MessageType;
@@ -59,11 +63,11 @@ protected static Logger logger = LoggerFactory.getLogger("LogAppendEntry Message
     	System.out.println( " Chunk at sendReadRespone ");
     	System.out.println( " chunkid " + chunk.getChunkId() + " fileid:  " + chunk.getFileId() + " fname:  " + chunk.getFileName());
 		io.netty.channel.Channel channel = state.connectionManager.getConnection(chunk.getReplyTo());
-		Pipe.Response.Builder respBuilder = Pipe.Response.newBuilder();
-		respBuilder.setResponseType(Pipe.TaskType.RESPONSEREADFILE);
-		Pipe.ReadResponse.Builder readRespBuilder = Pipe.ReadResponse.newBuilder();
+		Response.Builder respBuilder = Response.newBuilder();
+		respBuilder.setResponseType(TaskType.RESPONSEREADFILE);
+		ReadResponse.Builder readRespBuilder = ReadResponse.newBuilder();
 		readRespBuilder.setFilename(chunk.getFileName());
-		Pipe.Chunk.Builder chunkBuilder = Pipe.Chunk.newBuilder();
+		Chunk.Builder chunkBuilder = Chunk.newBuilder();
 		chunkBuilder.setChunkId(chunk.getChunkId());
 		chunkBuilder.setChunkData(chunk.getChunkData());
 		readRespBuilder.setChunk(chunkBuilder.build());
