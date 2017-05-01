@@ -30,10 +30,9 @@ public class OutBoundMessageTask implements Runnable{
 
 		int destinationId = wmsg.getHeader().getDestination();	
 		ArrayList<EdgeInfo> connectedNode = state.getEmon().getOutBoundChannel(destinationId);
-		//logger.info("Message in outbound queue : " + wmsg.toString());
-		
-		//logger.info("Channle is  " + (ch != null));
+		logger.debug("Message in outbound queue : " + wmsg.toString());
 		if (destinationId == -1){
+			logger.info("Broadcast message found in queue");
 			for(EdgeInfo ei : connectedNode){
                 Channel ch = ei.getChannel();
 				if(ch != null){

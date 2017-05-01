@@ -3,10 +3,10 @@
  */
 package gash.router.client;
 
+import java.util.Scanner;
+
 import gash.router.app.DemoApp;
 import pipe.common.Common;
-
-import java.util.Scanner;
 
 
 

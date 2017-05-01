@@ -1,16 +1,14 @@
 package gash.router.server.queue;
 
+import java.util.ArrayList;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import gash.router.server.ServerState;
 import gash.router.server.edges.EdgeInfo;
 import io.netty.channel.Channel;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import pipe.common.Common;
-import pipe.work.Work;
-import routing.Pipe;
 import routing.Pipe.CommandMessage;
-
-import java.util.ArrayList;
 
 
 public class OutBoundReadTask implements Runnable, ReadTask{

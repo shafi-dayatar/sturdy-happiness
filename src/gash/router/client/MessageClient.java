@@ -28,11 +28,9 @@ import org.slf4j.LoggerFactory;
 
 import com.google.protobuf.ByteString;
 
-import pipe.common.Common;
-import pipe.common.Common.Header;
 import pipe.common.Common.Chunk;
 import pipe.common.Common.ChunkLocation;
-import routing.Pipe.CommandMessage;
+import pipe.common.Common.Header;
 import pipe.common.Common.ReadBody;
 import pipe.common.Common.ReadResponse;
 //import routing.Pipe.CommandMessage.MessageType;
@@ -40,6 +38,7 @@ import pipe.common.Common.Request;
 import pipe.common.Common.TaskType;
 import pipe.common.Common.WriteBody;
 //import routing.Pipe.WriteRequest;
+import routing.Pipe.CommandMessage;
 
 /**
  * front-end (proxy) to our service - functional-based
@@ -268,10 +267,9 @@ public class MessageClient {
 			rwb.setFileExt(ext[1]);
 			rwb.setFilename(ext[0]);
 			rwb.setNumOfChunks(noOfChunks);
-			int i = 1;
-			// rwb.setFileId(++fileId);
+			System.out.println(chunkId);
 			Chunk.Builder chunkBuilder = Chunk.newBuilder();
-			chunkBuilder.setChunkId(++chunkId);
+			chunkBuilder.setChunkId(chunkId++);
 			chunkBuilder.setChunkSize(chunk.size());
 			chunkBuilder.setChunkData(chunk);
 			rwb.setChunk(chunkBuilder.build());
@@ -282,7 +280,6 @@ public class MessageClient {
 			header.setTime(System.currentTimeMillis());
 			command.setRequest(req);
 			command.setHeader(header);
-			System.out.println(chunkId);
 			return command.build();
 		} catch (Exception e) {
 			System.out.println(" Sending write request failed :");

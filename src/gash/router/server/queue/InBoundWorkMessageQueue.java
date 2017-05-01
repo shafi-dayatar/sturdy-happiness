@@ -1,9 +1,9 @@
 package gash.router.server.queue;
 
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import gash.router.server.ServerState;
-import gash.router.server.customexecutor.ExtendedExecutor;
 import pipe.work.Work.WorkMessage;
 
 public class InBoundWorkMessageQueue implements MessageQueue {

@@ -13,7 +13,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import gash.router.server.IOUtility;
 import gash.router.server.ServerState;
 import pipe.work.Work.Command;
 import pipe.work.Work.LogEntry;
@@ -29,7 +28,7 @@ public class LogInfo implements LogOperations {
 	private Integer commitIndex; // change it to atomic integer
 	private Integer lastApplied;// change it to atomic integer 
 
-	private int thresholdSize = 100;
+	private int thresholdSize = 1;
 	private String logStoreDir = "./resources/files";
 	private ServerState state;
 	

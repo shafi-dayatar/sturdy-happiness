@@ -133,7 +133,7 @@ public class CommHandler extends SimpleChannelInboundHandler<CommandMessage> {
 							{
 								FileOutputStream fos = null;
 								fos = new FileOutputStream("./resources/files/received/"+readRes.getFilename());
-								for(int i=1;i<=chunkDataList.size();i++){
+								for(int i=0;i<=chunkDataList.size();i++){
 									fos.write(chunkDataList.get(i).toByteArray());
 								}
 								fos.close();

@@ -10,8 +10,8 @@ import java.util.concurrent.TimeUnit;
 
 import gash.router.server.ServerState;
 import gash.router.server.customexecutor.ExtendedExecutor;
-import pipe.work.Work;
 import routing.Pipe;
+import routing.Pipe.CommandMessage;
 
 public class InBoundReadTaskQueue {
 
@@ -25,11 +25,11 @@ public class InBoundReadTaskQueue {
         exeService = new ExtendedExecutor(threadCount, threadCount, 0L, TimeUnit.MILLISECONDS, this.blockingQueue, state);
     }
 
-    public void addMessage(Pipe.CommandMessage cmdMsg) {
+    public void addMessage(CommandMessage cmdMsg) {
     	exeService.execute(new InBoundReadTask(cmdMsg, state));
     }
 
-    public synchronized Pipe.CommandMessage getQueuedMessage(String node_id){
+    public synchronized CommandMessage getQueuedMessage(String node_id){
         try
         {
             System.out.println(" \n \n \n " +
@@ -37,7 +37,7 @@ public class InBoundReadTaskQueue {
             if(exeService.getQueue().size() > 0){
                 ReadTask task = (ReadTask)exeService.getQueue().peek();
                 //becasue message contains the location of the requested message
-                Pipe.CommandMessage cmd = task.getCmd();
+                CommandMessage cmd = task.getCmd();
                 System.out.println(" Cmd message can be served by  " + cmd.getMessage() );
                 System.out.println(" Requested by  " + node_id );
                 if(cmd.getRequest().getRrb().getChunkLocations().contains(node_id)){

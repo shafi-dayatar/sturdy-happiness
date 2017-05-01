@@ -16,7 +16,6 @@ import pipe.common.Common.TaskType;
 import pipe.work.Work.FileChunkData;
 import pipe.work.Work.WorkMessage;
 import pipe.work.Work.WorkMessage.MessageType;
-import routing.Pipe;
 
 public class FileChunk extends Message {
 	

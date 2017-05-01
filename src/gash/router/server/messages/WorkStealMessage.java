@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 import gash.router.server.ServerState;
 import gash.router.server.states.RaftServerState;
 import pipe.common.Common;
-import pipe.work.Work;
 import pipe.work.Work.WorkMessage;
 import routing.Pipe;
 

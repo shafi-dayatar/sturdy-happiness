@@ -6,7 +6,6 @@ import java.util.Hashtable;
 import java.util.Random;
 import java.util.Set;
 
-import gash.router.server.queue.InBoundReadTaskQueue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,12 +14,20 @@ import gash.router.server.db.SqlClient;
 import gash.router.server.messages.DiscoverMessage;
 import gash.router.server.messages.FileChunk;
 import gash.router.server.messages.LogAppend;
+import gash.router.server.queue.InBoundReadTaskQueue;
 import pipe.common.Common;
+import pipe.common.Common.Chunk;
+import pipe.common.Common.ChunkLocation;
 import pipe.common.Common.Header;
 import pipe.common.Common.Node;
+import pipe.common.Common.ReadBody;
+import pipe.common.Common.ReadResponse;
+import pipe.common.Common.Response;
+import pipe.common.Common.Response.Status;
+import pipe.common.Common.TaskType;
+import pipe.common.Common.WriteBody;
 import pipe.election.Election;
 import pipe.election.Election.LeaderElection;
-import pipe.work.Work;
 import pipe.work.Work.Command;
 import pipe.work.Work.FileChunkData;
 import pipe.work.Work.LogAppendEntry;
@@ -29,15 +36,7 @@ import pipe.work.Work.LogEntry.Builder;
 import pipe.work.Work.LogEntry.DataAction;
 import pipe.work.Work.WorkMessage;
 import pipe.work.Work.WorkMessage.MessageType;
-import pipe.common.Common.Chunk;
-import pipe.common.Common.ChunkLocation;
 import routing.Pipe.CommandMessage;
-import pipe.common.Common.ReadBody;
-import pipe.common.Common.ReadResponse;
-import pipe.common.Common.Response;
-import pipe.common.Common.Response.Status;
-import pipe.common.Common.TaskType;
-import pipe.common.Common.WriteBody;
 
 
 /**
@@ -211,24 +210,21 @@ public class Leader implements RaftServerState, Runnable {
 
 	@Override
 	public void heartbeat(LogAppendEntry heartbeat) {
-		// TODO Auto-generated method stub
 		if (state.getCurrentTerm() < heartbeat.getElectionTerm()) {
-			// leader should step down, as it was previously elected and
-			// something went wrong
+			// leader should step down, as it was previously elected
+			setLeader(false);
 			state.setCurrentTerm(heartbeat.getElectionTerm());
 			setLeader(false);
 			state.becomeFollower();
 		}
-
 	}
 
 	@Override
 	public void run() {
 		while (isLeader) {
-
 			declareLeader();
 			try {
-				logger.info("Will Send a hearbeat message in " + state.getConf().getHeartbeatDt());
+				logger.info("Will Send a hearbeat message to followers in " + state.getConf().getHeartbeatDt());
 				Thread.sleep(state.getConf().getHeartbeatDt());
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
@@ -320,14 +316,30 @@ public class Leader implements RaftServerState, Runnable {
 	public Status writeFile(WriteBody request) {
 		int fileId;
 		try{
+			String fileName = request.getFilename();
+			String fileExt = "";
+			if(request.hasFileExt()){
+				fileExt = request.getFileExt();
+			}
+			else {
+				String [] values = fileName.split("\\.");
+				if (values.length == 2){
+				   fileExt = values[1];
+				}
+				fileExt = "_";
+				
+			}
 			synchronized (this){
-				fileId = (int) state.getDb().getFileId(request.getFilename(), request.getFileExt(), request.getNumOfChunks());
+				String[]str  = fileName.split("\\.");
+				fileId = (int) state.getDb().getFileId(fileName, fileExt, request.getNumOfChunks());
 			}
 			if (fileId != -1) {
-				String fileName = request.getFilename();
+				
+				
+				
 				LogEntry.Builder logEntryBuilder = LogEntry.newBuilder();
 				logEntryBuilder.setAction(DataAction.INSERT);
-				String chunk_value = Integer.toString(fileId) + ":" + fileName + ":" + request.getFileExt() + ":"
+				String chunk_value = Integer.toString(fileId) + ":" + fileName + ":" + fileExt + ":"
 						+ Integer.toString(request.getChunk().getChunkId()) + ":";
 				Command.Builder command = Command.newBuilder();
 				command.setKey("chunk");

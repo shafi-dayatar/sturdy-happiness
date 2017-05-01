@@ -5,8 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-import gash.router.server.queue.InBoundReadTaskQueue;
-import gash.router.server.queue.OutBoundReadTaskQueue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,7 +15,9 @@ import gash.router.server.db.RedisGSDN;
 import gash.router.server.edges.EdgeMonitor;
 import gash.router.server.log.LogInfo;
 import gash.router.server.messages.DiscoverMessage;
+import gash.router.server.queue.InBoundReadTaskQueue;
 import gash.router.server.queue.MessageQueue;
+import gash.router.server.queue.OutBoundReadTaskQueue;
 import gash.router.server.states.Candidate;
 import gash.router.server.states.ElectionTimer;
 import gash.router.server.states.Follower;

@@ -1,10 +1,10 @@
 package gash.router.server.queue;
 
-import gash.router.server.ServerState;
-import routing.Pipe;
-
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import gash.router.server.ServerState;
+import routing.Pipe;
 
 /**
  * Created by rentala on 4/28/17.

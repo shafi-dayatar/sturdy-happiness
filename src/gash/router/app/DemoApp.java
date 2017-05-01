@@ -26,8 +26,6 @@ import routing.Pipe.CommandMessage;
 
 public class DemoApp implements CommListener {
 	private MessageClient mc;
-	private String leaderHost="";
-	private int leaderPort=0;
 	public DemoApp(MessageClient mc) {
 		init(mc);
 	}
@@ -68,11 +66,16 @@ public class DemoApp implements CommListener {
 	private void uploadMultipleFiles(Scanner scan) {
 		// TODO Auto-generated method stub
 		while(true){
-		System.out.print("Enter File Path : ");
-		String filePath = scan.nextLine().trim();
-		System.out.print("Enter File Name : ");
-		String fileName = scan.nextLine().trim();
-		mc.fileOperation("post", filePath, fileName);
+			System.out.print("Enter File Path : ");
+			String filePath = scan.nextLine().trim();
+			System.out.print("Enter File Name : ");
+			String fileName = scan.nextLine().trim();
+			mc.fileOperation("post", filePath, fileName);
+			System.out.print("Press y/Y to continue");
+			String cont = scan.nextLine().trim();
+			if(cont.charAt(0) == 'y' || cont.charAt(0) == 'Y'){
+				break;
+			}
 		}
 		
 	}
@@ -90,8 +93,7 @@ public class DemoApp implements CommListener {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-	
+	}	
 
 	@Override
 	public String getListenerID() {
@@ -100,16 +102,8 @@ public class DemoApp implements CommListener {
 
 	@Override
 	public void onMessage(CommandMessage msg) {
-
-		/*System.out.println("---> Got response RequestType : " + msg.getResp().getResponseType());
-		System.out.println("---> Got response RequestType : " + msg.getResp().getStatus());
-		if( msg.getResp().getResponseType() == Pipe.TaskType.READFILE){
-			this.mc.onReadRequest(msg);
-		}
-		if( msg.getResp().getResponseType() == Pipe.TaskType.WRITEFILE){
-			this.mc.onWriteRequest(msg);
-		}*/
 	}
+	
 	public void readFile(Scanner scan){
 		System.out.print("Enter File Name: ");
 		String fileName = scan.nextLine();
@@ -122,14 +116,12 @@ public class DemoApp implements CommListener {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		RedisGSDN redis = new RedisGSDN("localhost", 6379);
-
+		RedisGSDN redis = new RedisGSDN("192.168.1.20", 6379);
 		 loop: while(true){
-
 			int nodeId;
 			Scanner scan = new Scanner(System.in);
 			System.out.println("Enter cluster details :");
-			System.out.print("Enter Node id: ");
+			System.out.print("Enter Cluster id: ");
 			nodeId = Integer.parseInt(scan.nextLine());		
 			Node node = redis.getLeader(nodeId);
 			MessageClient mc = new MessageClient(node.getNodeId(), node.getHost(),
@@ -143,35 +135,35 @@ public class DemoApp implements CommListener {
 				System.out.println("3. upload all files from a directory");
 				System.out.println("4: Read a File");
 				System.out.println("5. Ping Node");
-				System.out.println("6. Restart");
+				System.out.println("6. Try with differenct Cluster");
 				System.out.println("7. Exit");
 				System.out.println("\n===============================================");
 				System.out.print("Enter Command no. :");
 				int option = Integer.parseInt(scan.nextLine());
 				System.out.println("Enter Option is : " + option);
 				switch(option){
-				case 1:
-					System.out.println("You have selected option one");
-					da.uploadFile(scan);
-					break;
-				case 2:
-					da.uploadMultipleFiles(scan);
-					break;
-				case 3:
-					da.uploadFolder(scan);
-					break;
-				case 4:
-					da.readFile(scan);
-					break;
-				case 5:
-					da.ping(scan);
-					break;
-				case 6:
-					break loop1;
-				case 7:
-					break loop;
-				default :
-					break;
+					case 1:
+						System.out.println("You have selected option one");
+						da.uploadFile(scan);
+						break;
+					case 2:
+						da.uploadMultipleFiles(scan);
+						break;
+					case 3:
+						da.uploadFolder(scan);
+						break;
+					case 4:
+						da.readFile(scan);
+						break;
+					case 5:
+						da.ping(scan);
+						break;
+					case 6:
+						break loop1;
+					case 7:
+						break loop;
+					default :
+						break;
 				}
 			}
 			System.out.println("Thank you for using our system!!! Hope to see you soon!");

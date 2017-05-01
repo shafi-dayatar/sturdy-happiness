@@ -5,7 +5,6 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import gash.router.server.ServerState;
-import gash.router.server.queue.ReadTask;
 
 /**
  * Created by rentala on 4/22/17.

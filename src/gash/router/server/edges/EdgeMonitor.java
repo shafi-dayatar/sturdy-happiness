@@ -186,7 +186,7 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 	}
 	public ArrayList<EdgeInfo> getOutBoundChannel(int nodeId){
 		//Single Directional 
-		logger.info("Getting Channle for destination : " +  nodeId);
+		//logger.info("Getting Channle for destination : " +  nodeId);
 		ArrayList<EdgeInfo> ei = null;
 		
 		try{

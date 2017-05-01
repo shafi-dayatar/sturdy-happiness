@@ -21,20 +21,18 @@ import org.slf4j.LoggerFactory;
 import gash.router.container.RoutingConf;
 import gash.router.server.communication.CommConnection;
 import io.netty.channel.Channel;
-import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import pipe.common.Common;
 import pipe.common.Common.Header;
 import pipe.common.Common.Node;
-import routing.Pipe;
-import routing.Pipe.CommandMessage;
 import pipe.common.Common.ReadBody;
 import pipe.common.Common.Response;
 import pipe.common.Common.Response.Status;
 import pipe.common.Common.TaskType;
 import pipe.common.Common.WriteBody;
 import pipe.common.Common.WriteResponse;
+import routing.Pipe.CommandMessage;
 
 
 /**
@@ -56,6 +54,7 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 			this.conf = conf;
 		}
 	}
+	
 	public CommandHandler(RoutingConf conf, ServerState serverState) {
 		if (conf != null) {
 			this.conf = conf;
@@ -83,11 +82,15 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 		if(msg.hasRequest()){
 			switch(msg.getRequest().getRequestType()){
 			case REQUESTWRITEFILE:
-				WriteBody writeReq = msg.getRequest().getRwb();
-				Status status = serverState.getRaftState().writeFile(writeReq);
-				sendWriteResponse(channel, msg, status);
-				//forwardWriteRequest();
+				if (msg.getHeader().getNodeId() != serverState.getConf().getClusterId()){
+					
+					forwardWriteRequest(msg, serverState.getConf().getNextClusterId());
+					WriteBody writeReq = msg.getRequest().getRwb();
+					Status status = serverState.getRaftState().writeFile(writeReq);
+				    //sendWriteResponse(channel, msg, status);
+				}
 				break;
+				
 			case REQUESTREADFILE:
 				ReadBody readReq = msg.getRequest().getRrb();
 				Response res = null;
@@ -112,6 +115,43 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 
 	}
 
+	private CommandMessage changeHeader(CommandMessage msg) {	
+		CommandMessage.Builder cmdMsg = CommandMessage.newBuilder();
+		Header.Builder hdb = Header.newBuilder(msg.getHeader());
+		if(msg.getHeader().getNodeId() == 44){ //own Cluster client
+			hdb.setNodeId(serverState.getConf().getClusterId());
+		}
+		hdb.setMaxHops(msg.getHeader().getMaxHops() - 1);
+		cmdMsg.setHeader(hdb);
+		cmdMsg.setRequest(msg.getRequest());
+		return cmdMsg.build();
+	}
+
+	private void forwardWriteRequest(CommandMessage msg, int nextClusterId) {
+		// TODO Auto-generated method stub
+		msg = changeHeader(msg);
+		logger.info("Forwarding write request to cluster id : " + nextClusterId);
+		Channel ch = serverState.connectionManager.getConnection(nextClusterId);
+		if (ch == null){
+			Node node = serverState.getRedis().getLeader(nextClusterId);
+			logger.debug("creating new channel for  :  "  + node.toString());//+ node.toString()) ;
+			try{
+				CommConnection cc = new CommConnection(node.getHost(), node.getPort());
+				ch = cc.connect();
+				serverState.connectionManager.setConnection(nextClusterId, ch);
+			}
+			catch(Exception e){
+				logger.error("Cannot make connection to next Cluster");
+			}
+		}
+		if(ch != null){
+			logger.debug("forwording on Channel:  " + ch.toString() );
+			ch.writeAndFlush(msg);
+			logger.info("forward Msg compeleted");
+		}else{
+			logger.info("No channel available for clusterId:" + nextClusterId);
+		}	
+	}
 
 	private void handlePing(CommandMessage msg, Channel channel){
 		logger.info("----------got a ping message------------:" + msg.toString());
