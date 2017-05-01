@@ -31,23 +31,25 @@ public class WorkStealMessage extends Message {
         switch(msg.getType()){
             case WORKSTEALREQUEST:
                 //check if it has any in its queue and respond
+                logger.info(" Recived steal request from Node: " + msg.getHeader().getNodeId());
                Pipe.CommandMessage stolenCmdMessage = state.getRaftState().getWork(msg.getHeader().getNodeId());
                 if(stolenCmdMessage != null){
-/*                    WorkMessage.Builder wmsgBuilder = WorkMessage.newBuilder();
-                    wmsgBuilder.setSecret(9999999);
-                    wmsgBuilder.setType(WorkMessage.MessageType.WORKSTEALRESPONSE);
-                    wmsgBuilder.setReadCmdMessage(stolenCmdMessage);
-                    //build header
-                    Common.Header.Builder hd = Common.Header.newBuilder();
-                    hd.setDestination(msg.getHeader().getNodeId());
-                    hd.setNodeId(state.getNodeId());
-                    hd.setTime(System.currentTimeMillis());
-                    wmsgBuilder.setHeader(hd);*/
-                    state.getOutBoundReadTaskQueue().addMessage(stolenCmdMessage);
+                    logger.info(" Sending stolen message to Node : " + msg.getHeader().getNodeId());
+                    Pipe.CommandMessage.Builder cmdBuilder = Pipe.CommandMessage.newBuilder(stolenCmdMessage);
+                    cmdBuilder.setRequest(stolenCmdMessage.getRequest());
+                    Common.Header.Builder hdBuilder = Common.Header.newBuilder();
+                    hdBuilder.setMessageId(stolenCmdMessage.getHeader().getMessageId());
+                    hdBuilder.setDestination(msg.getHeader().getNodeId());
+                    hdBuilder.setNodeId(state.getNodeId());
+                    hdBuilder.setMaxHops(stolenCmdMessage.getHeader().getMaxHops());
+                    hdBuilder.setTime(stolenCmdMessage.getHeader().getTime());
+                    cmdBuilder.setHeader(hdBuilder.build());
+                    state.getOutBoundReadTaskQueue().addMessage(cmdBuilder.build());
                 }
 
                 break;
             case WORKSTEALRESPONSE:
+                logger.info(" \n -------  \n ------ \n \n \n  Recived for a stolen message from Node: " + msg.getHeader().getNodeId());
                 Pipe.CommandMessage stolenMessage = msg.getReadCmdMessage();
                 state.getInBoundReadTaskQueue().addMessage(stolenMessage);
                 break;

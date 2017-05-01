@@ -66,6 +66,7 @@ message ReadBody{
     optional string file_id = 2;
     optional int32 chunk_id = 3;
     optional int32 chunk_size = 4;
+    optional string chunk_locations = 41;
 }
 
 message Response{

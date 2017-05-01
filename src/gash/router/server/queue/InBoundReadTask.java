@@ -12,7 +12,7 @@ import routing.Pipe.CommandMessage;
 import java.util.ArrayList;
 
 
-public class InBoundReadTask implements Runnable{
+public class InBoundReadTask implements Runnable, ReadTask{
 	protected static Logger logger = LoggerFactory.getLogger("Discovery Message");
 
 	CommandMessage cmd;
@@ -22,6 +22,9 @@ public class InBoundReadTask implements Runnable{
     	this.state = state;
     	this.cmd = cmdM;
     }
+    public CommandMessage getCmd(){
+    	return cmd;
+	}
 	
 	
 	@Override

@@ -4923,6 +4923,20 @@ public final class Common {
      * <code>optional int32 chunk_size = 4;</code>
      */
     int getChunkSize();
+
+    /**
+     * <code>optional string chunk_locations = 41;</code>
+     */
+    boolean hasChunkLocations();
+    /**
+     * <code>optional string chunk_locations = 41;</code>
+     */
+    String getChunkLocations();
+    /**
+     * <code>optional string chunk_locations = 41;</code>
+     */
+    com.google.protobuf.ByteString
+        getChunkLocationsBytes();
   }
   /**
    * Protobuf type {@code ReadBody}
@@ -4996,6 +5010,12 @@ public final class Common {
             case 32: {
               bitField0_ |= 0x00000008;
               chunkSize_ = input.readInt32();
+              break;
+            }
+            case 330: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000010;
+              chunkLocations_ = bs;
               break;
             }
           }
@@ -5164,11 +5184,54 @@ public final class Common {
       return chunkSize_;
     }
 
+    public static final int CHUNK_LOCATIONS_FIELD_NUMBER = 41;
+    private Object chunkLocations_;
+    /**
+     * <code>optional string chunk_locations = 41;</code>
+     */
+    public boolean hasChunkLocations() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional string chunk_locations = 41;</code>
+     */
+    public String getChunkLocations() {
+      Object ref = chunkLocations_;
+      if (ref instanceof String) {
+        return (String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          chunkLocations_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string chunk_locations = 41;</code>
+     */
+    public com.google.protobuf.ByteString
+        getChunkLocationsBytes() {
+      Object ref = chunkLocations_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (String) ref);
+        chunkLocations_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private void initFields() {
       filename_ = "";
       fileId_ = "";
       chunkId_ = 0;
       chunkSize_ = 0;
+      chunkLocations_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -5195,6 +5258,9 @@ public final class Common {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeInt32(4, chunkSize_);
       }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeBytes(41, getChunkLocationsBytes());
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -5219,6 +5285,10 @@ public final class Common {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(4, chunkSize_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(41, getChunkLocationsBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -5345,6 +5415,8 @@ public final class Common {
         bitField0_ = (bitField0_ & ~0x00000004);
         chunkSize_ = 0;
         bitField0_ = (bitField0_ & ~0x00000008);
+        chunkLocations_ = "";
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -5389,6 +5461,10 @@ public final class Common {
           to_bitField0_ |= 0x00000008;
         }
         result.chunkSize_ = chunkSize_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.chunkLocations_ = chunkLocations_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -5420,6 +5496,11 @@ public final class Common {
         }
         if (other.hasChunkSize()) {
           setChunkSize(other.getChunkSize());
+        }
+        if (other.hasChunkLocations()) {
+          bitField0_ |= 0x00000010;
+          chunkLocations_ = other.chunkLocations_;
+          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -5684,6 +5765,82 @@ public final class Common {
       public Builder clearChunkSize() {
         bitField0_ = (bitField0_ & ~0x00000008);
         chunkSize_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private Object chunkLocations_ = "";
+      /**
+       * <code>optional string chunk_locations = 41;</code>
+       */
+      public boolean hasChunkLocations() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional string chunk_locations = 41;</code>
+       */
+      public String getChunkLocations() {
+        Object ref = chunkLocations_;
+        if (!(ref instanceof String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            chunkLocations_ = s;
+          }
+          return s;
+        } else {
+          return (String) ref;
+        }
+      }
+      /**
+       * <code>optional string chunk_locations = 41;</code>
+       */
+      public com.google.protobuf.ByteString
+          getChunkLocationsBytes() {
+        Object ref = chunkLocations_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (String) ref);
+          chunkLocations_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string chunk_locations = 41;</code>
+       */
+      public Builder setChunkLocations(
+          String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+        chunkLocations_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string chunk_locations = 41;</code>
+       */
+      public Builder clearChunkLocations() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        chunkLocations_ = getDefaultInstance().getChunkLocations();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string chunk_locations = 41;</code>
+       */
+      public Builder setChunkLocationsBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+        chunkLocations_ = value;
         onChanged();
         return this;
       }
@@ -10057,27 +10214,28 @@ public final class Common {
       "\n\nchunk_size\030\t \001(\005\"n\n\tWriteBody\022\020\n\010filen" +
       "ame\030\001 \002(\t\022\020\n\010file_ext\030\002 \001(\t\022\025\n\005chunk\030\003 \001" +
       "(\0132\006.Chunk\022\017\n\007file_id\030\004 \001(\t\022\025\n\rnum_of_ch" +
-      "unks\030\005 \001(\005\"S\n\010ReadBody\022\020\n\010filename\030\001 \001(\t" +
+      "unks\030\005 \001(\005\"l\n\010ReadBody\022\020\n\010filename\030\001 \001(\t" +
       "\022\017\n\007file_id\030\002 \001(\t\022\020\n\010chunk_id\030\003 \001(\005\022\022\n\nc" +
-      "hunk_size\030\004 \001(\005\"\327\002\n\010Response\022\037\n\014response" +
-      "Type\030\001 \002(\0162\t.TaskType\022\020\n\010filename\030\002 \001(\t\022" +
-      " \n\006status\030\003 \001(\0162\020.Response.Status\022\'\n\rwri" +
-      "teResponse\030\004 \001(\0132\016.WriteResponseH\000\022%\n\014re" +
-      "adResponse\030\005 \001(\0132\r.ReadResponseH\000\"\232\001\n\006St",
-      "atus\022\013\n\007SUCCESS\020\001\022\021\n\rSERVERTIMEOUT\020\002\022\017\n\013" +
-      "REDIRECTION\020\003\022\020\n\014FILENOTFOUND\020\004\022\014\n\010NOLEA" +
-      "DER\020\005\022\017\n\013UNREACHABLE\020\006\022\017\n\013SERVICEDOWN\020\007\022" +
-      "\t\n\005ERROR\020\010\022\022\n\016INCOMPLETEFILE\020)B\t\n\007payloa" +
-      "d\"2\n\rWriteResponse\022\017\n\007ChunkId\030\001 \003(\005\022\020\n\010f" +
-      "ilename\030\002 \001(\t\"\231\001\n\014ReadResponse\022\020\n\010filena" +
-      "me\030\001 \002(\t\022\017\n\007file_id\030\003 \001(\t\022\020\n\010file_ext\030\002 " +
-      "\001(\t\022\025\n\rnum_of_chunks\030\004 \001(\005\022&\n\016chunk_loca" +
-      "tion\030\005 \003(\0132\016.ChunkLocation\022\025\n\005chunk\030\006 \001(" +
-      "\0132\006.Chunk\"6\n\rChunkLocation\022\020\n\010chunk_id\030\001",
-      " \001(\005\022\023\n\004node\030\002 \003(\0132\005.Node*b\n\010TaskType\022\023\n" +
-      "\017REQUESTREADFILE\020\001\022\024\n\020REQUESTWRITEFILE\020\002" +
-      "\022\024\n\020RESPONSEREADFILE\020\003\022\025\n\021RESPONSEWRITEF" +
-      "ILE\020\004B\017\n\013pipe.commonH\001"
+      "hunk_size\030\004 \001(\005\022\027\n\017chunk_locations\030) \001(\t" +
+      "\"\327\002\n\010Response\022\037\n\014responseType\030\001 \002(\0162\t.Ta" +
+      "skType\022\020\n\010filename\030\002 \001(\t\022 \n\006status\030\003 \001(\016" +
+      "2\020.Response.Status\022\'\n\rwriteResponse\030\004 \001(" +
+      "\0132\016.WriteResponseH\000\022%\n\014readResponse\030\005 \001(",
+      "\0132\r.ReadResponseH\000\"\232\001\n\006Status\022\013\n\007SUCCESS" +
+      "\020\001\022\021\n\rSERVERTIMEOUT\020\002\022\017\n\013REDIRECTION\020\003\022\020" +
+      "\n\014FILENOTFOUND\020\004\022\014\n\010NOLEADER\020\005\022\017\n\013UNREAC" +
+      "HABLE\020\006\022\017\n\013SERVICEDOWN\020\007\022\t\n\005ERROR\020\010\022\022\n\016I" +
+      "NCOMPLETEFILE\020)B\t\n\007payload\"2\n\rWriteRespo" +
+      "nse\022\017\n\007ChunkId\030\001 \003(\005\022\020\n\010filename\030\002 \001(\t\"\231" +
+      "\001\n\014ReadResponse\022\020\n\010filename\030\001 \002(\t\022\017\n\007fil" +
+      "e_id\030\003 \001(\t\022\020\n\010file_ext\030\002 \001(\t\022\025\n\rnum_of_c" +
+      "hunks\030\004 \001(\005\022&\n\016chunk_location\030\005 \003(\0132\016.Ch" +
+      "unkLocation\022\025\n\005chunk\030\006 \001(\0132\006.Chunk\"6\n\rCh",
+      "unkLocation\022\020\n\010chunk_id\030\001 \001(\005\022\023\n\004node\030\002 " +
+      "\003(\0132\005.Node*b\n\010TaskType\022\023\n\017REQUESTREADFIL" +
+      "E\020\001\022\024\n\020REQUESTWRITEFILE\020\002\022\024\n\020RESPONSEREA" +
+      "DFILE\020\003\022\025\n\021RESPONSEWRITEFILE\020\004B\017\n\013pipe.c" +
+      "ommonH\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -10132,7 +10290,7 @@ public final class Common {
     internal_static_ReadBody_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ReadBody_descriptor,
-        new String[] { "Filename", "FileId", "ChunkId", "ChunkSize", });
+        new String[] { "Filename", "FileId", "ChunkId", "ChunkSize", "ChunkLocations", });
     internal_static_Response_descriptor =
       getDescriptor().getMessageTypes().get(7);
     internal_static_Response_fieldAccessorTable = new

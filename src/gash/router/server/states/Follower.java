@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
+import gash.router.server.edges.EdgeInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,6 +17,7 @@ import com.google.protobuf.ByteString;
 import gash.router.server.ServerState;
 import gash.router.server.messages.ElectionMessage;
 import gash.router.server.messages.LogAppend;
+import pipe.common.Common;
 import pipe.common.Common.Header;
 import pipe.election.Election;
 import pipe.election.Election.LeaderElection;
@@ -303,7 +305,7 @@ public class Follower implements RaftServerState {
 
     @Override
 	public void stealWork() {
-		//Follower can steal work
+		//Follower can steal work from other followers
 		try
 		{
 			if(state.isLeaderKnown()){
@@ -311,11 +313,16 @@ public class Follower implements RaftServerState {
 				msgBuilder.setSecret(9999999);
 				msgBuilder.setType(MessageType.WORKSTEALREQUEST);
 				Header.Builder hd = Header.newBuilder();
-				hd.setDestination(state.getLeaderId());
-				hd.setNodeId(state.getNodeId());
-				hd.setTime(System.currentTimeMillis());
-				msgBuilder.setHeader(hd);
-				state.getOutBoundMessageQueue().addMessage(msgBuilder.build());
+				for(Common.Node node : state.getEmon().getOutBoundRouteTable()){
+					if(node.getNodeId() != state.getLeaderId()){
+						hd.setDestination(node.getNodeId());
+						hd.setNodeId(state.getNodeId());
+						hd.setTime(System.currentTimeMillis());
+						msgBuilder.setHeader(hd);
+						state.getOutBoundMessageQueue().addMessage(msgBuilder.build());
+					}
+				}
+
 
 			}
 

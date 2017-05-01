@@ -228,20 +228,20 @@ public class MessageServer {
 			TaskList tasks = new TaskList(new NoOpBalancer());
 			state.setTasks(tasks);
 			
-			logger.info("Starting Inbound workMessage Queue and Worker Thread pool");
-			InBoundWorkMessageQueue inbound = new InBoundWorkMessageQueue(state, 5);
+			logger.info("Starting Inbound workMessage Queue and Worker Thread pool with threads : " + conf.getThreadCount());
+			InBoundWorkMessageQueue inbound = new InBoundWorkMessageQueue(state, conf.getThreadCount());
 			state.setInBoundMessageQueue(inbound);
 			
-			logger.info("Starting outbound workMessage Queue and Worker Thread pool");
-			OutBoundWorkMessageQueue outbound = new OutBoundWorkMessageQueue(state, 5);
+			logger.info("Starting outbound workMessage Queue and Worker Thread pool with threads : " + conf.getThreadCount());
+			OutBoundWorkMessageQueue outbound = new OutBoundWorkMessageQueue(state, conf.getThreadCount());
 			state.setOutBoundMessageQueue(outbound);
 
-			logger.info("Starting read task Queue and Worker Thread pool");
-			InBoundReadTaskQueue inBoundReadTaskQueue = new InBoundReadTaskQueue(state, 5);
+			logger.info("Starting read task Queue and Worker Thread pool with threads : " + conf.getThreadCount());
+			InBoundReadTaskQueue inBoundReadTaskQueue = new InBoundReadTaskQueue(state, conf.getThreadCount());
 			state.setInBoundReadTaskQueue(inBoundReadTaskQueue);
 
-			logger.info("Starting outbound read task Queue");
-			OutBoundReadTaskQueue outBoundReadTaskQueue = new OutBoundReadTaskQueue(state, 5);
+			logger.info("Starting outbound read task Queue with threads : " + conf.getThreadCount());
+			OutBoundReadTaskQueue outBoundReadTaskQueue = new OutBoundReadTaskQueue(state, conf.getThreadCount());
 			state.setOutBoundReadTaskQueue(outBoundReadTaskQueue);
 
 

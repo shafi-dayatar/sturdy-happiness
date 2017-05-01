@@ -7,12 +7,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pipe.common.Common;
 import pipe.work.Work;
+import routing.Pipe;
 import routing.Pipe.CommandMessage;
 
 import java.util.ArrayList;
 
 
-public class OutBoundReadTask implements Runnable{
+public class OutBoundReadTask implements Runnable, ReadTask{
      protected static Logger logger = LoggerFactory.getLogger("OutBoundReadTask Message");
 
      CommandMessage cmd;
@@ -71,4 +72,8 @@ public class OutBoundReadTask implements Runnable{
 
      }
 
+     @Override
+     public CommandMessage getCmd() {
+          return cmd;
+     }
 }

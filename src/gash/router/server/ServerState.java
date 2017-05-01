@@ -145,6 +145,7 @@ public class ServerState {
 					 DiscoverMessage.getCurrentIp() + ":" + getConf().getCommandPort());
 			leader.setLeader(true);
 			leader.setNextAndMatchIndex();
+
 			if (leaderThread == null)
 				leaderThread = new Thread(leader);
 

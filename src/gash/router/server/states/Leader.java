@@ -6,6 +6,7 @@ import java.util.Hashtable;
 import java.util.Random;
 import java.util.Set;
 
+import gash.router.server.queue.InBoundReadTaskQueue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,6 +15,7 @@ import gash.router.server.db.SqlClient;
 import gash.router.server.messages.DiscoverMessage;
 import gash.router.server.messages.FileChunk;
 import gash.router.server.messages.LogAppend;
+import pipe.common.Common;
 import pipe.common.Common.Header;
 import pipe.common.Common.Node;
 import pipe.election.Election;
@@ -241,6 +243,8 @@ public class Leader implements RaftServerState, Runnable {
 
 	public void setLeader(boolean isLeader) {
 		this.isLeader = isLeader;
+		//increase leaders inbound queue
+		state.setInBoundReadTaskQueue(new InBoundReadTaskQueue(state, 3*state.getConf().getThreadCount()));
 	}
 
 	@java.lang.Override
@@ -421,8 +425,25 @@ public class Leader implements RaftServerState, Runnable {
 			//msgBuilder.setHeader(hd);
 			CommandMessage.Builder cmdBuilder = CommandMessage.newBuilder();
 			cmdBuilder.setHeader(hd.build());
-			cmdBuilder.setMessage(state.ArrayToString(destinations));
-			cmdBuilder.setRequest(cmdMsg.getRequest());
+			logger.info(" \n \n \n \n \n " +
+					"Setting command message - \n \n " +
+					"message to  . .. " + state.ArrayToString(destinations));
+
+			//cmdBuilder.setMessage(state.ArrayToString(destinations));
+			Common.Request.Builder req = Common.Request.newBuilder();
+			req.setRequestType(cmdMsg.getRequest().getRequestType());
+			ReadBody.Builder rb = ReadBody.newBuilder();
+			rb.setChunkId(cmdMsg.getRequest().getRrb().getChunkId());
+			rb.setChunkLocations(state.ArrayToString(destinations));
+			rb.setFileId(cmdMsg.getRequest().getRrb().getFileId());
+			rb.setFilename(cmdMsg.getRequest().getRrb().getFilename());
+			rb.setChunkSize(cmdMsg.getRequest().getRrb().getChunkSize());
+			req.setRrb(rb.build());
+			cmdBuilder.setRequest(req.build());
+			logger.info(" \n \n " +
+					"\n \n \n " +
+					"Command message built as  . .. . . .." +
+					cmdBuilder.build().toString());
 			state.getOutBoundReadTaskQueue().addMessage(cmdBuilder.build());
 		}
 		else{

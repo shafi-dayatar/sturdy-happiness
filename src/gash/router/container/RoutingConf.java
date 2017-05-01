@@ -44,6 +44,7 @@ public class RoutingConf {
 	private int clusterClientId; 
 	private int redisPort;
 	private int clusterId;
+	private int threadCount;
 	private boolean internalNode = true;
 	private int heartbeatDt = 2000;
 	private List<RoutingEntry> routing;
@@ -186,6 +187,14 @@ public class RoutingConf {
 
 	public void setClusterClientId(int clusterClientId) {
 		this.clusterClientId = clusterClientId;
+	}
+
+	public int getThreadCount() {
+		return threadCount;
+	}
+
+	public void setThreadCount(int threadCount) {
+		this.threadCount = threadCount;
 	}
 
 	@XmlRootElement(name = "entry")
