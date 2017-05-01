@@ -119,11 +119,25 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 		int clusterClientId = serverState.getConf().getClusterClientId();
 		int nextClusterId = serverState.getConf().getNextClusterId();
 		if (destinationId == serverState.getConf().getClusterId()){
+			logger.info("Ping message is from :  "+ destinationId);
 			if(msg.getHeader().getNodeId() == clusterClientId){
 				sendPingResponse(msg, channel);
 				logger.info("Client Pings own cluster, respond directly to client");
 			}else{
+				//todo remove common part
 				Channel ch = serverState.connectionManager.getConnection(nextClusterId);
+				if (ch == null){
+					Node node = serverState.getRedis().getLeader(nextClusterId);
+					logger.debug("creating new channgel for  :  "  + node.toString());//+ node.toString()) ;
+					try{
+						CommConnection cc = new CommConnection(node.getHost(), node.getPort());
+						ch = cc.connect();
+						serverState.connectionManager.setConnection(nextClusterId, ch);
+					}
+					catch(Exception e){
+						logger.error("Cannot make connection to next Cluster");
+					}
+				}
 				if(ch != null){
 					sendPingResponse(msg, ch);
 					logger.info("Other cluster is trying to ping, sending response, forwarding to next Cluster");

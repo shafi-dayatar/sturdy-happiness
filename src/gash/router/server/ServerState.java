@@ -113,13 +113,12 @@ public class ServerState {
 	public void setTasks(TaskList tasks) {
 		this.tasks = tasks;
 	}
-
+	
 	public void becomeFollower() {
 		logger.info("There is only two way I could become a follower, either I stepped down from candidate or,"
 				+ " I found the Leader ");
 		raftState = follower;
 		startElectionTimerThread();
-		
 	}
 
 	public void becomeCandidate() {
@@ -145,11 +144,13 @@ public class ServerState {
 					 DiscoverMessage.getCurrentIp() + ":" + getConf().getCommandPort());
 			leader.setLeader(true);
 			leader.setNextAndMatchIndex();
-
-			if (leaderThread == null)
-				leaderThread = new Thread(leader);
-
-			leaderThread.start();
+ 
+			synchronized(this){
+				if (leaderThread == null){
+					leaderThread = new Thread(leader);
+					leaderThread.start();
+				}
+			}
 			electionTimer.stopThread();
 		}
 	}
