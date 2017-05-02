@@ -318,24 +318,22 @@ public class Leader implements RaftServerState, Runnable {
 		try{
 			String fileName = request.getFilename();
 			String fileExt = "";
-			if(request.hasFileExt()){
-				fileExt = request.getFileExt();
-			}
-			else {
-				String [] values = fileName.split("\\.");
-				if (values.length == 2){
-				   fileExt = values[1];
+			String [] values = fileName.split("\\.");
+			if (values.length == 2){
+				fileName = values[0];
+				fileExt = values[1];
+			}else{
+				if(request.hasFileExt()){
+					fileExt = request.getFileExt();
+				}else {
+					fileExt = "null";
 				}
-				fileExt = "_";
-				
 			}
+
 			synchronized (this){
-				String[]str  = fileName.split("\\.");
 				fileId = (int) state.getDb().getFileId(fileName, fileExt, request.getNumOfChunks());
 			}
 			if (fileId != -1) {
-				
-				
 				
 				LogEntry.Builder logEntryBuilder = LogEntry.newBuilder();
 				logEntryBuilder.setAction(DataAction.INSERT);

@@ -116,7 +116,7 @@ public class DemoApp implements CommListener {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		RedisGSDN redis = new RedisGSDN("192.168.1.20", 6379);
+		RedisGSDN redis = new RedisGSDN("localhost", 6379);
 		 loop: while(true){
 			int nodeId;
 			Scanner scan = new Scanner(System.in);
